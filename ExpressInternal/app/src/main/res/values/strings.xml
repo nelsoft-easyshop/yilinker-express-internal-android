@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">ExpressInternal</string>
+
+    <!-- Login -->
+    <string name="login_quote">to hold this so-called \n dragon no other than the great \n Leviathan himself.</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+
+    <!-- Navigation Drawer -->
+    <string name="nd_list1">Dashboard</string>
+    <string name="nd_list2">Profile</string>
+    <string name="nd_list3">Map</string>
+    <string name="nd_logout">Logout</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Profile -->
+    <string name="prof_delivery">Delivery</string>
+    <string name="prof_pickup">Pick Up</string>
+    <string name="prof_completed">Completed</string>
+    <string name="prof_earnings">Earnings</string>
+    <string name="prof_job_orders">Job Orders</string>
+    <string name="prof_pickups">Pick Ups</string>
+    <string name="prof_deliveries">Deliveries</string>
+
+    <!-- Alert Dialog -->
+    <string name="alert_accept">Accept</string>
+    <string name="alert_cancel">Cancel</string>
+    <string name="alert_new_job_offer">New Job Offer Available</string>
+    <string name="alert_area">Area</string>
+    <string name="alert_type">Type</string>
+    <string name="alert_item">Item</string>
+    <string name="alert_confirmation">Are you sure?</string>
+    <string name="alert_job_order_number">Job Order Number</string>
+
+    <!-- Job Order List -->
+    <string name="job_order_list_for_claiming">For Claiming</string>
+    <string name="job_order_list_for_pickup">For Pick Up</string>
+
+    <!-- Signature -->
+    <string name="signature_good_condition">I received goods in good condition</string>
+    <string name="signature_submit">Submit</string>
 </resources>
