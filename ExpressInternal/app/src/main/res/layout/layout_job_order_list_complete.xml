@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ActivityDesign"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_weight="1.2"
+            style="@style/JobOrderListTagStyle"
+            android:text="@string/prof_delivery"/>
+
+        <TextView
+            android:layout_weight="0.8"
+            style="@style/JobOrderListTrackingNumStyle"
+            android:text="JO1234567890"/>
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/JobOrderListAddressStyle"
+        android:text="Malate Manila, Metro Manila"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="23 JUL 2015 14:53:10"
+        android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingTop="15dp"
+            android:gravity="end"
+            android:text="+P5.00"
+            android:textColor="@color/orange_yellow"
+            android:textAppearance="@android:style/TextAppearance.Large"/>
+
+    </LinearLayout>
+
+</LinearLayout>
