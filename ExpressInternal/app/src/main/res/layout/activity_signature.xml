@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ActivityDesign">
+    
+    <TextView
+        android:layout_weight="1.3"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/signature_good_condition"/>
+
+    <LinearLayout
+        android:layout_weight="0.6"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <Button
+        android:layout_weight="1.1"
+        style="@style/BottomButtonDesign"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/signature_submit"/>
+
+</LinearLayout>
