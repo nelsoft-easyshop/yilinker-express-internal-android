@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">ExpressInternal</string>
+
+    <!--Job Order Detail-->
+    <string name="job_order_number">Job Order Number</string>
+    <string name="pickup_address">Pickup Address</string>
+    <string name="dropoff_address">Dropoff Address</string>
+    <string name="recipient">Recipient</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="item">Item</string>
+    <string name="type">Type</string>
+    <string name="rating">Rating</string>
+    <string name="time_used">Time Used</string>
+    <string name="earned">Earned</string>
+    <string name="status">Status</string>
+
 </resources>
