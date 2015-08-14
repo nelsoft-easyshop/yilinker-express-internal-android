@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#4D000000" android:clickable="true">
+
+    <LinearLayout android:id="@+id/llHeader" android:orientation="vertical"
+        android:layout_width="200dp"
+        android:layout_height="?actionBarSize" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:background="@color/white" android:gravity="center_vertical|right" android:paddingRight="@dimen/abc_action_bar_content_inset_material" >
+
+        <ImageView android:id="@+id/ivMenu" android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:src="@drawable/ic_overflow" />
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView android:id="@+id/rvMenu" android:layout_below="@+id/llHeader"
+        android:layout_width="200dp"
+        android:layout_height="300dp" android:layout_alignParentRight="true" android:background="@color/white"></android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

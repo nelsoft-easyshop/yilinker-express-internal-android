@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/JobOrderItemContainerStyle">
+
+    <LinearLayout android:id="@+id/llHeader"
+    style="@style/JobOrderItemHeaderStyle">
+
+        <TextView android:id="@+id/tvType"
+            android:layout_weight="0.8"
+            style="@style/JobOrderListTagStyle"
+            android:text="@string/job_order_list_for_claiming"/>
+
+        <TextView android:id="@+id/tvJobOrderNo"
+            android:layout_weight="1.2"
+            style="@style/JobOrderListTrackingNumStyle"
+            android:text="JO1234567890"/>
+
+    </LinearLayout>
+
+    <TextView android:id="@+id/tvAddress"
+        style="@style/JobOrderListAddressStyle"
+        android:text="Malate Manila, Metro Manila"/>
+
+    <TextView android:id="@+id/tvBranch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="YE Malate Branch" android:textAllCaps="true" android:textColor="@color/warm_gray" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"/>
+
+
+    <TextView android:id="@+id/tvTimer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp" android:textColor="@color/warm_gray"
+        android:text="14:53:03 remaining" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" android:background="#dddddd"/>
+
+</LinearLayout>

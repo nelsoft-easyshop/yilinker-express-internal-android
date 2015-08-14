@@ -1,0 +1,44 @@
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/JobOrderItemContainerStyle"
+    tools:context=".Login">
+
+    <TextView
+        android:layout_weight="1"
+        android:id="@+id/tvLoginQuote"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/login_quote"/>
+
+    <ImageView
+        android:layout_weight="0.7"
+        android:id="@+id/ivLoginImage"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/gray"
+        android:contentDescription="@string/app_name"/>
+
+    <EditText
+        android:layout_weight="1.1"
+        android:id="@+id/etUsername"
+        style="@style/LoginEditTextStyle"
+        android:hint="@string/login_username"
+        android:inputType="text"/>
+
+    <EditText
+        android:layout_weight="1.1"
+        android:id="@+id/etPassword"
+        style="@style/LoginEditTextStyle"
+        android:hint="@string/login_password"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:layout_weight="1.1"
+        android:id="@+id/btnLogin"
+        style="@style/BottomButtonDesign"
+        android:text="@string/login_button"
+        android:textAllCaps="false"/>
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView android:id="@+id/tvType"
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/type"/>
+    <TextView android:id="@+id/tvJobOrderNo" style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
+    <RatingBar android:id="@+id/ratingJob" android:layout_width="wrap_content" android:layout_height="wrap_content" android:numStars="5" />
+
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"/>
+    <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"/>
+    <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+
+
+
+</merge>

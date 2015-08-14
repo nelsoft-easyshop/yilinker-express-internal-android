@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/JobOrderItemContainerStyle"
+    android:gravity="center_horizontal">
+
+    <TextView
+        style="@style/AlertHeaderTextViewStyle"
+        android:text="@string/alert_confirmation"/>
+
+    <TextView
+        style="@style/AlertSubHeaderTextViewStyle"
+        android:text="@string/alert_job_order_number"/>
+
+    <TextView
+        style="@style/AlertValueTextViewStyle"
+        android:text="J020151234567890"/>
+
+</LinearLayout>

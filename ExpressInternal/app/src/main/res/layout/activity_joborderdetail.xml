@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" >
+
+    <LinearLayout android:id="@+id/llSideMenu"
+        android:layout_width="60dp"
+        android:layout_height="match_parent" android:orientation="vertical">
+
+        <ImageButton style="@style/SideMenuButtonStyle"/>
+
+        <ImageButton style="@style/SideMenuButtonStyle"/>
+
+        <ImageButton style="@style/SideMenuButtonStyle" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_toRightOf="@+id/llSideMenu" android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp" android:layout_marginBottom="10dp" />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/job_order_number"/>
+        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/pickup_address"/>
+        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+
+
+        <include android:id="@+id/viewOpen" layout="@layout/layout_joborderdetail_open"></include>
+
+        <include android:id="@+id/viewDefault" layout="@layout/layout_joborderdetail_default"></include>
+
+        <include android:id="@+id/viewComplete" layout="@layout/layout_joborderdetail_complete"></include>
+
+
+    </LinearLayout>
+
+</ScrollView>
+
+</RelativeLayout>
