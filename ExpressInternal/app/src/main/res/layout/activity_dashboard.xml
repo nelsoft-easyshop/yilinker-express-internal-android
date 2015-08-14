@@ -4,17 +4,20 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/flMainContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!--<FrameLayout-->
+        <!--android:id="@+id/flMainContainer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <include layout="@layout/fragment_dashboard"/>
+
 
     <fragment
         android:id="@+id/fragNavDrawer"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:name="com.yilinker.expressinternal.controllers.main.FragmentNavigationDrawer"
-        tools:layout="@layout/layout_navigation_drawer_main" />
+        android:name="com.yilinker.expressinternal.controllers.dashboard.FragmentNavigationDrawer"
+        tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

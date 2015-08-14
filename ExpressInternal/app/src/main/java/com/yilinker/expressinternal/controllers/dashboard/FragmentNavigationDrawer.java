@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.controllers.main;
+package com.yilinker.expressinternal.controllers.dashboard;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -61,9 +61,16 @@ public class FragmentNavigationDrawer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(R.layout.layout_navigation_drawer_main, container, false);
-        viewNavDrawerImage = (ViewGroup)inflater.inflate(R.layout.layout_navigation_drawer_image, mDrawerListView, false);
-        viewNavDrawerButton = (ViewGroup)inflater.inflate(R.layout.layout_navigation_drawer_button, mDrawerListView, false);
+
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mDrawerListView = (ListView) view.findViewById(R.id.lvNavigationMenu);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -72,30 +79,24 @@ public class FragmentNavigationDrawer extends Fragment {
             }
         });
 
-        mDrawerListView.setAdapter(new ArrayAdapter<>(
-                getActionBar().getThemedContext(),
-                R.layout.layout_navigation_drawer_item,
-                R.id.tvNavDrawerItem,
-                new String[]{
-                        getString(R.string.nd_list1),
-                        getString(R.string.nd_list2),
-                        getString(R.string.nd_list3),
-                }));
 
-        mDrawerListView.addHeaderView(viewNavDrawerImage);
-        mDrawerListView.addFooterView(viewNavDrawerButton);
+        String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
+        mDrawerListView.setAdapter(new ArrayAdapter<>(
+               getActivity().getApplicationContext(),
+                R.layout.layout_navigation_drawer_item,
+                R.id.tvNavDrawerItem, menuItems));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+
     }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),

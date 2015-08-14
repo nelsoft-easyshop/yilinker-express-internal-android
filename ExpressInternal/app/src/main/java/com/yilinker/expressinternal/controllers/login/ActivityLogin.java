@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.controllers.main.ActivityMain;
+import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
 
 public class ActivityLogin extends Activity implements View.OnClickListener {
 
@@ -26,7 +26,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin:
-                Intent goToDashBoard = new Intent(ActivityLogin.this, ActivityMain.class);
+                Intent goToDashBoard = new Intent(ActivityLogin.this, ActivityDashboard.class);
                 startActivity(goToDashBoard);
                 break;
         }

@@ -11,7 +11,6 @@
         android:paddingStart="50dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/gray_brown"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+        android:textColor="@color/gray_brown"/>
 
 </LinearLayout>

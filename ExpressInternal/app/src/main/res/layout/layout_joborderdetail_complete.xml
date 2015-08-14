@@ -2,9 +2,9 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
+    <TextView android:id="@+id/tvType"
         style="@style/JobOrderDetailLabelStyle" android:text="@string/type"/>
-    <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+    <TextView android:id="@+id/tvJobOrderNo" style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
