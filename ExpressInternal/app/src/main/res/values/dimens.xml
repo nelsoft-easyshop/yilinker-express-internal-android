@@ -8,4 +8,6 @@
     <dimen name="navigation_drawer_width">300dp</dimen>
 
     <dimen name="joborderlist_item_padding">20dp</dimen>
+
+    <dimen name="new_joborder_padding">10dp</dimen>
 </resources>

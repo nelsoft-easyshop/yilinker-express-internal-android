@@ -1,6 +1,8 @@
 package com.yilinker.expressinternal.controllers.joborderlist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,8 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yilinker.core.interfaces.ResponseHandler;
@@ -35,6 +43,7 @@ import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.TabModel;
+import com.yilinker.expressinternal.utilities.DrawableHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +51,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-public class ActivityJobOrderList extends BaseActivity implements TabItemClickListener, ResponseHandler, View.OnClickListener, MenuItemClickListener, RecyclerViewClickListener<JobOrder>{
+public class ActivityJobOrderList extends BaseActivity implements TabItemClickListener, ResponseHandler, View.OnClickListener, MenuItemClickListener, RecyclerViewClickListener<JobOrder>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     //For API requests
     private static final int REQUEST_GET_OPEN= 1000;
@@ -81,12 +90,22 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     //For View Switcher
     private int currentView = VIEW_LIST;
 
+    //For maps
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    private View warehouseMarker;
+    private TextView tvDelivery;
+    private TextView tvPickup;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joborderlist);
 
         initViews();
+
+        buildGoogleApiClient();
 
         setUpMapIfNeeded();
 
@@ -98,6 +117,23 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         super.onResume();
 
         setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+
     }
 
     @Override
@@ -155,7 +191,56 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
+        if(currentView == VIEW_MAP) {
+
+            mMap.clear();
+
+            LatLng markerLocation = null;
+            for (JobOrder item : jobOrderList){
+
+                markerLocation = new LatLng(item.getLatitude(), item.getLongitude());
+
+                mMap.addMarker(new MarkerOptions().position(markerLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_joborder_pickup));
+
+            }
+
+            //For warehouse
+            if(warehouseMarker == null){
+
+                setWarehousePin();
+            }
+
+            //Temp
+            LatLng warehouseLocation = new LatLng(14.122323, 121.34232);
+            mMap.addMarker(new MarkerOptions().position(warehouseLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromBitmap(DrawableHelper.createDrawableFromView(getWindowManager(), warehouseMarker)));
+
+
+            //Center map to rider's location
+            LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
+
+        }
+
+    }
+
+
+    //Set warehouse pin
+    private void setWarehousePin(){
+
+        warehouseMarker = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.layout_pin_warehouse, null);
+        tvDelivery = (TextView) warehouseMarker.findViewById(R.id.tvDelivery);
+        tvPickup = (TextView) warehouseMarker.findViewById(R.id.tvPickup);
+
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override
@@ -222,6 +307,16 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         }
 
     }
+
+    //Reload the map
+    private void reloadMap(){
+
+
+        //TODO Add markers
+        setUpMap();
+
+    }
+
 
     private void setTab(){
 
@@ -305,6 +400,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         if(currentView == VIEW_LIST){
             menuItems.set(0, getString(R.string.menu_listview));
             currentView = VIEW_MAP;
+
+            reloadMap();
+
         }
         else{
 
@@ -328,6 +426,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         jobOrderList = new ArrayList<JobOrder>();
 
         //Temp
+        double latitude = 14.1230;
+        double longitude = 121.0120;
         for(int i = 0; i < 100; i++){
 
             JobOrder jo = new JobOrder();
@@ -338,6 +438,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             tempDate.set(Calendar.DATE, 1);
             tempDate.set(Calendar.YEAR, 2015);
 
+            latitude += 0.001;
+            longitude += 0.001;
+
+            jo.setLatitude(latitude);
+            jo.setLongitude(longitude);
             jo.setEstimatedTimeOfArrival(tempDate.getTime());
             jobOrderList.add(jo);
         }
@@ -366,4 +471,26 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
 
+    @Override
+    public void onConnected(Bundle bundle) {
+
+        // Provides a simple way of getting a device's location and is well suited for
+        // applications that do not require a fine-grained location and that do not need location
+        // updates. Gets the best and most recent location currently available, which may be null
+        // in rare cases when a location is not available.
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        mGoogleApiClient.connect();
+
+    }
 }

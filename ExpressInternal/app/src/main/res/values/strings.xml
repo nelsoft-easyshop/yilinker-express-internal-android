@@ -47,13 +47,12 @@
 
     <!-- Alert Dialog -->
     <string name="alert_accept">Accept</string>
-    <string name="alert_cancel">Cancel</string>
     <string name="alert_new_job_offer">New Job Offer Available</string>
-    <string name="alert_area">Area</string>
+    <string name="alert_from">From</string>
+    <string name="alert_to">To</string>
     <string name="alert_type">Type</string>
     <string name="alert_item">Item</string>
-    <string name="alert_confirmation">Are you sure?</string>
-    <string name="alert_job_order_number">Job Order Number</string>
+    <string name="alert_view_details">View Details</string>
 
     <!-- Job Order List -->
     <string name="job_order">Job Order</string>
@@ -95,5 +94,7 @@
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+
+
 </resources>
 

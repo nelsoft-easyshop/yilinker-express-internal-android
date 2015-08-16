@@ -18,6 +18,10 @@ public class JobOrder implements Parcelable{
     private String size;
     private double earning;
 
+    //For location
+    private double latitude;
+    private double longitude;
+
     //For Current --temp
     private int counter;
 
@@ -34,6 +38,8 @@ public class JobOrder implements Parcelable{
         size = in.readString();
         earning = in.readDouble();
         counter = in.readInt();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
     }
 
     public String getJobOrderNo() {
@@ -100,6 +106,22 @@ public class JobOrder implements Parcelable{
         this.counter = counter;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
         @Override
         public JobOrder createFromParcel(Parcel in) {
@@ -127,5 +149,7 @@ public class JobOrder implements Parcelable{
         dest.writeSerializable(estimatedTimeOfArrival);
         dest.writeDouble(earning);
         dest.writeInt(counter);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 }
