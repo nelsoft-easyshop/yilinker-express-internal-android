@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ActivityDesign"
-    android:padding="20dp">
+    style="@style/JobOrderItemContainerStyle">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+    <LinearLayout android:id="@+id/llHeader"
+        style="@style/JobOrderItemHeaderStyle" >
 
-        <TextView
-            android:layout_weight="1.2"
+        <TextView android:id="@+id/tvType"
+            android:layout_weight="0.8"
             style="@style/JobOrderListTagStyle"
             android:text="@string/prof_delivery"/>
 
-        <TextView
-            android:layout_weight="0.8"
+        <TextView android:id="@+id/tvJobOrderNo"
+            android:layout_weight="1.2"
             style="@style/JobOrderListTrackingNumStyle"
             android:text="JO1234567890"/>
 
@@ -27,29 +23,29 @@
         android:text="Malate Manila, Metro Manila"/>
 
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="23 JUL 2015 14:53:10"
-        android:textAppearance="@android:style/TextAppearance.Medium"/>
+        android:text="23 JUL 2015 14:53:10" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"/>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <LinearLayout android:id="@+id/llFooter"
+        style="@style/JobOrderFooterStyle">
 
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <RatingBar android:id="@+id/ratingJob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_weight="1" android:isIndicator="true" style="@android:style/Widget.DeviceDefault.RatingBar.Small" android:layout_gravity="center"/>
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingTop="15dp"
-            android:gravity="end"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="end|center_vertical"
             android:text="+P5.00"
             android:textColor="@color/orange_yellow"
-            android:textAppearance="@android:style/TextAppearance.Large"/>
+            android:layout_weight="1"/>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" android:background="#dddddd" android:layout_alignParentBottom="true"/>
 
 </LinearLayout>

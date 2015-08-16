@@ -1,48 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ActivityDesign"
-    android:padding="20dp">
+    style="@style/JobOrderItemContainerStyle">
     
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+    <LinearLayout android:id="@+id/llHeader"
+        style="@style/JobOrderItemHeaderStyle" android:layout_alignParentTop="true">
 
-        <TextView
-            android:layout_weight="1.2"
+        <TextView android:id="@+id/tvType"
+            android:layout_weight="0.8"
             style="@style/JobOrderListTagStyle"
             android:text="@string/prof_delivery"/>
 
-        <TextView
-            android:layout_weight="0.8"
+        <TextView android:id="@+id/tvJobOrderNo"
+            android:layout_weight="1.2"
             style="@style/JobOrderListTrackingNumStyle"
             android:text="JO1234567890"/>
         
     </LinearLayout>
 
-    <TextView
+    <View android:id="@+id/viewLine" android:layout_marginLeft="20dp"
+        android:layout_width="5dp"
+        android:layout_height="match_parent" android:background="@color/orange_yellow" android:layout_below="@+id/llHeader" android:layout_alignParentLeft="true" android:layout_above="@+id/llFooter" />
+
+    <TextView android:id="@+id/tvAddress"
         style="@style/JobOrderListAddressStyle"
-        android:text="Malate Manila, Metro Manila"/>
+        android:text="Malate Manila, Metro Manila" android:layout_below="@+id/llHeader" android:layout_toRightOf="@+id/viewLine" android:maxLines="3"/>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <TextView android:id="@+id/tvBranch"
+        style="@style/JobOrderListAddressStyle"
+        android:text="Malate Manila Branch" android:layout_below="@+id/tvAddress" android:layout_toRightOf="@+id/viewLine"/>
 
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+    <LinearLayout android:id="@+id/llFooter" android:layout_below="@id/tvBranch" style="@style/JobOrderFooterStyle">
+
+        <TextView android:id="@+id/tvDistance"
+            style="@style/JobOrderItemFooterStyle"
             android:text="+639001234567"/>
 
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+        <TextView android:id="@+id/tvSize"
+            style="@style/JobOrderItemFooterStyle"
+            android:text="14:53:03" />
+
+        <TextView android:id="@+id/tvEarning"
+            style="@style/JobOrderItemFooterStyle"
             android:text="14:53:03"/>
+
+        <TextView android:id="@+id/tvETA"
+            style="@style/JobOrderItemFooterStyle"
+            android:text="14:53:03" />
 
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" android:background="#dddddd" android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
