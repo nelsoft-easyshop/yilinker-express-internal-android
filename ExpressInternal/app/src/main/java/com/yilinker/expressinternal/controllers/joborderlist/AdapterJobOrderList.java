@@ -71,7 +71,6 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
                         textView = counterList.get(i);
                         if (textView != null) {
 
-                            jobOrder.setCounter(jobOrder.getCounter() + 1);
 
                             Calendar calendar = Calendar.getInstance();;
 

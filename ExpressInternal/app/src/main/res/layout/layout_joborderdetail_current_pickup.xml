@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+
+        <TableRow>
+
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5"  android:text="@string/job_order_number"/>
+
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5" android:text="JO123345667" />
+            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="12:00" />
+
+        </TableRow>
+
+    </TableLayout>
+
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/pickup_address"/>
+    <TextView android:id="@+id/tvPickupAddress" style="@style/JobOrderDetailTextStyle" android:text="Unit 8C Marc 2000" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/dropoff_address"/>
+    <TextView android:id="@+id/tvDropoffAddress" style="@style/JobOrderDetailTextStyle" android:text="Unit 8C Marc 2000" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/distance_from_me"/>
+    <TextView android:id="@+id/tvDistance" style="@style/JobOrderDetailTextStyle" android:text="12km" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/recipient"/>
+    <TextView android:id="@+id/tvRecipient" style="@style/JobOrderDetailTextStyle" android:text="Joan Bautista" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/contact_number"/>
+    <TextView android:id="@+id/tvContactNo" style="@style/JobOrderDetailTextStyle" android:text="+639981234567" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/item"/>
+    <TextView android:id="@+id/tvItem" style="@style/JobOrderDetailTextStyle" android:text="IPhone 6\nSamsung Galxy S6" />
+
+</merge>

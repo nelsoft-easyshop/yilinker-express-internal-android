@@ -32,7 +32,7 @@
 
         <RatingBar android:id="@+id/ratingJob"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_weight="1" android:isIndicator="true" style="@android:style/Widget.DeviceDefault.RatingBar.Small" android:layout_gravity="center"/>
+            android:layout_height="20dp" android:layout_weight="1" android:isIndicator="true" style="@style/CustomRatingBarStyle" android:layout_gravity="center" />
 
         <TextView
             android:layout_width="0dp"

@@ -8,7 +8,7 @@
         android:layout_height="?actionBarSize" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:background="@color/white" android:gravity="center_vertical|right" android:paddingRight="@dimen/abc_action_bar_content_inset_material" >
 
         <ImageView android:id="@+id/ivMenu" android:clickable="true"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/actionbar_button_width"
             android:layout_height="wrap_content" android:src="@drawable/ic_overflow" />
 
 

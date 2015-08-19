@@ -8,7 +8,7 @@
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
-    <RatingBar android:id="@+id/ratingJob" android:layout_width="wrap_content" android:layout_height="wrap_content" android:numStars="5" />
+    <RatingBar android:id="@+id/ratingJob" style="@style/CustomRatingBarStyle" android:layout_width="wrap_content" android:layout_height="20dp" android:numStars="5" android:layout_marginBottom="10dp" />
 
 
     <TextView
