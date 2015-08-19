@@ -3,22 +3,12 @@ package com.yilinker.expressinternal.controllers.joborderlist;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,7 +26,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.adapters.AdapterTab;
 import com.yilinker.expressinternal.base.BaseActivity;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
 import com.yilinker.expressinternal.interfaces.MenuItemClickListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
@@ -48,7 +43,6 @@ import com.yilinker.expressinternal.utilities.DrawableHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 public class ActivityJobOrderList extends BaseActivity implements TabItemClickListener, ResponseHandler, View.OnClickListener, MenuItemClickListener, RecyclerViewClickListener<JobOrder>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -73,7 +67,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private ViewSwitcher viewSwitcher;
     private RecyclerView rvTab;
 
-    private AdapterJobOrderTab adapterJobOrderTab;
+    private AdapterTab adapterTab;
 
     private List<TabModel> tabItems;
     private List<Object> listObjects;
@@ -340,9 +334,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        adapterJobOrderTab = new AdapterJobOrderTab(R.layout.layout_tab_item, tabItems, this);
+        adapterTab = new AdapterTab(R.layout.layout_tab_item, tabItems, this);
+        adapterTab.setEqualWidth(getWindowManager(), 4);
         rvTab.setLayoutManager(layoutManager);
-        rvTab.setAdapter(adapterJobOrderTab);
+        rvTab.setAdapter(adapterTab);
 
     }
 
@@ -444,6 +439,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             jo.setLatitude(latitude);
             jo.setLongitude(longitude);
             jo.setEstimatedTimeOfArrival(tempDate.getTime());
+            jo.setStatus(JobOrderConstant.JO_COMPLETE);
             jobOrderList.add(jo);
         }
 
@@ -454,6 +450,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN ,this);
 
+
         rvJobOrder.setAdapter(adapterJobOrderList);
 
     }
@@ -462,6 +459,31 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onItemClick(int position, JobOrder object) {
 
         Toast.makeText(getApplicationContext(), object.getJobOrderNo(), Toast.LENGTH_LONG).show();
+
+        int currentTab = adapterTab.getCurrentTab();
+        switch(currentTab){
+
+            case TAB_OPEN:
+
+                goToDetail(object, currentTab);
+                break;
+
+            case TAB_CURRENT:
+
+                goToDetail(object, currentTab);
+                break;
+
+            case TAB_COMPLETE:
+
+                goToDetail(object, currentTab);
+                break;
+
+            case TAB_PROBLEMATIC:
+
+                reportProblematic(object);
+                break;
+
+        }
 
     }
 
@@ -493,4 +515,33 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         mGoogleApiClient.connect();
 
     }
+
+    private void goToDetail(JobOrder jobOrder, int tab){
+
+        Intent intent = null;
+
+        if(tab == TAB_COMPLETE){
+
+            intent = new Intent(ActivityJobOrderList.this, ActivityComplete.class);
+            intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
+        }
+        else{
+
+            intent = new Intent(ActivityJobOrderList.this, ActivityJobOderDetail.class);
+            intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+        }
+
+
+        startActivity(intent);
+
+    }
+
+    private void reportProblematic(JobOrder jobOrder){
+
+        Intent intent = new Intent(ActivityJobOrderList.this, ActivityProblematic.class);
+        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder);
+        startActivity(intent);
+
+    }
+
 }

@@ -67,8 +67,10 @@
 
     <!--Job Order Detail-->
     <string name="job_order_number">Job Order Number</string>
+    <string name="eta">ETA</string>
     <string name="pickup_address">Pickup Address</string>
     <string name="dropoff_address">Dropoff Address</string>
+    <string name="delivery_address">Delivery Address</string>
     <string name="recipient">Recipient</string>
     <string name="contact_number">Contact Number</string>
     <string name="item">Item</string>
@@ -77,13 +79,29 @@
     <string name="time_used">Time Used</string>
     <string name="earned">Earned</string>
     <string name="status">Status</string>
+    <string name="distance_from_me">Distance From Me</string>
 
     <!-- Signature -->
     <string name="signature_good_condition">I received goods in good condition</string>
     <string name="signature_submit">Submit</string>
 
     <!--QR Code Scanner-->
-    <string name="scan_qr">Sample text</string>
+    <string name="scan_qr">Scan this QR Code to print Airway Bill and Sticker </string>
+    <string-array name="array_scanner_tab">
+        <item name="single_scanner">Single QR COde Scanner</item>
+        <item name="bulk_scanner">Bulk QR COde Scanner</item>
+    </string-array>
+    
+    <!--Problematic-->
+    <string name="recipient_not_found">Recipient Not Found</string>
+    <string name="delivery_rejected">Delivery rejected by recipient</string>
+    <string name="damaged_upon_delivery">Damaged Upon Delivery</string>
+    <string name="unable_to_pay">Recipient is unable to pay</string>
+    <string name="confirm_problematic">Confirm Problematic Delivery</string>
+
+    <!--Complete-->
+    <string name="ok">Ok</string>
+
     <string name="title_activity_activity_job_order_list">Map</string>
     <string name="title_activity_activity_dashboard">ActivityDashboard</string>
 
@@ -95,6 +113,9 @@
 
     <string name="action_settings">Settings</string>
 
+    <!--Action Bar Title-->
+    <string name="actionbar_title_qrcode">QR Code</string>
+    <string name="actionbar_title_problematic">Problematic</string>
 
 </resources>
 

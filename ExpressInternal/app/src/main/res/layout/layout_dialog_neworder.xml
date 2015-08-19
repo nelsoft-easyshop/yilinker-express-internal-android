@@ -6,7 +6,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp" android:layout_alignParentTop="true" android:layout_alignParentRight="true"  />
 
-    <TableLayout android:layout_below="@id/ivClose" android:layout_above="@id/llButtons"
+    <TableLayout android:layout_below="@id/ivClose" android:layout_above="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_marginLeft="@dimen/new_joborder_padding" android:layout_marginRight="@dimen/new_joborder_padding">
 
