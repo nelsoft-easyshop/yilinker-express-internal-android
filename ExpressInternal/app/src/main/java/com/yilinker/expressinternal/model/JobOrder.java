@@ -13,13 +13,15 @@ public class JobOrder implements Parcelable{
     private String jobOrderNo;
     private String recipient;
     private String contactNo;
-    private String status;
+    private int status;
     private Date estimatedTimeOfArrival;
     private String size;
     private double earning;
+    private int type;
 
-    //For Current --temp
-    private int counter;
+    //For location
+    private double latitude;
+    private double longitude;
 
     public JobOrder(){
 
@@ -29,11 +31,13 @@ public class JobOrder implements Parcelable{
         jobOrderNo = in.readString();
         recipient = in.readString();
         contactNo = in.readString();
-        status = in.readString();
+        status = in.readInt();
         estimatedTimeOfArrival = (java.util.Date) in.readSerializable();
         size = in.readString();
         earning = in.readDouble();
-        counter = in.readInt();
+        type = in.readInt();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
     }
 
     public String getJobOrderNo() {
@@ -60,11 +64,11 @@ public class JobOrder implements Parcelable{
         this.contactNo = contactNo;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -92,12 +96,28 @@ public class JobOrder implements Parcelable{
         this.earning = earning;
     }
 
-    public int getCounter() {
-        return counter;
+    public int getType() {
+        return type;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
@@ -122,10 +142,12 @@ public class JobOrder implements Parcelable{
         dest.writeString(jobOrderNo);
         dest.writeString(recipient);
         dest.writeString(contactNo);
-        dest.writeString(status);
+        dest.writeInt(status);
         dest.writeString(size);
         dest.writeSerializable(estimatedTimeOfArrival);
         dest.writeDouble(earning);
-        dest.writeInt(counter);
+        dest.writeInt(type);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 }

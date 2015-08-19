@@ -25,7 +25,7 @@
             android:layout_weight="1"
             style="@style/AlertButtonStyle"
             android:background="@color/white_gray"
-            android:text="@string/alert_cancel"
+            android:text=""
             android:textColor="@color/warm_gray"/>
 
     </LinearLayout>

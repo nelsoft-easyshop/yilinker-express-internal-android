@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" >
+
+    <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:padding="20dp">
+
+        <TableRow>
+
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5"  android:text="@string/job_order_number"/>
+
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"/>
+
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="10dp" >
+
+            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5" android:text="JO123345667" />
+            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="12:00" />
+
+        </TableRow>
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
+        <RatingBar android:id="@+id/ratingJob" style="@style/CustomRatingBarStyle" android:layout_width="wrap_content" android:layout_height="20dp" android:numStars="5" android:layout_marginBottom="10dp" />
+
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"/>
+        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"/>
+        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+
+    </TableLayout>
+
+
+    <Button android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_button_height" android:background="@color/orange_yellow" android:textColor="@color/white" android:text="@string/ok" />
+
+</RelativeLayout>

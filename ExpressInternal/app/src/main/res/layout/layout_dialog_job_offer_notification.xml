@@ -10,7 +10,7 @@
 
     <TextView
         style="@style/AlertSubHeaderTextViewStyle"
-        android:text="@string/alert_area"/>
+        android:text=""/>
 
     <TextView
         style="@style/AlertValueTextViewStyle"

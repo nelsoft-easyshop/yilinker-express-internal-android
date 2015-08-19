@@ -1,16 +1,20 @@
 package com.yilinker.expressinternal.base;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.ColorInt;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 
@@ -19,10 +23,15 @@ import com.yilinker.expressinternal.R;
  */
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView ivBack;
-    private ImageView ivMenu;
+    private ImageButton ivBack;
+    private ImageButton ivMenu;
+    private TextView tvTitle;
 
     private PopupWindow menu;
+
+    private ActionBar actionBar;
+
+    private int layoutActionBar = R.layout.layout_actionbar;
 
 
     @Override
@@ -42,6 +51,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         menu.dismiss();
     }
 
+    /**
+     * Sets the PopupWindow to show when the menu button is clicked
+     * @param menu PopupWindow view
+     */
     public void setMenu(final PopupWindow menu){
 
         this.menu = menu;
@@ -53,6 +66,36 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 dismissMenu();
             }
         });
+    }
+
+    /**
+     * Sets the title of the action bar
+     * @param title
+     */
+    public void setActionBarTitle(String title){
+
+        tvTitle.setText(title);
+    }
+
+    /**
+     * Sets the background color of the action bar
+     * @param resId Color resource id
+     */
+    public void setActionBarBackgroundColor(int resId){
+
+        int color = getResources().getColor(resId);
+
+        actionBar.setBackgroundDrawable(new ColorDrawable(color));
+
+    }
+
+    /**
+     * Sets the layout to be used for the actionbar,. Should be called before super.onCreate(savedInstanceState)
+     * @param resId
+     */
+    public void setActionBarLayout(int resId){
+
+        this.layoutActionBar = resId;
     }
 
     public void showMenu(){
@@ -73,17 +116,20 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     private void setActionBar(){
 
-        final ActionBar ab = getSupportActionBar();
+        actionBar = getSupportActionBar();
 
-        ab.setElevation(0);
-        ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ab.setCustomView(R.layout.layout_actionbar);
+        actionBar.setElevation(0);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(layoutActionBar);
 
-        ivBack = (ImageView) ab.getCustomView().findViewById(R.id.ivBack);
-        ivMenu = (ImageView) ab.getCustomView().findViewById(R.id.ivMenu);
+        ivBack = (ImageButton) actionBar.getCustomView().findViewById(R.id.ivBack);
+        ivMenu = (ImageButton) actionBar.getCustomView().findViewById(R.id.ivMenu);
+        tvTitle = (TextView) actionBar.getCustomView().findViewById(R.id.tvTitle);
 
         ivBack.setOnClickListener(this);
-        ivMenu.setOnClickListener(this);
+
+        if(ivMenu != null)
+            ivMenu.setOnClickListener(this);
     }
 
     @Override

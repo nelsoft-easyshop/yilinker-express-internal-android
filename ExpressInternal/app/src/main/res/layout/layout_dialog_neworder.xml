@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:paddingBottom="@dimen/new_joborder_padding">
+
+    <ImageView android:id="@+id/ivClose"
+        android:layout_width="50dp"
+        android:layout_height="50dp" android:layout_alignParentTop="true" android:layout_alignParentRight="true"  />
+
+    <TableLayout android:layout_below="@id/ivClose" android:layout_above="@+id/llButtons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_marginLeft="@dimen/new_joborder_padding" android:layout_marginRight="@dimen/new_joborder_padding">
+
+        <TextView android:layout_weight="1.5" android:layout_height="0dp" android:layout_width="match_parent" android:text="@string/alert_new_job_offer" android:gravity="center" android:textSize="20sp" android:textColor="@color/greyish_brown"/>
+        <TextView android:layout_weight="1" style="@style/AlertSublabelStyle" android:text="@string/alert_type"/>
+        <TextView android:layout_weight="1" android:layout_height="0dp" android:layout_width="match_parent" android:text="Delivery" style="@style/AlertSubTextStyle"/>
+        <TextView android:layout_weight="1" android:layout_height="0dp" style="@style/AlertSublabelStyle" android:text="@string/alert_from"/>
+        <TextView android:layout_weight="3" android:layout_height="0dp" style="@style/AlertSubTextStyle" android:text="Address" android:maxLines="3"/>
+        <TextView android:layout_weight="1" style="@style/AlertSublabelStyle" android:text="@string/alert_to"/>
+        <TextView android:layout_weight="3" android:layout_height="0dp" style="@style/AlertSubTextStyle" android:text="Address" android:maxLines="3"/>
+        <TableRow android:layout_weight="1">
+            <TextView android:id="@+id/tvDistance"
+                style="@style/JobOrderItemFooterStyle"
+                android:text="+63900123"/>
+
+            <TextView android:id="@+id/tvSize"
+                style="@style/JobOrderItemFooterStyle"
+                android:text="14:53:03" />
+
+            <TextView android:id="@+id/tvEarning"
+                style="@style/JobOrderItemFooterStyle"
+                android:text="14:53:03"/>
+
+            <TextView android:id="@+id/tvETA"
+                style="@style/JobOrderItemFooterStyle"
+                android:text="14:53:03" />
+
+        </TableRow>
+
+    </TableLayout>
+
+
+    <LinearLayout android:layout_alignParentBottom="true" android:id="@+id/llButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginLeft="@dimen/new_joborder_padding" android:layout_marginRight="@dimen/new_joborder_padding">
+
+        <Button android:text="@string/alert_accept"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:background="@drawable/bg_neworder_button_red" android:layout_marginBottom="3dp" android:textColor="@color/white"/>
+
+        <Button android:text="@string/alert_view_details"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:background="@drawable/bg_neworder_button_orange" android:layout_marginTop="3dp" android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

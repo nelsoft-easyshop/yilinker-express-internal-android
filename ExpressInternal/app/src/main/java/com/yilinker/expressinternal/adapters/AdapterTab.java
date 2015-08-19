@@ -1,9 +1,13 @@
-package com.yilinker.expressinternal.controllers.joborderlist;
+package com.yilinker.expressinternal.adapters;
 
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
@@ -15,14 +19,16 @@ import java.util.List;
 /**
  * Created by J.Bautista
  */
-public class AdapterJobOrderTab extends RecyclerView.Adapter<AdapterJobOrderTab.ViewHolder> {
+public class AdapterTab extends RecyclerView.Adapter<AdapterTab.ViewHolder> {
 
     private int resId;
     private List<TabModel> objects;
     private TabItemClickListener listener;
     private int currentTab = 0;
 
-    public AdapterJobOrderTab(int resId, List<TabModel> objects, TabItemClickListener listener) {
+    private int width = 200;
+
+    public AdapterTab(int resId, List<TabModel> objects, TabItemClickListener listener) {
 
         this.resId = resId;
         this.objects = objects;
@@ -36,12 +42,29 @@ public class AdapterJobOrderTab extends RecyclerView.Adapter<AdapterJobOrderTab.
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(resId, parent, false);
 
+        view.setLayoutParams(new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT, 1));
+
         return new ViewHolder(view);
 
     }
 
     public int getCurrentTab() {
         return currentTab;
+    }
+
+    public void setWidth(int width){
+
+        this.width = width;
+    }
+
+    public void setEqualWidth(WindowManager windowManager, int countTab){
+
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int displayWidth = size.x;
+
+        this.width = size.x / countTab;
     }
 
     public void setCurrentTab(int currentTab) {
@@ -120,6 +143,5 @@ public class AdapterJobOrderTab extends RecyclerView.Adapter<AdapterJobOrderTab.
 
         }
     }
-
 
 }
