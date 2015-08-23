@@ -8,11 +8,11 @@
 
         <ImageButton style="@style/SideMenuButtonStyle"/>
 
-        <ImageButton android:id="@+id/ivMap" android:src="@drawable/ic_map" style="@style/SideMenuButtonStyle" />
+        <ImageButton android:id="@+id/btnMap" android:src="@drawable/ic_map" style="@style/SideMenuButtonStyle" />
 
-        <ImageButton android:id="@+id/ivCall" android:src="@drawable/ic_call" style="@style/SideMenuButtonStyle"/>
+        <ImageButton android:id="@+id/btnContact" android:src="@drawable/ic_call" style="@style/SideMenuButtonStyle"/>
 
-        <ImageButton android:id="@+id/ivImage" android:src="@drawable/ic_image" style="@style/SideMenuButtonStyle" />
+        <ImageButton android:id="@+id/btnImage" android:src="@drawable/ic_image" style="@style/SideMenuButtonStyle" />
 
     </LinearLayout>
 

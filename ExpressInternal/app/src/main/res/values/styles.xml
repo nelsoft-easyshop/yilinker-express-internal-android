@@ -51,12 +51,12 @@
     <!-- Login Styles -->
     <style name="LoginEditTextStyle">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:paddingLeft">15dp</item>
-        <item name="android:background">@color/warm_gray</item>
+        <item name="android:background">@drawable/bg_login_edittext</item>
     </style>
 
     <!-- Profile Styles -->
@@ -150,6 +150,7 @@
     <style name="SideMenuButtonStyle">
         <item name="android:layout_height">60dp</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="JobOrderFooterStyle">
@@ -211,8 +212,14 @@
     </style>
 
     <style name="CustomRatingBarStyle" parent="@android:style/Widget.DeviceDefault.RatingBar.Small">
-        <item name="android:progressDrawable">@drawable/rating_bar_star</item>
-        <item name="android:indeterminateDrawable">@drawable/rating_bar_star_selected</item>
+        <item name="android:progressDrawable">@drawable/ratingbar</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar</item>
+    </style>
+
+    <style name="ContactButtonStyle">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:background">@drawable/bg_contact_button</item>
     </style>
 
 </resources>

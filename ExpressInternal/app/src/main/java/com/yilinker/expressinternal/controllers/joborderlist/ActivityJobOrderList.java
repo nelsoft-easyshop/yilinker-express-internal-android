@@ -440,6 +440,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             jo.setLongitude(longitude);
             jo.setEstimatedTimeOfArrival(tempDate.getTime());
             jo.setStatus(JobOrderConstant.JO_COMPLETE);
+            jo.setRecipient("Joan Bautista");
+            jo.setContactNo("+639951234567");
             jobOrderList.add(jo);
         }
 

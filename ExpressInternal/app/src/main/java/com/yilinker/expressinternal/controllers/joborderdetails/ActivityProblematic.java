@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
@@ -51,9 +52,11 @@ public class ActivityProblematic extends BaseActivity {
 
     private void initViews(){
 
+
         //For Action Bar
         setTitle(getString(R.string.actionbar_title_problematic));
         setActionBarBackgroundColor(R.color.marigold);
+
     }
 
 
@@ -118,4 +121,6 @@ public class ActivityProblematic extends BaseActivity {
 
         }
     }
+
+
 }

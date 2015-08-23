@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -12,6 +14,10 @@ import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.controllers.contact.ActivityContact;
+import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
+import com.yilinker.expressinternal.controllers.navigation.ActivityNavigation;
 import com.yilinker.expressinternal.model.JobOrder;
 
 /**
@@ -29,6 +35,13 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private TextView tvRecipient;
     private TextView tvContactNo;
     private TextView tvType;
+    private Button btnPositive;
+    private Button btnNegative;
+
+    //For Side Menu
+    private ImageButton btnContact;
+    private ImageButton btnImage;
+    private ImageButton btnNavigation;
 
     //For Pickup
     private TextView tvPickupAddress;
@@ -67,10 +80,21 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         setContentView();
 
         tvJobOrderNo = (TextView) findViewById(R.id.tvJobOrderNo);
+        btnPositive = (Button) findViewById(R.id.btnPositive);
+        btnNegative = (Button) findViewById(R.id.btnNegative);
+        btnContact = (ImageButton) findViewById(R.id.btnContact);
+        btnImage = (ImageButton) findViewById(R.id.btnImage);
+        btnNavigation = (ImageButton) findViewById(R.id.btnMap);
 
         //For Action Bar
         setTitle("For Pickup");
         setActionBarBackgroundColor(R.color.marigold);
+
+        btnNegative.setOnClickListener(this);
+        btnPositive.setOnClickListener(this);
+        btnContact.setOnClickListener(this);
+        btnImage.setOnClickListener(this);
+        btnNavigation.setOnClickListener(this);
     }
 
 
@@ -82,6 +106,40 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     @Override
     public void onFailed(int requestCode, String message) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        int id = v.getId();
+        switch (id){
+
+            case R.id.btnPositive:
+
+                goToChecklist();
+                break;
+
+            case R.id.btnNegative:
+
+                break;
+
+            case R.id.btnMap:
+                showNavigation();
+                break;
+
+            case  R.id.btnContact:
+
+                goToContact();
+                break;
+
+            case R.id.btnImage:
+
+                showImageGallery();
+                break;
+
+
+        }
     }
 
     private void getData(){
@@ -124,5 +182,34 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
             contentView = inflater.inflate(R.layout.layout_joborderdetail_current_pickup, llContainer, true);
         }
 
+    }
+
+    private void goToChecklist(){
+
+        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityChecklist.class);
+        startActivity(intent);
+
+    }
+
+
+    private void goToContact(){
+
+        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityContact.class);
+        intent.putExtra(ActivityContact.ARG_NAME, jobOrder.getRecipient());
+        intent.putExtra(ActivityContact.ARG_CONTACT_NO, jobOrder.getContactNo());
+        startActivity(intent);
+
+    }
+
+    private void showImageGallery(){
+
+        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityImageGallery.class);
+        startActivity(intent);
+    }
+
+    private void showNavigation(){
+
+        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityNavigation.class);
+        startActivity(intent);
     }
 }
