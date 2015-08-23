@@ -84,6 +84,8 @@
     <!-- Signature -->
     <string name="signature_good_condition">I received goods in good condition</string>
     <string name="signature_submit">Submit</string>
+    <string name="signature_rating">Add Rating</string>
+    <string name="signature_rate_delivery">How will you rate this delivery?</string>
 
     <!--QR Code Scanner-->
     <string name="scan_qr">Scan this QR Code to print Airway Bill and Sticker </string>
@@ -113,9 +115,13 @@
 
     <string name="action_settings">Settings</string>
 
+    <!--Navigation-->
+    <string name="navigation_distance">Distance:</string>
+
     <!--Action Bar Title-->
     <string name="actionbar_title_qrcode">QR Code</string>
     <string name="actionbar_title_problematic">Problematic</string>
+    <string name="title_activity_activity_navigation">Map</string>
 
 </resources>
 

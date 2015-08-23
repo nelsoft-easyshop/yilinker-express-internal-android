@@ -13,17 +13,29 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "SERVER_URL", '"http://api.express.api.easydeal.ph/v1/"'
+        }
         release {
+            buildConfigField "String", "SERVER_URL", '"http://api.express.api.easydeal.ph/v1/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.android.gms:play-services:7.5.+'
     compile project(':core')
-    compile 'com.android.support:appcompat-v7:22.2.1'
 
+    compile 'com.google.android.gms:play-services:7.8.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.github.jd-alexander:library:1.0.5'
 }

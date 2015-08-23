@@ -13,10 +13,11 @@
 
     <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:id="@+id/ibCamera" android:layout_below="@+id/etRemarks" android:src="@drawable/ic_camera" android:background="@android:color/transparent" />
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:id="@+id/btnCamera" android:layout_below="@+id/etRemarks" android:src="@drawable/ic_camera" android:background="@android:color/transparent" />
 
-    <Button
+    <Button android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="60dp" android:background="@color/orange_yellow" android:layout_alignParentBottom="true" android:textColor="@color/white" android:text="@string/confirm_problematic"/>
-    
+
+
 </RelativeLayout>
