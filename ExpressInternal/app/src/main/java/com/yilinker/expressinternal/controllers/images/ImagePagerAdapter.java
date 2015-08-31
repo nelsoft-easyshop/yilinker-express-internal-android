@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.yilinker.core.imageloader.VolleyImageLoader;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.customviews.CarouselImageContainer;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by J.Bautista
@@ -19,11 +23,6 @@ import java.util.HashMap;
 public class ImagePagerAdapter extends PagerAdapter implements
         ViewPager.OnPageChangeListener{
 
-    private final static int PAGES = 5;
-    // You can choose a bigger number for LOOPS, but you know, nobody will fling
-    // more than 1000 times just in order to test your "infinite" ViewPager :D
-    private final static int LOOPS = 10;
-    private final static int FIRST_PAGE = PAGES * LOOPS / 2;
     private final static float BIG_SCALE = 1.0f;
     private final static float SMALL_SCALE = 0.7f;
     private final static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
@@ -36,12 +35,22 @@ public class ImagePagerAdapter extends PagerAdapter implements
 
     private float scale;
 
-    HashMap<Integer,CarouselImageContainer> list;
+    private List<String> objects;
 
-    public ImagePagerAdapter(Context context){
+    private HashMap<Integer,CarouselImageContainer> list;
+
+    private ImageLoader imageLoader;
+    private int firstPage;
+
+    public ImagePagerAdapter(Context context, List<String> objects){
 
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.objects = objects;
+
+        this.imageLoader = VolleyImageLoader.getInstance(context).getImageLoader();
+
+        firstPage = objects.size() / 2;
 
         list = new HashMap<>();
     }
@@ -49,7 +58,7 @@ public class ImagePagerAdapter extends PagerAdapter implements
 
     @Override
     public int getCount() {
-        return  PAGES;
+        return  objects.size();
     }
 
     @Override
@@ -64,12 +73,14 @@ public class ImagePagerAdapter extends PagerAdapter implements
         View view = inflater.inflate(R.layout.layout_image_pager, container, false);
 
         CarouselImageContainer root = (CarouselImageContainer) view.findViewById(R.id.llImage);
+        NetworkImageView ivProduct = (NetworkImageView) view.findViewById(R.id.ivProduct);
 
-        if (position == FIRST_PAGE)
+        if (position == firstPage)
             scale = BIG_SCALE;
         else
             scale = SMALL_SCALE;
 
+        ivProduct.setImageUrl(objects.get(position), imageLoader);
 
         list.put(position, root);
 
@@ -96,7 +107,7 @@ public class ImagePagerAdapter extends PagerAdapter implements
             current = list.get(position);
             current.setScaleBoth(BIG_SCALE - DIFF_SCALE * positionOffset);
 
-            if (position < PAGES-1) {
+            if (position < objects.size()-1) {
                 next = list.get(position + 1);
                 next.setScaleBoth(SMALL_SCALE + DIFF_SCALE * positionOffset);
             }

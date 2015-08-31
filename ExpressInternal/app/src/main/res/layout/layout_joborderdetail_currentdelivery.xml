@@ -6,7 +6,7 @@
 
         <TableRow>
 
-            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="4"  android:text="@string/status"/>
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5"  android:text="@string/job_order_number"/>
 
             <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"/>
 
@@ -14,28 +14,17 @@
 
         <TableRow>
 
-            <TextView android:id="@+id/tvStatus" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="4" android:text="-" />
+            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="4" android:text="-" />
             <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-" />
 
         </TableRow>
 
     </TableLayout>
 
-    <TextView
-        style="@style/JobOrderDetailLabelStyle" android:text="@string/job_order_number"/>
-    <TextView android:id="@+id/tvJobOrderNo" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
     <TextView
-        style="@style/JobOrderDetailLabelStyle" android:text="@string/pickup_address"/>
-    <TextView android:id="@+id/tvPickupAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
-
-    <TextView
-        style="@style/JobOrderDetailLabelStyle" android:text="@string/dropoff_address"/>
-    <TextView android:id="@+id/tvDropoffAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
-
-    <TextView
-        style="@style/JobOrderDetailLabelStyle" android:text="@string/distance_from_me"/>
-    <TextView android:id="@+id/tvDistance" style="@style/JobOrderDetailTextStyle" android:text="-" />
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/delivery_address"/>
+    <TextView android:id="@+id/tvDeliveryAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/recipient"/>

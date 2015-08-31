@@ -6,6 +6,7 @@
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
+    <string name="login_error_incomplete_fields">Missing username/password</string>
 
     <!-- Menu-->
     <string name="menu_mapview">Map View</string>
@@ -80,6 +81,13 @@
     <string name="earned">Earned</string>
     <string name="status">Status</string>
     <string name="distance_from_me">Distance From Me</string>
+    <string name="joborderdetail_open_accept">Accept Job</string>
+    <string name="joborderdetail_open_decline">Decline</string>
+    <string name="joborderdetail_pickup">Pickup</string>
+    <string name="joborderdetail_outofstock">Out of Stock</string>
+    <string name="joborderdetail_deliver">Deliver</string>
+    <string name="joborderdetail_problematic">Problematic</string>
+
 
     <!-- Signature -->
     <string name="signature_good_condition">I received goods in good condition</string>
@@ -104,6 +112,11 @@
     <!--Complete-->
     <string name="ok">Ok</string>
 
+    <!--Cash Management-->
+    <string name="cashmanagement_onhand">Cash on hand</string>
+    <string name="cashmanagement_limit">Cash on hand limit</string>
+    <string name="cashmanagement_history">Cash History</string>
+    
     <string name="title_activity_activity_job_order_list">Map</string>
     <string name="title_activity_activity_dashboard">ActivityDashboard</string>
 
@@ -117,6 +130,9 @@
 
     <!--Navigation-->
     <string name="navigation_distance">Distance:</string>
+
+    <!--Contact-->
+    <string name="contact_error_no_number">No contact number!</string>
 
     <!--Action Bar Title-->
     <string name="actionbar_title_qrcode">QR Code</string>

@@ -6,7 +6,7 @@
     <LinearLayout android:id="@+id/llHeader"
     style="@style/JobOrderItemHeaderStyle">
 
-        <TextView android:id="@+id/tvType"
+        <TextView android:id="@+id/tvStatus"
             android:layout_weight="0.8"
             style="@style/JobOrderListTagStyle"
             android:text="@string/job_order_list_for_claiming"/>

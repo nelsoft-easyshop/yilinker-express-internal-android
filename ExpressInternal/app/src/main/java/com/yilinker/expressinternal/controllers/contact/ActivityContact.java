@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
@@ -19,6 +21,8 @@ public class ActivityContact extends BaseActivity {
 
     private ImageButton btnCall;
     private ImageButton btnSMS;
+    private TextView tvName;
+    private TextView tvContactNo;
 
     private String name;
     private String contactNo;
@@ -36,19 +40,30 @@ public class ActivityContact extends BaseActivity {
 
         getData();
 
+        bindView();
+
     }
     private void initViews(){
 
         btnCall = (ImageButton) findViewById(R.id.btnCall);
         btnSMS = (ImageButton) findViewById(R.id.btnSMS);
+        tvContactNo = (TextView) findViewById(R.id.tvContactNo);
+        tvName = (TextView) findViewById(R.id.tvContacName);
 
 
         //For Action Bar
-        setTitle("For Pickup");
+        setActionBarTitle("Contact Details");
         setActionBarBackgroundColor(R.color.marigold);
 
         btnCall.setOnClickListener(this);
         btnSMS.setOnClickListener(this);
+
+    }
+
+    private void bindView(){
+
+        tvContactNo.setText(contactNo == null ? "-" : contactNo);
+        tvName.setText(name == null ? "-" : name);
 
     }
 
@@ -83,16 +98,27 @@ public class ActivityContact extends BaseActivity {
 
     private void call(){
 
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse(String.format("tel:%s", contactNo)));
-        startActivity(intent);
+        if(contactNo != null) {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse(String.format("tel:%s", contactNo)));
+            startActivity(intent);
+        }else{
+
+            Toast.makeText(getApplicationContext(), getString(R.string.contact_error_no_number), Toast.LENGTH_LONG).show();
+        }
 
     }
 
     private void sendSMS(){
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", contactNo, null));
-        startActivity(intent);
+        if(contactNo != null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", contactNo, null));
+            startActivity(intent);
+        }
+        else{
+
+            Toast.makeText(getApplicationContext(), getString(R.string.contact_error_no_number), Toast.LENGTH_LONG).show();
+        }
 
     }
 }

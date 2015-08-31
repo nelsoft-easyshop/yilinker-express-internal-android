@@ -1,5 +1,6 @@
 package com.yilinker.expressinternal.business;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.yilinker.core.base.BaseApplication;
 import com.yilinker.expressinternal.BuildConfig;
 
@@ -8,6 +9,8 @@ import com.yilinker.expressinternal.BuildConfig;
  */
 public class ApplicationClass extends BaseApplication{
 
+    public static final String REQUEST_TAG = "requestTag";
+
 
     @Override
     public void onCreate() {
@@ -15,5 +18,6 @@ public class ApplicationClass extends BaseApplication{
 
         setDomain(BuildConfig.SERVER_URL);
     }
+
 
 }

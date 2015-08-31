@@ -6,9 +6,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:id="@+id/llImage" android:gravity="center" android:background="@android:color/transparent">
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView android:id="@+id/ivProduct"
         android:layout_width="300dp"
-        android:layout_height="300dp" android:src="@drawable/ic_camera"  android:background="@drawable/bg_imagegallery_item" />
+        android:layout_height="match_parent" android:src="@drawable/ic_camera"  android:background="@drawable/bg_imagegallery_item" android:layout_marginTop="30dp" android:layout_marginBottom="30dp" />
 
 </com.yilinker.expressinternal.customviews.CarouselImageContainer>
 
