@@ -6,17 +6,23 @@ import android.support.v4.view.ViewPager;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 
+import java.util.List;
+
 /**
  * Created by J.Bautista
  */
 public class ActivityImageGallery extends BaseActivity {
+
+    public static final String ARG_IMAGES = "images";
 
     private final static int PAGES = 5;
     private final static int LOOPS = 10;
     private final static int FIRST_PAGE = PAGES * LOOPS / 2;
 
     private ImagePagerAdapter adapter;
-    public ViewPager pager;
+    private ViewPager pager;
+
+    private List<String> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +33,9 @@ public class ActivityImageGallery extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_gallery);
 
+        getData();
         initViews();
+
 
     }
 
@@ -36,7 +44,7 @@ public class ActivityImageGallery extends BaseActivity {
         setPager();
 
         //For Action Bar
-        setTitle("For Pickup");
+        setActionBarTitle("Images");
         setActionBarBackgroundColor(R.color.marigold);
 
     }
@@ -45,7 +53,7 @@ public class ActivityImageGallery extends BaseActivity {
 
         pager = (ViewPager) findViewById(R.id.vpImage);
 
-        adapter = new ImagePagerAdapter(getApplicationContext());
+        adapter = new ImagePagerAdapter(getApplicationContext(), images);
         pager.setAdapter(adapter);
         pager.setOnPageChangeListener(adapter);
 
@@ -62,5 +70,10 @@ public class ActivityImageGallery extends BaseActivity {
         // previous pages will be showed
         pager.setPageMargin(-300);
 
+    }
+
+    private void getData(){
+
+        images = getIntent().getStringArrayListExtra(ARG_IMAGES);
     }
 }

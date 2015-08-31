@@ -2,42 +2,118 @@ package com.yilinker.expressinternal.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.SparseArray;
 
+import com.yilinker.core.utility.DateUtility;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by J.Bautista
  */
 public class JobOrder implements Parcelable{
 
+    private static HashMap<String, String> JOB_ORDER_TYPE;
+
+    private static final String SERVER_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
+
     private String jobOrderNo;
     private String recipient;
     private String contactNo;
-    private int status;
+    private String status;
     private Date estimatedTimeOfArrival;
     private String size;
     private double earning;
-    private int type;
+    private String type;
 
     //For location
     private double latitude;
     private double longitude;
 
+    private String pickupAddress;
+    private String dropoffAddress;
+    private double distance;
+    private String deliveryAddress;
+    private String itemLocation;
+    private String branchName;
+    private Date timeDelivered;
+    private int rating;
+    private List<String> images;
+    private List<String> items;
+
+    static {
+
+        //Temp
+        JOB_ORDER_TYPE = new HashMap<>();
+
+        JOB_ORDER_TYPE.put(JobOrderConstant.JO_TYPE_PICKUP_KEY, "Pickup");
+        JOB_ORDER_TYPE.put(JobOrderConstant.JO_TYPE_DELIVERY_KEY, "Delivery");
+
+    }
+
     public JobOrder(){
 
     }
 
+    public JobOrder(com.yilinker.core.model.express.internal.JobOrder jobOrder){
+
+        jobOrderNo = jobOrder.getJobOrderNo();
+        recipient = jobOrder.getRecipientName();
+        contactNo = jobOrder.getRecipientContactNo();
+        size = jobOrder.getPackageSize();
+        earning = jobOrder.getEarnings();
+        latitude = Double.valueOf(jobOrder.getLocation().getLatitude());
+        longitude = Double.valueOf(jobOrder.getLocation().getLongitude());
+        branchName = jobOrder.getBranchName();
+        deliveryAddress = jobOrder.getDeliveryAddress();
+        pickupAddress = jobOrder.getPickupAddr();
+        dropoffAddress = jobOrder.getDropoffAddr();
+        status = jobOrder.getJobOrderStatus();
+        timeDelivered = DateUtility.convertStringToDate(jobOrder.getTimeDelivered(), SERVER_DATE_FORMAT);
+        rating = jobOrder.getRating();
+        images = jobOrder.getImages();
+        type = jobOrder.getJobOrderType();
+        items = jobOrder.getItems();
+
+        //temp
+        estimatedTimeOfArrival = Calendar.getInstance().getTime();
+//        type = JOB_ORDER_TYPE.get(jobOrder.getJobOrderType());
+
+        //TODO Set type and status based on the String values of the corresponding JobOrder core model fields
+    }
+
     protected JobOrder(Parcel in) {
+
         jobOrderNo = in.readString();
         recipient = in.readString();
         contactNo = in.readString();
-        status = in.readInt();
-        estimatedTimeOfArrival = (java.util.Date) in.readSerializable();
+        status = in.readString();
         size = in.readString();
+        estimatedTimeOfArrival = (java.util.Date) in.readSerializable();
         earning = in.readDouble();
-        type = in.readInt();
+        type = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
+        pickupAddress = in.readString();
+        dropoffAddress = in.readString();
+        distance = in.readDouble();
+        deliveryAddress = in.readString();
+        itemLocation = in.readString();
+        branchName = in.readString();
+        timeDelivered = (java.util.Date) in.readSerializable();
+        rating = in.readInt();
+
+        images = new ArrayList<>();
+        in.readStringList(images);
+
+        items = new ArrayList<>();
+        in.readStringList(items);
+
     }
 
     public String getJobOrderNo() {
@@ -64,11 +140,11 @@ public class JobOrder implements Parcelable{
         this.contactNo = contactNo;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -96,11 +172,11 @@ public class JobOrder implements Parcelable{
         this.earning = earning;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -118,6 +194,86 @@ public class JobOrder implements Parcelable{
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getPickupAddress() {
+        return pickupAddress;
+    }
+
+    public void setPickupAddress(String pickupAddress) {
+        this.pickupAddress = pickupAddress;
+    }
+
+    public String getDropoffAddress() {
+        return dropoffAddress;
+    }
+
+    public void setDropoffAddress(String dropoffAddress) {
+        this.dropoffAddress = dropoffAddress;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getItemLocation() {
+        return itemLocation;
+    }
+
+    public void setItemLocation(String itemLocation) {
+        this.itemLocation = itemLocation;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public Date getTimeDelivered() {
+        return timeDelivered;
+    }
+
+    public void setTimeDelivered(Date timeDelivered) {
+        this.timeDelivered = timeDelivered;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public List<String> getItems() {
+        return items;
+    }
+
+    public void setItems(List<String> items) {
+        this.items = items;
     }
 
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
@@ -139,15 +295,26 @@ public class JobOrder implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
         dest.writeString(jobOrderNo);
         dest.writeString(recipient);
         dest.writeString(contactNo);
-        dest.writeInt(status);
+        dest.writeString(status);
         dest.writeString(size);
         dest.writeSerializable(estimatedTimeOfArrival);
         dest.writeDouble(earning);
-        dest.writeInt(type);
+        dest.writeString(type);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
+        dest.writeString(pickupAddress);
+        dest.writeString(dropoffAddress);
+        dest.writeDouble(distance);
+        dest.writeString(deliveryAddress);
+        dest.writeString(itemLocation);
+        dest.writeString(branchName);
+        dest.writeSerializable(timeDelivered);
+        dest.writeInt(rating);
+        dest.writeStringList(images);
+        dest.writeStringList(items);
     }
 }

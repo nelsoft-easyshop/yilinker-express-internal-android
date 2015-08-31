@@ -1,6 +1,7 @@
 package com.yilinker.expressinternal.controllers.dashboard;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,14 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.controllers.login.ActivityLogin;
 
-public class FragmentNavigationDrawer extends Fragment {
+public class FragmentNavigationDrawer extends Fragment implements OnClickListener{
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
@@ -34,6 +39,7 @@ public class FragmentNavigationDrawer extends Fragment {
     private ListView mDrawerListView;
     private View mFragmentContainerView;
     private ViewGroup viewNavDrawerImage, viewNavDrawerButton;
+    private Button btnLogout;
 
     public FragmentNavigationDrawer() {}
 
@@ -42,7 +48,7 @@ public class FragmentNavigationDrawer extends Fragment {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        mUserLearnedDrawer = true;
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -71,6 +77,7 @@ public class FragmentNavigationDrawer extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mDrawerListView = (ListView) view.findViewById(R.id.lvNavigationMenu);
+        btnLogout = (Button) view.findViewById(R.id.btnLogout);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -78,6 +85,8 @@ public class FragmentNavigationDrawer extends Fragment {
                 selectItem(position);
             }
         });
+
+        btnLogout.setOnClickListener(this);
 
 
         String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
@@ -94,9 +103,6 @@ public class FragmentNavigationDrawer extends Fragment {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),
@@ -196,8 +202,33 @@ public class FragmentNavigationDrawer extends Fragment {
         return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
+    @Override
+    public void onClick(View v) {
+
+        int id = v.getId();
+        switch (id){
+
+            case R.id.btnLogout:
+
+                //TODO Show Dialog for verification
+
+                ApplicationClass.getInstance().deleteTokens();
+                goToLogin();
+                break;
+        }
+    }
+
     public interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    private void goToLogin(){
+
+        Intent intent = new Intent(getActivity(), ActivityLogin.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 
 }

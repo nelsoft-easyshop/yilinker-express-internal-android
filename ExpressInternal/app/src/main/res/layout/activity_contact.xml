@@ -7,10 +7,10 @@
         android:layout_height="wrap_content" android:orientation="horizontal" android:layout_margin="20dp">
 
         <ImageButton android:id="@+id/btnCall"
-            style="@style/ContactButtonStyle" android:layout_marginRight="15dp" />
+            style="@style/ContactButtonStyle" android:layout_marginRight="15dp" android:src="@drawable/ic_phone" />
 
         <ImageButton android:id="@+id/btnSMS"
-            style="@style/ContactButtonStyle" android:layout_marginLeft="15dp"/>
+            style="@style/ContactButtonStyle" android:layout_marginLeft="15dp" android:src="@drawable/ic_sms"/>
 
     </LinearLayout>
 

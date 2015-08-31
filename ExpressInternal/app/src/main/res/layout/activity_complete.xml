@@ -14,28 +14,31 @@
 
         <TableRow android:layout_marginBottom="10dp" >
 
-            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5" android:text="JO123345667" />
-            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="12:00" />
+            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="4" android:text="-" />
+            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-" />
 
         </TableRow>
 
         <TextView
             style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
-        <RatingBar android:id="@+id/ratingJob" style="@style/CustomRatingBarStyle" android:layout_width="wrap_content" android:layout_height="20dp" android:numStars="5" android:layout_marginBottom="10dp" />
 
+        <LinearLayout android:layout_height="20dp" android:layout_width="wrap_content" android:layout_marginBottom="10dp">
+            <RatingBar android:id="@+id/ratingJob" android:progressDrawable="@drawable/ratingbar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"  android:numStars="0"
+                android:stepSize="1" android:rating="1"  android:isIndicator="true" />
+        </LinearLayout>
 
         <TextView
             style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"/>
-        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+        <TextView android:id="@+id/tvTimeUsed" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
         <TextView
             style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"/>
-        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+        <TextView android:id="@+id/tvEarned" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
     </TableLayout>
 
 
-    <Button android:layout_alignParentBottom="true"
+    <Button android:id="@+id/btnOk" android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_button_height" android:background="@color/orange_yellow" android:textColor="@color/white" android:text="@string/ok" />
 

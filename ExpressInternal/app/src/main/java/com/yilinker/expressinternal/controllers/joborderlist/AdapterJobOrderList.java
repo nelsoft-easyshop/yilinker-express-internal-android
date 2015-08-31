@@ -4,18 +4,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseViewHolder;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
-import com.yilinker.expressinternal.interfaces.TimerTickListener;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.model.JobOrderPickup;
-import com.yilinker.expressinternal.model.TabModel;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import android.os.Handler;
@@ -29,6 +27,9 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
     public static final int TYPE_CURRENT = 101;
     public static final int TYPE_COMPLETE =102;
     public static final int TYPE_PROBLEMATIC = 103;
+
+    private static final String OPEN_DATE_FORMAT = "hh:mm aa";
+    private static final String CURRENT_DATE_FORMAT = "dd MMM yyyy hh:mm:ss aa";
 
     private List<T> objects;
     private int type;
@@ -70,7 +71,6 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
                         jobOrder = objects.get(i);
                         textView = counterList.get(i);
                         if (textView != null) {
-
 
                             Calendar calendar = Calendar.getInstance();;
 
@@ -165,6 +165,20 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         timerHandler = null;
     }
 
+    private static int getBackgoundByType(String type){
+
+        int resId = 0;
+        if(type.equalsIgnoreCase("pickup")){
+
+            resId = R.drawable.tv_rounded_corner_marigold;
+        }
+        else {
+
+            resId = R.drawable.tv_rounded_corner_orange_yellow;
+        }
+
+        return resId;
+    }
 
 
     //Class for Open JO view holder
@@ -173,6 +187,11 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         private TextView tvJobOrderNo;
         private TextView tvAddress;
         private TextView tvBranchName;
+        private TextView tvDistance;
+        private TextView tvSize;
+        private TextView tvEarning;
+        private TextView tvETA;
+        private TextView tvType;
 
         public ViewHolderOpen(View view, RecyclerViewClickListener<JobOrder> listener){
             super(view, listener);
@@ -180,7 +199,11 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
             tvJobOrderNo = (TextView) view.findViewById(R.id.tvJobOrderNo);
             tvAddress = (TextView) view.findViewById(R.id.tvAddress);
             tvBranchName = (TextView) view.findViewById(R.id.tvBranch);
-
+            tvDistance = (TextView) view.findViewById(R.id.tvDistance);
+            tvSize = (TextView) view.findViewById(R.id.tvSize);
+            tvEarning = (TextView) view.findViewById(R.id.tvEarning);
+            tvETA = (TextView) view.findViewById(R.id.tvETA);
+            tvType = (TextView) view.findViewById(R.id.tvType);
         }
 
 
@@ -196,6 +219,32 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
             tvJobOrderNo.setText(object.getJobOrderNo());
             tvAddress.setText("Sample Address");
+            tvBranchName.setText(object.getBranchName());
+            tvDistance.setText(String.format("%.02f KM", object.getDistance() / 1000f));
+            tvSize.setText(object.getSize());
+            tvEarning.setText(String.format("₱%.02f", object.getEarning()));
+            tvType.setText(object.getType());
+
+            if(object.getEstimatedTimeOfArrival() != null){
+
+                tvETA.setText(String.format("ETA %s", DateUtility.convertDateToString(object.getEstimatedTimeOfArrival(), OPEN_DATE_FORMAT)));
+
+            }
+
+            String address = null;
+            if(object.getType().equalsIgnoreCase("pickup")){
+
+                address = object.getPickupAddress();
+            }
+            else{
+
+                address = object.getDeliveryAddress();
+            }
+
+            tvAddress.setText(address);
+
+            tvType.setBackgroundResource(getBackgoundByType(object.getType()));
+
         }
 
     }
@@ -208,14 +257,16 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         private TextView tvAddress;
         private TextView tvBranchName;
         private TextView tvTimer;
+        private TextView tvStatus;
 
         public ViewHolderCurrent(View view, RecyclerViewClickListener<JobOrder> listener){
             super(view, listener);
 
             tvJobOrderNo = (TextView) view.findViewById(R.id.tvJobOrderNo);
             tvAddress = (TextView) view.findViewById(R.id.tvAddress);
+            tvBranchName = (TextView) view.findViewById(R.id.tvBranch);
             tvTimer = (TextView) view.findViewById(R.id.tvTimer);
-
+            tvStatus = (TextView) view.findViewById(R.id.tvStatus);
         }
 
 
@@ -230,6 +281,23 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
 
             tvJobOrderNo.setText(object.getJobOrderNo());
+            tvBranchName.setText(object.getBranchName());
+            tvStatus.setText(object.getStatus());
+
+            String address = null;
+            if(object.getType().equalsIgnoreCase("pickup")){
+
+                address = object.getPickupAddress();
+            }
+            else{
+
+                address = object.getDeliveryAddress();
+            }
+
+            tvAddress.setText(address);
+
+            tvStatus.setBackgroundResource(getBackgoundByType(object.getType()));
+
         }
 
 
@@ -241,17 +309,22 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
         private TextView tvJobOrderNo;
         private TextView tvAddress;
-        private TextView tvBranchName;
+        private TextView tvTimeDelivered;
+        private RatingBar ratingJob;
+        private TextView tvType;
+        private TextView tvEarning;
 
         public ViewHolderComplete(View view, RecyclerViewClickListener<JobOrder> listener){
             super(view, listener);
 
             tvJobOrderNo = (TextView) view.findViewById(R.id.tvJobOrderNo);
             tvAddress = (TextView) view.findViewById(R.id.tvAddress);
+            tvTimeDelivered = (TextView) view.findViewById(R.id.tvTimeDelivered);
+            ratingJob = (RatingBar) view.findViewById(R.id.ratingJob);
+            tvType = (TextView) view.findViewById(R.id.tvType);
+            tvEarning = (TextView) view.findViewById(R.id.tvEarning);
 
         }
-
-
 
 
         @Override
@@ -262,9 +335,27 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
         @Override
         public void setViews(JobOrder object) {
-
-
+            
             tvJobOrderNo.setText(object.getJobOrderNo());
+            tvTimeDelivered.setText(DateUtility.convertDateToString(object.getTimeDelivered(), CURRENT_DATE_FORMAT));
+            ratingJob.setRating((float) object.getRating());
+            tvType.setText(object.getType());
+            tvEarning.setText(String.format("+%.02f", object.getEarning()));
+
+            String address = null;
+            if(object.getType().equalsIgnoreCase("pickup")){
+
+                address = object.getPickupAddress();
+            }
+            else{
+
+                address = object.getDeliveryAddress();
+            }
+
+            tvAddress.setText(address);
+
+            tvType.setBackgroundResource(getBackgoundByType(object.getType()));
+
         }
 
     }

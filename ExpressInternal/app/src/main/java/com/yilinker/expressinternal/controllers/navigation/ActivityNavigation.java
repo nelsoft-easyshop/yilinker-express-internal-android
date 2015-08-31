@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.directions.route.AbstractRouting;
 import com.directions.route.Route;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
@@ -209,17 +210,17 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
         Intent intent = getIntent();
 
 //        TODO Uncomment this
-//        double destinationLat = intent.getDoubleExtra(ARG_DESTINATION_LAT, 0.0);
-//        double destinationLong = intent.getDoubleExtra(ARG_DESTINATION_LONG, 0.0);
-//        destination = new LatLng(destinationLat, destinationLong);
+        double destinationLat = intent.getDoubleExtra(ARG_DESTINATION_LAT, 0.0);
+        double destinationLong = intent.getDoubleExtra(ARG_DESTINATION_LONG, 0.0);
+        destination = new LatLng(destinationLat, destinationLong);
 
-        destination = new LatLng(14.4336373,121.0165277);
+//        destination = new LatLng(14.4336373,121.0165277);
     }
 
     private void setupRoute(){
 
         Routing routing = new Routing.Builder()
-                .travelMode(Routing.TravelMode.DRIVING)
+                .travelMode(Routing.TravelMode.BIKING)
                 .withListener(this)
                 .waypoints(curentLocation, destination)
                 .build();

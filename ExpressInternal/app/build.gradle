@@ -14,10 +14,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://api.express.api.easydeal.ph/v1/"'
+            buildConfigField "String", "SERVER_URL", '"http://api.express.api.easydeal.ph/v1"'
         }
         release {
-            buildConfigField "String", "SERVER_URL", '"http://api.express.api.easydeal.ph/v1/"'
+            buildConfigField "String", "SERVER_URL", '"http://api.express.api.easydeal.ph/v1"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
