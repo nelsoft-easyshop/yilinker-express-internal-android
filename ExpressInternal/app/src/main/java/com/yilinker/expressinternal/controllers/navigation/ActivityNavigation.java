@@ -200,7 +200,7 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
         tvDistance = (TextView) findViewById(R.id.tvDistance);
 
         //For Action Bar
-        setTitle("For Pickup");
+        setActionBarTitle(getString(R.string.actionbar_title_navigation));
         setActionBarBackgroundColor(R.color.marigold);
 
     }

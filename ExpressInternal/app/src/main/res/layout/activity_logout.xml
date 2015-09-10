@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout android:id="@+id/llContainer" android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:padding="20dp" android:orientation="vertical">
+
+        <EditText android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:background="@drawable/bg_login_edittext" android:layout_marginBottom="10dp" android:hint="@string/logout_username" android:padding="5dp" android:inputType="text"/>
+
+        <EditText android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:background="@drawable/bg_login_edittext"  android:layout_marginBottom="10dp" android:hint="@string/logout_password" android:padding="5dp" android:inputType="textPassword"  />
+
+        <Button android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:background="@drawable/bg_btn_orangeyellow_rounded" android:textColor="@color/white" android:text="@string/logout_confirm" />
+
+    </LinearLayout>
+
+    <TextView android:id="@+id/tvLabelVerification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="@string/logout_managers_verification" android:gravity="center" android:layout_above="@id/llContainer" android:textColor="@color/greyish_brown" />
+
+    <TextView android:id="@+id/tvLabelTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="@string/logout" android:gravity="center" android:layout_above="@id/tvLabelVerification" android:textSize="18sp" android:textColor="@color/greyish_brown" android:layout_marginBottom="40dp" />
+
+    <include layout="@layout/layout_progress" android:id="@+id/rlProgress" />
+
+</RelativeLayout>

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="10dp" android:paddingBottom="10dp">
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="10dp">
 
-<TableRow>
+<TableRow android:paddingLeft="20dp" android:paddingRight="20dp">
 
-    <TextView android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1.3" android:text="Recieved from recipient" android:maxLines="2" android:textColor="@color/greyish_brown"/>
-    <TextView android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:text="10000 PHP" android:gravity="center_horizontal|right" android:textColor="@color/greyish_brown" />
+    <TextView android:id="@+id/tvAction" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1.3" android:text="-" android:maxLines="2" android:textColor="@color/greyish_brown"/>
+    <TextView android:id="@+id/tvAmount" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:text="-" android:gravity="center_horizontal|right" android:textColor="@color/greyish_brown" />
 
 </TableRow>
 
-    <TextView android:layout_height="wrap_content" android:layout_width="match_parent"  android:text="JO12345677" android:textColor="@color/warm_gray"/>
+    <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="match_parent"  android:text="-" android:textColor="@color/warm_gray" android:paddingLeft="20dp" android:paddingRight="20dp"  android:paddingBottom="10dp"/>
 
+<View android:layout_height="1dp" android:layout_width="match_parent" android:background="@color/gray3"/>
 
 </TableLayout>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseViewHolder;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 
@@ -123,9 +124,9 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
                 case TYPE_PROBLEMATIC:
 
-                    resId = R.layout.layout_job_order_list_open;
+                    resId = R.layout.layout_job_order_list_current;
                     view = inflater.inflate(resId, parent, false);
-                    viewHolder = new ViewHolderOpen(view, listener);
+                    viewHolder = new ViewHolderCurrent(view, listener);
                     break;
 
             }
@@ -296,7 +297,12 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
             tvAddress.setText(address);
 
-            tvStatus.setBackgroundResource(getBackgoundByType(object.getType()));
+            if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
+                tvStatus.setBackgroundResource(R.drawable.tv_rounded_corner_orangered);
+            }
+            else {
+                tvStatus.setBackgroundResource(getBackgoundByType(object.getType()));
+            }
 
         }
 

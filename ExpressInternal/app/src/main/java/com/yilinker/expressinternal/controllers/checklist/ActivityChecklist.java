@@ -4,32 +4,65 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
+import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
+import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.controllers.signature.ActivitySignature;
+import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.ChecklistItem;
+import com.yilinker.expressinternal.model.JobOrder;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by J.Bautista
  */
-public class ActivityChecklist extends BaseActivity implements RecyclerViewClickListener<ChecklistItem>, ResponseHandler{
+public class ActivityChecklist extends BaseActivity implements RecyclerViewClickListener<ChecklistItem>, ResponseHandler, DialogDismissListener{
+
+    public static final String ARG_JOB_ORDER = "jobOrder";
+
+    private static final int REQUEST_DIALOG_UPDATE = 2000;
 
     private static final int REQUEST_SIGNATURE = 1000;
+    private static final int REQUEST_SUBMIT_SIGNATURE = 1001;
+    private static final int REQUEST_SUBMIT_RATING = 1002;
+    private static final int REQUEST_UPDATE = 1003;
+
+    private RelativeLayout rlProgress;
+    private TextView tvJobOrderNo;
+    private TextView tvItem;
 
     private Button btnConfirm;
 
     private RecyclerView rvChecklist;
     private AdapterChecklist adapter;
     private List<ChecklistItem> items;
+
+    private JobOrder jobOrder;
+
+    //For submission
+    private String signatureImage;
+    private int rating;
+
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +73,27 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checklist);
 
+        requestQueue = ApplicationClass.getInstance().getRequestQueue();
+
+        getData();
+
         initViews();
 
+        bindViews();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
     }
 
     @Override
     public void onItemClick(int position, ChecklistItem object) {
 
-        //temp
         int last = items.size() - 1;
-        if(position == last ){
+        if(position == last && jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
             if(!items.get(last).isChecked())
                 showSignature();
@@ -70,14 +114,26 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         if(requestCode == REQUEST_SIGNATURE && resultCode == RESULT_OK){
 
+            signatureImage = data.getStringExtra(ActivitySignature.ARG_IMAGE_FILE);
+            rating = data.getIntExtra(ActivitySignature.ARG_RATING, 0);
+
+            Toast.makeText(getApplicationContext(), signatureImage, Toast.LENGTH_LONG).show();
+
             int position = items.size() - 1;
             items.get(position).setIsChecked(true);
             adapter.notifyItemChanged(position);
+
+            //Check if all items are checked to enable Confirm button
+            setConfirmButton(isComplete());
         }
 
     }
 
     private void initViews(){
+
+        rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        tvJobOrderNo = (TextView) findViewById(R.id.tvJobOrderNo);
+        tvItem = (TextView) findViewById(R.id.tvItem);
 
         btnConfirm = (Button) findViewById(R.id.btnConfirm);
         rvChecklist = (RecyclerView) findViewById(R.id.rvChecklist);
@@ -85,36 +141,135 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         btnConfirm.setEnabled(false);
 
         //For Action Bar
-        setTitle("For Pickup");
+        setActionBarTitle(jobOrder.getStatus());
         setActionBarBackgroundColor(R.color.marigold);
 
         btnConfirm.setOnClickListener(this);
 
+        rlProgress.setVisibility(View.GONE);
+
         setAdapter();
+
+        //Set Button's Text
+        String buttonText = null;
+        if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+
+            buttonText = getString(R.string.checklist_delivery_complete);
+        }
+        else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+
+            buttonText = getString(R.string.checklist_pickup_complete);
+        }
+
+        btnConfirm.setText(buttonText);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        int id = v.getId();
+        switch (id){
+
+            case R.id.btnConfirm:
+
+                handleCompleteButton();
+                break;
+
+        }
+
+    }
+
+    private void bindViews(){
+
+        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
+
+        //For Items
+        List<String> items  = jobOrder.getItems();
+        StringBuilder builder = new StringBuilder();
+        for (String item : items){
+            builder.append(item);
+            builder.append(", ");
+        }
+
+        int start = builder.length() - 2;
+        int end = builder.length() - 1;
+        builder.delete(start, end);
+
+        tvItem.setText(builder.toString());
     }
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+
+        switch (requestCode){
+
+            case REQUEST_SUBMIT_SIGNATURE:
+
+                requestSubmitRating();
+                break;
+
+            case REQUEST_SUBMIT_RATING:
+
+                requestUpdate(JobOrderConstant.JO_COMPLETE);
+                break;
+
+            case REQUEST_UPDATE:
+
+                String status = jobOrder.getStatus();
+                if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+
+                    Toast.makeText(getApplicationContext(), "Job order status is updates!", Toast.LENGTH_LONG).show();
+                    goToHome();
+                }
+                else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+
+                    Toast.makeText(getApplicationContext(), "Job order is completed!", Toast.LENGTH_LONG).show();
+                    goToCompleteScreen();
+                    finish();
+                }
+
+                break;
+
+        }
 
     }
 
     @Override
     public void onFailed(int requestCode, String message) {
 
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        rlProgress.setVisibility(View.GONE);
     }
 
     private void setAdapter(){
 
-        //Temp
         items = new ArrayList<>();
+
+        String status = jobOrder.getStatus();
+
+        String[] arrayItems = null;
+
+        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+            arrayItems = getResources().getStringArray(R.array.checklist_delivery);
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+            arrayItems = getResources().getStringArray(R.array.checklist_claiming);
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+            arrayItems = getResources().getStringArray(R.array.checklist_pickup);
+        }
+
         ChecklistItem item = null;
-        for(int i = 0; i < 4; i++){
+        int size = arrayItems.length;
+        for(int i = 0; i < size; i++){
 
             item = new ChecklistItem();
-            item.setTitle("Checklist " + i);
+            item.setTitle(arrayItems[i]);
 
             items.add(item);
         }
+
 
         adapter = new AdapterChecklist(items, this);
 
@@ -142,14 +297,21 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void setConfirmButton(boolean isEnabled){
 
-        int color = R.color.white_gray;
+        int textColor = 0;
 
         if(isEnabled){
 
-            color = R.color.orange_yellow;
+            btnConfirm.setBackgroundResource(R.drawable.bg_btn_orangeyellow);
+            textColor = getResources().getColor(R.color.white);
+        }
+        else{
+
+            btnConfirm.setBackgroundResource(R.color.white_gray);
+            textColor = getResources().getColor(R.color.warm_gray);
         }
 
-        btnConfirm.setBackgroundResource(color);
+
+        btnConfirm.setTextColor(textColor);
         btnConfirm.setEnabled(isEnabled);
     }
 
@@ -161,4 +323,130 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
+    private void getData(){
+
+        jobOrder = getIntent().getParcelableExtra(ARG_JOB_ORDER);
+
+    }
+
+    private void handleCompleteButton(){
+
+        String type = jobOrder.getType();
+        String status = jobOrder.getStatus();
+
+        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+
+
+
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+
+
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+
+            showNewStatusDialog();
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+
+            requestSubmitSignature();
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+
+
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+
+
+        }
+
+    }
+
+    private void requestSubmitSignature(){
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        String image = convertSignatureToString();
+
+        Request request = JobOrderAPI.uploadSignature(REQUEST_SUBMIT_SIGNATURE, jobOrder.getJobOrderNo(), image, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void requestSubmitRating(){
+
+        Request request = JobOrderAPI.addRating(REQUEST_SUBMIT_RATING, jobOrder.getJobOrderNo(), rating, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+
+    }
+
+    private void requestUpdate(String newStatus){
+
+        Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE, jobOrder.getJobOrderNo(), newStatus, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private String convertSignatureToString(){
+
+        String result = null;
+        File file = new File(signatureImage);
+
+        FileInputStream imageInFile = null;
+        try {
+
+            imageInFile = new FileInputStream(file);
+            byte imageData[] = new byte[(int) file.length()];
+            imageInFile.read(imageData);
+
+            result = Base64.encodeToString(imageData, Base64.DEFAULT);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return result;
+
+    }
+
+    private void goToCompleteScreen(){
+
+        Intent intent = new Intent(ActivityChecklist.this, ActivityComplete.class);
+        intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
+        intent.putExtra(ActivityComplete.ARG_FROM_HOME, false);
+        startActivity(intent);
+    }
+
+    private void showNewStatusDialog(){
+
+        FragmentDialogUpdateStatus dialog = FragmentDialogUpdateStatus.createInstance(REQUEST_DIALOG_UPDATE);
+        dialog.show(getFragmentManager(), null);
+
+    }
+
+    @Override
+    public void onDialogDismiss(int requestCode, Bundle bundle) {
+
+        if(bundle != null) {
+
+            String newStatus = bundle.getString(FragmentDialogUpdateStatus.ARG_NEW_STATUS);
+            requestUpdate(newStatus);
+        }
+    }
+
+    private void goToHome(){
+
+        Intent intent = new Intent(ActivityChecklist.this, ActivityJobOrderList.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+    }
 }

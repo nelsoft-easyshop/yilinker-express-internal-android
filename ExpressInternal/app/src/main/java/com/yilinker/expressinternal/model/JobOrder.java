@@ -45,6 +45,12 @@ public class JobOrder implements Parcelable{
     private int rating;
     private List<String> images;
     private List<String> items;
+    private String waybillNo;
+
+    //For Problematic
+    private String csrName;
+    private String problemType;
+    private String remarks;
 
     static {
 
@@ -83,8 +89,11 @@ public class JobOrder implements Parcelable{
         //temp
         estimatedTimeOfArrival = Calendar.getInstance().getTime();
 //        type = JOB_ORDER_TYPE.get(jobOrder.getJobOrderType());
+        waybillNo = jobOrderNo;
+        csrName = "Juan Dela Cruz";
+        problemType = "Recipient not found";
+        remarks = "Invalid address";
 
-        //TODO Set type and status based on the String values of the corresponding JobOrder core model fields
     }
 
     protected JobOrder(Parcel in) {
@@ -113,7 +122,11 @@ public class JobOrder implements Parcelable{
 
         items = new ArrayList<>();
         in.readStringList(items);
+        in.readString();
 
+        csrName = in.readString();
+        problemType = in.readString();
+        remarks = in.readString();
     }
 
     public String getJobOrderNo() {
@@ -276,6 +289,38 @@ public class JobOrder implements Parcelable{
         this.items = items;
     }
 
+    public String getWaybillNo() {
+        return waybillNo;
+    }
+
+    public void setWaybillNo(String waybillNo) {
+        this.waybillNo = waybillNo;
+    }
+
+    public String getCsrName() {
+        return csrName;
+    }
+
+    public void setCsrName(String csrName) {
+        this.csrName = csrName;
+    }
+
+    public String getProblemType() {
+        return problemType;
+    }
+
+    public void setProblemType(String problemType) {
+        this.problemType = problemType;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
         @Override
         public JobOrder createFromParcel(Parcel in) {
@@ -316,5 +361,9 @@ public class JobOrder implements Parcelable{
         dest.writeInt(rating);
         dest.writeStringList(images);
         dest.writeStringList(items);
+        dest.writeString(waybillNo);
+        dest.writeString(csrName);
+        dest.writeString(problemType);
+        dest.writeString(remarks);
     }
 }

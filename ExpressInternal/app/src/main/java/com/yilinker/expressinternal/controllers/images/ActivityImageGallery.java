@@ -1,5 +1,6 @@
 package com.yilinker.expressinternal.controllers.images;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class ActivityImageGallery extends BaseActivity {
 
     public static final String ARG_IMAGES = "images";
+    public static final String ARG_TYPE = "type";
 
     private final static int PAGES = 5;
     private final static int LOOPS = 10;
@@ -23,6 +25,7 @@ public class ActivityImageGallery extends BaseActivity {
     private ViewPager pager;
 
     private List<String> images;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class ActivityImageGallery extends BaseActivity {
 
         pager = (ViewPager) findViewById(R.id.vpImage);
 
-        adapter = new ImagePagerAdapter(getApplicationContext(), images);
+        adapter = new ImagePagerAdapter(getApplicationContext(), images, type);
         pager.setAdapter(adapter);
         pager.setOnPageChangeListener(adapter);
 
@@ -74,6 +77,9 @@ public class ActivityImageGallery extends BaseActivity {
 
     private void getData(){
 
-        images = getIntent().getStringArrayListExtra(ARG_IMAGES);
+        Intent intent = getIntent();
+
+        images = intent.getStringArrayListExtra(ARG_IMAGES);
+        type = intent.getStringExtra(ARG_TYPE);
     }
 }

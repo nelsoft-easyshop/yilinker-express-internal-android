@@ -2,11 +2,13 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <TextView android:id="@+id/tvDropoffStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:visibility="gone" />
+
     <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp">
 
         <TableRow>
 
-            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5"  android:text="@string/job_order_number"/>
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="3"  android:text="@string/job_order_number"/>
 
             <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"/>
 
@@ -14,21 +16,24 @@
 
         <TableRow>
 
-            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="4" android:text="-" />
+            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="3" android:text="-" />
             <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-" />
 
         </TableRow>
 
     </TableLayout>
 
+    <LinearLayout android:id="@+id/llPickup" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/pickup_address"/>
+        <TextView android:id="@+id/tvPickupAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
+    </LinearLayout>
 
-    <TextView
-        style="@style/JobOrderDetailLabelStyle" android:text="@string/pickup_address"/>
-    <TextView android:id="@+id/tvPickupAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
-
-    <TextView
-        style="@style/JobOrderDetailLabelStyle" android:text="@string/dropoff_address"/>
-    <TextView android:id="@+id/tvDropoffAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
+    <LinearLayout android:id="@+id/llDropoff" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/dropoff_address"/>
+        <TextView android:id="@+id/tvDropoffAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
+    </LinearLayout>
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/recipient"/>

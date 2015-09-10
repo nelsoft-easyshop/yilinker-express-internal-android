@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<ImageButton
+    android:layout_width="50dp"
+    android:layout_height="50dp" android:src="@drawable/ic_close" android:layout_alignParentRight="true" android:layout_above="@+id/llContainer" android:background="@android:color/transparent" />
+
+    <LinearLayout android:id="@+id/llContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:padding="20dp" android:orientation="vertical" android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="@string/cashlimit_oops" android:gravity="center" android:textSize="30sp" android:layout_marginBottom="30dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="@string/cashlimit_message" android:gravity="center" android:textSize="18sp" android:layout_marginBottom="20dp" />
+
+        <TextView android:id="@+id/tvCashOnHand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="P9000.00" android:gravity="center" android:textSize="16sp" android:textColor="@color/orange_yellow" />
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="1dp" android:background="@color/marigold" android:layout_gravity="center"/>
+
+        <TextView android:id="@+id/tvCashLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="P9000.00" android:gravity="center" android:textSize="16sp" android:textColor="@color/orange_yellow" android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="@string/cashlimit_verification" android:gravity="center" android:textSize="16sp" android:textColor="@color/greyish_brown" android:layout_marginBottom="20dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edittext_height" android:background="@drawable/bg_roundedcorner_gray" android:layout_marginBottom="15dp" android:hint="@string/cashlimit_username" android:padding="5dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edittext_height" android:background="@drawable/bg_roundedcorner_gray" android:layout_marginBottom="15dp" android:hint="@string/cashlimit_password" android:padding="5dp" />
+
+        <Button android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_button_height" android:background="@drawable/bg_btn_orangered_rounded" android:textColor="@color/white" android:text="@string/cashlimit_submit" />
+
+    </LinearLayout>
+
+</RelativeLayout>

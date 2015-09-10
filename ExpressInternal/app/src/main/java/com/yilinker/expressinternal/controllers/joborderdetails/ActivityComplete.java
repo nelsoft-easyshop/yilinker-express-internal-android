@@ -81,7 +81,7 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
         btnOk = (Button) findViewById(R.id.btnOk);
 
         //For Action Bar
-        setActionBarTitle("Complete");
+        setActionBarTitle(jobOrder.getStatus());
         setActionBarBackgroundColor(R.color.marigold);
 
         if(isFromHome){

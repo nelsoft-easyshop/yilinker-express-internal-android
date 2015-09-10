@@ -3,21 +3,23 @@
   android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <TableLayout android:id="@+id/llHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:layout_alignParentTop="true" android:padding="20dp">
 
+
         <TableRow>
 
             <TextView android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1.3" android:text="@string/cashmanagement_onhand" />
-            <TextView android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:text="20000 PHP" android:gravity="center_vertical|right" android:textColor="@color/orange_yellow"/>
+            <TextView android:id="@+id/tvCashOnHand" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:text="-" android:gravity="center_vertical|right" android:textColor="@color/orange_yellow"/>
 
         </TableRow>
 
         <TableRow android:layout_marginTop="20dp">
 
             <TextView android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1.3" android:text="@string/cashmanagement_limit" />
-            <TextView android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:text="100000 PHP" android:gravity="center_vertical|right" android:textColor="@color/orange_yellow"/>
+            <TextView android:id="@+id/tvCashLimit" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:text="-" android:gravity="center_vertical|right" android:textColor="@color/orange_yellow"/>
 
         </TableRow>
 
@@ -25,7 +27,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:layout_below="@+id/llHeader" android:background="@color/white_gray" android:padding="20dp" android:orientation="vertical">
+        android:layout_height="match_parent" android:layout_below="@+id/llHeader" android:background="@color/white_gray" android:paddingTop="20dp" android:orientation="vertical">
         
         <TextView
             android:layout_width="match_parent"
@@ -36,5 +38,9 @@
             android:layout_height="match_parent" ></android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
+
+    <View android:layout_height="1dp" android:layout_width="match_parent" android:background="@color/gray3" android:layout_alignParentTop="true"/>
+
+    <include android:layout_height="match_parent" android:layout_width="match_parent" layout="@layout/layout_progress" android:id="@+id/rlProgress"/>
 
 </RelativeLayout>

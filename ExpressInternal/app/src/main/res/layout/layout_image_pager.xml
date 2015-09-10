@@ -10,6 +10,7 @@
         android:layout_width="300dp"
         android:layout_height="match_parent" android:src="@drawable/ic_camera"  android:background="@drawable/bg_imagegallery_item" android:layout_marginTop="30dp" android:layout_marginBottom="30dp" />
 
+
 </com.yilinker.expressinternal.customviews.CarouselImageContainer>
 
 </LinearLayout>

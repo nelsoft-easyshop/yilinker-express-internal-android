@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="checklist_delivery">
+        <item>Payment</item>
+        <item>Item checked by recipient</item>
+        <item>Valid ID</item>
+        <item>Recipient Picture</item>
+        <item>Recipient Signature</item>
+    </string-array>
+
+    <string-array name="checklist_pickup">
+        <item>Item is matched with JO</item>
+        <item>Item is in Good Condition</item>
+        <item>Item Package Complete</item>
+    </string-array>
+
+    <string-array name="checklist_claiming">
+        <item>Item is matched with JO</item>
+        <item>Item is in Good Condition</item>
+        <item>Item Package Complete</item>
+    </string-array>
+
+</resources>

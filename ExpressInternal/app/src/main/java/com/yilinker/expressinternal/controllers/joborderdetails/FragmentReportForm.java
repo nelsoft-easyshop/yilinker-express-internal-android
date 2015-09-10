@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,15 +16,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.base.BaseFragment;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
+import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
+import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by J.Bautista
@@ -33,17 +44,29 @@ import java.io.IOException;
 public class FragmentReportForm extends BaseFragment implements View.OnClickListener, ResponseHandler{
 
     public static final String ARG_TYPE = "type";
+    public static final String ARG_JONUMBER = "jobOrderNo";
 
     private static final int REQUEST_LAUNCH_CAMERA = 1000;
     private static final int REQUEST_SHOW_GALLERY  = 1001;
+    private static final int REQUEST_SUBMIT_REPORT = 2000;
 
+    private RelativeLayout rlProgress;
     private TextView tvTitle;
     private ImageButton btnCamera;
     private Button btnSubmit;
     private EditText etRemarks;
+    private TextView tvViewImages;
+
+    private ArrayList<String> images;
 
     private int type;
+    private String jobOrderNo;
+
+    private String problemType;
     private Uri photoUri;
+
+    private RequestQueue requestQueue;
+
 
     public static FragmentReportForm createInstance(Bundle bundle){
 
@@ -59,6 +82,9 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        requestQueue = ApplicationClass.getInstance().getRequestQueue();
+        images = new ArrayList<>();
+
         getData();
     }
 
@@ -72,41 +98,55 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
+    }
+
+    @Override
     protected void initViews(View view, Bundle savedInstanceState) {
 
+        rlProgress = (RelativeLayout) view.findViewById(R.id.rlProgress);
         btnCamera = (ImageButton) view.findViewById(R.id.btnCamera);
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         etRemarks = (EditText) view.findViewById(R.id.etRemarks);
+        tvViewImages = (TextView) view.findViewById(R.id.tvViewImages);
+        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
 
-        String title = null;
 
         switch (type){
 
             case JobOrderConstant.PROBLEMATIC_DAMAGED:
 
-                title = getString(R.string.damaged_upon_delivery);
+                problemType = getString(R.string.problematic_damaged_upon_delivery);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_RECIPIENT_NOT_FOUND:
 
-                title = getString(R.string.recipient_not_found);
+                problemType = getString(R.string.problematic_recipient_not_found);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_REJECTED:
 
-                title = getString(R.string.delivery_rejected);
+                problemType = getString(R.string.problematic_delivery_rejected);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_UNABLE_TO_PAY:
 
-                title = getString(R.string.unable_to_pay);
+                problemType = getString(R.string.problematic_unable_to_pay);
                 break;
 
         }
 
-        tvTitle.setText(title);
+        tvTitle.setText(problemType);
 
         btnCamera.setOnClickListener(this);
+        tvViewImages.setOnClickListener(this);
+        btnSubmit.setOnClickListener(this);
+
+        tvViewImages.setVisibility(View.GONE);
+        rlProgress.setVisibility(View.GONE);
 
     }
 
@@ -126,6 +166,11 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
                 submitReport();
                 break;
 
+            case R.id.tvViewImages:
+
+                viewImages();
+                break;
+
         }
 
     }
@@ -140,8 +185,21 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
                 case REQUEST_SHOW_GALLERY:
 
                     photoUri = data.getData();
+                    images.add(photoUri.toString());
 
                     break;
+
+                case REQUEST_LAUNCH_CAMERA:
+
+                    images.add(photoUri.toString());
+
+                    break;
+
+            }
+
+            if(tvViewImages.getVisibility() == View.GONE){
+
+                tvViewImages.setVisibility(View.VISIBLE);
             }
 
         }
@@ -157,17 +215,24 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     @Override
     public void onSuccess(int requestCode, Object object) {
 
+        Toast.makeText(getActivity(), (String)object, Toast.LENGTH_LONG).show();
+        rlProgress.setVisibility(View.GONE);
+
+        goToHome();
     }
 
     @Override
     public void onFailed(int requestCode, String message) {
 
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        rlProgress.setVisibility(View.GONE);
     }
 
     private void getData(){
 
         Bundle bundle = getArguments();
         type = bundle.getInt(ARG_TYPE);
+        jobOrderNo = bundle.getString(ARG_JONUMBER);
 
     }
 
@@ -177,8 +242,6 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
             File outputDir = getActivity().getExternalCacheDir();
             File outputFile = File.createTempFile("image", ".jpg", outputDir);
-
-//            photoPath = outputFile.getPath();
 
             photoUri = Uri.fromFile(outputFile);
 
@@ -194,10 +257,24 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
     private void showImageGallery(){
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_SHOW_GALLERY);
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_SHOW_GALLERY);
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("image/*");
+        startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"),
+                REQUEST_SHOW_GALLERY);
+    }
+
+    private void viewImages(){
+
+        Intent intent = new Intent(getActivity(), ActivityImageGallery.class);
+        intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, images);
+        intent.putExtra(ActivityImageGallery.ARG_TYPE, ImagePagerAdapter.TYPE_URI);
+        startActivity(intent);
+
     }
 
     private void uploadPhoto(){
@@ -227,10 +304,55 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
     private void submitReport(){
 
-        File file = new File(photoUri.toString());
+        rlProgress.setVisibility(View.VISIBLE);
+
+//        File file = new File(photoUri.toString());
         String remarks = etRemarks.getText().toString();
 
-        //TODO Submit report
+        List<String> files = new ArrayList<>();
+        for(String item : images){
+
+            files.add(getRealPathFromURI(photoUri));
+        }
+
+        ProblematicJobOrder report = new ProblematicJobOrder();
+        report.setProblemType(problemType);
+        report.setNotes(remarks);
+        report.setImages(files);
+        report.setJobOrderNo(jobOrderNo);
+
+        Request request = JobOrderAPI.reportProblematic(REQUEST_SUBMIT_REPORT, report, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+
+        try {
+            Cursor cursor = getActivity().getContentResolver().query(contentURI, projection, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            result = cursor.getString(columnIndex);
+            cursor.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private void goToHome(){
+
+        Intent intent = new Intent(getActivity(), ActivityJobOrderList.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
     }
 
 }

@@ -1,11 +1,18 @@
 package com.yilinker.expressinternal.controllers.images;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -14,14 +21,22 @@ import com.yilinker.core.imageloader.VolleyImageLoader;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.customviews.CarouselImageContainer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by J.Bautista
  */
 public class ImagePagerAdapter extends PagerAdapter implements
         ViewPager.OnPageChangeListener{
+
+    public static final String TYPE_URL = "url";
+    public static final String TYPE_URI = "uri";
 
     private final static float BIG_SCALE = 1.0f;
     private final static float SMALL_SCALE = 0.7f;
@@ -41,18 +56,31 @@ public class ImagePagerAdapter extends PagerAdapter implements
 
     private ImageLoader imageLoader;
     private int firstPage;
+    private String type = TYPE_URL;   //Default
 
-    public ImagePagerAdapter(Context context, List<String> objects){
+    private int resId;
+
+    public ImagePagerAdapter(Context context, List<String> objects, String type){
 
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.objects = objects;
+        this.type = type;
 
         this.imageLoader = VolleyImageLoader.getInstance(context).getImageLoader();
 
         firstPage = objects.size() / 2;
 
         list = new HashMap<>();
+
+        if(type.equalsIgnoreCase(TYPE_URL)){
+
+            resId = R.layout.layout_image_pager;
+        }
+        else{
+
+            resId = R.layout.layout_image_pager_local;
+        }
     }
 
 
@@ -70,17 +98,29 @@ public class ImagePagerAdapter extends PagerAdapter implements
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-        View view = inflater.inflate(R.layout.layout_image_pager, container, false);
-
+        View view = inflater.inflate(resId, container, false);
         CarouselImageContainer root = (CarouselImageContainer) view.findViewById(R.id.llImage);
-        NetworkImageView ivProduct = (NetworkImageView) view.findViewById(R.id.ivProduct);
+
+        ImageView ivProduct = (ImageView) view.findViewById(R.id.ivProduct);
 
         if (position == firstPage)
             scale = BIG_SCALE;
         else
             scale = SMALL_SCALE;
 
-        ivProduct.setImageUrl(objects.get(position), imageLoader);
+
+        if(type.equalsIgnoreCase(TYPE_URL)) {
+
+            ((NetworkImageView)ivProduct).setImageUrl(objects.get(position), imageLoader);
+        }
+        else{
+
+            String path = objects.get(position);
+
+            ivProduct.setImageBitmap(decodeFromUri(path));
+
+        }
+
 
         list.put(position, root);
 
@@ -124,4 +164,30 @@ public class ImagePagerAdapter extends PagerAdapter implements
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    private Bitmap decodeFromUri(String path){
+
+        Uri uri = Uri.parse(path);
+
+        Bitmap actuallyUsableBitmap = null;
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+
+        AssetFileDescriptor fileDescriptor =null;
+        try {
+            fileDescriptor = context.getContentResolver().openAssetFileDescriptor( uri, "r");
+
+            actuallyUsableBitmap
+                    = BitmapFactory.decodeFileDescriptor(
+                    fileDescriptor.getFileDescriptor(), null, options);
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return  actuallyUsableBitmap;
+    }
+
 }

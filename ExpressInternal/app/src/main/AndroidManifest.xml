@@ -113,6 +113,16 @@
             android:theme="@style/ActivityTheme" >
         </activity>
 
+        <activity
+            android:name=".controllers.qrcode.ActivityQRCode"
+            android:theme="@style/ActivityTheme" >
+        </activity>
+
+        <activity
+            android:name=".controllers.login.ActivityLogout"
+            android:theme="@style/ActivityTheme" >
+        </activity>
+
         <service
             android:name=".gcm.RiderGcmListenerService"
             android:exported="false" >
