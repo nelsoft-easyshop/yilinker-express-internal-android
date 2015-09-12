@@ -40,6 +40,6 @@
 
     <Button android:id="@+id/btnOk" android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_button_height" android:background="@color/orange_yellow" android:textColor="@color/white" android:text="@string/ok" />
+        android:layout_height="@dimen/bottom_button_height" android:background="@drawable/bg_btn_orangeyellow" android:textColor="@color/white" android:text="@string/ok" />
 
 </RelativeLayout>

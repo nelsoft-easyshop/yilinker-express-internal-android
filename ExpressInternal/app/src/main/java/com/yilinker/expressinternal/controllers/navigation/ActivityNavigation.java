@@ -63,6 +63,13 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
     }
 
     @Override
+    protected void handleRefreshToken() {
+
+
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 

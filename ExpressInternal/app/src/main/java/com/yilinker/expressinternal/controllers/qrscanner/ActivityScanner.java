@@ -57,7 +57,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
     private RequestQueue requestQueue;
 
-    private boolean hasActiveRequest;
+    private String currentID = "";
 
     //For Beep Sound
     private MediaPlayer mp;
@@ -97,11 +97,6 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
     public void onQRCodeRead(String s, PointF[] pointFs) {
 
         playSound();
-//
-//        if(hasActiveRequest){
-//
-//            return;
-//        }
 
         //TODO Verify Code
         boolean isValid = verifyCode();
@@ -112,7 +107,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
             return;
         }
 
-        String waybillNo = s.replace("1234567899999", "");
+        String waybillNo = s;
 
 //        qrReader.getCameraManager().stopPreview();
 
@@ -121,14 +116,17 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
             case TYPE_SINGLE:
 
 
+                currentID = waybillNo;
                 requestDetails(waybillNo);
 
                 break;
 
             case TYPE_BULK:
 
-                //TODO Check first if the status is open If not, show error message
-                requestAcceptJob(waybillNo);
+                if(!currentID.equalsIgnoreCase(waybillNo)) {
+
+                    requestAcceptJob(waybillNo);
+                }
 
                 break;
 
@@ -148,6 +146,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
 
         switch (requestCode){
 
@@ -155,7 +154,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
                 JobOrder jobOrder = new JobOrder((com.yilinker.core.model.express.internal.JobOrder) object);
                 goToDetails(jobOrder);
-                hasActiveRequest = false;
+
                 break;
 
             case REQUEST_ACCEPT_JOB:
@@ -170,12 +169,34 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
     }
 
     @Override
+    protected void handleRefreshToken() {
+
+        int currentRequest = getCurrentRequest();
+
+        switch (currentRequest){
+
+            case REQUEST_GET_JODETAILS:
+
+                requestDetails(currentID);
+                break;
+
+            case REQUEST_ACCEPT_JOB:
+
+                requestAcceptJob(currentID);
+                break;
+
+        }
+    }
+
+    @Override
     public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
 
         switch (requestCode){
 
             case REQUEST_GET_JODETAILS:
 
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 break;
 
             case REQUEST_ACCEPT_JOB:
@@ -274,6 +295,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
     private void requestAcceptJob(String waybillNo){
 
+        currentID = waybillNo;
 
         Request request = RiderAPI.acceptJobOrder(REQUEST_ACCEPT_JOB, waybillNo, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
@@ -284,7 +306,6 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
     private void requestDetails(String waybillNo){
 
-        hasActiveRequest = true;
 
         Request request = JobOrderAPI.getJobOrderDetailsByJONumber(REQUEST_GET_JODETAILS, waybillNo, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
@@ -297,7 +318,6 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
     private boolean verifyCode(){
 
         //TODO Check if the QR code is valid
-
         return true;
     }
 

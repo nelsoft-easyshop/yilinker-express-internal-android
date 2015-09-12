@@ -127,6 +127,11 @@ public class ActivityProblematic extends BaseActivity {
         }
     }
 
+    @Override
+    protected void handleRefreshToken() {
+
+    }
+
     private void getData(){
 
         Intent intent = getIntent();

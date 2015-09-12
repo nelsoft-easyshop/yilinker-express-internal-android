@@ -122,7 +122,7 @@ public class JobOrder implements Parcelable{
 
         items = new ArrayList<>();
         in.readStringList(items);
-        in.readString();
+        waybillNo = in.readString();
 
         csrName = in.readString();
         problemType = in.readString();

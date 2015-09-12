@@ -39,7 +39,7 @@ public class FragmentDialogUpdateStatus extends DialogFragment implements View.O
         FragmentDialogUpdateStatus fragment = new FragmentDialogUpdateStatus();
 
         Bundle args = new Bundle();
-        args.putInt(ARG_REQUEST_CODE , requestCode);
+        args.putInt(ARG_REQUEST_CODE, requestCode);
 
         fragment.setArguments(args);
 
@@ -89,10 +89,13 @@ public class FragmentDialogUpdateStatus extends DialogFragment implements View.O
     @Override
     public void onDismiss(DialogInterface dialog) {
 
-        Bundle args = new Bundle();
-        args.putString(ARG_NEW_STATUS, newStatus);
+        if(newStatus != null) {
 
-        listener.onDialogDismiss(requestCode, args);
+            Bundle args = new Bundle();
+            args.putString(ARG_NEW_STATUS, newStatus);
+
+            listener.onDialogDismiss(requestCode, args);
+        }
 
         super.onDismiss(dialog);
 
@@ -129,6 +132,6 @@ public class FragmentDialogUpdateStatus extends DialogFragment implements View.O
         }
 
         dismiss();
-
     }
+    
 }

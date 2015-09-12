@@ -81,8 +81,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private TextView tvRemarks;
 
     private JobOrder jobOrder;
-    private int type;
-    private String waybillNo;           //If from scanner
+    private String newStatus;
 
     private RequestQueue requestQueue;
 
@@ -162,12 +161,12 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
 
         switch (requestCode){
 
             case REQUEST_UPDATE:
 
-                //TODO temp
                 Toast.makeText(getApplicationContext(), "Job order accepted", Toast.LENGTH_LONG).show();
                 goToMainScreen();
 
@@ -178,6 +177,8 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
                 Toast.makeText(getApplicationContext(), "Successfully reported the problem!", Toast.LENGTH_LONG).show();
                 finish();
                 break;
+
+
         }
 
         rlProgress.setVisibility(View.GONE);
@@ -186,6 +187,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     @Override
     public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);
@@ -557,6 +559,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         rlProgress.setVisibility(View.VISIBLE);
 
+        this.newStatus = newStatus;
         int requestCode = REQUEST_UPDATE;
 
         Request request = JobOrderAPI.updateStatus(requestCode, jobOrder.getJobOrderNo(), newStatus, this);
@@ -621,6 +624,26 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
+
+    }
+
+    @Override
+    protected void handleRefreshToken() {
+
+        int currentRequest = getCurrentRequest();
+        switch (currentRequest){
+
+            case REQUEST_UPDATE:
+
+                requestUpdateStatus(newStatus);
+                break;
+
+            case REQUEST_OUT_OF_STOCK:
+
+                reportOutOfStock();
+                break;
+
+        }
 
     }
 }

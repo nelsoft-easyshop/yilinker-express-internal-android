@@ -67,6 +67,11 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    protected void handleRefreshToken() {
+
+    }
+
+    @Override
     public void onBackPressed() {
         goBackToHome();
     }

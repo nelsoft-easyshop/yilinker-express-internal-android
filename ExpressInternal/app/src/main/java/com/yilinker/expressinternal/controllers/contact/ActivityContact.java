@@ -88,6 +88,11 @@ public class ActivityContact extends BaseActivity {
 
     }
 
+    @Override
+    protected void handleRefreshToken() {
+
+    }
+
     private void getData(){
 
         Intent intent = getIntent();
@@ -121,4 +126,5 @@ public class ActivityContact extends BaseActivity {
         }
 
     }
+
 }

@@ -37,6 +37,7 @@ public class ImagePagerAdapter extends PagerAdapter implements
 
     public static final String TYPE_URL = "url";
     public static final String TYPE_URI = "uri";
+    public static final String TYPE_FILE = "file";
 
     private final static float BIG_SCALE = 1.0f;
     private final static float SMALL_SCALE = 0.7f;
@@ -113,6 +114,15 @@ public class ImagePagerAdapter extends PagerAdapter implements
 
             ((NetworkImageView)ivProduct).setImageUrl(objects.get(position), imageLoader);
         }
+        else if (type.equalsIgnoreCase(TYPE_FILE)){
+
+            String path = objects.get(position);
+
+            Uri uri = Uri.fromFile(new File(path));
+
+            ivProduct.setImageBitmap(decodeFromUri(uri.toString()));
+
+        }
         else{
 
             String path = objects.get(position);
@@ -176,6 +186,7 @@ public class ImagePagerAdapter extends PagerAdapter implements
 
         AssetFileDescriptor fileDescriptor =null;
         try {
+
             fileDescriptor = context.getContentResolver().openAssetFileDescriptor( uri, "r");
 
             actuallyUsableBitmap

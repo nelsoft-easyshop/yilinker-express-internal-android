@@ -40,6 +40,11 @@ public class ActivityQRCode extends BaseActivity {
         generateQRCode();
     }
 
+    @Override
+    protected void handleRefreshToken() {
+
+    }
+
     private void getData(){
 
         jobOrder = getIntent().getParcelableExtra(ARG_JOB_ORDER);

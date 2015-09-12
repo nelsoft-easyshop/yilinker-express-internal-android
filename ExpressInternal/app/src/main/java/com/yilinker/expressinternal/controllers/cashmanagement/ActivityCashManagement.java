@@ -73,6 +73,7 @@ public class ActivityCashManagement extends BaseActivity implements ResponseHand
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
 
         switch (requestCode){
 
@@ -89,7 +90,23 @@ public class ActivityCashManagement extends BaseActivity implements ResponseHand
     }
 
     @Override
+    protected void handleRefreshToken() {
+
+        int currentRequest = getCurrentRequest();
+        switch (currentRequest){
+
+            case REQUEST_GET_CASH_DETAILS:
+
+                requestGetCashDetails();
+                break;
+
+        }
+
+    }
+
+    @Override
     public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);

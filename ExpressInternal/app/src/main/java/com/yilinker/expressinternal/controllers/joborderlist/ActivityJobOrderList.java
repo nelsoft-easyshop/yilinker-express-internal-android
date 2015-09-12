@@ -316,6 +316,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
 
         if(object != null) {
 
@@ -365,6 +366,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                     type = AdapterJobOrderList.TYPE_PROBLEMATIC;
                     break;
 
+
             }
 
             jobOrderList.clear();
@@ -393,7 +395,25 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
     @Override
+    protected void handleRefreshToken() {
+
+        int currentRequest = getCurrentRequest();
+
+        switch(currentRequest){
+
+            case REQUEST_GET_WAREHOUSES:
+
+                requestWarehouseLocation();
+                break;
+
+            default:
+                requestGetJobOrders();
+        }
+    }
+
+    @Override
     public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);

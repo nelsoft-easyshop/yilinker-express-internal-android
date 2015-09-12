@@ -141,7 +141,7 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         holder.setViews(objects.get(position));
 
         //For Current Job Orders, add the TextView in counter list to update timer
-        if(type == TYPE_CURRENT){
+        if(type == TYPE_CURRENT || type == TYPE_PROBLEMATIC){
 
             counterList.put(position, ((ViewHolderCurrent)holder).tvTimer);
         }

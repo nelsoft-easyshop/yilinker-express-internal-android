@@ -60,6 +60,7 @@ public class ActivityLogout extends BaseActivity implements ResponseHandler{
 
         //Set Actionbar
         setActionBarTitle("");
+        hideMenuButton();
 
         rlProgress.setVisibility(View.GONE);
     }
@@ -113,6 +114,7 @@ public class ActivityLogout extends BaseActivity implements ResponseHandler{
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
 
         switch (requestCode){
 
@@ -128,7 +130,15 @@ public class ActivityLogout extends BaseActivity implements ResponseHandler{
     }
 
     @Override
+    protected void handleRefreshToken() {
+
+        requestLogout();
+
+    }
+
+    @Override
     public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);

@@ -26,6 +26,7 @@ import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.base.BaseFragment;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.express.internal.ProblematicJobOrder;
+import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
@@ -238,20 +239,17 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
     private void launchCamera(){
 
-        try {
+//            File outputDir = getActivity().getExternalCacheDir();
+//            File outputFile = File.createTempFile("image", ".jpg", outputDir);
 
-            File outputDir = getActivity().getExternalCacheDir();
-            File outputFile = File.createTempFile("image", ".jpg", outputDir);
+            String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
+            File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
 
             photoUri = Uri.fromFile(outputFile);
 
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             startActivityForResult(intent, REQUEST_LAUNCH_CAMERA);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -328,21 +326,31 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     }
 
     private String getRealPathFromURI(Uri contentURI) {
-        String result = null;
-        String[] projection = {MediaStore.Images.Media.DATA};
 
-        try {
-            Cursor cursor = getActivity().getContentResolver().query(contentURI, projection, null, null, null);
-            cursor.moveToFirst();
+        if(contentURI.toString().contains("file")) {
 
-            int columnIndex = cursor.getColumnIndex(projection[0]);
-            result = cursor.getString(columnIndex);
-            cursor.close();
+//            File file = new File(contentURI.toString());
+            return ImageUtility.convertCameraFileBitmap(contentURI.getEncodedPath());
+
         }
-        catch(Exception e) {
-            e.printStackTrace();
+        else{
+
+            String result = null;
+            String[] projection = {MediaStore.Images.Media.DATA};
+
+            try {
+                Cursor cursor = getActivity().getContentResolver().query(contentURI, projection, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(projection[0]);
+                result = cursor.getString(columnIndex);
+                cursor.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return result;
         }
-        return result;
     }
 
     private void goToHome(){

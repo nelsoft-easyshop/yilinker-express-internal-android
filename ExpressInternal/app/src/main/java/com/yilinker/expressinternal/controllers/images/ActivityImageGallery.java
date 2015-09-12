@@ -42,6 +42,11 @@ public class ActivityImageGallery extends BaseActivity {
 
     }
 
+    @Override
+    protected void handleRefreshToken() {
+
+    }
+
     private void initViews(){
 
         setPager();
