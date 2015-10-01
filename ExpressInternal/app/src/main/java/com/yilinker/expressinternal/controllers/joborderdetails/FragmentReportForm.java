@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -219,6 +218,8 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
         Toast.makeText(getActivity(), (String)object, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);
 
+        ImageUtility.clearCache();
+
         goToHome();
     }
 
@@ -226,6 +227,9 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     public void onFailed(int requestCode, String message) {
 
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
+        ImageUtility.clearCache();
+
         rlProgress.setVisibility(View.GONE);
     }
 
@@ -239,17 +243,25 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
     private void launchCamera(){
 
-//            File outputDir = getActivity().getExternalCacheDir();
-//            File outputFile = File.createTempFile("image", ".jpg", outputDir);
+        File outputDir = getActivity().getExternalCacheDir();
+        File outputFile = null;
 
-            String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
-            File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
+        try {
+            outputFile = File.createTempFile("image", ".jpg", outputDir);
+
+
+//            String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
+//            File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
 
             photoUri = Uri.fromFile(outputFile);
 
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             startActivityForResult(intent, REQUEST_LAUNCH_CAMERA);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -308,9 +320,12 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
         String remarks = etRemarks.getText().toString();
 
         List<String> files = new ArrayList<>();
+        Uri uri = null;
         for(String item : images){
 
-            files.add(getRealPathFromURI(photoUri));
+            uri = Uri.parse(item);
+            files.add(getRealPathFromURI(uri));
+
         }
 
         ProblematicJobOrder report = new ProblematicJobOrder();
@@ -330,11 +345,12 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
         if(contentURI.toString().contains("file")) {
 
 //            File file = new File(contentURI.toString());
-            return ImageUtility.convertCameraFileBitmap(contentURI.getEncodedPath());
+            return ImageUtility.compressCameraFileBitmap(contentURI.getEncodedPath());
 
         }
         else{
 
+            String path = null;
             String result = null;
             String[] projection = {MediaStore.Images.Media.DATA};
 
@@ -344,12 +360,18 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
                 int columnIndex = cursor.getColumnIndex(projection[0]);
                 result = cursor.getString(columnIndex);
+
+                path = ImageUtility.compressCameraFileBitmap(result);
+
                 cursor.close();
+
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return result;
+            return path;
         }
     }
 

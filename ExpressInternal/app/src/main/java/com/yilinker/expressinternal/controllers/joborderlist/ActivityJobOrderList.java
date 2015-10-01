@@ -33,6 +33,7 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.adapters.AdapterTab;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
@@ -145,7 +146,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         if(shouldReload){
 
-
+            reloadList(adapterTab.getCurrentTab());
 
         }
         else {
@@ -415,7 +416,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
 
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        if(!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        }
+
         rlProgress.setVisibility(View.GONE);
     }
 
@@ -835,6 +839,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             intent = new Intent(ActivityJobOrderList.this, ActivityJobOderDetail.class);
             intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+            intent.putExtra(ActivityJobOderDetail.ARG_CURRENT_STATUS, adapterTab.getCurrentTab());
         }
 
 
@@ -874,7 +879,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         if(mLastLocation != null) {
             for (JobOrder item : jobOrderList) {
 
-                item.setDistance(LocationHelper.getDistance(mLastLocation.getLatitude(), mLastLocation.getLongitude(), item.getLatitude(), item.getLongitude()));
+                if(item.getLatitude() > 0 && item.getLongitude() > 0)
+                    item.setDistance(LocationHelper.getDistance(mLastLocation.getLatitude(), mLastLocation.getLongitude(), item.getLatitude(), item.getLongitude()));
 
             }
 

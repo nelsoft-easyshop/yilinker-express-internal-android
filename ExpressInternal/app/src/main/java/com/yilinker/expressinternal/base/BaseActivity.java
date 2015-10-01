@@ -16,8 +16,10 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.yilinker.core.base.BaseApplication;
 import com.yilinker.core.constants.ErrorMessages;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.core.model.Login;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 
@@ -185,7 +187,15 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
         if(requestCode == ApplicationClass.REQUEST_CODE_REFRESH_TOKEN){
 
+            Login oAuth = (Login) object;
+
+            BaseApplication appClass = ApplicationClass.getInstance();
+
+            appClass.saveAccessToken(oAuth.getAccess_token());
+            appClass.saveRefreshToken(oAuth.getRefresh_token());
+
             handleRefreshToken();
+
             return;
         }
 

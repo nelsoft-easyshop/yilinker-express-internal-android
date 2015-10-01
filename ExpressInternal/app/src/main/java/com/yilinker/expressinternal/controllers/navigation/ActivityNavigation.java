@@ -245,24 +245,38 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
 
             //Get previous location
             LatLng previous = list.get(0);
-            float[] displacement = new float[3];
-            Location.distanceBetween(previous.latitude, previous.longitude, curentLocation.latitude, curentLocation.longitude, displacement);
 
-            distance -= (int)(displacement[0] / 1000);
+            if(previous.longitude > 0 && previous.latitude > 0 && curentLocation.latitude > 0 && curentLocation.longitude > 0) {
+                float[] displacement = new float[3];
+                Location.distanceBetween(previous.latitude, previous.longitude, curentLocation.latitude, curentLocation.longitude, displacement);
 
-            list.set(0, curentLocation);
+                distance -= (int) (displacement[0] / 1000);
 
-            map.addMarker(new MarkerOptions().position(curentLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_current));
-            map.addMarker(new MarkerOptions().position(destination).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_destination));
-            map.addPolyline(polyRoute);
+                list.set(0, curentLocation);
 
-            //Zoom to see the whole polyline
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include(list.get(0));
-            builder.include(list.get(list.size() - 1));
-            map.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50));
+                map.addMarker(new MarkerOptions().position(curentLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_current));
+                map.addMarker(new MarkerOptions().position(destination).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_destination));
+                map.addPolyline(polyRoute);
 
-            tvDistance.setText(String.format("%.2f KM", distance/1000.0));
+                //Zoom to see the whole polyline
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                builder.include(list.get(0));
+                builder.include(list.get(list.size() - 1));
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50));
+            }
+
+            String text = null;
+
+            if(distance > 0){
+
+               text = String.format("%.2f KM", distance/1000.0);
+            }
+            else{
+
+                text = "Route Not Available";
+            }
+
+            tvDistance.setText(text);
         }
 
 

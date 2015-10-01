@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseArray;
 
+import com.yilinker.core.model.express.internal.ProblemDetail;
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 
@@ -46,11 +47,13 @@ public class JobOrder implements Parcelable{
     private List<String> images;
     private List<String> items;
     private String waybillNo;
+    private String packageDescription;
 
     //For Problematic
     private String csrName;
     private String problemType;
     private String remarks;
+    private List<String> problematicImages;
 
     static {
 
@@ -73,8 +76,10 @@ public class JobOrder implements Parcelable{
         contactNo = jobOrder.getRecipientContactNo();
         size = jobOrder.getPackageSize();
         earning = jobOrder.getEarnings();
-        latitude = Double.valueOf(jobOrder.getLocation().getLatitude());
-        longitude = Double.valueOf(jobOrder.getLocation().getLongitude());
+//        latitude = Double.valueOf(jobOrder.getLocation().getLatitude());
+//        longitude = Double.valueOf(jobOrder.getLocation().getLongitude());
+        latitude = jobOrder.getLocation().getLatitude();
+        longitude = jobOrder.getLocation().getLongitude();
         branchName = jobOrder.getBranchName();
         deliveryAddress = jobOrder.getDeliveryAddress();
         pickupAddress = jobOrder.getPickupAddr();
@@ -84,15 +89,25 @@ public class JobOrder implements Parcelable{
         rating = jobOrder.getRating();
         images = jobOrder.getImages();
         type = jobOrder.getJobOrderType();
-        items = jobOrder.getItems();
+//        items = jobOrder.getItems();
+        items = new ArrayList<>();
+        estimatedTimeOfArrival = DateUtility.convertStringToDate(jobOrder.getEta(), SERVER_DATE_FORMAT);
+        packageDescription = jobOrder.getPackageDescription();
 
         //temp
-        estimatedTimeOfArrival = Calendar.getInstance().getTime();
+//        estimatedTimeOfArrival = Calendar.getInstance().getTime();
 //        type = JOB_ORDER_TYPE.get(jobOrder.getJobOrderType());
-        waybillNo = jobOrderNo;
-        csrName = "Juan Dela Cruz";
-        problemType = "Recipient not found";
-        remarks = "Invalid address";
+        waybillNo = jobOrder.getTrackingNo();
+
+        //For Problematic
+        ProblemDetail problemDetail = jobOrder.getProblemDetails();
+        if(problemDetail != null) {
+
+            csrName = problemDetail.getCsrName();
+            problemType = problemDetail.getProblemType();
+            remarks = problemDetail.getProblemType();
+            problematicImages = problemDetail.getImages();
+        }
 
     }
 
@@ -123,10 +138,14 @@ public class JobOrder implements Parcelable{
         items = new ArrayList<>();
         in.readStringList(items);
         waybillNo = in.readString();
+        packageDescription = in.readString();
 
         csrName = in.readString();
         problemType = in.readString();
         remarks = in.readString();
+
+        problematicImages = new ArrayList<>();
+        in.readStringList(problematicImages);
     }
 
     public String getJobOrderNo() {
@@ -321,6 +340,22 @@ public class JobOrder implements Parcelable{
         this.remarks = remarks;
     }
 
+    public List<String> getProblematicImages() {
+        return problematicImages;
+    }
+
+    public void setProblematicImages(List<String> problematicImages) {
+        this.problematicImages = problematicImages;
+    }
+
+    public String getPackageDescription() {
+        return packageDescription;
+    }
+
+    public void setPackageDescription(String packageDescription) {
+        this.packageDescription = packageDescription;
+    }
+
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
         @Override
         public JobOrder createFromParcel(Parcel in) {
@@ -362,8 +397,10 @@ public class JobOrder implements Parcelable{
         dest.writeStringList(images);
         dest.writeStringList(items);
         dest.writeString(waybillNo);
+        dest.writeString(packageDescription);
         dest.writeString(csrName);
         dest.writeString(problemType);
         dest.writeString(remarks);
+        dest.writeStringList(problematicImages);
     }
 }

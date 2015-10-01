@@ -3,6 +3,7 @@ package com.yilinker.expressinternal.controllers.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,10 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.base.BaseApplication;
 import com.yilinker.core.interfaces.ResponseHandler;
@@ -20,6 +25,9 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
+import com.yilinker.expressinternal.gcm.RegistrationIntentService;
+
+import java.io.IOException;
 
 public class ActivityLogin extends Activity implements View.OnClickListener, ResponseHandler {
 
@@ -31,7 +39,6 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     private RelativeLayout rlProgress;
 
     private RequestQueue requestQueue;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

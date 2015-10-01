@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.DateUtility;
@@ -40,12 +41,19 @@ import java.util.List;
  */
 public class ActivityJobOderDetail extends BaseActivity implements ResponseHandler{
 
+    public static final String ARG_CURRENT_STATUS = "currentStatus";
     public static final String ARG_JOB_ORDER = "jobOrder";
 
     private static final String ETA_DATE_FORMAT = "hh:mm aa";
 
+    private static final int STATUS_OPEN = 0;
+    private static final int STATUS_CURRENT = 1;
+    private static final int STATUS_COMPLETED = 2;
+    private static final int STATUS_PROBLEMATIC = 3;
+
     private static final int REQUEST_UPDATE = 1000;
     private static final int REQUEST_OUT_OF_STOCK = 1001;
+    private static final int REQUEST_ACCEPT_JOB = 1002;
 
     private LinearLayout llContainer;
     private RelativeLayout rlProgress;
@@ -79,7 +87,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private TextView tvCSRName;
     private TextView tvProblemType;
     private TextView tvRemarks;
+    private TextView tvViewImages;
 
+    private int currentStatus;
     private JobOrder jobOrder;
     private String newStatus;
 
@@ -131,6 +141,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         tvCSRName = (TextView) findViewById(R.id.tvCSRName);
         tvProblemType = (TextView) findViewById(R.id.tvProblemType);
         tvRemarks = (TextView) findViewById(R.id.tvRemarks);
+        tvViewImages = (TextView) findViewById(R.id.tvViewImages);
 
         btnPositive = (Button) findViewById(R.id.btnPositive);
         btnNegative = (Button) findViewById(R.id.btnNegative);
@@ -166,6 +177,13 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         switch (requestCode){
 
             case REQUEST_UPDATE:
+
+                Toast.makeText(getApplicationContext(), "Job order accepted", Toast.LENGTH_LONG).show();
+                goToMainScreen();
+
+                break;
+
+            case REQUEST_ACCEPT_JOB:
 
                 Toast.makeText(getApplicationContext(), "Job order accepted", Toast.LENGTH_LONG).show();
                 goToMainScreen();
@@ -221,12 +239,17 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
             case R.id.btnImage:
 
-                showImageGallery(ImagePagerAdapter.TYPE_URL);
+                showImageGallery(ImagePagerAdapter.TYPE_URL, jobOrder.getImages());
                 break;
 
             case R.id.btnQRCode:
 
                 showQRCode();
+                break;
+
+            case R.id.tvViewImages:
+
+                showImageGallery(ImagePagerAdapter.TYPE_URL, jobOrder.getProblematicImages());
                 break;
 
 
@@ -267,37 +290,65 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         Intent intent = getIntent();
         jobOrder = intent.getParcelableExtra(ARG_JOB_ORDER);
+        currentStatus = intent.getIntExtra(ARG_CURRENT_STATUS, STATUS_OPEN);
 //        type = jobOrder.getType();
 
     }
 
     private void bindViewData(){
 
-        String type = jobOrder.getType();
-        String status = jobOrder.getStatus();
+//        String type = jobOrder.getType();
+//        String status = jobOrder.getStatus();
+//
+//        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+//            setOpenDeliveryViews();
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+//            setOpenPickupViews();
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+//            setCurrentPickupViews();
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+//            setCurrentDeliveryViews();
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+//            setClaimingViews();
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+//            setDropOffViews();
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
+//            setProblematicViews();
+//            return;
+//        }
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+        String status = jobOrder.getStatus();
+        String type = jobOrder.getType();
+
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY) && currentStatus == STATUS_OPEN){
             setOpenDeliveryViews();
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP) && currentStatus == STATUS_OPEN){
             setOpenPickupViews();
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) && currentStatus == STATUS_CURRENT){
             setCurrentPickupViews();
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY) && currentStatus == STATUS_CURRENT){
             setCurrentDeliveryViews();
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING) && currentStatus == STATUS_CURRENT) {
             setClaimingViews();
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF) && currentStatus == STATUS_CURRENT){
             setDropOffViews();
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
             setProblematicViews();
             return;
         }
+
 
         //Default
         tvJobOrderNo.setText(jobOrder.getJobOrderNo());
@@ -314,7 +365,8 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
             builder.append("\n");
         }
 
-        tvItem.setText(builder.toString());
+//        tvItem.setText(builder.toString());
+        tvItem.setText(jobOrder.getPackageDescription());
 
     }
 
@@ -400,6 +452,14 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         ImageButton btnCaution = (ImageButton) findViewById(R.id.btnCaution);
         btnCaution.setVisibility(View.VISIBLE);
 
+
+        if(jobOrder.getProblematicImages().size() > 0) {
+            tvViewImages.setOnClickListener(this);
+        }
+        else{
+            tvViewImages.setVisibility(View.GONE);
+        }
+
     }
 
     private void setClaimingViews(){
@@ -423,12 +483,12 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         View contentView = null;
         LayoutInflater inflater = getLayoutInflater();
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY) && currentStatus == STATUS_OPEN){
 
             contentView = inflater.inflate(R.layout.layout_joborderdetail_open_delivery, llContainer, true);
 
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP) && currentStatus == STATUS_OPEN){
 
             contentView = inflater.inflate(R.layout.layout_joborderdetail_open_pickup, llContainer, true);
 
@@ -466,12 +526,19 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     }
 
-    private void showImageGallery(String type){
+    private void showImageGallery(String type, List<String> images){
 
-        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityImageGallery.class);
-        intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, (ArrayList) jobOrder.getImages());
-        intent.putExtra(ActivityImageGallery.ARG_TYPE, type);
-        startActivity(intent);
+        if(images.size() > 0) {
+
+            Intent intent = new Intent(ActivityJobOderDetail.this, ActivityImageGallery.class);
+            intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, (ArrayList) images);
+            intent.putExtra(ActivityImageGallery.ARG_TYPE, type);
+            startActivity(intent);
+        }
+        else{
+
+            Toast.makeText(getApplicationContext(),getString(R.string.joborderdetail_error_no_image), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showNavigation(){
@@ -494,14 +561,16 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         String type = jobOrder.getType();
         String status = jobOrder.getStatus();
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY) && currentStatus == STATUS_OPEN){
 
-            requestUpdateStatus(JobOrderConstant.JO_CURRENT_DELIVERY);
+//            requestUpdateStatus(JobOrderConstant.JO_CURRENT_DELIVERY);
+            requestAcceptJob(jobOrder.getJobOrderNo());
 
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP) && currentStatus == STATUS_OPEN){
 
-            requestUpdateStatus(JobOrderConstant.JO_CURRENT_PICKUP);
+//            requestUpdateStatus(JobOrderConstant.JO_CURRENT_PICKUP);
+            requestAcceptJob(jobOrder.getJobOrderNo());
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
@@ -518,6 +587,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
 
+            onBackPressed();
 
         }
 
@@ -528,13 +598,13 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         String type = jobOrder.getType();
         String status = jobOrder.getStatus();
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP) && currentStatus == STATUS_OPEN){
 
             //TODO Show message
             onBackPressed();
 
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY) && currentStatus == STATUS_OPEN){
 
             //TODO Show message
             onBackPressed();
@@ -572,7 +642,8 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private void goToMainScreen(){
 
         Intent intent = new Intent(ActivityJobOderDetail.this, ActivityJobOrderList.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
     }
@@ -618,7 +689,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         report.setProblemType(getString(R.string.problematic_out_of_stock));
         report.setJobOrderNo(jobOrder.getJobOrderNo());
         report.setNotes("Item(s) out of stock");
-        report.setImage(null);
+//        report.setImage(null);
 
         Request request = JobOrderAPI.reportProblematic(REQUEST_OUT_OF_STOCK, report, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
@@ -643,7 +714,23 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
                 reportOutOfStock();
                 break;
 
+            case REQUEST_ACCEPT_JOB:
+
+                requestAcceptJob(jobOrder.getWaybillNo());
+                break;
+
         }
+
+    }
+
+    private void requestAcceptJob(String waybillNo){
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        Request request = RiderAPI.acceptJobOrder(REQUEST_ACCEPT_JOB, waybillNo, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
 
     }
 }

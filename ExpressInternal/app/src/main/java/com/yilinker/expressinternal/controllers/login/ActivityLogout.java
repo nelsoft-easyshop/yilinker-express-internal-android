@@ -10,11 +10,14 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
+
+import java.io.IOException;
 
 /**
  * Created by J.Bautista

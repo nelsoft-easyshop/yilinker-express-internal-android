@@ -34,7 +34,6 @@ import com.yilinker.expressinternal.model.JobOrder;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +105,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         super.onPause();
 
         requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
+        rlProgress.setVisibility(View.GONE);
     }
 
     @Override
@@ -248,24 +248,27 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         tvJobOrderNo.setText(jobOrder.getJobOrderNo());
 
-        //For Items
-        List<String> items  = jobOrder.getItems();
-        StringBuilder builder = new StringBuilder();
-        for (String item : items){
-            builder.append(item);
-            builder.append(", ");
-        }
+//        //For Items
+//        List<String> items  = jobOrder.getItems();
+//        StringBuilder builder = new StringBuilder();
+//        for (String item : items){
+//            builder.append(item);
+//            builder.append(", ");
+//        }
+//
+//        int start = builder.length() - 2;
+//        int end = builder.length() - 1;
+//        builder.delete(start, end);
 
-        int start = builder.length() - 2;
-        int end = builder.length() - 1;
-        builder.delete(start, end);
-
-        tvItem.setText(builder.toString());
+//        tvItem.setText(builder.toString());
+        tvItem.setText(jobOrder.getPackageDescription());
     }
 
     @Override
     public void onSuccess(int requestCode, Object object) {
         super.onSuccess(requestCode, object);
+
+        ImageUtility.clearCache();
 
         switch (requestCode){
 
@@ -338,6 +341,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
+
+        ImageUtility.clearCache();
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);
@@ -490,10 +495,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         List<String> images = new ArrayList<>();
 
         Uri uri = Uri.parse(validIdImage);
-        images.add(ImageUtility.convertCameraFileBitmap(uri.getEncodedPath()));
+//        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
 
         uri = Uri.parse(recipientPicture);
-        images.add(ImageUtility.convertCameraFileBitmap(uri.getEncodedPath()));
+//        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
 
         Request request = JobOrderAPI.uploadJobOrderImages(REQUEST_UPLOAD_IMAGES, jobOrder.getWaybillNo(), images, this);
         request.setTag(ApplicationClass.REQUEST_TAG);

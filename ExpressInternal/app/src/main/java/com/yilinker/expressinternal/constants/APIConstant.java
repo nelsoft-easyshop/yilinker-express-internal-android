@@ -10,4 +10,6 @@ public class APIConstant {
     public static final String OAUTH_GRANT_TYPE_PASSWORD = "password";
     public static final String OAUTH_GRANT_TYPE_REFRESHTOKEN = "refresh_token";
 
+    public static final String ERR_NO_ENTRIES_FOUND = "No entries found";
+
 }

@@ -91,6 +91,7 @@
     <string name="joborderdetail_csrname">CSR Name</string>
     <string name="joborderdetail_type">Type</string>
     <string name="joborderdetail_remarks">Remarks</string>
+    <string name="joborderdetail_error_no_image">No image available</string>
     
     <!--Update Status (Pickup)-->
     <string name="update_pickup_completed">Pick Up Completed!</string>
@@ -178,6 +179,15 @@
 
     <!--View Images-->
     <string name="view_images"><u>View Images</u></string>
+    
+    <!--Calculator-->
+    <string name="calculator_total_volume">Total Volume</string>
+    <string name="calculator_total_weight">Total Weight</string>
+    <string name="calculator_declared_value">Declared Value</string>
+    <string name="calculator_shipping_fee">Total Volume</string>
+    <string name="calculator_add_item">Add Item</string>
+    <string name="calculator_weight">Weight</string>
+    <string name="calculator_value">Value</string>
 
 </resources>
 

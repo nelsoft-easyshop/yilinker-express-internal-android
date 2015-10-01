@@ -33,7 +33,7 @@
 
         <RatingBar android:id="@+id/ratingJob" android:progressDrawable="@drawable/ratingbar" android:layout_width="wrap_content" android:layout_height="20dp" android:layout_gravity="center"  android:numStars="5"
             android:stepSize="1"
-            android:rating="1"   android:isIndicator="true"/>
+            android:rating="1"   android:isIndicator="true" android:visibility="gone"/>
 
         <TextView android:id="@+id/tvEarning"
             android:layout_width="0dp"

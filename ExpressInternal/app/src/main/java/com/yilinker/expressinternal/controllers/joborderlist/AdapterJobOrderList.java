@@ -169,7 +169,7 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
     private static int getBackgoundByType(String type){
 
         int resId = 0;
-        if(type.equalsIgnoreCase("pickup")){
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
 
             resId = R.drawable.tv_rounded_corner_marigold;
         }
@@ -343,6 +343,8 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         public void setViews(JobOrder object) {
             
             tvJobOrderNo.setText(object.getJobOrderNo());
+
+
             tvTimeDelivered.setText(DateUtility.convertDateToString(object.getTimeDelivered(), CURRENT_DATE_FORMAT));
             ratingJob.setRating((float) object.getRating());
             tvType.setText(object.getType());

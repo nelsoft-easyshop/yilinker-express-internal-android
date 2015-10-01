@@ -7,23 +7,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.model.JobOrder;
 
 /**
  * Created by J.Bautista
  */
-public class ActivityComplete extends BaseActivity implements View.OnClickListener{
+public class ActivityComplete extends BaseActivity implements View.OnClickListener, ResponseHandler{
 
     public static final String ARG_JOB_ORDER = "jobOrder";
     public static final String ARG_FROM_HOME = "fromHome";
 
     private static final String DATE_FORMAT = "hh:mm aa";
+
+    private static final int REQUEST_DETAIL  = 1000;
 
     private TextView tvJobOrderNo;
     private RatingBar ratingJob;
@@ -31,6 +40,7 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
     private TextView tvEarned;
     private TextView tvETA;
     private Button btnOk;
+    private RelativeLayout rlProgress;
 
     private JobOrder jobOrder;
     private boolean isFromHome;
@@ -48,7 +58,13 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
 
         initViews();
 
-        bindView();
+        if(isFromHome) {
+            bindView();
+        }
+        else{
+
+            requestJODetail();
+        }
 
     }
 
@@ -78,6 +94,7 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
 
     private void initViews(){
 
+        rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
         tvEarned = (TextView) findViewById(R.id.tvEarned);
         tvETA = (TextView) findViewById(R.id.tvETA);
         tvJobOrderNo = (TextView) findViewById(R.id.tvJobOrderNo);
@@ -97,6 +114,8 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
         }
 
 
+        ratingJob.setVisibility(View.GONE);
+        rlProgress.setVisibility(View.GONE);
 
     }
 
@@ -132,4 +151,34 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
 
     }
 
+    @Override
+    public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
+
+        jobOrder = new JobOrder((com.yilinker.core.model.express.internal.JobOrder) object);
+        bindView();
+
+        rlProgress.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
+
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        rlProgress.setVisibility(View.GONE);
+    }
+
+    private void requestJODetail(){
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        Request request = JobOrderAPI.getJobOrderDetailsByJONumber(REQUEST_DETAIL, jobOrder.getJobOrderNo(), this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        RequestQueue requestQueue = ApplicationClass.getInstance().getRequestQueue();
+        requestQueue.add(request);
+
+    }
 }

@@ -122,7 +122,7 @@ public class FragmentDialogUpdateStatus extends DialogFragment implements View.O
 
                 //TODO Check if type is Delivery. If not, show error message
 
-                newStatus = JobOrderConstant.JO_OPEN;
+                newStatus = JobOrderConstant.JO_CURRENT_DELIVERY;
                 break;
 
             case R.id.btnNewDropoff:

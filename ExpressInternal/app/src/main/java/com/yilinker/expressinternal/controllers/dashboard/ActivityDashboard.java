@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.base.BaseApplication;
@@ -25,8 +28,11 @@ import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.Login;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.APIConstant;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.cashmanagement.ActivityCashManagement;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
+import com.yilinker.expressinternal.gcm.RegistrationIntentService;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
 
@@ -35,6 +41,11 @@ import java.util.Collection;
 import java.util.List;
 
 public class ActivityDashboard extends AppCompatActivity implements View.OnClickListener, FragmentNavigationDrawer.NavigationDrawerCallbacks, ResponseHandler {
+
+    private static final String TAG = "ActivityDashboard";
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
 
     private static final int REQUEST_GET_INFO = 1000;
     private static final int REQUEST_GET_OPEN_JO = 1001;
@@ -67,6 +78,8 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        registrGCM();
 
         setUpActionBar();
         initViews();
@@ -180,7 +193,10 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
             }
         }
 
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        if(!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        }
+
         rlProgress.setVisibility(View.GONE);
     }
 
@@ -270,7 +286,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         int deliveryCount = 0;
         for(JobOrder item : jobOrders){
 
-            if(item.getType().equalsIgnoreCase("pickup")){
+            if(item.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
 
                 pickUpCount += 1;
             }
@@ -296,6 +312,36 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
             jobOrders.add(jobOrder);
         }
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private void registrGCM(){
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(getApplicationContext(), RegistrationIntentService.class);
+            startService(intent);
+        }
+
     }
 
 
