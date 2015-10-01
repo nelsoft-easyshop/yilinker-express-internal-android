@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginBottom="5dp" android:text="@string/update_pickup_completed" android:textColor="@color/orange_yellow" android:textSize="20sp" android:gravity="center"  />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginBottom="20dp" android:text="@string/update_select_new_status" android:textColor="@color/greyish_brown" android:textSize="16sp" android:gravity="center" />
+
+    <Button android:id="@+id/btnNewDelivery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:text="@string/update_for_delivery" android:textColor="@color/white" android:background="@drawable/bg_btn_marigold_rounded" android:textSize="18sp" />
+
+    <Button android:id="@+id/btnNewDropoff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="@string/update_for_dropoff" android:textColor="@color/white" android:background="@drawable/bg_btn_marigold_rounded" android:textSize="18sp" />
+
+</LinearLayout>

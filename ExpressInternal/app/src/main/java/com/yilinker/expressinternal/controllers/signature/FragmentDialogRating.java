@@ -32,12 +32,15 @@ public class FragmentDialogRating extends DialogFragment implements RatingBar.On
 
     private DialogDismissListener listener;
 
-    public static FragmentDialogRating createInstance(int requestCode){
+    private int rating;
+
+    public static FragmentDialogRating createInstance(int requestCode, int rating){
 
         FragmentDialogRating fragment = new FragmentDialogRating();
 
         Bundle args = new Bundle();
         args.putInt(ARG_REQUEST_CODE , requestCode);
+        args.putInt(ARG_RATING, rating);
 
         fragment.setArguments(args);
 
@@ -51,6 +54,7 @@ public class FragmentDialogRating extends DialogFragment implements RatingBar.On
         Bundle args = getArguments();
 
         requestCode = args.getInt(ARG_REQUEST_CODE);
+        rating = args.getInt(ARG_RATING);
     }
 
     @Nullable
@@ -96,6 +100,8 @@ public class FragmentDialogRating extends DialogFragment implements RatingBar.On
     private void initViews(View view){
 
         ratingBar = (RatingBar) view.findViewById(R.id.ratingJob);
+
+        ratingBar.setRating((float)rating);
 
         ratingBar.setOnRatingBarChangeListener(this);
     }

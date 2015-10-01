@@ -62,7 +62,7 @@
     <string-array name="tab_items">
         <item name="tab_open">Open</item>
         <item name="tab_current">Current</item>
-        <item name="tab_complete">Complete</item>
+        <item name="tab_completed">Completed</item>
         <item name="tab_problematic">Problematic</item>
     </string-array>
 
@@ -87,26 +87,43 @@
     <string name="joborderdetail_outofstock">Out of Stock</string>
     <string name="joborderdetail_deliver">Deliver</string>
     <string name="joborderdetail_problematic">Problematic</string>
-
+    <string name="joborderdetail_claim">Claim</string>
+    <string name="joborderdetail_csrname">CSR Name</string>
+    <string name="joborderdetail_type">Type</string>
+    <string name="joborderdetail_remarks">Remarks</string>
+    <string name="joborderdetail_error_no_image">No image available</string>
+    
+    <!--Update Status (Pickup)-->
+    <string name="update_pickup_completed">Pick Up Completed!</string>
+    <string name="update_select_new_status">Please select new status</string>
+    <string name="update_for_delivery">For Delivery</string>
+    <string name="update_for_dropoff">For Drop Off</string>
 
     <!-- Signature -->
     <string name="signature_good_condition">I received goods in good condition</string>
     <string name="signature_submit">Submit</string>
     <string name="signature_rating">Add Rating</string>
     <string name="signature_rate_delivery">How will you rate this delivery?</string>
+    <string name="signature_error_no_rating">Please add your rating!</string>
+    <string name="signature_error_empty">Please sign on the screen to continue!</string>
+    <string name="signature_warning">You did not submit your signature!</string>
+    <string name="signature_exit">Exit Anyway</string>
+    <string name="signature_rating_added">Rating Added</string>
+    <string name="signature_clear_signature">Clear Signature</string>
 
     <!--QR Code Scanner-->
-    <string name="scan_qr">Scan this QR Code to print Airway Bill and Sticker </string>
+    <string name="scan_qr"></string>
     <string-array name="array_scanner_tab">
-        <item name="single_scanner">Single QR COde Scanner</item>
-        <item name="bulk_scanner">Bulk QR COde Scanner</item>
+        <item name="single_scanner">Single Scanning</item>
+        <item name="bulk_scanner">Bulk Check-in</item>
     </string-array>
     
     <!--Problematic-->
-    <string name="recipient_not_found">Recipient Not Found</string>
-    <string name="delivery_rejected">Delivery rejected by recipient</string>
-    <string name="damaged_upon_delivery">Damaged Upon Delivery</string>
-    <string name="unable_to_pay">Recipient is unable to pay</string>
+    <string name="problematic_recipient_not_found">Recipient Not Found</string>
+    <string name="problematic_delivery_rejected">Delivery rejected by recipient</string>
+    <string name="problematic_damaged_upon_delivery">Damaged Upon Delivery</string>
+    <string name="problematic_unable_to_pay">Recipient is unable to pay</string>
+    <string name="problematic_out_of_stock">Out of Stock</string>
     <string name="confirm_problematic">Confirm Problematic Delivery</string>
 
     <!--Complete-->
@@ -124,7 +141,7 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 
-    <string name="action_example">Example action</string>
+    <string name="action_example" translatable="false">Example action</string>
 
     <string name="action_settings">Settings</string>
 
@@ -136,8 +153,41 @@
 
     <!--Action Bar Title-->
     <string name="actionbar_title_qrcode">QR Code</string>
+    <string name="actionbar_title_cashmanagement">Cash Management</string>
     <string name="actionbar_title_problematic">Problematic</string>
+    <string name="actionbar_title_navigation">navigation</string>
     <string name="title_activity_activity_navigation">Map</string>
+
+    <!--Logout-->
+    <string name="logout_username">Username</string>
+    <string name="logout_password">Password</string>
+    <string name="logout_confirm">Confirm</string>
+    <string name="logout_managers_verification">Manager\'s verification\nis required to continue</string>
+    <string name="logout">Logging Out</string>
+
+    <!--Cash Limit-->
+    <string name="cashlimit_oops">Oops!</string>
+    <string name="cashlimit_message">You are about to exceed your\nCash On Hand Limit</string>
+    <string name="cashlimit_verification">Manager\'s Verification\nis required to continue</string>
+    <string name="cashlimit_username">Username</string>
+    <string name="cashlimit_password">Password</string>
+    <string name="cashlimit_submit">Submit</string>
+
+    <!--Checklist-->
+    <string name="checklist_pickup_complete">Complete Pick Up</string>
+    <string name="checklist_delivery_complete">Complete Delivery</string>
+
+    <!--View Images-->
+    <string name="view_images"><u>View Images</u></string>
+    
+    <!--Calculator-->
+    <string name="calculator_total_volume">Total Volume</string>
+    <string name="calculator_total_weight">Total Weight</string>
+    <string name="calculator_declared_value">Declared Value</string>
+    <string name="calculator_shipping_fee">Total Volume</string>
+    <string name="calculator_add_item">Add Item</string>
+    <string name="calculator_weight">Weight</string>
+    <string name="calculator_value">Value</string>
 
 </resources>
 

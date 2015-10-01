@@ -8,13 +8,13 @@ public class JobOrderConstant {
     //Job order type
 //    public static final int JO_TYPE_PICKUP = 0;
 //    public static final int JO_TYPE_DELIVERY = 1;
-    public static final String JO_TYPE_PICKUP = "pickup";
+    public static final String JO_TYPE_PICKUP = "pick-up";
     public static final String JO_TYPE_DELIVERY = "delivery";
 
 
     //Job order status TODO Change to actual values
     public static final String JO_OPEN = "Open";
-    public static final String JO_CURRENT_PICKUP = "For Pickup";
+    public static final String JO_CURRENT_PICKUP = "For Pick-up";
     public static final String JO_CURRENT_DELIVERY = "For Delivery";
     public static final String JO_CURRENT_CLAIMING = "For Claiming";
     public static final String JO_CURRENT_DROPOFF = "For Drop Off";

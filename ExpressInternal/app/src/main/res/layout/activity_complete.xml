@@ -20,9 +20,9 @@
         </TableRow>
 
         <TextView
-            style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/rating" android:visibility="gone"/>
 
-        <LinearLayout android:layout_height="20dp" android:layout_width="wrap_content" android:layout_marginBottom="10dp">
+        <LinearLayout android:layout_height="20dp" android:layout_width="wrap_content" android:layout_marginBottom="10dp" android:visibility="gone">
             <RatingBar android:id="@+id/ratingJob" android:progressDrawable="@drawable/ratingbar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"  android:numStars="0"
                 android:stepSize="1" android:rating="1"  android:isIndicator="true" />
         </LinearLayout>
@@ -40,6 +40,8 @@
 
     <Button android:id="@+id/btnOk" android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_button_height" android:background="@color/orange_yellow" android:textColor="@color/white" android:text="@string/ok" />
+        android:layout_height="@dimen/bottom_button_height" android:background="@drawable/bg_btn_orangeyellow" android:textColor="@color/white" android:text="@string/ok" />
+
+    <include layout="@layout/layout_progress" android:id="@+id/rlProgress" />
 
 </RelativeLayout>

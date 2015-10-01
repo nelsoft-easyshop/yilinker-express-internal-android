@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseViewHolder;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 
@@ -123,9 +124,9 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
                 case TYPE_PROBLEMATIC:
 
-                    resId = R.layout.layout_job_order_list_open;
+                    resId = R.layout.layout_job_order_list_current;
                     view = inflater.inflate(resId, parent, false);
-                    viewHolder = new ViewHolderOpen(view, listener);
+                    viewHolder = new ViewHolderCurrent(view, listener);
                     break;
 
             }
@@ -140,7 +141,7 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         holder.setViews(objects.get(position));
 
         //For Current Job Orders, add the TextView in counter list to update timer
-        if(type == TYPE_CURRENT){
+        if(type == TYPE_CURRENT || type == TYPE_PROBLEMATIC){
 
             counterList.put(position, ((ViewHolderCurrent)holder).tvTimer);
         }
@@ -168,7 +169,7 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
     private static int getBackgoundByType(String type){
 
         int resId = 0;
-        if(type.equalsIgnoreCase("pickup")){
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
 
             resId = R.drawable.tv_rounded_corner_marigold;
         }
@@ -296,7 +297,12 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
 
             tvAddress.setText(address);
 
-            tvStatus.setBackgroundResource(getBackgoundByType(object.getType()));
+            if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
+                tvStatus.setBackgroundResource(R.drawable.tv_rounded_corner_orangered);
+            }
+            else {
+                tvStatus.setBackgroundResource(getBackgoundByType(object.getType()));
+            }
 
         }
 
@@ -337,6 +343,8 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         public void setViews(JobOrder object) {
             
             tvJobOrderNo.setText(object.getJobOrderNo());
+
+
             tvTimeDelivered.setText(DateUtility.convertDateToString(object.getTimeDelivered(), CURRENT_DATE_FORMAT));
             ratingJob.setRating((float) object.getRating());
             tvType.setText(object.getType());

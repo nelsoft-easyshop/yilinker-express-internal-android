@@ -4,7 +4,7 @@
 
     <TextView android:id="@+id/tvType"
         style="@style/JobOrderDetailLabelStyle" android:text="@string/type"/>
-    <TextView android:id="@+id/tvJobOrderNo" style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+    <TextView android:id="@+id/tvJobOrderNo" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
@@ -13,11 +13,11 @@
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"/>
-    <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+    <TextView style="@style/JobOrderDetailTextStyle" android:text="-" />
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"/>
-    <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+    <TextView style="@style/JobOrderDetailTextStyle" android:text="-" />
 
 
 

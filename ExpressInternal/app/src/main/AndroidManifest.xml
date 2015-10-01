@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
         android:name="com.example.gcm.permission.C2D_MESSAGE"
@@ -113,6 +114,16 @@
             android:theme="@style/ActivityTheme" >
         </activity>
 
+        <activity
+            android:name=".controllers.qrcode.ActivityQRCode"
+            android:theme="@style/ActivityTheme" >
+        </activity>
+
+        <activity
+            android:name=".controllers.login.ActivityLogout"
+            android:theme="@style/ActivityTheme" >
+        </activity>
+
         <service
             android:name=".gcm.RiderGcmListenerService"
             android:exported="false" >
@@ -128,7 +139,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="gcm.RegistrationIntentService"
+            android:name=".gcm.RegistrationIntentService"
             android:exported="false" >
         </service>
 

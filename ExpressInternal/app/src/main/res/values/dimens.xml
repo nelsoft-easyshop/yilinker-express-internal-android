@@ -16,4 +16,11 @@
     <dimen name="joborderlist_item_padding">20dp</dimen>
 
     <dimen name="new_joborder_padding">10dp</dimen>
+
+    <!--QR Code-->
+    <dimen name="qr_code_size">300dp</dimen>
+
+    <!--EditText Height-->
+    <dimen name="edittext_height">60dp</dimen>
+
 </resources>

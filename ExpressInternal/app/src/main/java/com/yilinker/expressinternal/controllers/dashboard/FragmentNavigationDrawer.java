@@ -22,8 +22,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.login.ActivityLogin;
+import com.yilinker.expressinternal.controllers.login.ActivityLogout;
 
 public class FragmentNavigationDrawer extends Fragment implements OnClickListener{
 
@@ -210,10 +210,7 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
 
             case R.id.btnLogout:
 
-                //TODO Show Dialog for verification
-
-                ApplicationClass.getInstance().deleteTokens();
-                goToLogin();
+                goToLogout();
                 break;
         }
     }
@@ -222,13 +219,10 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
         void onNavigationDrawerItemSelected(int position);
     }
 
-    private void goToLogin(){
+    private void goToLogout(){
 
-        Intent intent = new Intent(getActivity(), ActivityLogin.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = new Intent(getActivity(), ActivityLogout.class);
         startActivity(intent);
-        getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 
 }

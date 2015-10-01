@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="checklist_delivery_payment">Payment</string>
+    <string name="checklist_delivery_itemchecked">Item checked by recipient</string>
+    <string name="checklist_delivery_valid_id">Valid ID</string>
+    <string name="checklist_delivery_picture">Recipient Picture</string>
+    <string name="checklist_delivery_signature">Recipient Signature</string>
+
+    <string name="checklist_pickup_matchjo">Item is matched with JO</string>
+    <string name="checklist_pickup_good_condition">Item is in Good Condition</string>
+    <string name="checklist_pickup_package_complete">Item Package Complete</string>
+
+    <string-array name="checklist_delivery">
+        <item>@string/checklist_delivery_payment</item>
+        <item>@string/checklist_delivery_itemchecked</item>
+        <item>@string/checklist_delivery_valid_id</item>
+        <item>@string/checklist_delivery_picture</item>
+        <item>@string/checklist_delivery_signature</item>
+    </string-array>
+
+    <string-array name="checklist_pickup">
+        <item>@string/checklist_pickup_matchjo</item>
+        <item>@string/checklist_pickup_good_condition</item>
+        <item>@string/checklist_pickup_package_complete</item>
+    </string-array>
+
+    <string-array name="checklist_claiming">
+        <item>Item is matched with JO</item>
+        <item>Item is in Good Condition</item>
+        <item>Item Package Complete</item>
+    </string-array>
+
+</resources>

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 /**
@@ -46,8 +48,9 @@ public class SignatureView extends View {
         this.context = context;
     }
 
-    public void save(View v , String filePath)
+    public void save(File file)
     {
+        View v= new View(context);
 
         Log.v("log_tag", "Width: " + v.getWidth());
         Log.v("log_tag", "Height: " + v.getHeight());
@@ -59,14 +62,14 @@ public class SignatureView extends View {
         Canvas canvas = new Canvas(mBitmap);
         try
         {
-            FileOutputStream mFileOutStream = new FileOutputStream(filePath);
+            FileOutputStream mFileOutStream = new FileOutputStream(file);
 
             v.draw(canvas);
             mBitmap.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
             mFileOutStream.flush();
             mFileOutStream.close();
-            String url = MediaStore.Images.Media.insertImage(context.getContentResolver(), mBitmap, "title", null);
-            Log.v("log_tag","url: " + url);
+//            String url = MediaStore.Images.Media.insertImage(context.getContentResolver(), mBitmap, "title", null);
+//            Log.v("log_tag","url: " + url);
             //In case you want to delete the file
             //boolean deleted = mypath.delete();
             //Log.v("log_tag","deleted: " + mypath.toString() + deleted);

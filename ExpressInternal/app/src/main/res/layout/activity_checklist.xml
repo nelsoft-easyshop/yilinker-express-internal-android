@@ -26,6 +26,8 @@
 
     <Button android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_button_height"  android:background="@color/white_gray" android:layout_alignParentBottom="true"/>
+        android:layout_height="@dimen/bottom_button_height"  android:background="@color/white_gray" android:layout_alignParentBottom="true" android:textColor="@color/warm_gray"/>
+
+    <include layout="@layout/layout_progress" android:id="@+id/rlProgress"/>
 
 </RelativeLayout>
