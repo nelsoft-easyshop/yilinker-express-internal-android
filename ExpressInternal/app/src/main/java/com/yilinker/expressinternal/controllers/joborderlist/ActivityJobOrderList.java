@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.adapters.AdapterTab;
@@ -64,6 +67,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private static final int REQUEST_GET_COMPLETE = 1002;
     private static final int REQUEST_GET_PROBLEMATIC = 1003;
     private static final int REQUEST_GET_WAREHOUSES = 1004;
+
 
     //For Tabs
     private static final int TAB_OPEN = 0;
@@ -122,6 +126,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     private HashMap<String, JobOrder> mapMarkers;
 
+    private boolean filterByBranch;
+    private boolean isReloading;
+
+    private View actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +162,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             //Data from Dashboard
             getData();
+
+            resetTabCount();
+
             reloadList(AdapterJobOrderList.TYPE_OPEN);
             shouldReload = true;
         }
@@ -186,6 +198,19 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onClick(View v) {
         super.onClick(v);
 
+        int id = v.getId();
+        switch (id){
+
+            case R.id.ivSwitch:
+
+                if(!isReloading) {
+                    switchFilter();
+                }
+
+                break;
+
+        }
+
     }
 
 
@@ -201,6 +226,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         setMenu();
 
         setListAdapter();
+
+        setActionBar();
     }
 
     /**
@@ -307,8 +334,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onTabItemClick(int position) {
 
+        //Set visibility of Switch Filter Button
+        showSwitchButton(position == TAB_OPEN);
+
         jobOrderList.clear();
         completeList.clear();
+
 
         adapterJobOrderList.notifyDataSetChanged();
 
@@ -386,12 +417,19 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             jobOrderList.addAll(list);
             completeList.addAll(list);
 
+            //For Tab Count
+            int count = listServer.size();
+            tabItems.get(adapterTab.getCurrentTab()).setCount(count);
+            resetTabCount();
+
             reloadList(type);
         }
         else{
 
             rlProgress.setVisibility(View.GONE);
         }
+
+        isReloading = false;
 
     }
 
@@ -421,6 +459,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         }
 
         rlProgress.setVisibility(View.GONE);
+        isReloading = false;
     }
 
     //Request data from the server
@@ -461,7 +500,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         }
 
-        Request request = JobOrderAPI.getJobOrders(requestCode, type, this);
+        Request request = JobOrderAPI.getJobOrders(requestCode, type, filterByBranch, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -627,15 +666,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                 onTabItemClick(TAB_CURRENT);
                 break;
 
+//            case 4:
+//
+////                filterList(FILTER_CLAIMING);
+//                adapterTab.setCurrentTab(TAB_CURRENT);
+//                filter = FILTER_CLAIMING;
+//                onTabItemClick(TAB_CURRENT);
+//                break;
+
             case 4:
-
-//                filterList(FILTER_CLAIMING);
-                adapterTab.setCurrentTab(TAB_CURRENT);
-                filter = FILTER_CLAIMING;
-                onTabItemClick(TAB_CURRENT);
-                break;
-
-            case 5:
 
 //                filterList(FILTER_DROPOFF);
                 adapterTab.setCurrentTab(TAB_CURRENT);
@@ -643,7 +682,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                 onTabItemClick(TAB_CURRENT);
                 break;
 
-            case 6:
+            case 5:
 
                 showScanner();
                 break;
@@ -791,12 +830,14 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         // in rare cases when a location is not available.
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
+
         if(mLastLocation != null && adapterTab.getCurrentTab() == TAB_OPEN ){
 
             setDistance();
         }
 
         centerToLocation();
+
 
     }
 
@@ -937,5 +978,60 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             }
 
         }
+
+
     }
+
+    private void resetTabCount(){
+
+        TabModel tab = tabItems.get(adapterTab.getCurrentTab());
+        tab.setCount(jobOrderList.size());
+        adapterTab.notifyItemChanged(adapterTab.getCurrentTab());
+
+    }
+
+    private void setActionBar(){
+
+        actionBar = getActionBarView();
+
+        Button ivSwitch = (Button) actionBar.findViewById(R.id.ivSwitch);
+        ivSwitch.setOnClickListener(this);
+
+        ivSwitch.setVisibility(View.VISIBLE);
+
+    }
+
+    private void switchFilter(){
+
+        isReloading = true;
+
+        filterByBranch = !filterByBranch;
+        int resId = R.string.filter_area;
+
+        if(filterByBranch){
+            resId = R.string.filter_branch;
+        }
+
+        Button ivSwitch = (Button)actionBar.findViewById(R.id.ivSwitch);
+
+        ivSwitch.setBackgroundResource(R.drawable.bg_btn_orangeyellow_rounded);
+        ivSwitch.setText(getString(resId));
+
+        requestGetJobOrders();
+
+    }
+
+    private void showSwitchButton(boolean isShown){
+
+        Button ivSwitch = (Button)actionBar.findViewById(R.id.ivSwitch);
+
+        int visibility = View.GONE;
+        if(isShown){
+            visibility = View.VISIBLE;
+        }
+
+        ivSwitch.setVisibility(visibility);
+    }
+
+
 }

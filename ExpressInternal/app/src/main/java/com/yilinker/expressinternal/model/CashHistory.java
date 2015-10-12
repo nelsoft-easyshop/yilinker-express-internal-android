@@ -20,9 +20,10 @@ public class CashHistory implements Parcelable {
 
         this.action = object.getAction();
         this.amount = object.getAmount();
+        this.jobOrderNo = object.getJobOrderNo();
 
         //temp
-        this.jobOrderNo = String.valueOf(object.getJobOrderNo());
+//        this.jobOrderNo = String.valueOf(object.getJobOrderNo());
 
     }
 

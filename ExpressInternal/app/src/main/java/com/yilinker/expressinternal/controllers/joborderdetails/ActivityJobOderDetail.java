@@ -23,6 +23,7 @@ import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.controllers.contact.ActivityContact;
@@ -51,6 +52,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private static final int STATUS_COMPLETED = 2;
     private static final int STATUS_PROBLEMATIC = 3;
 
+    private static final int REQUEST_DIALOG_CASH_LIMIT =2000;
+    private static final int REQUEST_DIALOG_PRINT =2001;
+
     private static final int REQUEST_UPDATE = 1000;
     private static final int REQUEST_OUT_OF_STOCK = 1001;
     private static final int REQUEST_ACCEPT_JOB = 1002;
@@ -66,6 +70,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private TextView tvETA;
     private TextView tvDistance;
     private TextView tvType;
+    private TextView tvAmountToCollect;
 
     private Button btnPositive;
     private Button btnNegative;
@@ -75,6 +80,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private ImageButton btnImage;
     private ImageButton btnNavigation;
     private ImageButton btnQrCode;
+    private ImageButton btnPrint;
 
     //For Pickup
     private TextView tvPickupAddress;
@@ -128,6 +134,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         tvItem = (TextView) findViewById(R.id.tvItem);
         tvETA = (TextView) findViewById(R.id.tvETA);
         tvStatus = (TextView) findViewById(R.id.tvStatus);
+        tvAmountToCollect = (TextView) findViewById(R.id.tvAmountToCollect);
 
         //For Delivery
         tvDeliveryAddress = (TextView) findViewById(R.id.tvDeliveryAddress);
@@ -149,6 +156,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         btnImage = (ImageButton) findViewById(R.id.btnImage);
         btnNavigation = (ImageButton) findViewById(R.id.btnMap);
         btnQrCode = (ImageButton) findViewById(R.id.btnQRCode);
+        btnPrint = (ImageButton) findViewById(R.id.btnPrint);
 
         btnNegative.setOnClickListener(this);
         btnPositive.setOnClickListener(this);
@@ -156,8 +164,10 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         btnImage.setOnClickListener(this);
         btnNavigation.setOnClickListener(this);
         btnQrCode.setOnClickListener(this);
+        btnPrint.setOnClickListener(this);
 
         setActionBar();
+
 
         rlProgress.setVisibility(View.GONE);
 
@@ -207,6 +217,13 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
 
+        if(message.equalsIgnoreCase(APIConstant.ERR_EXCEEDS_CASH_LIMIT)){
+
+            rlProgress.setVisibility(View.GONE);
+            showCashLimitWarningDialog();
+            return;
+        }
+
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);
     }
@@ -252,6 +269,10 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
                 showImageGallery(ImagePagerAdapter.TYPE_URL, jobOrder.getProblematicImages());
                 break;
 
+            case  R.id.btnPrint:
+
+                showPrintDialog();
+                break;
 
         }
     }
@@ -351,8 +372,10 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
 
         //Default
-        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
+//        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
+        tvJobOrderNo.setText(jobOrder.getWaybillNo());
         tvRecipient.setText(jobOrder.getRecipient());
+        tvAmountToCollect.setText(String.format("P%.02f", jobOrder.getAmountToCollect()));
 
         if(jobOrder.getContactNo() != null)         //temp
             tvContactNo.setText(jobOrder.getContactNo());
@@ -380,6 +403,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         tvETA.setText(DateUtility.convertDateToString(jobOrder.getEstimatedTimeOfArrival(), ETA_DATE_FORMAT));
         tvDeliveryAddress.setText(jobOrder.getDeliveryAddress());
 
+        TextView tvLabelRecipient = (TextView) findViewById(R.id.tvLabelRecipient);
+        tvLabelRecipient.setText(getString(R.string.consignee));
+
     }
 
     private void setOpenPickupViews(){
@@ -395,7 +421,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     }
 
-    private void setCurrentPickupViews(){
+    private void setCurrentPickupViews() {
 
         btnPositive.setText(getString(R.string.joborderdetail_pickup));
         btnNegative.setText(getString(R.string.joborderdetail_outofstock));
@@ -413,6 +439,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         tvETA.setText(DateUtility.convertDateToString(jobOrder.getEstimatedTimeOfArrival(), ETA_DATE_FORMAT));
         tvDeliveryAddress.setText(jobOrder.getDeliveryAddress());
+
+        TextView tvLabelRecipient = (TextView) findViewById(R.id.tvLabelRecipient);
+        tvLabelRecipient.setText(getString(R.string.consignee));
 
     }
 
@@ -438,6 +467,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         tvETA.setText(DateUtility.convertDateToString(jobOrder.getEstimatedTimeOfArrival(), ETA_DATE_FORMAT));
         tvDropoffAddress.setText(jobOrder.getDropoffAddress());
 
+        LinearLayout llRecipient = (LinearLayout) findViewById(R.id.llRecipient);
+        llRecipient.setVisibility(View.GONE);
+
     }
 
     private void setProblematicViews(){
@@ -460,9 +492,11 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
             tvViewImages.setVisibility(View.GONE);
         }
 
+        btnPrint.setVisibility(View.GONE);
+
     }
 
-    private void setClaimingViews(){
+    private void setClaimingViews() {
 
         btnPositive.setText(getString(R.string.joborderdetail_claim));
         btnNegative.setVisibility(View.GONE);
@@ -472,6 +506,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         tvETA.setText(DateUtility.convertDateToString(jobOrder.getEstimatedTimeOfArrival(), ETA_DATE_FORMAT));
         tvPickupAddress.setText(jobOrder.getPickupAddress());
         tvDropoffAddress.setText(jobOrder.getDropoffAddress());
+
 
     }
 
@@ -598,13 +633,13 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         String type = jobOrder.getType();
         String status = jobOrder.getStatus();
 
-        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP) && currentStatus == STATUS_OPEN){
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP) && currentStatus == STATUS_OPEN) {
 
             //TODO Show message
             onBackPressed();
 
         }
-        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY) && currentStatus == STATUS_OPEN){
+        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY) && currentStatus == STATUS_OPEN) {
 
             //TODO Show message
             onBackPressed();
@@ -732,5 +767,17 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         requestQueue.add(request);
 
+    }
+
+    private void showCashLimitWarningDialog(){
+
+        FragmentDialogCashLimitWarning dialog = FragmentDialogCashLimitWarning.createInstance(REQUEST_DIALOG_CASH_LIMIT, jobOrder.getJobOrderNo());
+        dialog.show(getFragmentManager(), null);
+    }
+
+    private void showPrintDialog(){
+
+        FragmentDialogPrint dialog = FragmentDialogPrint.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
+        dialog.show(getFragmentManager(), null);
     }
 }

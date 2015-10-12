@@ -62,6 +62,8 @@ public class ActivitySignature extends Activity implements  View.OnClickListener
         btnSubmit.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         tvClear.setOnClickListener(this);
+
+        btnRating.setVisibility(View.GONE);
     }
 
     private void showRating(){
@@ -133,12 +135,12 @@ public class ActivitySignature extends Activity implements  View.OnClickListener
             return;
         }
 
-        //Check for rating
-        if(rating <= 0){
-
-            Toast.makeText(getApplicationContext(), getString(R.string.signature_error_no_rating), Toast.LENGTH_LONG).show();
-            return;
-        }
+//        //Check for rating
+//        if(rating <= 0){
+//
+//            Toast.makeText(getApplicationContext(), getString(R.string.signature_error_no_rating), Toast.LENGTH_LONG).show();
+//            return;
+//        }
 
 
         File outputDir = getExternalCacheDir();

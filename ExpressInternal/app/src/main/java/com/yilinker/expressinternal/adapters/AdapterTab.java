@@ -71,6 +71,7 @@ public class AdapterTab extends RecyclerView.Adapter<AdapterTab.ViewHolder> {
 
         //Clear selected tab
         TabModel previous = objects.get(this.currentTab);
+        previous.setCount(0);
         previous.setIsSelected(false);
         notifyItemChanged(this.currentTab);
 
@@ -95,10 +96,20 @@ public class AdapterTab extends RecyclerView.Adapter<AdapterTab.ViewHolder> {
         TabModel obj = objects.get(position);
 
         holder.tvTitle.setText(obj.getTitle());
+        holder.tvCount.setVisibility(View.INVISIBLE);
 
         int indicatorVisibility = View.INVISIBLE;
         if(obj.isSelected()){
             indicatorVisibility = View.VISIBLE;
+
+            int count = obj.getCount();
+            if(count > 0) {
+                holder.tvCount.setText(String.format("(%d)", count));
+                holder.tvCount.setVisibility(View.VISIBLE);
+            }
+            else{
+                holder.tvCount.setVisibility(View.INVISIBLE);
+            }
         }
 
         holder.viewIndicator.setVisibility(indicatorVisibility);
@@ -115,6 +126,7 @@ public class AdapterTab extends RecyclerView.Adapter<AdapterTab.ViewHolder> {
     protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView tvTitle;
+        private TextView tvCount;
         private View viewIndicator;
         private TabItemClickListener listener;
 
@@ -122,6 +134,7 @@ public class AdapterTab extends RecyclerView.Adapter<AdapterTab.ViewHolder> {
             super(view);
 
             tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+            tvCount = (TextView) view.findViewById(R.id.tvCount);
             viewIndicator = view.findViewById(R.id.viewIndicator);
 
             view.setOnClickListener(this);

@@ -2,10 +2,8 @@ package com.yilinker.expressinternal.controllers.joborderdetails;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +39,10 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
     private TextView tvETA;
     private Button btnOk;
     private RelativeLayout rlProgress;
+    private TextView tvRecipient;
+    private TextView tvContactNo;
+    private TextView tvItem;
+    private TextView tvAmountCollected;
 
     private JobOrder jobOrder;
     private boolean isFromHome;
@@ -89,7 +91,14 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        goBackToHome();
+
+        if(isFromHome){
+
+            super.onBackPressed();
+        }
+        else {
+            goBackToHome();
+        }
     }
 
     private void initViews(){
@@ -101,6 +110,10 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
         tvTimeUSed = (TextView) findViewById(R.id.tvTimeUsed);
         ratingJob = (RatingBar) findViewById(R.id.ratingJob);
         btnOk = (Button) findViewById(R.id.btnOk);
+        tvAmountCollected = (TextView) findViewById(R.id.tvAmountColected);
+        tvRecipient = (TextView) findViewById(R.id.tvRecipient);
+        tvContactNo = (TextView) findViewById(R.id.tvContactNo);
+        tvItem = (TextView) findViewById(R.id.tvItem);
 
         //For Action Bar
         setActionBarTitle(jobOrder.getStatus());
@@ -131,9 +144,14 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
     private void bindView(){
 
         tvEarned.setText(String.format("₱%.02f", jobOrder.getEarning()));
-        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
+//        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
+        tvJobOrderNo.setText(jobOrder.getWaybillNo());
         tvETA.setText(DateUtility.convertDateToString(jobOrder.getTimeDelivered(), DATE_FORMAT));
-        ratingJob.setRating((float)jobOrder.getRating());
+        ratingJob.setRating((float) jobOrder.getRating());
+        tvRecipient.setText(jobOrder.getRecipient());
+        tvContactNo.setText(jobOrder.getContactNo());
+        tvItem.setText(jobOrder.getPackageDescription());
+        tvAmountCollected.setText(String.format("₱%.02f", jobOrder.getAmountToCollect()));
 
         long timeUsed = Math.abs((jobOrder.getTimeDelivered().getTime() - jobOrder.getEstimatedTimeOfArrival().getTime())/(3600 * 1000));
         int timeInHours = (int) timeUsed;

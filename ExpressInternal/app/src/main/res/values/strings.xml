@@ -16,7 +16,7 @@
         <item name="menu_current_job">View All Current Jobs</item>
         <item name="menu_pickup">View For Pickup</item>
         <item name="menu_delivery">View For Delivery</item>
-        <item name="menu_claiming">View For Claiming</item>
+        <!--<item name="menu_claiming">View For Claiming</item>-->
         <item name="menu_dropoff">View For Dropoff</item>
         <item name="menu_scanner">QR Code Scanner</item>
     </string-array>
@@ -45,6 +45,7 @@
     <string name="prof_today">Today</string>
     <string name="prof_total">Total</string>
     <string name="prof_onhand">On Hand</string>
+    <string name="prof_dropff">Drop Off</string>
 
     <!-- Alert Dialog -->
     <string name="alert_accept">Accept</string>
@@ -65,6 +66,8 @@
         <item name="tab_completed">Completed</item>
         <item name="tab_problematic">Problematic</item>
     </string-array>
+    <string name="filter_area">Area</string>
+    <string name="filter_branch">Branch</string>
 
     <!--Job Order Detail-->
     <string name="job_order_number">Job Order Number</string>
@@ -72,7 +75,9 @@
     <string name="pickup_address">Pickup Address</string>
     <string name="dropoff_address">Dropoff Address</string>
     <string name="delivery_address">Delivery Address</string>
-    <string name="recipient">Recipient</string>
+    <!--<string name="recipient">Recipient</string>-->
+    <string name="recipient">Shipper</string>
+    <string name="consignee">Consignee</string>
     <string name="contact_number">Contact Number</string>
     <string name="item">Item</string>
     <string name="type">Type</string>
@@ -80,6 +85,7 @@
     <string name="time_used">Time Used</string>
     <string name="earned">Earned</string>
     <string name="status">Status</string>
+    <string name="amount_collected">Amount Collected</string>
     <string name="distance_from_me">Distance From Me</string>
     <string name="joborderdetail_open_accept">Accept Job</string>
     <string name="joborderdetail_open_decline">Decline</string>
@@ -92,6 +98,7 @@
     <string name="joborderdetail_type">Type</string>
     <string name="joborderdetail_remarks">Remarks</string>
     <string name="joborderdetail_error_no_image">No image available</string>
+
     
     <!--Update Status (Pickup)-->
     <string name="update_pickup_completed">Pick Up Completed!</string>
@@ -188,6 +195,21 @@
     <string name="calculator_add_item">Add Item</string>
     <string name="calculator_weight">Weight</string>
     <string name="calculator_value">Value</string>
+    <string name="calculator_length">Length</string>
+    <string name="calculator_width">Width</string>
+    <string name="calculator_height">Height</string>
+    <string name="calculator_submit">Submit</string>
+
+    <!--Printing-->
+    <string name="printing_title">Print Waybill Information</string>
+    <string name="printing_status_ongoingprint">Printing waybill...</string>
+    <string name="printing_status_connecting">Connecting to printer...</string>
+    <string name="printing_status_done">Printing complete!</string>
+    <string name="printing_status_problem">Problem has occurred. Try again.</string>
+    <string name="printing_ok">Ok</string>
+    <string name="printing_cancel">Cancel</string>
+    <string name="printing_print_again">Print Again</string>
+
 
 </resources>
 

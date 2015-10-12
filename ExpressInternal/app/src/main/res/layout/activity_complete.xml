@@ -8,14 +8,14 @@
 
             <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5"  android:text="@string/job_order_number"/>
 
-            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"/>
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"  android:visibility="gone"/>
 
         </TableRow>
 
         <TableRow android:layout_marginBottom="10dp" >
 
             <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="4" android:text="-" />
-            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-" />
+            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-"  android:visibility="gone"/>
 
         </TableRow>
 
@@ -28,12 +28,29 @@
         </LinearLayout>
 
         <TextView
-            style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"/>
-        <TextView android:id="@+id/tvTimeUsed" style="@style/JobOrderDetailTextStyle" android:text="-" />
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"  android:visibility="gone"/>
+        <TextView android:id="@+id/tvTimeUsed" style="@style/JobOrderDetailTextStyle" android:text="-"  android:visibility="gone"/>
 
         <TextView
-            style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"/>
-        <TextView android:id="@+id/tvEarned" style="@style/JobOrderDetailTextStyle" android:text="-" />
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"  android:visibility="gone"/>
+        <TextView android:id="@+id/tvEarned" style="@style/JobOrderDetailTextStyle" android:text="-"  android:visibility="gone"/>
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/recipient"  />
+        <TextView android:id="@+id/tvRecipient" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/contact_number"  />
+        <TextView android:id="@+id/tvContactNo" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/item"  />
+        <TextView android:id="@+id/tvItem" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/amount_collected"  />
+        <TextView android:id="@+id/tvAmountColected" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
 
     </TableLayout>
 

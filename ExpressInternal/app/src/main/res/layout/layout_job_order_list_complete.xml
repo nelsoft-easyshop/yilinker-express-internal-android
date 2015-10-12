@@ -14,26 +14,26 @@
         <TextView android:id="@+id/tvJobOrderNo"
             android:layout_weight="1.2"
             style="@style/JobOrderListTrackingNumStyle"
-            android:text="JO1234567890"/>
+            android:text="-"/>
 
     </LinearLayout>
 
     <TextView android:id="@+id/tvAddress"
         style="@style/JobOrderListAddressStyle"
-        android:text="Malate Manila, Metro Manila"/>
+        android:text="-"/>
 
     <TextView android:id="@+id/tvTimeDelivered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="23 JUL 2015 14:53:10" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"/>
+        android:text="-" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"/>
 
     <LinearLayout android:id="@+id/llFooter"
-        style="@style/JobOrderFooterStyle">
+        style="@style/JobOrderFooterStyle"  android:visibility="gone">
 
 
         <RatingBar android:id="@+id/ratingJob" android:progressDrawable="@drawable/ratingbar" android:layout_width="wrap_content" android:layout_height="20dp" android:layout_gravity="center"  android:numStars="5"
             android:stepSize="1"
-            android:rating="1"   android:isIndicator="true" android:visibility="gone"/>
+            android:rating="1"   android:isIndicator="true"/>
 
         <TextView android:id="@+id/tvEarning"
             android:layout_width="0dp"

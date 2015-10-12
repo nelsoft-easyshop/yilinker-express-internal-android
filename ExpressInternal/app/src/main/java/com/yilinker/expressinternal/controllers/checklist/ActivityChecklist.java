@@ -246,8 +246,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void bindViews(){
 
-        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
+//        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
 
+        tvJobOrderNo.setText(jobOrder.getWaybillNo());
 //        //For Items
 //        List<String> items  = jobOrder.getItems();
 //        StringBuilder builder = new StringBuilder();
@@ -274,7 +275,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
             case REQUEST_SUBMIT_SIGNATURE:
 
-                requestSubmitRating();
+//                requestSubmitRating();
+                requestUploadImages();
                 break;
 
             case REQUEST_SUBMIT_RATING:
@@ -631,6 +633,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         validIdImage = photoUri.toString();
 
+        //Check if all items are checked to enable Confirm button
+        setConfirmButton(isComplete());
+
     }
 
     private void updateRecipientPictureChecklist(){
@@ -640,6 +645,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         adapter.notifyItemChanged(position);
 
         recipientPicture = photoUri.toString();
+
+        //Check if all items are checked to enable Confirm button
+        setConfirmButton(isComplete());
 
     }
 

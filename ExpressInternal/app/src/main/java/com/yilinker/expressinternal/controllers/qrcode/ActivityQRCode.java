@@ -68,7 +68,7 @@ public class ActivityQRCode extends BaseActivity {
         try {
 
             BitMatrix matrix = writer.encode(
-                    "http://codeisland.org", BarcodeFormat.QR_CODE, dimension, dimension
+                    jobOrder.getWaybillNo(), BarcodeFormat.QR_CODE, dimension, dimension
             );
 
             Bitmap bitmap = toBitmap(matrix);

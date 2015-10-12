@@ -307,7 +307,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
     private void requestDetails(String waybillNo){
 
 
-        Request request = JobOrderAPI.getJobOrderDetailsByJONumber(REQUEST_GET_JODETAILS, waybillNo, this);
+        Request request = JobOrderAPI.getJobOrderDetailsByWaybillNo(REQUEST_GET_JODETAILS, waybillNo, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);

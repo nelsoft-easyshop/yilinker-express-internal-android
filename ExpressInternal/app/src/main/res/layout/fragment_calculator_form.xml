@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:padding="20dp">
+
+    <ImageButton android:id="@+id/btnClose"
+        android:layout_width="50dp"
+        android:layout_height="50dp" android:src="@drawable/ic_close" android:layout_alignParentRight="true" android:layout_above="@+id/llContainer" android:background="@android:color/transparent" />
+
+    <TableLayout android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"  android:layout_below="@+id/btnClose" android:layout_marginTop="20dp">
+
+        <TableRow  android:background="@drawable/bg_roundedcorner_gray"
+           android:layout_marginBottom="10dp">
+        <EditText android:hint="@string/calculator_length" android:id="@+id/etLength"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/calculator_input_height" android:layout_weight="6"  android:background="@android:color/transparent" android:gravity="center_vertical" android:padding="5dp" />
+            <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cm" android:gravity="center" android:textColor="@color/greyish_brown" android:textSize="16sp" />
+        </TableRow>
+        <TableRow  android:background="@drawable/bg_roundedcorner_gray"
+            android:layout_marginBottom="10dp">
+            <EditText android:hint="@string/calculator_width" android:id="@+id/etWidth"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/calculator_input_height" android:layout_weight="6"  android:background="@android:color/transparent" android:gravity="center_vertical" android:padding="5dp" />
+            <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cm" android:gravity="center" android:textColor="@color/greyish_brown" android:textSize="16sp" />
+        </TableRow>
+        <TableRow  android:background="@drawable/bg_roundedcorner_gray"
+            android:layout_marginBottom="10dp">
+            <EditText android:hint="@string/calculator_height" android:id="@+id/etHeight"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/calculator_input_height" android:layout_weight="6"  android:background="@android:color/transparent" android:gravity="center_vertical" android:padding="5dp" />
+            <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cm" android:gravity="center" android:textColor="@color/greyish_brown" android:textSize="16sp" />
+        </TableRow>
+        <TableRow  android:background="@drawable/bg_roundedcorner_gray"
+            android:layout_marginBottom="10dp">
+            <EditText android:hint="@string/calculator_weight" android:id="@+id/etWeight"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/calculator_input_height" android:layout_weight="6"  android:background="@android:color/transparent" android:gravity="center_vertical" android:padding="5dp" />
+            <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cm" android:gravity="center" android:textColor="@color/greyish_brown" android:textSize="16sp" />
+        </TableRow>
+        <TableRow  android:background="@drawable/bg_roundedcorner_gray"
+            android:layout_marginBottom="10dp">
+            <EditText android:hint="@string/calculator_declared_value" android:id="@+id/etValue"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/calculator_input_height" android:layout_weight="6"  android:background="@android:color/transparent" android:gravity="center_vertical" android:padding="5dp" />
+            <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cm" android:gravity="center" android:textColor="@color/greyish_brown" android:textSize="16sp" />
+        </TableRow>
+
+
+    </TableLayout>
+
+    <Button android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/calculator_button_height" android:layout_below="@+id/form" android:layout_marginTop="20dp" android:background="@drawable/bg_btn_orangered_rounded" android:text="@string/calculator_submit" android:textColor="@color/white" />
+
+
+</RelativeLayout>

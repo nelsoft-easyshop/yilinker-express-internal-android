@@ -55,6 +55,8 @@ public class JobOrder implements Parcelable{
     private String remarks;
     private List<String> problematicImages;
 
+    private double amountToCollect;
+
     static {
 
         //Temp
@@ -93,6 +95,7 @@ public class JobOrder implements Parcelable{
         items = new ArrayList<>();
         estimatedTimeOfArrival = DateUtility.convertStringToDate(jobOrder.getEta(), SERVER_DATE_FORMAT);
         packageDescription = jobOrder.getPackageDescription();
+        amountToCollect = jobOrder.getAmountToCollect();
 
         //temp
 //        estimatedTimeOfArrival = Calendar.getInstance().getTime();
@@ -105,7 +108,7 @@ public class JobOrder implements Parcelable{
 
             csrName = problemDetail.getCsrName();
             problemType = problemDetail.getProblemType();
-            remarks = problemDetail.getProblemType();
+            remarks = problemDetail.getProblemRemarks();
             problematicImages = problemDetail.getImages();
         }
 
@@ -131,6 +134,7 @@ public class JobOrder implements Parcelable{
         branchName = in.readString();
         timeDelivered = (java.util.Date) in.readSerializable();
         rating = in.readInt();
+        amountToCollect = in.readDouble();
 
         images = new ArrayList<>();
         in.readStringList(images);
@@ -292,6 +296,14 @@ public class JobOrder implements Parcelable{
         this.rating = rating;
     }
 
+    public double getAmountToCollect() {
+        return amountToCollect;
+    }
+
+    public void setAmountToCollect(double amountToCollect) {
+        this.amountToCollect = amountToCollect;
+    }
+
     public List<String> getImages() {
         return images;
     }
@@ -394,6 +406,7 @@ public class JobOrder implements Parcelable{
         dest.writeString(branchName);
         dest.writeSerializable(timeDelivered);
         dest.writeInt(rating);
+        dest.writeDouble(amountToCollect);
         dest.writeStringList(images);
         dest.writeStringList(items);
         dest.writeString(waybillNo);

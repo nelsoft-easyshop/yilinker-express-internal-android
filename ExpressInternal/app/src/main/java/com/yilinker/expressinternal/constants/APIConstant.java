@@ -11,5 +11,6 @@ public class APIConstant {
     public static final String OAUTH_GRANT_TYPE_REFRESHTOKEN = "refresh_token";
 
     public static final String ERR_NO_ENTRIES_FOUND = "No entries found";
+    public static final String ERR_EXCEEDS_CASH_LIMIT = "Cash Limit Reached";
 
 }

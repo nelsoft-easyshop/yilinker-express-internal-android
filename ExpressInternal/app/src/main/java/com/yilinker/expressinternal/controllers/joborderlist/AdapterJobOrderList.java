@@ -218,7 +218,8 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         public void setViews(JobOrder object) {
 
 
-            tvJobOrderNo.setText(object.getJobOrderNo());
+//            tvJobOrderNo.setText(object.getJobOrderNo());
+            tvJobOrderNo.setText(object.getWaybillNo());
             tvAddress.setText("Sample Address");
             tvBranchName.setText(object.getBranchName());
             tvDistance.setText(String.format("%.02f KM", object.getDistance() / 1000f));
@@ -233,11 +234,11 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
             }
 
             String address = null;
-            if(object.getType().equalsIgnoreCase("pickup")){
+            if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
                 address = object.getPickupAddress();
             }
-            else{
+            else if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
                 address = object.getDeliveryAddress();
             }
@@ -281,18 +282,23 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         public void setViews(JobOrder object) {
 
 
-            tvJobOrderNo.setText(object.getJobOrderNo());
+//            tvJobOrderNo.setText(object.getJobOrderNo());
+            tvJobOrderNo.setText(object.getWaybillNo());
             tvBranchName.setText(object.getBranchName());
             tvStatus.setText(object.getStatus());
 
             String address = null;
-            if(object.getType().equalsIgnoreCase("pickup")){
+            if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
                 address = object.getPickupAddress();
             }
-            else{
+            else if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
                 address = object.getDeliveryAddress();
+            }
+            else if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+
+                address = object.getDropoffAddress();
             }
 
             tvAddress.setText(address);
@@ -342,8 +348,8 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         @Override
         public void setViews(JobOrder object) {
             
-            tvJobOrderNo.setText(object.getJobOrderNo());
-
+//            tvJobOrderNo.setText(object.getJobOrderNo());
+            tvJobOrderNo.setText(object.getWaybillNo());
 
             tvTimeDelivered.setText(DateUtility.convertDateToString(object.getTimeDelivered(), CURRENT_DATE_FORMAT));
             ratingJob.setRating((float) object.getRating());
@@ -351,7 +357,7 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
             tvEarning.setText(String.format("+%.02f", object.getEarning()));
 
             String address = null;
-            if(object.getType().equalsIgnoreCase("pickup")){
+            if(object.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
 
                 address = object.getPickupAddress();
             }

@@ -55,7 +55,7 @@
             <TextView
                 android:layout_weight="1"
                 style="@style/ProfileTextStyle"
-                android:text="-" android:id="@+id/tvEarning"/>
+                android:text="-" android:id="@+id/tvDropoff"/>
 
         </TableRow>
 
@@ -74,7 +74,7 @@
             <TextView
                 android:layout_weight="1"
                 style="@style/ProfileLabelStyle"
-                android:text="@string/prof_earnings"/>
+                android:text="@string/prof_dropff"/>
 
         </TableRow>
 
