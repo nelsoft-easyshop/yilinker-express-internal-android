@@ -35,8 +35,8 @@
             style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"  android:visibility="gone"/>
         <TextView android:id="@+id/tvEarned" style="@style/JobOrderDetailTextStyle" android:text="-"  android:visibility="gone"/>
 
-        <TextView
-            style="@style/JobOrderDetailLabelStyle" android:text="@string/recipient"  />
+        <TextView android:id="@+id/tvLabelRecipient"
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/consignee"  />
         <TextView android:id="@+id/tvRecipient" style="@style/JobOrderDetailTextStyle" android:text="-"  />
 
         <TextView

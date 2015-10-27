@@ -61,6 +61,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private TextView tvTotalDelivery;
     private NetworkImageView ivUser;
     private RelativeLayout rlProgress;
+    private TextView tvUsername;
 
     private FragmentNavigationDrawer mNavigationDrawerFragment;
     private Toolbar toolbar;
@@ -216,6 +217,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         tvTotalPickup =  (TextView) findViewById(R.id.tvTotalPickup);
         ivUser = (NetworkImageView) findViewById(R.id.ivLoginImage);
         rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
 
         mNavigationDrawerFragment = (FragmentNavigationDrawer) getSupportFragmentManager().findFragmentById(R.id.fragNavDrawer);
         mNavigationDrawerFragment.setUp(R.id.fragNavDrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -268,6 +270,9 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     private void resetRiderInfo(){
 
+        ((ApplicationClass)BaseApplication.getInstance()).setRider(rider);
+
+        tvUsername.setText(rider.getName());
         tvDelivery.setText(String.valueOf(rider.getCurrentDeliveryJO()));
         tvPickup.setText(String.valueOf(rider.getCurrentPickupJO()));
 //        tvDropoff.setText(String.format("₱%.02f", rider.getTotalEarning()));
@@ -275,7 +280,8 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         tvTotal.setText(String.valueOf(rider.getCompletedJO()));
         tvOnHand.setText(String.format("₱%.02f", rider.getCashOnHand()));
 
-        int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() + rider.getCurrentDropoff() - rider.getCompletedJO();
+//        int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() + rider.getCurrentDropoff() - rider.getCompletedJO();
+        int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() + rider.getCurrentDropoff();
         tvToday.setText(String.valueOf(remainingJO));
 
         ImageLoader imageLoader = VolleyImageLoader.getInstance(getApplicationContext()).getImageLoader();

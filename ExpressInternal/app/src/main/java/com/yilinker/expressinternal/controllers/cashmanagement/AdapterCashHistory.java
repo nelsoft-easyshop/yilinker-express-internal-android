@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseViewHolder;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
@@ -18,6 +19,8 @@ import java.util.List;
  * Created by J.Bautista
  */
 public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.ViewHolder> {
+
+    private static final String DATE_FORMAT = "dd MMM yyyy hh:mm:ss aa";
 
     private List<CashHistory> objects;
     private RecyclerViewClickListener<CashHistory> listener;
@@ -65,7 +68,7 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
         public ViewHolder(View view, RecyclerViewClickListener<CashHistory> listener) {
             super(view, listener);
 
-            tvJobOrderNo = (TextView) view.findViewById(R.id.tvJobOrderNo);
+//            tvJobOrderNo = (TextView) view.findViewById(R.id.tvJobOrderNo);
             tvAction = (TextView) view.findViewById(R.id.tvAction);
             tvAmount = (TextView) view.findViewById(R.id.tvAmount);
 
@@ -80,9 +83,10 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
         @Override
         public void setViews(CashHistory object) {
 
-            tvAction.setText(object.getAction());
+//            tvAction.setText(object.getAction());
+            tvAction.setText(DateUtility.convertDateToString(object.getDate(), DATE_FORMAT));
             tvAmount.setText(String.format("%.02f PHP", object.getAmount()));
-            tvJobOrderNo.setText(object.getJobOrderNo());
+//            tvJobOrderNo.setText(object.getJobOrderNo());
 
         }
 

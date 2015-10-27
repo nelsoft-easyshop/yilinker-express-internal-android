@@ -4,23 +4,29 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.InstanceCreator;
+import com.yilinker.core.utility.DateUtility;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 
 /**
  * Created by J.Bautista
  */
 public class CashHistory implements Parcelable {
 
+    private static final String SERVER_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
+
     private String action;
     private String jobOrderNo;
     private double amount;
+    private Date date;
 
     public CashHistory(com.yilinker.core.model.express.internal.CashHistory object){
 
-        this.action = object.getAction();
+//        this.action = object.getAction();
         this.amount = object.getAmount();
-        this.jobOrderNo = object.getJobOrderNo();
+//        this.jobOrderNo = object.getJobOrderNo();
+        this.date = DateUtility.convertStringToDate(object.getDate(), SERVER_DATE_FORMAT);
 
         //temp
 //        this.jobOrderNo = String.valueOf(object.getJobOrderNo());
@@ -67,6 +73,14 @@ public class CashHistory implements Parcelable {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

@@ -43,7 +43,7 @@
     <string name="prof_pickups">Pick Ups</string>
     <string name="prof_deliveries">Deliveries</string>
     <string name="prof_today">Today</string>
-    <string name="prof_total">Total</string>
+    <string name="prof_total">Completed</string>
     <string name="prof_onhand">On Hand</string>
     <string name="prof_dropff">Drop Off</string>
 
@@ -94,10 +94,13 @@
     <string name="joborderdetail_deliver">Deliver</string>
     <string name="joborderdetail_problematic">Problematic</string>
     <string name="joborderdetail_claim">Claim</string>
-    <string name="joborderdetail_csrname">CSR Name</string>
+    <string name="joborderdetail_csrname">Reported By</string>
     <string name="joborderdetail_type">Type</string>
     <string name="joborderdetail_remarks">Remarks</string>
     <string name="joborderdetail_error_no_image">No image available</string>
+    <string name="cancel">Cancel</string>
+    <string name="gps_network_not_enabled">You need to turn on location services to use this feature.</string>
+    <string name="open_location_settings">Go to Settings</string>
 
     
     <!--Update Status (Pickup)-->
@@ -209,6 +212,7 @@
     <string name="printing_ok">Ok</string>
     <string name="printing_cancel">Cancel</string>
     <string name="printing_print_again">Print Again</string>
+    <string name="printing_certify">This is to certify that we received your package in good condition.</string>
 
 
 </resources>

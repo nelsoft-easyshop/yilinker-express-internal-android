@@ -1,9 +1,13 @@
 package com.yilinker.expressinternal.controllers.joborderlist;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +46,7 @@ import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
+import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.MenuItemClickListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
@@ -56,7 +61,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class ActivityJobOrderList extends BaseActivity implements TabItemClickListener, ResponseHandler, View.OnClickListener, MenuItemClickListener, RecyclerViewClickListener<JobOrder>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener {
+public class ActivityJobOrderList extends BaseActivity implements TabItemClickListener, ResponseHandler, View.OnClickListener, MenuItemClickListener, RecyclerViewClickListener<JobOrder>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, DialogDismissListener {
 
     //For passing Open JOs from DashBoard
     public static final String ARG_OPEN_JO = "openJO";
@@ -302,9 +307,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 //            LatLng warehouseLocation = new LatLng(14.122323, 121.34232);
 //            mMap.addMarker(new MarkerOptions().position(warehouseLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromBitmap(DrawableHelper.createDrawableFromView(getWindowManager(), warehouseMarker)));
 
-            //Center map to rider's location
-            LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
+            if(mLastLocation != null) {
+                //Center map to rider's location
+                LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
+
+            }
 
             mMap.setMyLocationEnabled(true);
 
@@ -500,7 +508,17 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         }
 
-        Request request = JobOrderAPI.getJobOrders(requestCode, type, filterByBranch, this);
+        Request request = null;
+
+        if(currentTab == TAB_OPEN) {
+
+            request = JobOrderAPI.getJobOrders(requestCode, type, filterByBranch, this);
+        }
+        else{
+
+            request = JobOrderAPI.getJobOrders(requestCode, type, this);
+        }
+
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -570,7 +588,13 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     //Reload the map
     private void reloadMap(){
 
-        setUpMap();
+        if(LocationHelper.isLocationServicesEnabled(getApplicationContext())) {
+            setUpMap();
+        }
+        else{
+
+            LocationHelper.showLocationErrorDialog(ActivityJobOrderList.this, this);
+        }
 
     }
 
@@ -1034,4 +1058,17 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
 
+    @Override
+    public void onDialogDismiss(int requestCode, Bundle bundle) {
+
+        switch(requestCode){
+
+            case LocationHelper.REQUEST_DIALOG_LOCATION_ERROR:
+
+                switchView();
+                break;
+
+        }
+
+    }
 }

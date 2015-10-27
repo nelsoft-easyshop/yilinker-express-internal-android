@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,6 +34,7 @@ import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.TabModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -43,11 +46,18 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
     private static final int REQUEST_GET_JODETAILS = 1000;
     private static final int REQUEST_ACCEPT_JOB = 1001;
 
+    private static final int STATUS_OPEN = 0;
+    private static final int STATUS_CURRENT = 1;
+    private static final int STATUS_COMPLETED = 2;
+    private static final int STATUS_PROBLEMATIC = 3;
+
+
     private static final int TYPE_SINGLE = 0;
     private static final int TYPE_BULK = 1;
 
     private QRCodeReaderView qrReader;
     private RecyclerView rvTab;
+    private ImageButton btnFlash;
 
     //For Tabs
     private List<TabModel> tabItems;
@@ -61,6 +71,9 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
     //For Beep Sound
     private MediaPlayer mp;
+
+    //For Flash
+    private boolean isFlashOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +104,21 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
         qrReader.getCameraManager().stopPreview();
         requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        int id = v.getId();
+        switch (id){
+
+            case R.id.btnFlash:
+
+                setFlash();
+                break;
+
+        }
     }
 
     @Override
@@ -233,6 +261,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
         qrReader = (QRCodeReaderView) findViewById(R.id.qrreader);
         rvTab = (RecyclerView) findViewById(R.id.rvTab);
+        btnFlash = (ImageButton) findViewById(R.id.btnFlash);
 
         qrReader.setOnQRCodeReadListener(this);
 
@@ -244,6 +273,8 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
         setTabs();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        btnFlash.setOnClickListener(this);
 
     }
 
@@ -284,9 +315,27 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
             intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
         }
         else {
+
             intent = new Intent(ActivityScanner.this, ActivityJobOderDetail.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+
+            int status = 0;
+            if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_OPEN)){
+
+                status = STATUS_OPEN;
+            }
+            else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+
+                status = STATUS_CURRENT;
+            }
+            else{
+
+                status = STATUS_PROBLEMATIC;
+
+            }
+
+            intent.putExtra(ActivityJobOderDetail.ARG_CURRENT_STATUS, status);
         }
 
         startActivity(intent);
@@ -335,5 +384,28 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
     private void playSound(){
 
         mp.start();
+    }
+
+    private void setFlash(){
+
+        isFlashOn = !isFlashOn;
+
+        Camera camera = qrReader.getCameraManager().getCamera();
+        Camera.Parameters p = camera.getParameters();
+
+        if(isFlashOn){
+
+            btnFlash.setImageResource(R.drawable.ic_flash_on);
+            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+
+
+        }
+        else{
+            btnFlash.setImageResource(R.drawable.ic_flash_off);
+            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+
+        }
+
+        qrReader.getCameraManager().getCamera().setParameters(p);
     }
 }

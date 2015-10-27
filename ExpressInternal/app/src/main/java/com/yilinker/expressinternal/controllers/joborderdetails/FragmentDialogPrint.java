@@ -159,7 +159,10 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
                 }
                 else{
 
-                    print_bt();
+                    initDevicesList();
+
+                    btnCancel.setVisibility(View.GONE);
+                    btnOk.setVisibility(View.GONE);
                 }
 
                 break;
@@ -178,7 +181,7 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
                 mbtSocket = null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -251,6 +254,7 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
                         if (btDeviceList.size() > 0) {
 
+                            boolean hasFound = false;
                             for (final BluetoothDevice device : btDeviceList) {
 
 
@@ -269,9 +273,20 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
                                     handler.postDelayed(runnable, 20000);
 
+                                    hasFound = true;
+
                                 }
 
                             }
+
+                            if(!hasFound){
+
+                                setStatusToFailed();
+                            }
+                        }
+                        else{
+
+                            setStatusToFailed();
                         }
 
                     } catch (Exception ex) {
@@ -291,12 +306,26 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
         @Override
         public void run() {
-            Toast.makeText(getActivity(),
-                    "Cannot establish connection", Toast.LENGTH_SHORT).show();
-            mBluetoothAdapter.startDiscovery();
 
+            setStatusToFailed();
         }
     };
+
+    private Runnable startPrintingRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+
+            tvStatus.setText(getString(R.string.printing_status_ongoingprint));
+
+
+            synchronized(this)
+            {
+                this.notify();
+            }
+        }
+    };
+
 
     private void connectToPrinter(final BluetoothDevice device){
 
@@ -308,14 +337,30 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
             mBluetoothAdapter.cancelDiscovery();
         }
 
-//        Toast.makeText(
-//                getApplicationContext(),
-//                "Connecting to " + device.getName() + ","
-//                        + device.getAddress(),
-//                Toast.LENGTH_SHORT).show();
+
+        final Runnable printRunnable = new Runnable() {
+
+
+            @Override
+            public void run() {
+
+
+                print_bt();
+
+                synchronized(this)
+                {
+                    this.notify();
+                    setStatusToComplete();
+                }
+
+            }
+
+        };
+
 
         Thread connectThread = new Thread(new Runnable() {
 
+            boolean isSuccessful = false;
             @Override
             public void run() {
                 try {
@@ -328,7 +373,24 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
                     mbtSocket.connect();
 
-                } catch (IOException ex) {
+                    synchronized (startPrintingRunnable){
+
+                        getActivity().runOnUiThread(startPrintingRunnable);
+                        startPrintingRunnable.wait();
+
+                    }
+
+                    synchronized (printRunnable) {
+
+
+                        getActivity().runOnUiThread(printRunnable);
+                        printRunnable.wait();
+
+                    }
+
+                    isSuccessful = true;
+
+                } catch (Exception ex) {
 
                     getActivity().runOnUiThread(socketErrorRunnable);
                     try {
@@ -338,22 +400,8 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
                     }
                     mbtSocket = null;
 
-                    setStatusToFailed();
 
-                    return;
-                } finally {
-                    getActivity().runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-//                            finish();
-
-                            print_bt();
-
-                            setStatusToComplete();
-
-                        }
-                    });
                 }
             }
         });
@@ -362,9 +410,10 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
     }
 
+
+
     private void print_bt() {
 
-        tvStatus.setText(getString(R.string.printing_status_ongoingprint));
 
         try {
             try {
@@ -375,69 +424,6 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
             btoutputstream = mbtSocket.getOutputStream();
 
-
-//            byte[] textformat = { 0x1B, 0x21, FONT_TYPE };
-//
-//
-//            byte[] align = {0x1B, 0x61, 0x00};
-//            btoutputstream.write(align);
-//            btoutputstream.write(textformat);
-//
-//
-//            //For Image
-//            byte[] data = new byte[] { 0x1B, 0x33, 0x00 };
-//            btoutputstream.write(data);
-//
-//
-//            btoutputstream.write(FEED_LINE);
-//
-//            align[2] = 0x01;
-//            btoutputstream.write(align);
-//
-//            int pixelColor = 0;
-//
-//
-//            AssetManager assetManager = getActivity().getAssets();
-////            Bitmap bmp = BitmapFactory.decodeStream(assetManager.open("sample.png"));
-//            Bitmap bmp = QRCodeHelper.generateQRCode(getActivity().getApplicationContext(), jobOrder.getWaybillNo(), R.dimen.qr_code_print);
-//
-//
-//            byte[] escBmp = new byte[] { 0x1B, 0x2A, 0x00, 0x00, 0x00 };
-//
-//            escBmp[2] = 0x21;
-//
-//            //nL, nH
-//            escBmp[3] = (byte)(bmp.getWidth() % 256);
-//            escBmp[4] = (byte)(bmp.getWidth() / 256);
-//
-//            for (int i = 0; i < (bmp.getHeight() / 24) + 1; i++) {
-//                btoutputstream.write(escBmp);
-//
-//                for (int j = 0; j < bmp.getWidth(); j++) {
-//
-//                    for (int k = 0; k < 24; k++) {
-//                        if (((i * 24) + k) < bmp.getHeight())   // if within the BMP size
-//                        {
-//                            pixelColor = bmp.getPixel(j, (i * 24) + k);
-//                            if (pixelColor != 0) {
-//                                data[k / 8] += (byte) (128 >> (k % 8));
-//                            }
-//                        }
-//                    }
-//
-//                    btoutputstream.write(data);
-//                    data[0] = 0x00;
-//                    data[1] = 0x00;
-//                    data[2] = 0x00;    // Clear to Zero.
-//                }
-//
-//
-//                btoutputstream.write(FEED_LINE);
-
-
-
-//
-//            }
 
             for(int i = 0; i < 2; i++) {
 
@@ -451,7 +437,7 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
                 btoutputstream.write(FEED_LINE);
 
-                printContentText();
+                printContentText(i);
 
 
                 LINE_SPACING[2] = 100;
@@ -480,7 +466,7 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
     }
 
-    private void printContentText() throws IOException {
+    private void printContentText(int lineNo) throws IOException {
 
         LINE_SPACING[2] = 40;
         btoutputstream.write(LINE_SPACING);
@@ -495,35 +481,87 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
         btoutputstream.write(FEED_LINE);
 
-        msg = String.format("Package Description:\n%s",jobOrder.getPackageDescription());
-        btoutputstream.write(msg.getBytes());
+        if(lineNo == 0) {
 
-        btoutputstream.write(FEED_LINE);
+            msg = String.format("Package Description:\n%s", jobOrder.getPackageDescription());
+            btoutputstream.write(msg.getBytes());
 
-        msg = String.format("Amount to Collect: P%.2f",jobOrder.getAmountToCollect());
-        btoutputstream.write(msg.getBytes());
+            btoutputstream.write(FEED_LINE);
+
+            msg = String.format("Amount to Collect: P%.2f", jobOrder.getAmountToCollect());
+            btoutputstream.write(msg.getBytes());
+
+            LINE_SPACING[2] = 100;
+            btoutputstream.write(LINE_SPACING);
+            btoutputstream.write(FEED_LINE);
 
 
-        LINE_SPACING[2] = 100;
-        btoutputstream.write(LINE_SPACING);
-        btoutputstream.write(FEED_LINE);
+            btoutputstream.write(DEFAULT_LINE_SPACING);
+            btoutputstream.write(FEED_LINE);
 
+        }
 
-        btoutputstream.write(DEFAULT_LINE_SPACING);
-        btoutputstream.write(FEED_LINE);
 
         byte[] centerAlign = {0x1B, 0x61, 0x01};
         btoutputstream.write(centerAlign);
+
+        if(lineNo == 0) {
+            msg = getString(R.string.printing_certify);
+            btoutputstream.write(msg.getBytes());
+
+            LINE_SPACING[2] = 100;
+            btoutputstream.write(LINE_SPACING);
+            btoutputstream.write(FEED_LINE);
+
+
+            msg = ((ApplicationClass)ApplicationClass.getInstance()).getRider().getName();
+            btoutputstream.write(msg.getBytes());
+
+
+            LINE_SPACING[2] = 70;
+            btoutputstream.write(LINE_SPACING);
+            btoutputstream.write(FEED_LINE);
+
+
+        }else{
+
+            LINE_SPACING[2] = 100;
+            btoutputstream.write(LINE_SPACING);
+            btoutputstream.write(FEED_LINE);
+
+
+            btoutputstream.write(DEFAULT_LINE_SPACING);
+            btoutputstream.write(FEED_LINE);
+
+//            msg = jobOrder.getRecipient();
+//            btoutputstream.write(msg.getBytes());
+        }
+
+
 
         msg = "_________________________";
         btoutputstream.write(msg.getBytes());
 
 
+        LINE_SPACING[2] = 30;
+        btoutputstream.write(LINE_SPACING);
         btoutputstream.write(FEED_LINE);
 
-        msg = "Rider's Signature";
-        btoutputstream.write(msg.getBytes());
+        btoutputstream.write(DEFAULT_LINE_SPACING);
+        btoutputstream.write(FEED_LINE);
 
+
+        if(lineNo == 0) {
+            msg = "Rider's Signature";
+            btoutputstream.write(msg.getBytes());
+        }
+        else{
+
+            {
+                msg = "Shipper's Signature";
+                btoutputstream.write(msg.getBytes());
+            }
+        }
 
         btoutputstream.write(0x0D);
         btoutputstream.write(0x0D);

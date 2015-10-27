@@ -10,5 +10,9 @@
         android:layout_gravity="center"
         android:overScrollMode="never" android:background="@color/warm_gray" />
 
+    <ImageButton android:id="@+id/btnCamera"
+        android:layout_width="50dp"
+        android:layout_height="50dp" android:background="@drawable/bg_btn_circle_orangered" android:src="@drawable/ic_retake_pic" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"  android:layout_margin="20dp" android:visibility="gone"/>
+
 
 </RelativeLayout>

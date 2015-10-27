@@ -1,6 +1,7 @@
 package com.yilinker.expressinternal.business;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
 import android.util.Log;
 
@@ -12,7 +13,9 @@ import com.yilinker.core.base.BaseApplication;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.OAuthentication;
 import com.yilinker.expressinternal.BuildConfig;
+import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.APIConstant;
+import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.service.LocationService;
 
 /**
@@ -25,6 +28,8 @@ public class ApplicationClass extends BaseApplication{
 
     private Intent intentServiceLocation;
 
+    private Rider rider;
+
     private Location currentLocation;
 
     @Override
@@ -36,15 +41,17 @@ public class ApplicationClass extends BaseApplication{
 
     public static void refreshToken(ResponseHandler handler){
 
+        ApplicationClass applicationClass = (ApplicationClass)BaseApplication.getInstance();
+
         OAuthentication oAuthentication = new OAuthentication();
-        oAuthentication.setClientId(APIConstant.OAUTH_CLIENT_ID);
-        oAuthentication.setClientSecret(APIConstant.OAUTH_CLIENT_SECRET);
+        oAuthentication.setClientId(applicationClass.getString(R.string.client_id));
+        oAuthentication.setClientSecret(applicationClass.getString(R.string.client_secret));
         oAuthentication.setGrantType(APIConstant.OAUTH_GRANT_TYPE_REFRESHTOKEN);
-        oAuthentication.setRefreshToken(ApplicationClass.getInstance().getRefreshToken());
+        oAuthentication.setRefreshToken(applicationClass.getRefreshToken());
 
         Request request = RiderAPI.refreshToken(REQUEST_CODE_REFRESH_TOKEN, oAuthentication,handler);
 
-        ApplicationClass.getInstance().getRequestQueue().add(request);
+       applicationClass.getRequestQueue().add(request);
     }
 
     public Intent getIntentServiceLocation() {
@@ -93,5 +100,16 @@ public class ApplicationClass extends BaseApplication{
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
+    }
+
+    public Rider getRider(){
+
+        return  this.rider;
+
+    }
+
+    public void setRider(Rider rider){
+
+        this.rider = rider;
     }
 }

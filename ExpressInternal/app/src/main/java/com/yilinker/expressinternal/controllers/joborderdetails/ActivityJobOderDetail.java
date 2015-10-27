@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.api.RiderAPI;
+import com.yilinker.core.base.BaseApplication;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.DateUtility;
@@ -430,6 +431,8 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         tvPickupAddress.setText(jobOrder.getPickupAddress());
         tvDropoffAddress.setText(jobOrder.getDropoffAddress());
 
+        LinearLayout llDropoff = (LinearLayout) findViewById(R.id.llDropoff);
+        llDropoff.setVisibility(View.GONE);
     }
 
     private void setCurrentDeliveryViews(){
@@ -470,6 +473,11 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         LinearLayout llRecipient = (LinearLayout) findViewById(R.id.llRecipient);
         llRecipient.setVisibility(View.GONE);
 
+        LinearLayout llContactNo = (LinearLayout) findViewById(R.id.llContactNo);
+        llContactNo.setVisibility(View.GONE);
+
+        btnContact.setVisibility(View.GONE);
+
     }
 
     private void setProblematicViews(){
@@ -477,12 +485,13 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         btnPositive.setVisibility(View.GONE);
         btnNegative.setVisibility(View.GONE);
 
-        tvCSRName.setText(jobOrder.getCsrName());
+//        tvCSRName.setText(jobOrder.getCsrName());
+        tvCSRName.setText(((ApplicationClass) BaseApplication.getInstance()).getRider().getName());
         tvProblemType.setText(jobOrder.getProblemType());
         tvRemarks.setText(jobOrder.getRemarks());
 
-        ImageButton btnCaution = (ImageButton) findViewById(R.id.btnCaution);
-        btnCaution.setVisibility(View.VISIBLE);
+//        ImageButton btnCaution = (ImageButton) findViewById(R.id.btnCaution);
+//        btnCaution.setVisibility(View.VISIBLE);
 
 
         if(jobOrder.getProblematicImages().size() > 0) {
@@ -778,6 +787,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private void showPrintDialog(){
 
         FragmentDialogPrint dialog = FragmentDialogPrint.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
+        dialog.setCancelable(false);
         dialog.show(getFragmentManager(), null);
     }
 }

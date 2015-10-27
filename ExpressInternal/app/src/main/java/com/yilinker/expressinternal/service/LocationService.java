@@ -134,7 +134,7 @@ public class LocationService extends Service implements ResponseHandler{
 
                 ((ApplicationClass) BaseApplication.getInstance()).setCurrentLocation(location);
 
-                Toast.makeText(getApplicationContext(), "Location Changed", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Location Changed", Toast.LENGTH_LONG).show();
 
                 requestSendLocation(location);
             }

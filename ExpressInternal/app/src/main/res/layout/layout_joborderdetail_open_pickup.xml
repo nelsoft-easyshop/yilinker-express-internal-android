@@ -30,8 +30,8 @@
     <TextView android:id="@+id/tvPickupAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
     <TextView
-        style="@style/JobOrderDetailLabelStyle" android:text="@string/dropoff_address"/>
-    <TextView android:id="@+id/tvDropoffAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
+        style="@style/JobOrderDetailLabelStyle" android:text="@string/dropoff_address" android:visibility="gone"/>
+    <TextView android:id="@+id/tvDropoffAddress" style="@style/JobOrderDetailTextStyle" android:text="-" android:visibility="gone" />
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/distance_from_me"/>

@@ -32,6 +32,7 @@ import java.io.IOException;
 public class ActivityLogin extends Activity implements View.OnClickListener, ResponseHandler {
 
     private static final int REQUEST_LOGIN = 1000;
+    private static final int REQUEST_VERIFY_RIDER = 1002;
 
     private Button btnLogin;
     private EditText etUsername;
@@ -60,20 +61,42 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     @Override
     public void onSuccess(int requestCode, Object object) {
 
-        Login login = (Login) object;
 
-        BaseApplication app = ApplicationClass.getInstance();
-        app.saveAccessToken(login.getAccess_token());
-        app.saveRefreshToken(login.getRefresh_token());
 
-        goToDashboard();
+        switch (requestCode){
 
-        rlProgress.setVisibility(View.GONE);
+            case REQUEST_LOGIN:
+
+                Login login = (Login) object;
+
+                saveTokens(login);
+
+                requestVerifyRider();
+
+//                goToDashboard();
+
+                break;
+
+
+            case REQUEST_VERIFY_RIDER:
+
+
+
+                goToDashboard();
+
+                break;
+
+        }
 
     }
 
     @Override
     public void onFailed(int requestCode, String message) {
+
+        if(requestCode == REQUEST_VERIFY_RIDER){
+
+            ApplicationClass.getInstance().deleteTokens();
+        }
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);
@@ -118,9 +141,9 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         String password = etPassword.getText().toString();
 
         OAuthentication oAuth = new OAuthentication();
-        oAuth.setClientId(APIConstant.OAUTH_CLIENT_ID);
+        oAuth.setClientId(getString(R.string.client_id));
         oAuth.setGrantType(APIConstant.OAUTH_GRANT_TYPE_PASSWORD);
-        oAuth.setClientSecret(APIConstant.OAUTH_CLIENT_SECRET);
+        oAuth.setClientSecret(getString(R.string.client_secret));
         oAuth.setPassword(password);
         oAuth.setUsername(username);
 
@@ -145,4 +168,19 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         return allow;
     }
 
+
+    private void requestVerifyRider(){
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        Request request = RiderAPI.verifyRider(REQUEST_VERIFY_RIDER, this);
+        requestQueue.add(request);
+    }
+
+    private void saveTokens(Login login){
+
+        BaseApplication app = ApplicationClass.getInstance();
+        app.saveAccessToken(login.getAccess_token());
+        app.saveRefreshToken(login.getRefresh_token());
+    }
 }

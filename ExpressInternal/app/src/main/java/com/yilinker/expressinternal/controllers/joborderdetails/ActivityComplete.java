@@ -17,6 +17,7 @@ import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.model.JobOrder;
 
@@ -43,6 +44,7 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
     private TextView tvContactNo;
     private TextView tvItem;
     private TextView tvAmountCollected;
+    private TextView tvLabelRecipient;
 
     private JobOrder jobOrder;
     private boolean isFromHome;
@@ -114,6 +116,7 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
         tvRecipient = (TextView) findViewById(R.id.tvRecipient);
         tvContactNo = (TextView) findViewById(R.id.tvContactNo);
         tvItem = (TextView) findViewById(R.id.tvItem);
+        tvLabelRecipient = (TextView) findViewById(R.id.tvLabelRecipient);
 
         //For Action Bar
         setActionBarTitle(jobOrder.getStatus());
@@ -158,6 +161,13 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
         int timeInMins = Math.abs((int) ((timeUsed - timeInHours) / 60));
 
         tvTimeUSed.setText(String.format("%02dHRS %02dMIN", timeInHours, timeInMins));
+
+        if(jobOrder.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+            tvLabelRecipient.setText(getString(R.string.recipient));
+        }
+        else {
+            tvLabelRecipient.setText(getString(R.string.consignee));
+        }
     }
 
     private void goBackToHome(){
