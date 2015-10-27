@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-<ImageButton
+<ImageButton android:id="@+id/btnClose"
     android:layout_width="50dp"
     android:layout_height="50dp" android:src="@drawable/ic_close" android:layout_alignParentRight="true" android:layout_above="@+id/llContainer" android:background="@android:color/transparent" />
 
@@ -35,18 +35,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:text="@string/cashlimit_verification" android:gravity="center" android:textSize="16sp" android:textColor="@color/greyish_brown" android:layout_marginBottom="20dp" />
 
-        <EditText
+        <EditText android:id="@+id/etUsername"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edittext_height" android:background="@drawable/bg_roundedcorner_gray" android:layout_marginBottom="15dp" android:hint="@string/cashlimit_username" android:padding="5dp"/>
+            android:layout_height="@dimen/edittext_height" android:background="@drawable/bg_roundedcorner_gray" android:layout_marginBottom="15dp" android:hint="@string/cashlimit_username" android:padding="5dp" android:inputType="text"/>
 
-        <EditText
+        <EditText android:id="@+id/etPassword"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edittext_height" android:background="@drawable/bg_roundedcorner_gray" android:layout_marginBottom="15dp" android:hint="@string/cashlimit_password" android:padding="5dp" />
+            android:layout_height="@dimen/edittext_height" android:background="@drawable/bg_roundedcorner_gray" android:layout_marginBottom="15dp" android:hint="@string/cashlimit_password" android:padding="5dp" android:inputType="textPassword" />
 
         <Button android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_button_height" android:background="@drawable/bg_btn_orangered_rounded" android:textColor="@color/white" android:text="@string/cashlimit_submit" />
 
     </LinearLayout>
+
+    <include layout="@layout/layout_progress"  android:id="@+id/rlProgress"/>
 
 </RelativeLayout>

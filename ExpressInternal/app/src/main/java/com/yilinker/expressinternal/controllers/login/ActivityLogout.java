@@ -12,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.yilinker.core.api.RiderAPI;
+import com.yilinker.core.base.BaseApplication;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
@@ -123,7 +124,13 @@ public class ActivityLogout extends BaseActivity implements ResponseHandler{
 
             case REQUEST_LOGOUT:
 
-                ApplicationClass.getInstance().deleteTokens();
+                ApplicationClass appClass = (ApplicationClass)BaseApplication.getInstance();
+
+                appClass.deleteTokens();
+
+                //Stop location service
+                appClass.stopLocationService();
+
                 goToLogin();
 
                 break;

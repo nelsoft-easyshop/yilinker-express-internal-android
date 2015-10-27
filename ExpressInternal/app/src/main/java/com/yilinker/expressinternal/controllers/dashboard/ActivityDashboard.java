@@ -2,7 +2,6 @@ package com.yilinker.expressinternal.controllers.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,9 +34,9 @@ import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderLis
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
+import com.yilinker.expressinternal.service.LocationService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ActivityDashboard extends AppCompatActivity implements View.OnClickListener, FragmentNavigationDrawer.NavigationDrawerCallbacks, ResponseHandler {
@@ -53,7 +52,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private View btnJobOrders;
     private TextView tvDelivery;
     private  TextView tvPickup;
-    private TextView tvEarnings;
+    private TextView tvDropoff;
     private TextView tvToday;
     private TextView tvTotal;
     private TextView tvOnHand;
@@ -62,6 +61,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private TextView tvTotalDelivery;
     private NetworkImageView ivUser;
     private RelativeLayout rlProgress;
+    private TextView tvUsername;
 
     private FragmentNavigationDrawer mNavigationDrawerFragment;
     private Toolbar toolbar;
@@ -84,8 +84,12 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         setUpActionBar();
         initViews();
 
-        requestQueue = ApplicationClass.getInstance().getRequestQueue();
+        ApplicationClass appClass = (ApplicationClass)BaseApplication.getInstance();
 
+        requestQueue = appClass.getRequestQueue();
+
+        //Start location service
+        appClass.startLocationService();
     }
 
     @Override
@@ -93,7 +97,6 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         super.onResume();
 
         requestRiderInfo();
-
     }
 
     @Override
@@ -204,7 +207,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         btnJobOrders = findViewById(R.id.btnJobOrders);
         tvDelivery = (TextView) findViewById(R.id.tvDelivery);
-        tvEarnings = (TextView) findViewById(R.id.tvEarning);
+        tvDropoff = (TextView) findViewById(R.id.tvDropoff);
         tvOnHand = (TextView) findViewById(R.id.tvOnHand);
         tvPickup = (TextView) findViewById(R.id.tvPickup);
         tvToday = (TextView) findViewById(R.id.tvToday);
@@ -214,6 +217,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         tvTotalPickup =  (TextView) findViewById(R.id.tvTotalPickup);
         ivUser = (NetworkImageView) findViewById(R.id.ivLoginImage);
         rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
 
         mNavigationDrawerFragment = (FragmentNavigationDrawer) getSupportFragmentManager().findFragmentById(R.id.fragNavDrawer);
         mNavigationDrawerFragment.setUp(R.id.fragNavDrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -257,7 +261,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private void requestOpenJOSummary(){
 
         rlProgress.setVisibility(View.VISIBLE);
-        Request request = JobOrderAPI.getJobOrders(REQUEST_GET_OPEN_JO, "Open", this);
+        Request request = JobOrderAPI.getJobOrders(REQUEST_GET_OPEN_JO, "Open", false, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
         requestQueue.add(request);
 
@@ -266,13 +270,18 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     private void resetRiderInfo(){
 
+        ((ApplicationClass)BaseApplication.getInstance()).setRider(rider);
+
+        tvUsername.setText(rider.getName());
         tvDelivery.setText(String.valueOf(rider.getCurrentDeliveryJO()));
         tvPickup.setText(String.valueOf(rider.getCurrentPickupJO()));
-        tvEarnings.setText(String.format("₱%.02f", rider.getTotalEarning()));
+//        tvDropoff.setText(String.format("₱%.02f", rider.getTotalEarning()));
+        tvDropoff.setText(String.valueOf(rider.getCurrentDropoff()));
         tvTotal.setText(String.valueOf(rider.getCompletedJO()));
         tvOnHand.setText(String.format("₱%.02f", rider.getCashOnHand()));
 
-        int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() - rider.getCompletedJO();
+//        int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() + rider.getCurrentDropoff() - rider.getCompletedJO();
+        int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() + rider.getCurrentDropoff();
         tvToday.setText(String.valueOf(remainingJO));
 
         ImageLoader imageLoader = VolleyImageLoader.getInstance(getApplicationContext()).getImageLoader();

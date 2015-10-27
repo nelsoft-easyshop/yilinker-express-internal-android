@@ -10,14 +10,14 @@
 
             <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="3"  android:text="@string/job_order_number"/>
 
-            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"/>
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta" android:visibility="gone"/>
 
         </TableRow>
 
         <TableRow>
 
             <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="3" android:text="-" />
-            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-" />
+            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-"   android:visibility="gone"/>
 
         </TableRow>
 
@@ -35,16 +35,24 @@
         <TextView android:id="@+id/tvDropoffAddress" style="@style/JobOrderDetailTextStyle" android:text="-" />
     </LinearLayout>
 
-    <TextView
+    <LinearLayout android:id="@+id/llRecipient" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+    <TextView android:id="@+id/tvLabelRecipient"
         style="@style/JobOrderDetailLabelStyle" android:text="@string/recipient"/>
     <TextView android:id="@+id/tvRecipient" style="@style/JobOrderDetailTextStyle" android:text="-" />
+    </LinearLayout>
 
+    <LinearLayout android:id="@+id/llContactNo" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/contact_number"/>
     <TextView android:id="@+id/tvContactNo" style="@style/JobOrderDetailTextStyle" android:text="-" />
+    </LinearLayout>
 
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="@string/item"/>
     <TextView android:id="@+id/tvItem" style="@style/JobOrderDetailTextStyle" android:text="-" />
+
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="Amount To Collect"/>
+    <TextView android:id="@+id/tvAmountToCollect" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
 </merge>

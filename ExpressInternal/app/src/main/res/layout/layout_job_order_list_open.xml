@@ -42,11 +42,11 @@
 
         <TextView android:id="@+id/tvEarning"
             style="@style/JobOrderItemFooterStyle"
-            android:text="-"/>
+            android:text="-" android:visibility="gone"/>
 
         <TextView android:id="@+id/tvETA"
             style="@style/JobOrderItemFooterStyle"
-            android:text="-" />
+            android:text="-" android:visibility="gone" />
 
     </LinearLayout>
 

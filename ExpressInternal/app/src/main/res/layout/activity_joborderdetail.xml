@@ -16,6 +16,8 @@
 
         <ImageButton android:id="@+id/btnCaution" android:src="@drawable/ic_caution" style="@style/SideMenuButtonStyle" android:visibility="gone" />
 
+        <ImageButton android:id="@+id/btnPrint" android:src="@drawable/ic_print" style="@style/SideMenuButtonStyle"  />
+
     </LinearLayout>
 
     <ScrollView android:layout_above="@id/llButtons"

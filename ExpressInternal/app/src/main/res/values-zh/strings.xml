@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ExpressInternal</string>
+    <string name="checklist_delivery_valid_id"></string>
+    <string name="checklist_pickup_complete"></string>
+    <string name="checklist_pickup_matchjo"></string>
+    <string name="contact_error_no_number"></string>
+    <string name="checklist_pickup_package_complete"></string>
+    <string name="checklist_pickup_good_condition"></string>
+</resources>

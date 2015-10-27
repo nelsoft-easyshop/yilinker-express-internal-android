@@ -35,6 +35,7 @@ import com.yilinker.expressinternal.model.JobOrder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,10 +55,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private static final int REQUEST_LAUNCH_CAMERA_ID = 2000;
     private static final int REQUEST_LAUNCH_CAMERA_PICTURE = 2001;
+    private static final int REQUEST_GALLERY_ID = 2002;
+    private static final int REQUEST_GALLERY_PICTURE = 2003;
 
-    private static final int CHECKLIST_VALID_ID = 2;
-    private static final int CHECKLIST_RECIPIENT_PICTURE = 3;
-    private static final int CHECKLIST_SIGNATURE = 4;
+    private static  int CHECKLIST_VALID_ID = 2;
+    private static  int CHECKLIST_RECIPIENT_PICTURE = 3;
+    private static  int CHECKLIST_SIGNATURE = 4;
 
     private RelativeLayout rlProgress;
     private TextView tvJobOrderNo;
@@ -136,7 +139,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
                 ArrayList<String> images = new ArrayList<>();
                 images.add(validIdImage);
 
-                showImageGallery(images);
+                showImageGallery(images, REQUEST_GALLERY_ID);
 
             }
 
@@ -153,7 +156,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
                 ArrayList<String> images = new ArrayList<>();
                 images.add(recipientPicture);
 
-                showImageGallery(images);
+                showImageGallery(images, REQUEST_GALLERY_PICTURE);
             }
 
             return;
@@ -189,6 +192,19 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
                     updateRecipientPictureChecklist();
                     break;
+
+                case REQUEST_GALLERY_ID:
+
+                    photoUri = Uri.parse(data.getStringExtra(ActivityImageGallery.ARG_NEW_PHOTO));
+                    updateValidIDChecklist();
+                    break;
+
+                case REQUEST_GALLERY_PICTURE:
+
+                    photoUri = Uri.parse(data.getStringExtra(ActivityImageGallery.ARG_NEW_PHOTO));
+                    updateRecipientPictureChecklist();
+                    break;
+
             }
         }
 
@@ -246,8 +262,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void bindViews(){
 
-        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
+//        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
 
+        tvJobOrderNo.setText(jobOrder.getWaybillNo());
 //        //For Items
 //        List<String> items  = jobOrder.getItems();
 //        StringBuilder builder = new StringBuilder();
@@ -274,7 +291,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
             case REQUEST_SUBMIT_SIGNATURE:
 
-                requestSubmitRating();
+//                requestSubmitRating();
+                requestUploadImages();
                 break;
 
             case REQUEST_SUBMIT_RATING:
@@ -358,6 +376,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
             arrayItems = getResources().getStringArray(R.array.checklist_delivery);
+
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
             arrayItems = getResources().getStringArray(R.array.checklist_claiming);
@@ -374,6 +393,15 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             item.setTitle(arrayItems[i]);
 
             items.add(item);
+        }
+
+        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY) && jobOrder.getAmountToCollect() == 0) {
+
+            CHECKLIST_RECIPIENT_PICTURE -= 1;
+            CHECKLIST_SIGNATURE -= 1;
+            CHECKLIST_VALID_ID -= 1;
+
+            items.remove(0);
         }
 
 
@@ -511,6 +539,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void requestUpdate(String newStatus){
 
+        rlProgress.setVisibility(View.VISIBLE);
+
         this.newStatus = newStatus;
 
         Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE, jobOrder.getJobOrderNo(), newStatus, this);
@@ -614,12 +644,13 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void showImageGallery(ArrayList<String> images){
+    private void showImageGallery(ArrayList<String> images, int requestCode){
 
         Intent intent = new Intent(ActivityChecklist.this, ActivityImageGallery.class);
         intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, images);
         intent.putExtra(ActivityImageGallery.ARG_TYPE, ImagePagerAdapter.TYPE_URI);
-        startActivity(intent);
+        intent.putExtra(ActivityImageGallery.ARG_RETAKE, true);
+        startActivityForResult(intent, requestCode);
 
     }
 
@@ -631,6 +662,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         validIdImage = photoUri.toString();
 
+        //Check if all items are checked to enable Confirm button
+        setConfirmButton(isComplete());
+
     }
 
     private void updateRecipientPictureChecklist(){
@@ -640,6 +674,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         adapter.notifyItemChanged(position);
 
         recipientPicture = photoUri.toString();
+
+        //Check if all items are checked to enable Confirm button
+        setConfirmButton(isComplete());
 
     }
 

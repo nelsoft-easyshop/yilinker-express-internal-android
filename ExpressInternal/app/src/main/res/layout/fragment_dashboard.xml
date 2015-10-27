@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/app_name"
+                android:text="-"
                 android:textStyle="bold"
                 android:textColor="@color/greyish_brown" android:textSize="22sp" android:layout_below="@+id/ivLoginImage"/>
 
@@ -55,7 +55,7 @@
             <TextView
                 android:layout_weight="1"
                 style="@style/ProfileTextStyle"
-                android:text="-" android:id="@+id/tvEarning"/>
+                android:text="-" android:id="@+id/tvDropoff"/>
 
         </TableRow>
 
@@ -74,7 +74,7 @@
             <TextView
                 android:layout_weight="1"
                 style="@style/ProfileLabelStyle"
-                android:text="@string/prof_earnings"/>
+                android:text="@string/prof_dropff"/>
 
         </TableRow>
 

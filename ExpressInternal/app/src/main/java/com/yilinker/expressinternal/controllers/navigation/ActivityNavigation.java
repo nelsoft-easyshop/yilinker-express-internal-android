@@ -1,5 +1,6 @@
 package com.yilinker.expressinternal.controllers.navigation;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -21,12 +22,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.yilinker.core.base.BaseApplication;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
+import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.interfaces.DialogDismissListener;
+import com.yilinker.expressinternal.service.LocationService;
+import com.yilinker.expressinternal.utilities.LocationHelper;
 
 import java.util.List;
 
-public class ActivityNavigation extends BaseActivity implements RoutingListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class ActivityNavigation extends BaseActivity implements RoutingListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DialogDismissListener {
 
     public static final String ARG_DESTINATION_LAT = "latitude";
     public static final String ARG_DESTINATION_LONG = "longitude";
@@ -58,7 +64,6 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
 
         initViews();
 
-        setUpMapIfNeeded();
 
     }
 
@@ -73,14 +78,22 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
     protected void onResume() {
         super.onResume();
 
-        setUpMapIfNeeded();
+        if(LocationHelper.isLocationServicesEnabled(getApplicationContext())) {
+
+            mGoogleApiClient.connect();
+            setUpMapIfNeeded();
+        }
+        else{
+
+            LocationHelper.showLocationErrorDialog(ActivityNavigation.this, this);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        mGoogleApiClient.connect();
+
     }
 
     @Override
@@ -116,7 +129,8 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
                     .getMap();
             // Check if we were successful in obtaining the map.
 //            if (map != null) {
-//                setUpMap();
+//
+//
 //            }
         }
     }
@@ -176,9 +190,12 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
     public void onConnected(Bundle bundle) {
 
         Location mLastLocation  = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if(mLastLocation != null){
+
+
         curentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-        if(curentLocation != null){
 
             if (polyRoute == null) {
 
@@ -282,4 +299,17 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
 
     }
 
+    @Override
+    public void onDialogDismiss(int requestCode, Bundle bundle) {
+
+        switch (requestCode){
+
+            case LocationHelper.REQUEST_DIALOG_LOCATION_ERROR:
+
+                finish();
+                break;
+
+        }
+
+    }
 }

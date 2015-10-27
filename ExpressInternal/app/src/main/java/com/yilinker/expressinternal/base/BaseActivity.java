@@ -140,6 +140,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             ivMenu.setOnClickListener(this);
     }
 
+    public View getActionBarView(){
+
+        return actionBar.getCustomView();
+
+    }
+
     @Override
     public void onClick(View v) {
 

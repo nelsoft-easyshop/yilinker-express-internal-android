@@ -20,6 +20,7 @@ public class Rider implements Parcelable {
     private double totalEarning;
     private int completedJO;
     private int currentJO;
+    private int currentDropoff;
 
     public Rider(){
 
@@ -33,9 +34,10 @@ public class Rider implements Parcelable {
         currentDeliveryJO = rider.getCurrentDeliveryJO();
         currentPickupJO = rider.getCurrentPickupJO();
         cashOnHand = rider.getCashOnHand();
-        totalEarning = rider.getTotalEarning();
+//        totalEarning = rider.getTotalEarning();
         completedJO = rider.getCompletedJO();
         currentJO = rider.getCurrentJO();
+        currentDropoff = rider.getCurrentDropoffJO();
 
     }
 
@@ -48,6 +50,7 @@ public class Rider implements Parcelable {
         totalEarning = in.readDouble();
         completedJO = in.readInt();
         currentJO = in.readInt();
+        currentDropoff = in.readInt();
     }
 
     public static final Creator<Rider> CREATOR = new Creator<Rider>() {
@@ -126,6 +129,14 @@ public class Rider implements Parcelable {
         this.currentJO = currentJO;
     }
 
+    public int getCurrentDropoff() {
+        return currentDropoff;
+    }
+
+    public void setCurrentDropoff(int currentDropoff) {
+        this.currentDropoff = currentDropoff;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -141,5 +152,6 @@ public class Rider implements Parcelable {
         dest.writeDouble(totalEarning);
         dest.writeInt(completedJO);
         dest.writeInt(currentJO);
+        dest.writeInt(currentDropoff);
     }
 }

@@ -15,6 +15,10 @@
         style="@style/JobOrderDetailLabelStyle" android:text="@string/joborderdetail_remarks"/>
     <TextView android:id="@+id/tvRemarks" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
+    <TextView
+        style="@style/JobOrderDetailLabelStyle" android:text="Amount To Collect"/>
+    <TextView android:id="@+id/tvAmountToCollect" style="@style/JobOrderDetailTextStyle" android:text="-" />
+
     <TextView android:id="@+id/tvViewImages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:textSize="16sp" android:text="@string/view_images" android:textColor="@drawable/selector_textcolor_orangered" android:clickable="true" />

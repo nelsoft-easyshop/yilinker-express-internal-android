@@ -32,7 +32,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp" android:textColor="@color/warm_gray"
-        android:text="14:53:03 remaining" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"/>
+        android:text="14:53:03 remaining" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"  android:visibility="gone"/>
 
     <View
         android:layout_width="match_parent"
