@@ -64,6 +64,7 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
         private TextView tvJobOrderNo;
         private TextView tvAction;
         private TextView tvAmount;
+        private TextView tvType;
 
         public ViewHolder(View view, RecyclerViewClickListener<CashHistory> listener) {
             super(view, listener);
@@ -71,6 +72,7 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
 //            tvJobOrderNo = (TextView) view.findViewById(R.id.tvJobOrderNo);
             tvAction = (TextView) view.findViewById(R.id.tvAction);
             tvAmount = (TextView) view.findViewById(R.id.tvAmount);
+            tvType = (TextView) view.findViewById(R.id.tvType);
 
         }
 
@@ -86,6 +88,7 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
 //            tvAction.setText(object.getAction());
             tvAction.setText(DateUtility.convertDateToString(object.getDate(), DATE_FORMAT));
             tvAmount.setText(String.format("%.02f PHP", object.getAmount()));
+            tvType.setText(object.getType());
 //            tvJobOrderNo.setText(object.getJobOrderNo());
 
         }

@@ -293,6 +293,9 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
                         setStatusToFailed();
                     }
+                } else {
+
+                    setStatusToCancelled();
                 }
 
                 break;
@@ -688,12 +691,24 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
         tvStatus.setText(getString(R.string.printing_status_done));
         btnOk.setVisibility(View.VISIBLE);
+        btnOk.setText(R.string.printing_ok);
 
     }
 
     private void setStatusToFailed(){
 
         tvStatus.setText(getString(R.string.printing_status_problem));
+
+        btnOk.setText(getString(R.string.printing_print_again));
+
+        btnCancel.setVisibility(View.VISIBLE);
+        btnOk.setVisibility(View.VISIBLE);
+
+    }
+
+    private void setStatusToCancelled(){
+
+        tvStatus.setText(getString(R.string.printing_bluetooth_enable_cancelled));
 
         btnOk.setText(getString(R.string.printing_print_again));
 
