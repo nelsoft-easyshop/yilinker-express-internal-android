@@ -213,6 +213,7 @@
     <string name="printing_cancel">Cancel</string>
     <string name="printing_print_again">Print Again</string>
     <string name="printing_certify">This is to certify that we received your package in good condition.</string>
+    <string name="printing_bluetooth_enable_cancelled">Please enable bluetooth to proceed with printing.</string>
 
 
     <!--Checklist-->
