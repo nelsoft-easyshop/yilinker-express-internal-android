@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -21,6 +22,7 @@ public class ActivityQRCode extends BaseActivity {
     public static final String ARG_JOB_ORDER = "jobOrder";
 
     private ImageView ivQRCode;
+    private TextView tvWaybillNo;
 
     private JobOrder jobOrder;
 
@@ -54,10 +56,12 @@ public class ActivityQRCode extends BaseActivity {
     private void initViews(){
 
         ivQRCode = (ImageView) findViewById(R.id.ivQRCode);
+        tvWaybillNo = (TextView) findViewById(R.id.tvWaybillNo);
 
         //For Action Bar
         setActionBarTitle(getString(R.string.actionbar_title_qrcode));
         setActionBarBackgroundColor(R.color.marigold);
+
     }
 
     private void generateQRCode(){
@@ -74,6 +78,8 @@ public class ActivityQRCode extends BaseActivity {
             Bitmap bitmap = toBitmap(matrix);
 
             ivQRCode.setImageBitmap(bitmap);
+
+            tvWaybillNo.setText(jobOrder.getWaybillNo());
 
         } catch (WriterException e) {
             e.printStackTrace();

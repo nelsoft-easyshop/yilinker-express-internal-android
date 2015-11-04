@@ -516,7 +516,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         }
         else{
 
-            request = JobOrderAPI.getJobOrders(requestCode, type, this);
+            request = JobOrderAPI.getJobOrders(requestCode, type, true, this);
         }
 
         request.setTag(ApplicationClass.REQUEST_TAG);

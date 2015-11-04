@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.core.base.BaseApplication;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
@@ -31,6 +32,7 @@ import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.model.Rider;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -310,12 +312,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
                 String status = jobOrder.getStatus();
                 if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
-                    Toast.makeText(getApplicationContext(), "Job order status is updates!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.checklist_job_updated), Toast.LENGTH_LONG).show();
                     goToHome();
                 }
                 else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
-                    Toast.makeText(getApplicationContext(), "Job order is completed!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.checklist_job_completed), Toast.LENGTH_LONG).show();
                     goToCompleteScreen();
                     finish();
                 }
@@ -479,7 +481,19 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
-            showNewStatusDialog();
+            //Check if the job order is within the rider's area. If yes, show the dialog for selecting new status, else update the status to For Drop-off
+
+            Rider rider = ((ApplicationClass)BaseApplication.getInstance()).getRider();
+
+            if(rider.getAreaCode().equals(jobOrder.getAreaCode())){
+
+                showNewStatusDialog();
+            }
+            else {
+
+                requestUpdate(JobOrderConstant.JO_CURRENT_DROPOFF);
+            }
+
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 

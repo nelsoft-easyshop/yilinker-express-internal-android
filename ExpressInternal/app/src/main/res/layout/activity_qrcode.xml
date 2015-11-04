@@ -6,4 +6,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_centerInParent="true"/>
 
+    <TextView android:id="@+id/tvWaybillNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_below="@+id/ivQRCode" android:textSize="20sp" />
+
 </RelativeLayout>
