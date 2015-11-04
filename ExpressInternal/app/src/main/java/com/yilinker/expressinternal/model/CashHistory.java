@@ -20,6 +20,7 @@ public class CashHistory implements Parcelable {
     private String jobOrderNo;
     private double amount;
     private Date date;
+    private String type;
 
     public CashHistory(com.yilinker.core.model.express.internal.CashHistory object){
 
@@ -27,6 +28,7 @@ public class CashHistory implements Parcelable {
         this.amount = object.getAmount();
 //        this.jobOrderNo = object.getJobOrderNo();
         this.date = DateUtility.convertStringToDate(object.getDate(), SERVER_DATE_FORMAT);
+        this.type = object.getType();
 
         //temp
 //        this.jobOrderNo = String.valueOf(object.getJobOrderNo());
@@ -37,6 +39,7 @@ public class CashHistory implements Parcelable {
         action = in.readString();
         jobOrderNo = in.readString();
         amount = in.readDouble();
+        type = in.readString();
     }
 
     public static final Creator<CashHistory> CREATOR = new Creator<CashHistory>() {
@@ -83,6 +86,14 @@ public class CashHistory implements Parcelable {
         this.date = date;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -93,6 +104,7 @@ public class CashHistory implements Parcelable {
         dest.writeString(action);
         dest.writeString(jobOrderNo);
         dest.writeDouble(amount);
+        dest.writeString(type);
     }
 
 

@@ -11,6 +11,25 @@
 
     <!--<TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="match_parent"  android:text="-" android:textColor="@color/warm_gray" android:paddingLeft="20dp" android:paddingRight="20dp"  android:paddingBottom="10dp"/>-->
 
-<View android:layout_height="1dp" android:layout_width="match_parent" android:background="@color/gray3"/>
+    <TableRow
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="-"
+            android:maxLines="2"
+            android:textColor="@color/greyish_brown"
+            android:layout_weight="1" />
+
+    </TableRow>
+
+    <View android:layout_height="1dp" android:layout_width="match_parent" android:background="@color/gray3" />
 
 </TableLayout>
