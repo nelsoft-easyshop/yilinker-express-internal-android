@@ -29,6 +29,8 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
+import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.TabModel;
@@ -314,29 +316,48 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
         Intent intent = null;
 
         if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_COMPLETE)){
+
             intent = new Intent(ActivityScanner.this, ActivityComplete.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+
         }
-        else {
+
+        else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)) {
+
+            intent = new Intent(ActivityScanner.this, ActivityProblematic.class);
+            intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder);
+            startActivity(intent);
+
+        } else {
 
             intent = new Intent(ActivityScanner.this, ActivityJobOderDetail.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
 
             int status = 0;
-            if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_OPEN)){
+
+//            if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_OPEN)){
+//
+//                status = STATUS_OPEN;
+//            }
+//            else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+//
+//                status = STATUS_CURRENT;
+//            }
+//            else{
+//
+//                status = STATUS_PROBLEMATIC;
+//
+//            }
+
+            if(jobOrder.isOpen()) {
 
                 status = STATUS_OPEN;
-            }
-            else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+
+            } else {
 
                 status = STATUS_CURRENT;
-            }
-            else{
-
-                status = STATUS_PROBLEMATIC;
-
             }
 
             intent.putExtra(ActivityJobOderDetail.ARG_CURRENT_STATUS, status);
