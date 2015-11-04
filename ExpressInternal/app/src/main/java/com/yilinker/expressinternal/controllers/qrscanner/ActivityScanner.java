@@ -191,6 +191,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
                 break;
 
+
         }
 
 
@@ -214,6 +215,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
                 break;
 
         }
+
     }
 
     @Override
@@ -234,6 +236,8 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
         }
 
+
+        currentID = "";
     }
 
     @Override

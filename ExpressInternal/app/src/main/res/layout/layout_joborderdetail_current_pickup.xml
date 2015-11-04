@@ -51,8 +51,10 @@
         style="@style/JobOrderDetailLabelStyle" android:text="@string/item"/>
     <TextView android:id="@+id/tvItem" style="@style/JobOrderDetailTextStyle" android:text="-" />
 
+    <LinearLayout android:id="@+id/llAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
     <TextView
         style="@style/JobOrderDetailLabelStyle" android:text="Amount To Collect"/>
     <TextView android:id="@+id/tvAmountToCollect" style="@style/JobOrderDetailTextStyle" android:text="-" />
+    </LinearLayout>
 
 </merge>

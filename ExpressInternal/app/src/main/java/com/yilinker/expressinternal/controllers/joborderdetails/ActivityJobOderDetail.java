@@ -476,6 +476,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         LinearLayout llContactNo = (LinearLayout) findViewById(R.id.llContactNo);
         llContactNo.setVisibility(View.GONE);
 
+        LinearLayout llAmount = (LinearLayout) findViewById(R.id.llAmount);
+        llAmount.setVisibility(View.GONE);
+
         btnContact.setVisibility(View.GONE);
 
     }

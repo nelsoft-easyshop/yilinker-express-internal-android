@@ -21,6 +21,7 @@ public class Rider implements Parcelable {
     private int completedJO;
     private int currentJO;
     private int currentDropoff;
+    private String areaCode;
 
     public Rider(){
 
@@ -38,6 +39,7 @@ public class Rider implements Parcelable {
         completedJO = rider.getCompletedJO();
         currentJO = rider.getCurrentJO();
         currentDropoff = rider.getCurrentDropoffJO();
+        areaCode = rider.getAreaCode();
 
     }
 
@@ -51,6 +53,7 @@ public class Rider implements Parcelable {
         completedJO = in.readInt();
         currentJO = in.readInt();
         currentDropoff = in.readInt();
+        areaCode = in.readString();
     }
 
     public static final Creator<Rider> CREATOR = new Creator<Rider>() {
@@ -137,6 +140,14 @@ public class Rider implements Parcelable {
         this.currentDropoff = currentDropoff;
     }
 
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -153,5 +164,6 @@ public class Rider implements Parcelable {
         dest.writeInt(completedJO);
         dest.writeInt(currentJO);
         dest.writeInt(currentDropoff);
+        dest.writeString(areaCode);
     }
 }

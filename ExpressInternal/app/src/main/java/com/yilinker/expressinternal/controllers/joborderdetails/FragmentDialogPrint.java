@@ -366,10 +366,15 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
                 try {
                     boolean gotuuid = device
                             .fetchUuidsWithSdp();
+
                     UUID uuid = device.getUuids()[0]
                             .getUuid();
+//                    mbtSocket = device
+//                            .createRfcommSocketToServiceRecord(uuid);
+
                     mbtSocket = device
-                            .createRfcommSocketToServiceRecord(uuid);
+                            .createInsecureRfcommSocketToServiceRecord(uuid);
+
 
                     mbtSocket.connect();
 

@@ -215,5 +215,9 @@
     <string name="printing_certify">This is to certify that we received your package in good condition.</string>
 
 
+    <!--Checklist-->
+    <string name="checklist_job_completed">Job order is completed!</string>
+    <string name="checklist_job_updated">Job order status is updated!</string>
+
 </resources>
 

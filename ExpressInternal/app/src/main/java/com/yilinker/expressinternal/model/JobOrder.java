@@ -31,6 +31,8 @@ public class JobOrder implements Parcelable{
     private String size;
     private double earning;
     private String type;
+    private boolean isOpen;
+    private String areaCode;
 
     //For location
     private double latitude;
@@ -97,6 +99,9 @@ public class JobOrder implements Parcelable{
         packageDescription = jobOrder.getPackageDescription();
         amountToCollect = jobOrder.getAmountToCollect();
 
+        isOpen = jobOrder.isOpen();
+        areaCode = jobOrder.getAreaCode();
+
         //temp
 //        estimatedTimeOfArrival = Calendar.getInstance().getTime();
 //        type = JOB_ORDER_TYPE.get(jobOrder.getJobOrderType());
@@ -124,6 +129,8 @@ public class JobOrder implements Parcelable{
         estimatedTimeOfArrival = (java.util.Date) in.readSerializable();
         earning = in.readDouble();
         type = in.readString();
+        isOpen = in.readByte() != 0;
+        areaCode = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
         pickupAddress = in.readString();
@@ -214,6 +221,22 @@ public class JobOrder implements Parcelable{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(boolean isOpen) {
+        this.isOpen = isOpen;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
     }
 
     public double getLatitude() {
@@ -368,6 +391,7 @@ public class JobOrder implements Parcelable{
         this.packageDescription = packageDescription;
     }
 
+
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
         @Override
         public JobOrder createFromParcel(Parcel in) {
@@ -396,6 +420,8 @@ public class JobOrder implements Parcelable{
         dest.writeSerializable(estimatedTimeOfArrival);
         dest.writeDouble(earning);
         dest.writeString(type);
+        dest.writeByte((byte) (isOpen ? 1 : 0));
+        dest.writeString(areaCode);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeString(pickupAddress);
