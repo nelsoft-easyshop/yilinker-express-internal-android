@@ -88,6 +88,30 @@ public class LocationService extends Service implements ResponseHandler{
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         super.onStartCommand(intent, flags, startId);
+
+
+//        Log.e(TAG, "onCreate");
+//        initializeLocationManager();
+//        try {
+//            mLocationManager.requestLocationUpdates(
+//                    LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
+//                    mLocationListeners[1]);
+//        } catch (java.lang.SecurityException ex) {
+//            Log.i(TAG, "fail to request location update, ignore", ex);
+//        } catch (IllegalArgumentException ex) {
+//            Log.d(TAG, "network provider does not exist, " + ex.getMessage());
+//        }
+//
+//        try {
+//            mLocationManager.requestLocationUpdates(
+//                    LocationManager.GPS_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
+//                    mLocationListeners[0]);
+//        } catch (java.lang.SecurityException ex) {
+//            Log.i(TAG, "fail to request location update, ignore", ex);
+//        } catch (IllegalArgumentException ex) {
+//            Log.d(TAG, "gps provider does not exist " + ex.getMessage());
+//        }
+
         return START_STICKY;
     }
 
@@ -107,10 +131,14 @@ public class LocationService extends Service implements ResponseHandler{
     @Override
     public void onSuccess(int requestCode, Object object) {
 
+//        Toast.makeText(getApplicationContext(), "Sending location successful", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
     public void onFailed(int requestCode, String message) {
+
+//        Toast.makeText(getApplicationContext(), "Sending location failed", Toast.LENGTH_LONG).show();
 
     }
 

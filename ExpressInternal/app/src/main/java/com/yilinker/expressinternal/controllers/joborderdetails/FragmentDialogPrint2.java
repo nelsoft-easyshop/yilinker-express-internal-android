@@ -1,29 +1,24 @@
 package com.yilinker.expressinternal.controllers.joborderdetails;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +36,7 @@ import java.util.UUID;
 /**
  * Created by J.Bautista
  */
-public class FragmentDialogPrint extends DialogFragment implements View.OnClickListener{
+public class FragmentDialogPrint2 extends DialogFragment implements View.OnClickListener{
 
     private static final int REQUEST_CONNECT_BT = 0x2300;
     private static final int REQUEST_ENABLE_BT = 0x1000;
@@ -54,6 +49,7 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
             .fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
     private static final String PRINTER_NAME = "MSP-100A";
+    private static final String PRINTER_ADDRESS = "98:D3:31:80:5C:03";
 
     private static final String ARG_REQUEST_CODE = "requestCode";
     private static final String ARG_JOB_ORDER = "jobOrder";
@@ -74,9 +70,14 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
     private byte FONT_TYPE;
 
-    public static FragmentDialogPrint createInstance(int requestCode, JobOrder jobOrder){
+    //For new printing process
+    private Thread splashTread;
+    private Handler errorHandler;
+    private Handler successHandler;
 
-        FragmentDialogPrint fragment = new FragmentDialogPrint();
+    public static FragmentDialogPrint2 createInstance(int requestCode, JobOrder jobOrder){
+
+        FragmentDialogPrint2 fragment = new FragmentDialogPrint2();
 
         Bundle args = new Bundle();
         args.putInt(ARG_REQUEST_CODE, requestCode);
@@ -93,10 +94,9 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
 
-        Bundle args = getArguments();
+        initData();
 
-        jobOrder = args.getParcelable(ARG_JOB_ORDER);
-        requestCode = args.getInt(ARG_REQUEST_CODE);
+        initPrinter();
 
     }
 
@@ -118,8 +118,8 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
         initViews(view);
 
-        //Start connecting to bluetooth
-        initDevicesList();
+        startPrintThread();
+
     }
 
     private void initViews(View root){
@@ -133,6 +133,28 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
         btnOk.setVisibility(View.GONE);
         btnCancel.setVisibility(View.GONE);
+
+        tvStatus.setText(getString(R.string.printing_status_ongoingprint));
+
+    }
+
+    private void initData(){
+
+        Bundle args = getArguments();
+
+        jobOrder = args.getParcelable(ARG_JOB_ORDER);
+        requestCode = args.getInt(ARG_REQUEST_CODE);
+
+    }
+
+    private void initPrinter(){
+
+        //Initialize handlers
+        errorHandler = new ErrorHandler();
+        successHandler = new FinishPrintingHandler();
+
+
+        enableBluetooth();
 
     }
 
@@ -159,10 +181,8 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
                 }
                 else{
 
-                    initDevicesList();
+                    restartPrinter();
 
-                    btnCancel.setVisibility(View.GONE);
-                    btnOk.setVisibility(View.GONE);
                 }
 
                 break;
@@ -171,276 +191,22 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        try {
-            if(mbtSocket!= null){
-                btoutputstream.close();
-                mbtSocket.close();
-                mbtSocket = null;
-            }
-        } catch (IOException e) {
+    private void restartPrinter(){
 
-        }
-    }
+        btnCancel.setVisibility(View.GONE);
+        btnOk.setVisibility(View.GONE);
 
-    private void flushData() {
-        try {
-            if (mbtSocket != null) {
-                mbtSocket.close();
-                mbtSocket = null;
-            }
+        tvStatus.setText(getString(R.string.printing_status_ongoingprint));
 
-            if (mBluetoothAdapter != null) {
-                mBluetoothAdapter.cancelDiscovery();
-            }
+        startPrintThread();
 
-            finalize();
-
-        } catch (Exception ex) {
-        } catch (Throwable e) {
-        }
 
     }
 
+    private void print() throws IOException {
 
-    private int initDevicesList() {
 
-        tvStatus.setText(getString(R.string.printing_status_connecting));
-
-        flushData();
-
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-
-            Toast.makeText(getActivity(),
-                    "Bluetooth not supported!!", Toast.LENGTH_LONG).show();
-
-            dismiss();
-            return -1;
-        }
-
-        if (mBluetoothAdapter.isDiscovering()) {
-            mBluetoothAdapter.cancelDiscovery();
-        }
-
-
-        Intent enableBtIntent = new Intent(
-                BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        try {
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        } catch (Exception ex) {
-            return -2;
-        }
-
-
-        return 0;
-
-    }
-
-    @Override
-    public void onActivityResult(int reqCode, int resultCode, Intent intent) {
-        super.onActivityResult(reqCode, resultCode, intent);
-
-        switch (reqCode) {
-            case REQUEST_ENABLE_BT:
-
-                if (resultCode == Activity.RESULT_OK) {
-
-                    Set<BluetoothDevice> btDeviceList = mBluetoothAdapter
-                            .getBondedDevices();
-                    try {
-
-                        if (btDeviceList.size() > 0) {
-
-                            boolean hasFound = false;
-                            for (final BluetoothDevice device : btDeviceList) {
-
-
-                                if(device.getName().equals(PRINTER_NAME)){
-
-
-                                    Runnable runnable = new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            connectToPrinter(device);
-                                        }
-                                    };
-
-                                    Handler handler = new Handler();
-
-                                    handler.postDelayed(runnable, 20000);
-
-                                    hasFound = true;
-
-                                }
-
-                            }
-
-                            if(!hasFound){
-
-                                setStatusToFailed();
-                            }
-                        }
-                        else{
-
-                            setStatusToFailed();
-                        }
-
-                    } catch (Exception ex) {
-
-                        setStatusToFailed();
-                    }
-                } else {
-
-                    setStatusToCancelled();
-                }
-
-                break;
-        }
-
-        mBluetoothAdapter.startDiscovery();
-
-    }
-
-    private Runnable socketErrorRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-
-            setStatusToFailed();
-        }
-    };
-
-    private Runnable startPrintingRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-
-            tvStatus.setText(getString(R.string.printing_status_ongoingprint));
-
-
-            synchronized(this)
-            {
-                this.notify();
-            }
-        }
-    };
-
-
-    private void connectToPrinter(final BluetoothDevice device){
-
-        if (mBluetoothAdapter == null) {
-            return;
-        }
-
-        if (mBluetoothAdapter.isDiscovering()) {
-            mBluetoothAdapter.cancelDiscovery();
-        }
-
-
-        final Runnable printRunnable = new Runnable() {
-
-
-            @Override
-            public void run() {
-
-
-                print_bt();
-
-                synchronized(this)
-                {
-                    this.notify();
-                    setStatusToComplete();
-                }
-
-            }
-
-        };
-
-
-        Thread connectThread = new Thread(new Runnable() {
-
-            boolean isSuccessful = false;
-            @Override
-            public void run() {
-                try {
-                    boolean gotuuid = device
-                            .fetchUuidsWithSdp();
-
-                    UUID uuid = device.getUuids()[0]
-                            .getUuid();
-//                    mbtSocket = device
-//                            .createRfcommSocketToServiceRecord(uuid);
-
-                    mbtSocket = device
-                            .createInsecureRfcommSocketToServiceRecord(uuid);
-
-
-                    if(!mbtSocket.isConnected()) {
-
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        mbtSocket.connect();
-
-                    }
-
-                    synchronized (startPrintingRunnable){
-
-                        getActivity().runOnUiThread(startPrintingRunnable);
-                        startPrintingRunnable.wait();
-
-                    }
-
-                    synchronized (printRunnable) {
-
-
-                        getActivity().runOnUiThread(printRunnable);
-                        printRunnable.wait();
-
-                    }
-
-                    isSuccessful = true;
-
-                } catch (Exception ex) {
-
-                    getActivity().runOnUiThread(socketErrorRunnable);
-                    try {
-                        mbtSocket.close();
-                    } catch (IOException e) {
-                        // e.printStackTrace();
-                    }
-                    mbtSocket = null;
-
-
-
-                }
-            }
-        });
-
-        connectThread.start();
-
-    }
-
-
-
-    private void print_bt() {
-
-
-        try {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            btoutputstream = mbtSocket.getOutputStream();
+//            btoutputstream = mbtSocket.getOutputStream();
 
 
             for(int i = 0; i < 2; i++) {
@@ -476,11 +242,6 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
             btoutputstream.write(FEED_LINE);
 
             btoutputstream.flush();
-
-        } catch (IOException e) {
-
-             setStatusToFailed();
-        }
 
     }
 
@@ -725,6 +486,164 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
         btnCancel.setVisibility(View.VISIBLE);
         btnOk.setVisibility(View.VISIBLE);
 
+    }
+
+
+    /////////////////////For Printing//////////////////////
+    private class FinishPrintingHandler extends Handler {
+
+        public FinishPrintingHandler() {
+
+        }
+
+        public void handleMessage(Message msg) {
+
+//            Toast.makeText(getActivity(), "Printing Successful!", Toast.LENGTH_LONG).show();
+
+            setStatusToComplete();
+        }
+
+    }
+
+
+    private class ErrorHandler extends Handler {
+
+        public ErrorHandler() {
+
+        }
+
+        public void handleMessage(Message msg) {
+
+            setStatusToCancelled();
+        }
+    }
+
+    private class PrintRunnable implements Runnable {
+
+        private final String printerName;
+
+        private final Handler handlerError;
+        private final Handler handlerSuccess;
+
+
+        public PrintRunnable(String str, Handler handlerError, Handler handlerSuccess) {
+
+            this.printerName = str;
+            this.handlerError = handlerError;
+            this.handlerSuccess = handlerSuccess;
+        }
+
+        public void run() {
+
+            try {
+
+                Looper.prepare();
+                String UUID_BPP = "00001101-0000-1000-8000-00805F9B34FB";
+                BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
+                    BluetoothDevice printer = bluetoothAdapter.getRemoteDevice(this.printerName);
+                    if (printer != null) {
+                        BluetoothSocket socket = printer.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                        if (socket != null) {
+
+                            socket.connect();
+                            Thread.sleep(1500);
+
+                            runPrintThread(socket, "");
+
+                        } else {
+
+                            handlerError.sendEmptyMessage(0);
+
+                        }
+
+                        Thread.sleep(500);
+                        Looper.myLooper().quit();
+                    }
+                }
+                else{
+
+                    handlerError.sendEmptyMessage(0);
+
+                }
+
+            } catch (Exception e) {
+
+                handlerError.sendEmptyMessage(0);
+
+            }
+        }
+
+    }
+
+    private class PrintThread extends Thread {
+
+        private final BluetoothSocket bluetoothSocket;
+        private final String printText;
+        private final Handler errorHandler;
+        private final Handler successHandler;
+
+        public PrintThread(BluetoothSocket bluetoothSocket, String str, Handler errorHandler, Handler successHandler) {
+
+            this.bluetoothSocket = bluetoothSocket;
+            this.printText = str;
+            this.errorHandler = errorHandler;
+            this.successHandler = successHandler;
+        }
+
+        public void run() {
+
+            try {
+
+                synchronized (this) {
+                    wait((long) 1500);
+                }
+
+                btoutputstream = this.bluetoothSocket.getOutputStream();
+
+                print();
+
+                PrintThread.sleep(10000);
+                btoutputstream.flush();
+                btoutputstream.close();
+                if (this.bluetoothSocket != null) {
+
+                    this.bluetoothSocket.close();
+                }
+
+                successHandler.sendEmptyMessage(0);
+
+
+            } catch (InterruptedException e2) {
+
+                errorHandler.sendEmptyMessage(0);
+
+            } catch (Throwable th) {
+
+                errorHandler.sendEmptyMessage(0);
+            }
+        }
+    }
+
+
+    private void startPrintThread() {
+        new Thread(new PrintRunnable(PRINTER_ADDRESS, errorHandler, successHandler)).start();
+    }
+
+
+
+    private void enableBluetooth() {
+
+        if (this.mBluetoothAdapter != null && !this.mBluetoothAdapter.isEnabled()) {
+            this.mBluetoothAdapter.enable();
+
+        }
+    }
+
+
+    public void runPrintThread(BluetoothSocket socket, String textoImprimir) {
+        this.splashTread = new PrintThread(socket, textoImprimir, errorHandler, successHandler);
+        this.splashTread.start();
     }
 
 }

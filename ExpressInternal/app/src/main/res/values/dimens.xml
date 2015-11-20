@@ -19,7 +19,7 @@
 
     <!--QR Code-->
     <dimen name="qr_code_size">300dp</dimen>
-    <dimen name="qr_code_print">100dp</dimen>
+    <dimen name="qr_code_print">150dp</dimen>
     <dimen name="barcode_print_height">30dp</dimen>
     <dimen name="barcode_print_width">100dp</dimen>
 

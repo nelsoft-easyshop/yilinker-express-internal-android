@@ -63,6 +63,9 @@ public class ActivitySignature extends Activity implements  View.OnClickListener
         btnBack.setOnClickListener(this);
         tvClear.setOnClickListener(this);
 
+        signatureView.setBackgroundResource(R.color.white);
+        signatureView.setDrawingCacheEnabled(true);
+
         btnRating.setVisibility(View.GONE);
     }
 

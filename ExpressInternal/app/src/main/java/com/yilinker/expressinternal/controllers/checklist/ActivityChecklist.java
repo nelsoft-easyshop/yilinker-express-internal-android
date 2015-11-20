@@ -514,7 +514,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         rlProgress.setVisibility(View.VISIBLE);
 
-        String image = convertSignatureToString();
+//        String image = convertSignatureToString();
+        String image = signatureImage;
 
         Request request = JobOrderAPI.uploadSignature(REQUEST_SUBMIT_SIGNATURE, jobOrder.getJobOrderNo(), image, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
