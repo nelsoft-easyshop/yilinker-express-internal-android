@@ -6,7 +6,7 @@ android {
         config_prod {
             keyAlias 'yilinker-express-internal'
             keyPassword 'Passw0rd'
-            storeFile file('/Users/wagnavu/Documents/keystore/yilinker_express_keystore.jks')
+            storeFile file('/Users/wagnavu/Documents/express_keystore/yilinker_express_keystore.jks')
             storePassword 'Passw0rd'
         }
     }
@@ -16,8 +16,8 @@ android {
         applicationId "com.yilinker.expressinternal"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         debug {
@@ -34,7 +34,7 @@ android {
             signingConfig signingConfigs.config_prod
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
         }
     }
     packagingOptions {

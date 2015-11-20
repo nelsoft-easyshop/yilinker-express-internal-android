@@ -789,7 +789,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     private void showPrintDialog(){
 
-        FragmentDialogPrint dialog = FragmentDialogPrint.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
+        FragmentDialogPrint2 dialog = FragmentDialogPrint2.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), null);
     }
