@@ -299,12 +299,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
             case REQUEST_SUBMIT_RATING:
 
-                requestUploadImages();
+//                requestUploadImages();
                 break;
 
             case REQUEST_UPLOAD_IMAGES:
 
-                requestUpdate(JobOrderConstant.JO_COMPLETE);
+//                requestUpdate(JobOrderConstant.JO_COMPLETE);
                 break;
 
             case REQUEST_UPDATE:
@@ -497,7 +497,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
+            requestUpdate(JobOrderConstant.JO_COMPLETE);
+            requestSubmitRating();
             requestSubmitSignature();
+            requestUploadImages();
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
 

@@ -80,26 +80,32 @@
         <activity
             android:name=".controllers.joborderlist.ActivityJobOrderList"
             android:label="@string/title_activity_activity_job_order_list"
-            android:theme="@style/ActivityTheme" >
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme"  >
         </activity>
         <activity
             android:name=".controllers.joborderdetails.ActivityJobOderDetail"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
         <activity
             android:name=".controllers.joborderdetails.ActivityProblematic"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
         <activity
             android:name=".controllers.joborderdetails.ActivityComplete"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
         <activity
             android:name=".controllers.checklist.ActivityChecklist"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
         <activity
             android:name=".controllers.contact.ActivityContact"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
         <activity
@@ -109,21 +115,25 @@
         </activity>
         <activity
             android:name=".controllers.images.ActivityImageGallery"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
 
         <activity
             android:name=".controllers.cashmanagement.ActivityCashManagement"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
 
         <activity
             android:name=".controllers.qrcode.ActivityQRCode"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
 
         <activity
             android:name=".controllers.login.ActivityLogout"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
         </activity>
 
@@ -160,6 +170,7 @@
         <service android:name=".service.LocationService" android:process=":my_service"></service>
 
         <activity android:theme = "@style/ActivityTheme"
+            android:screenOrientation="portrait"
             android:name = ".controllers.navigation.ActivityNavigation" >
         </activity>
 
