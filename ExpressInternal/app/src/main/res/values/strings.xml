@@ -168,6 +168,7 @@
     <string name="actionbar_title_problematic">Problematic</string>
     <string name="actionbar_title_navigation">navigation</string>
     <string name="title_activity_activity_navigation">Map</string>
+    <string name="actionbar_title_acknowledge">Direct Acknowledge</string>
 
     <!--Logout-->
     <string name="logout_username">Username</string>
@@ -220,6 +221,9 @@
     <!--Checklist-->
     <string name="checklist_job_completed">Job order is completed!</string>
     <string name="checklist_job_updated">Job order status is updated!</string>
+
+    <!--Acknowledge-->
+    <string name="acknowledge_message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
 
 </resources>
 

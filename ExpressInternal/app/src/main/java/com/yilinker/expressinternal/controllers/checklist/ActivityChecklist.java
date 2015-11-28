@@ -120,13 +120,15 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_signature))){
 
-            if(!items.get(CHECKLIST_SIGNATURE).isChecked()) {
-                showSignature();
-            }
-            else{
+//            if(!items.get(CHECKLIST_SIGNATURE).isChecked()) {
+//                showSignature();
+//            }
+//            else{
+//
+//                //TODO Show signature image
+//            }
 
-                //TODO Show signature image
-            }
+            showSignature();
 
             return;
         }
@@ -455,8 +457,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private void showSignature(){
 
         Intent intent = new Intent(ActivityChecklist.this, ActivitySignature.class);
-        startActivityForResult(intent, REQUEST_SIGNATURE);
+        intent.putExtra(ActivitySignature.ARG_IMAGE_FILE, signatureImage);
 
+        startActivityForResult(intent, REQUEST_SIGNATURE);
     }
 
     private void getData(){
