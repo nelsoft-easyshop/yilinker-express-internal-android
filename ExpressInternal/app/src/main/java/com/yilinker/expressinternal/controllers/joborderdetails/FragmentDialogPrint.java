@@ -379,7 +379,17 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
                             .createInsecureRfcommSocketToServiceRecord(uuid);
 
 
-                    mbtSocket.connect();
+                    if(!mbtSocket.isConnected()) {
+
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        mbtSocket.connect();
+
+                    }
 
                     synchronized (startPrintingRunnable){
 
