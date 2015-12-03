@@ -223,7 +223,7 @@
     <string name="checklist_job_updated">Job order status is updated!</string>
 
     <!--Acknowledge-->
-    <string name="acknowledge_message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="acknowledge_message">Are sure you want to pickup this package?</string>
 
 </resources>
 

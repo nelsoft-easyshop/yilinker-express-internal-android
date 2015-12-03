@@ -49,7 +49,8 @@ public class FragmentDialogPrint2 extends DialogFragment implements View.OnClick
             .fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
     private static final String PRINTER_NAME = "MSP-100A";
-    private static final String PRINTER_ADDRESS = "98:D3:31:80:5C:03";
+//    private static final String PRINTER_ADDRESS = "98:D3:31:80:5C:03";
+    private static final String PRINTER_ADDRESS = "00:02:0A:03:FF:99";   //new printer
 
     private static final String ARG_REQUEST_CODE = "requestCode";
     private static final String ARG_JOB_ORDER = "jobOrder";

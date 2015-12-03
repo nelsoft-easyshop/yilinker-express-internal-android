@@ -407,6 +407,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
             items.remove(0);
         }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) && jobOrder.getAmountToCollect() == 0) {
+
+            items.remove(0);
+        }
 
 
         adapter = new AdapterChecklist(items, this);

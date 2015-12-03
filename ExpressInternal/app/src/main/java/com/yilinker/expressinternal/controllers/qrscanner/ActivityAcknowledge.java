@@ -24,6 +24,7 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.model.JobOrder;
 
 /**
@@ -32,6 +33,9 @@ import com.yilinker.expressinternal.model.JobOrder;
 public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderView.OnQRCodeReadListener, ResponseHandler {
 
     private static final int REQUEST_ACKNOWLEDGE = 1000;
+
+    private static final int STATUS_OPEN = 0;
+    private static final int STATUS_CURRENT = 1;
 
     private QRCodeReaderView qrReader;
     private ImageButton btnFlash;
@@ -269,15 +273,35 @@ public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderVie
     private void handleAcknowledgeResponse(Object object){
 
         JobOrder jobOrder = new JobOrder((com.yilinker.core.model.express.internal.JobOrder) object);
-        goToChecklist(jobOrder);
+        goToDetails(jobOrder);
 
         rlProgress.setVisibility(View.GONE);
     }
 
-    private void goToChecklist(JobOrder jobOrder){
+//    private void goToChecklist(JobOrder jobOrder){
+//
+//        Intent intent = new Intent(ActivityAcknowledge.this, ActivityChecklist.class);
+//        intent.putExtra(ActivityChecklist.ARG_JOB_ORDER, jobOrder);
+//        startActivity(intent);
+//    }
 
-        Intent intent = new Intent(ActivityAcknowledge.this, ActivityChecklist.class);
+    private void goToDetails(JobOrder jobOrder){
+
+        Intent intent = new Intent(ActivityAcknowledge.this, ActivityJobOderDetail.class);
         intent.putExtra(ActivityChecklist.ARG_JOB_ORDER, jobOrder);
+
+        int status = 0;
+        if(jobOrder.isOpen()) {
+
+            status = STATUS_OPEN;
+
+        } else {
+
+            status = STATUS_CURRENT;
+        }
+
+        intent.putExtra(ActivityJobOderDetail.ARG_CURRENT_STATUS, status);
+
         startActivity(intent);
     }
 }
