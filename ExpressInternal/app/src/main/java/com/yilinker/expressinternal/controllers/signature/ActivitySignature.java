@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -41,12 +43,17 @@ public class ActivitySignature extends Activity implements  View.OnClickListener
 
     private int rating;
 
+    private boolean hasImage;
+    private String imageFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature);
 
         initViews();
+
+        loadSignatureImage();
     }
 
     private void initViews(){
@@ -190,6 +197,25 @@ public class ActivitySignature extends Activity implements  View.OnClickListener
                 });
 
         builder.show();
+
+    }
+
+    private void loadSignatureImage(){
+
+        //Check if there is a signature image
+        Intent intent = getIntent();
+        hasImage = intent.hasExtra(ARG_IMAGE_FILE);
+
+        if(hasImage){
+
+            imageFile = intent.getStringExtra(ARG_IMAGE_FILE);
+
+            if(imageFile != null) {
+
+                //Load the image to the canvas
+                signatureView.loadImage(imageFile);
+            }
+        }
 
     }
 }

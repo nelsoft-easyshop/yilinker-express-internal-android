@@ -45,6 +45,7 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
+import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
 import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.MenuItemClickListener;
@@ -711,9 +712,21 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                 showScanner();
                 break;
 
+            case 6:
+
+                goToAcknowledgeScreen();
+                break;
+
         }
 
         dismissMenu();
+    }
+
+    private void goToAcknowledgeScreen(){
+
+        Intent intent = new Intent(ActivityJobOrderList.this, ActivityAcknowledge.class);
+        startActivity(intent);
+
     }
 
     private void switchView(){

@@ -2,6 +2,7 @@ package com.yilinker.expressinternal.customviews;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,7 +34,7 @@ public class SignatureView extends View {
     private final RectF dirtyRect = new RectF();
 
     private Context context;
-    private Bitmap mBitmap;
+    private Bitmap currentBitmap;
 
 
     public SignatureView(Context context, AttributeSet attrs)
@@ -48,16 +49,21 @@ public class SignatureView extends View {
         this.context = context;
     }
 
+    public void loadImage(String imageFile){
+
+        currentBitmap = BitmapFactory.decodeFile(imageFile);
+        invalidate();
+    }
+
     public void save(File file)
     {
+
         View v= new View(context);
 
         Log.v("log_tag", "Width: " + v.getWidth());
         Log.v("log_tag", "Height: " + v.getHeight());
-        if(mBitmap == null)
-        {
-            mBitmap =  Bitmap.createBitmap (getWidth(), getHeight(), Bitmap.Config.RGB_565);;
-        }
+
+        Bitmap mBitmap =  Bitmap.createBitmap (getWidth(), getHeight(), Bitmap.Config.RGB_565);
 
         Canvas canvas = new Canvas(mBitmap);
         try
@@ -68,6 +74,7 @@ public class SignatureView extends View {
             mBitmap.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
             mFileOutStream.flush();
             mFileOutStream.close();
+
 //            String url = MediaStore.Images.Media.insertImage(context.getContentResolver(), mBitmap, "title", null);
 //            Log.v("log_tag","url: " + url);
             //In case you want to delete the file
@@ -85,6 +92,8 @@ public class SignatureView extends View {
     public void clear()
     {
         path.reset();
+        currentBitmap = null;
+
         invalidate();
     }
 
@@ -96,6 +105,12 @@ public class SignatureView extends View {
     @Override
     protected void onDraw(Canvas canvas)
     {
+
+        if(currentBitmap != null){
+
+            canvas.drawBitmap(currentBitmap, 0, 0, paint);
+        }
+
         canvas.drawPath(path, paint);
     }
 

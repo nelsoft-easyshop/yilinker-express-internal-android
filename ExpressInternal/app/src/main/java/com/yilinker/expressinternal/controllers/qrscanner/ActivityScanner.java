@@ -274,7 +274,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
         hideMenuButton();
 
         //Set the title in the action bar
-        setTitle(getString(R.string.actionbar_title_qrcode));
+        setActionBarTitle(getString(R.string.actionbar_title_qrcode));
 
         setTabs();
 
