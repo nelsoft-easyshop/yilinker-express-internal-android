@@ -32,6 +32,8 @@ import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.controllers.navigation.ActivityNavigation;
+import com.yilinker.expressinternal.controllers.printer.FragmentDialogPrint2;
+import com.yilinker.expressinternal.controllers.printer.FragmentDialogPrinterList;
 import com.yilinker.expressinternal.controllers.qrcode.ActivityQRCode;
 import com.yilinker.expressinternal.model.JobOrder;
 
@@ -789,8 +791,11 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     private void showPrintDialog(){
 
-        FragmentDialogPrint2 dialog = FragmentDialogPrint2.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
-        dialog.setCancelable(false);
+//        FragmentDialogPrint2 dialog = FragmentDialogPrint2.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
+//        dialog.setCancelable(false);
+//        dialog.show(getFragmentManager(), null);
+
+        FragmentDialogPrinterList dialog = FragmentDialogPrinterList.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
         dialog.show(getFragmentManager(), null);
     }
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="printer_mtp_3_4">00:02:0A:03:FF:99</string>
+    <string name="printer_msp_100A">98:D3:31:80:5C:03</string>
+</resources>

@@ -20,8 +20,8 @@
     <!--QR Code-->
     <dimen name="qr_code_size">300dp</dimen>
     <dimen name="qr_code_print">150dp</dimen>
-    <dimen name="barcode_print_height">30dp</dimen>
-    <dimen name="barcode_print_width">100dp</dimen>
+    <dimen name="barcode_print_height">40dp</dimen>
+    <dimen name="barcode_print_width">120dp</dimen>
 
     <!--EditText Height-->
     <dimen name="edittext_height">60dp</dimen>
