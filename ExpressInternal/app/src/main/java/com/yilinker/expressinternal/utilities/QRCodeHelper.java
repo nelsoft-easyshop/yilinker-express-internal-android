@@ -47,7 +47,7 @@ public class QRCodeHelper {
         try {
 
             BitMatrix matrix = writer.encode(
-                    text, BarcodeFormat.CODE_128, width, height
+                    text, BarcodeFormat.CODE_39, width, height
             );
 
             Bitmap bitmap = toBitmap(matrix);
