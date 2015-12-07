@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.RiderAPI;
+import com.yilinker.core.helper.RecyclerViewWrapContentHelper;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
@@ -129,6 +130,7 @@ public class ActivityCashManagement extends BaseActivity implements ResponseHand
         historyList.clear();
         historyList.addAll(cashDetail.getCashHistory());
         adapter.notifyDataSetChanged();
+
     }
 
     private void setAdapter(){
@@ -142,6 +144,7 @@ public class ActivityCashManagement extends BaseActivity implements ResponseHand
         adapter = new AdapterCashHistory(historyList, null);
 
         rvHistory.setAdapter(adapter);
+
 
     }
 

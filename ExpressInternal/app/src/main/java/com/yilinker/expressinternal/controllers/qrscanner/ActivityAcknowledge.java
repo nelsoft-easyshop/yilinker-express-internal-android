@@ -53,6 +53,8 @@ public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderVie
 
     private String waybillNo;
 
+    private boolean isProcessing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderVie
         super.onResume();
 
         qrReader.getCameraManager().startPreview();
+        isProcessing = false;
 
     }
 
@@ -120,6 +123,8 @@ public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderVie
                 break;
         }
 
+        isProcessing = false;
+
     }
 
     @Override
@@ -135,6 +140,8 @@ public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderVie
                 break;
 
         }
+
+        isProcessing = false;
     }
 
     @Override
@@ -158,7 +165,7 @@ public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderVie
     public void onQRCodeRead(String text, PointF[] points) {
 
 
-        if(!alertDialog.isShowing()) {
+        if(!alertDialog.isShowing() || !isProcessing) {
 
             playSound();
 
@@ -262,6 +269,7 @@ public class ActivityAcknowledge extends BaseActivity implements QRCodeReaderVie
 
     private void requestAcknowledge(String waybillNo){
 
+        isProcessing = true;
         rlProgress.setVisibility(View.VISIBLE);
 
         Request request = RiderAPI.acknowledgePackage(REQUEST_ACKNOWLEDGE, waybillNo, this);
