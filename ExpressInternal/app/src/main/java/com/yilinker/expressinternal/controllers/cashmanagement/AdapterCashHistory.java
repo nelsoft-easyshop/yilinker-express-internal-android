@@ -65,6 +65,7 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
         private TextView tvAction;
         private TextView tvAmount;
         private TextView tvType;
+        private TextView tvWaybillNo;
 
         public ViewHolder(View view, RecyclerViewClickListener<CashHistory> listener) {
             super(view, listener);
@@ -73,6 +74,7 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
             tvAction = (TextView) view.findViewById(R.id.tvAction);
             tvAmount = (TextView) view.findViewById(R.id.tvAmount);
             tvType = (TextView) view.findViewById(R.id.tvType);
+            tvWaybillNo = (TextView) view.findViewById(R.id.tvWaybillNo);
 
         }
 
@@ -90,6 +92,16 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
             tvAmount.setText(String.format("%.02f PHP", object.getAmount()));
             tvType.setText(object.getType());
 //            tvJobOrderNo.setText(object.getJobOrderNo());
+
+            String waybillNo = object.getWaybillNo();
+            if(waybillNo.isEmpty()){
+                tvWaybillNo.setVisibility(View.GONE);
+            }
+            else {
+
+                tvWaybillNo.setText(waybillNo);
+                tvWaybillNo.setVisibility(View.VISIBLE);
+            }
 
         }
 

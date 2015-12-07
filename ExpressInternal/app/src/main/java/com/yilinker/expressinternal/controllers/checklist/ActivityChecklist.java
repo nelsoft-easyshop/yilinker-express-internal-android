@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.base.BaseApplication;
+import com.yilinker.core.helper.RecyclerViewWrapContentHelper;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
@@ -415,10 +416,15 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         adapter = new AdapterChecklist(items, this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        RecyclerViewWrapContentHelper layoutManager = new RecyclerViewWrapContentHelper(this, LinearLayoutManager.VERTICAL, false);
         rvChecklist.setLayoutManager(layoutManager);
+        rvChecklist.setHasFixedSize(true);
         rvChecklist.setAdapter(adapter);
+
+        rvChecklist.smoothScrollToPosition(0);
 
     }
 
