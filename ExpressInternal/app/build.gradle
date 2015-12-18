@@ -16,8 +16,8 @@ android {
         applicationId "com.yilinker.expressinternal"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 4
-        versionName "1.1"
+        versionCode 6
+        versionName "1.1.2"
     }
     buildTypes {
         debug {
@@ -30,7 +30,7 @@ android {
             signingConfig signingConfigs.config_prod
         }
         production {
-            buildConfigField "String", "SERVER_URL", '"http://api.express.yilinker.com/v1"'
+            buildConfigField "String", "SERVER_URL", '"https://api-express.yilinker.com/v1"'
             signingConfig signingConfigs.config_prod
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
