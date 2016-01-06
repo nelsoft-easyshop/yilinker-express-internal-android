@@ -10,9 +10,14 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -107,6 +112,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     //For JO list
     private AdapterJobOrderList adapterJobOrderList;
+    private List<JobOrder> filteredList = new ArrayList<>(); // Filtered joborderlist
     private List<JobOrder> jobOrderList;            //Filtered job orders and binded with the adapter
     private List<JobOrder> completeList;            //Complete list of job orders
     private RecyclerView rvJobOrder;
@@ -124,6 +130,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private View warehouseMarker;
     private TextView tvDelivery;
     private TextView tvPickup;
+    private ImageView ivScanQr;
+    private EditText etSearchField;
 
     private boolean shouldReload;
     private int filter;
@@ -161,7 +169,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         if(shouldReload){
 
-            reloadList(adapterTab.getCurrentTab());
+            reloadList(adapterTab.getCurrentTab(), false);
 
         }
         else {
@@ -171,7 +179,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             resetTabCount();
 
-            reloadList(AdapterJobOrderList.TYPE_OPEN);
+            reloadList(AdapterJobOrderList.TYPE_OPEN, false);
             shouldReload = true;
         }
     }
@@ -215,6 +223,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                 break;
 
+            case R.id.iv_scanTrackingCode:
+                showScanner();
+                break;
         }
 
     }
@@ -225,6 +236,40 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
         viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         rvTab = (RecyclerView) findViewById(R.id.rvTab);
+        ivScanQr = (ImageView) findViewById(R.id.iv_scanTrackingCode);
+        etSearchField = (EditText) findViewById(R.id.et_searchField);
+
+        ivScanQr.setOnClickListener(this);
+        etSearchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    filterJobOrderList(v.getText().toString().trim());
+                }
+
+                return false;
+            }
+        });
+
+        etSearchField.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s)
+            {
+                // Do nothing
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+                // Do nothing
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                String keyword = s.toString().trim();
+                filterJobOrderList(keyword);
+            }
+        });
 
         //Set tab items
         setTab();
@@ -431,7 +476,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             tabItems.get(adapterTab.getCurrentTab()).setCount(count);
             resetTabCount();
 
-            reloadList(type);
+            reloadList(type, false);
         }
         else{
 
@@ -526,10 +571,46 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
+    private void filterJobOrderList(String keyword) {
+
+        filteredList.clear();
+
+        for(int i=0;i<jobOrderList.size();i++) {
+
+            if (jobOrderList.get(i).getWaybillNo().contains(keyword)) {
+                filteredList.add(jobOrderList.get(i));
+            }
+        }
+
+        int type = 0;
+
+        if(adapterTab.getCurrentTab() == 0) {
+            type = AdapterJobOrderList.TYPE_OPEN;
+        } else if(adapterTab.getCurrentTab() == 1) {
+            type = AdapterJobOrderList.TYPE_CURRENT;
+        } else if(adapterTab.getCurrentTab() == 2) {
+            type = AdapterJobOrderList.TYPE_COMPLETE;
+        } else {
+            type = AdapterJobOrderList.TYPE_PROBLEMATIC;
+        }
+
+        reloadList(type, true);
+
+
+    }
+
+
     //Reload the list
-    private void reloadList(int type){
+    private void reloadList(int type, boolean isFiltered){
+
 
         adapterJobOrderList.stopTimer();
+
+        List<JobOrder> tempOrigJobOrderList = jobOrderList;
+
+        if(isFiltered) {
+            jobOrderList = filteredList;
+        }
 
 
     switch (type){
@@ -582,6 +663,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             reloadMap();
         }
+
+        if(isFiltered){
+            adapterJobOrderList.notifyDataSetChanged();
+            jobOrderList = tempOrigJobOrderList;
+        }
+
 
         rlProgress.setVisibility(View.GONE);
     }
