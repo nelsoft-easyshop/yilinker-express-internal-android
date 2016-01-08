@@ -6,6 +6,7 @@
     <string name="checklist_delivery_valid_id">Valid ID</string>
     <string name="checklist_delivery_picture">Recipient Picture</string>
     <string name="checklist_delivery_signature">Recipient Signature</string>
+    <string name="checklist_delivery_package">Confirm Package</string>
 
     <string name="checklist_pickup_payment">Payment</string>
     <string name="checklist_pickup_matchjo">Item is matched with JO</string>
@@ -15,6 +16,7 @@
     <string-array name="checklist_delivery">
         <item>@string/checklist_delivery_payment</item>
         <item>@string/checklist_delivery_itemchecked</item>
+        <item>@string/checklist_delivery_package</item>
         <item>@string/checklist_delivery_valid_id</item>
         <item>@string/checklist_delivery_picture</item>
         <item>@string/checklist_delivery_signature</item>

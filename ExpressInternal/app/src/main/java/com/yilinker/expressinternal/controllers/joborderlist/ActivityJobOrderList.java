@@ -577,7 +577,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         for(int i=0;i<jobOrderList.size();i++) {
 
-            if (jobOrderList.get(i).getWaybillNo().contains(keyword)) {
+            if ((jobOrderList.get(i).getWaybillNo().toLowerCase()).contains(keyword.toLowerCase())) {
                 filteredList.add(jobOrderList.get(i));
             }
         }

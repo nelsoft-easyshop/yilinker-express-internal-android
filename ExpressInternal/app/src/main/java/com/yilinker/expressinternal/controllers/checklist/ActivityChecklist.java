@@ -24,6 +24,7 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
@@ -60,7 +61,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private static final int REQUEST_LAUNCH_CAMERA_PICTURE = 2001;
     private static final int REQUEST_GALLERY_ID = 2002;
     private static final int REQUEST_GALLERY_PICTURE = 2003;
+    private static final int REQUEST_CONFIRM_PACKAGE = 2004;
 
+
+    private static  int CHECKLIST_PACKAGE_CONFIRMED = 1;
     private static  int CHECKLIST_VALID_ID = 2;
     private static  int CHECKLIST_RECIPIENT_PICTURE = 3;
     private static  int CHECKLIST_SIGNATURE = 4;
@@ -87,6 +91,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private String validIdImage;
     private String recipientPicture;
     private String newStatus;
+
+    private String type, id, typeId, length, width, height, weight, shippingFee; //for confirm package
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +172,14 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
             return;
         }
+        else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_package))) {
+//            if(!items.get(CHECKLIST_PACKAGE_CONFIRMED).isChecked()) {
+
+                showPackageConfirmation();
+                return;
+
+//            }
+        }
 
 
         object.setIsChecked(!object.isChecked());
@@ -208,6 +222,11 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
                     photoUri = Uri.parse(data.getStringExtra(ActivityImageGallery.ARG_NEW_PHOTO));
                     updateRecipientPictureChecklist();
+                    break;
+
+                case REQUEST_CONFIRM_PACKAGE:
+
+                    handleConfirmPackage(data);
                     break;
 
             }
@@ -472,6 +491,23 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         startActivityForResult(intent, REQUEST_SIGNATURE);
     }
 
+    private void showPackageConfirmation() {
+
+        Intent intent = new Intent(ActivityChecklist.this, ActivityConfirmPackage.class);
+        intent.putExtra(ARG_JOB_ORDER, jobOrder.getJobOrderNo());
+        intent.putExtra(ActivityConfirmPackage.ARG_TYPE, type);
+        intent.putExtra(ActivityConfirmPackage.ARG_ID, id);
+        intent.putExtra(ActivityConfirmPackage.ARG_TYPE_ID, typeId);
+        intent.putExtra(ActivityConfirmPackage.ARG_LENGTH, length);
+        intent.putExtra(ActivityConfirmPackage.ARG_HEIGHT, height);
+        intent.putExtra(ActivityConfirmPackage.ARG_WIDTH, width);
+        intent.putExtra(ActivityConfirmPackage.ARG_WEIGHT, weight);
+        intent.putExtra(ActivityConfirmPackage.ARG_SHIPPING_FEE, shippingFee);
+
+        startActivityForResult(intent, REQUEST_CONFIRM_PACKAGE);
+
+    }
+
     private void getData(){
 
         jobOrder = getIntent().getParcelableExtra(ARG_JOB_ORDER);
@@ -667,6 +703,26 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         Toast.makeText(getApplicationContext(), signatureImage, Toast.LENGTH_LONG).show();
 
         int position = items.size() - 1;
+        items.get(position).setIsChecked(true);
+        adapter.notifyItemChanged(position);
+
+        //Check if all items are checked to enable Confirm button
+        setConfirmButton(isComplete());
+
+    }
+
+    private void handleConfirmPackage(Intent data){
+
+        type = data.getStringExtra(ActivityConfirmPackage.ARG_TYPE);
+        id = data.getStringExtra(ActivityConfirmPackage.ARG_ID);
+        typeId = data.getStringExtra(ActivityConfirmPackage.ARG_TYPE_ID);
+        length = data.getStringExtra(ActivityConfirmPackage.ARG_LENGTH);
+        width = data.getStringExtra(ActivityConfirmPackage.ARG_WIDTH);
+        height = data.getStringExtra(ActivityConfirmPackage.ARG_HEIGHT);
+        weight = data.getStringExtra(ActivityConfirmPackage.ARG_WEIGHT);
+        shippingFee = data.getStringExtra(ActivityConfirmPackage.ARG_SHIPPING_FEE);
+
+        int position = CHECKLIST_PACKAGE_CONFIRMED;
         items.get(position).setIsChecked(true);
         adapter.notifyItemChanged(position);
 

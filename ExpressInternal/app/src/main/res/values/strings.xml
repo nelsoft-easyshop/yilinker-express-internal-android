@@ -219,6 +219,14 @@
     <string name="printing_select">Select a Printer</string>
     <string name="printing_search_again">Search Again</string>
 
+    <!--Confirm Package-->
+
+    <string name="package_title_type">Package Type</string>
+    <string name="package_title_weight">Package Weight</string>
+    <string name="package_title_size">Package Size</string>
+    <string name="package_shipping_fee">Shipping Fee</string>
+    <string name="package_button_save">Save</string>
+
 
     <!--Checklist-->
     <string name="checklist_job_completed">Job order is completed!</string>
