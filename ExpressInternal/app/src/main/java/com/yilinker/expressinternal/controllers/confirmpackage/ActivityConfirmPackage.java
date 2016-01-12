@@ -384,6 +384,9 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
                 rlLength.setVisibility(View.GONE);
                 rlWidth.setVisibility(View.GONE);
 
+                setSizeList();
+                lvSizes.performItemClick(lvSizes, sizePosition, lvSizes.getItemIdAtPosition(sizePosition));
+
             } else {
 
                 rlSize.setVisibility(View.GONE);
@@ -395,8 +398,6 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
             }
 
-            setSizeList();
-            lvSizes.performItemClick(lvSizes, sizePosition, lvSizes.getItemIdAtPosition(sizePosition));
 
         }
 
