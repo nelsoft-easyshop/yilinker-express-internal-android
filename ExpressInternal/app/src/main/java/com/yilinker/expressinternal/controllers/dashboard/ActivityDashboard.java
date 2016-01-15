@@ -30,14 +30,22 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.cashmanagement.ActivityCashManagement;
+import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.service.LocationService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class ActivityDashboard extends AppCompatActivity implements View.OnClickListener, FragmentNavigationDrawer.NavigationDrawerCallbacks, ResponseHandler {
 
@@ -49,9 +57,13 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private static final int REQUEST_GET_INFO = 1000;
     private static final int REQUEST_GET_OPEN_JO = 1001;
 
+    private static final int REQUEST_SUBMIT_SIGNATURE = 3001;
+    private static final int REQUEST_SUBMIT_RATING = 3002;
+    private static final int REQUEST_UPLOAD_IMAGES = 3004;
+
     private View btnJobOrders;
     private TextView tvDelivery;
-    private  TextView tvPickup;
+    private TextView tvPickup;
     private TextView tvDropoff;
     private TextView tvToday;
     private TextView tvTotal;
@@ -67,11 +79,15 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private Toolbar toolbar;
 
     private RequestQueue requestQueue;
+    private SyncDBTransaction dbTransaction;
+    private Realm realm;
 
     private Rider rider;
     private ArrayList<JobOrder> jobOrders;
+    private List<SyncDBObject> requests;
 
     private int currentRequest;
+    private int requestCounter, numberOfRequest;
     private boolean isRetrievingToken;
 
     @Override
@@ -84,12 +100,15 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         setUpActionBar();
         initViews();
 
-        ApplicationClass appClass = (ApplicationClass)BaseApplication.getInstance();
+        ApplicationClass appClass = (ApplicationClass) BaseApplication.getInstance();
 
         requestQueue = appClass.getRequestQueue();
+        dbTransaction = new SyncDBTransaction(this);
+        realm = Realm.getInstance(this);
 
         //Start location service
         appClass.startLocationService();
+
     }
 
     @Override
@@ -109,9 +128,14 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
-        if(position == 1){
+        if (position == 1) {
 
             showCashManagement();
+
+        } else if (position == 2) {
+
+            //sync failed requests
+            syncDataToServer();
 
         }
 
@@ -119,7 +143,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btnJobOrders:
 
@@ -129,7 +153,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void goToJobOrderList(){
+    private void goToJobOrderList() {
 
         Intent intent = new Intent(ActivityDashboard.this, ActivityJobOrderList.class);
         intent.putParcelableArrayListExtra(ActivityJobOrderList.ARG_OPEN_JO, jobOrders);
@@ -139,11 +163,11 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     @Override
     public void onSuccess(int requestCode, Object object) {
 
-        switch (requestCode){
+        switch (requestCode) {
 
             case REQUEST_GET_INFO:
 
-                rider = new Rider((com.yilinker.core.model.express.internal.Rider)object);
+                rider = new Rider((com.yilinker.core.model.express.internal.Rider) object);
                 resetRiderInfo();
 
                 requestOpenJOSummary();
@@ -152,7 +176,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
             case REQUEST_GET_OPEN_JO:
 
-                if(object != null){
+                if (object != null) {
 
                     handleGetJobOrders((List<com.yilinker.core.model.express.internal.JobOrder>) object);
                     resetJOSummary();
@@ -169,14 +193,20 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
                 appClass.saveAccessToken(login.getAccess_token());
                 appClass.saveRefreshToken(login.getRefresh_token());
 
-                if(currentRequest == REQUEST_GET_INFO){
+                if (currentRequest == REQUEST_GET_INFO) {
 
                     requestRiderInfo();
-                }
-                else{
+                } else {
 
                     requestOpenJOSummary();
                 }
+
+                break;
+
+            //for syncing requests
+            default:
+
+                handleSyncSuccess(requestCode);
 
                 break;
 
@@ -184,26 +214,57 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     }
 
+    private void handleSyncSuccess(int position) {
+
+        requestCounter++;
+
+        RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
+
+        query.equalTo("key", requests.get(position).getKey());
+
+        SyncDBObject result = query.findFirst();
+
+        result.setSync(true);
+
+        dbTransaction.update(result);
+
+        if (requestCounter >= numberOfRequest)
+            rlProgress.setVisibility(View.GONE);
+
+    }
+
     @Override
     public void onFailed(int requestCode, String message) {
 
-        if(message.equalsIgnoreCase(ErrorMessages.ERR_EXPIRED_TOKEN)){
+        if (message.equalsIgnoreCase(ErrorMessages.ERR_EXPIRED_TOKEN)) {
 
-            if(!isRetrievingToken) {
+            if (!isRetrievingToken) {
                 isRetrievingToken = true;
                 ApplicationClass.refreshToken(this);
                 return;
             }
         }
 
-        if(!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+        if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            return;
         }
+
+        //for syncing
+        switch (requestCode) {
+
+            default:
+
+                handleFailedSync();
+
+        }
+
 
         rlProgress.setVisibility(View.GONE);
     }
 
-    private void initViews(){
+
+    private void initViews() {
 
         btnJobOrders = findViewById(R.id.btnJobOrders);
         tvDelivery = (TextView) findViewById(R.id.tvDelivery);
@@ -214,7 +275,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         tvTotal = (TextView) findViewById(R.id.tvTotal);
         tvTotalDelivery = (TextView) findViewById(R.id.tvTotalDelivery);
         tvTotalJO = (TextView) findViewById(R.id.tvTotalJO);
-        tvTotalPickup =  (TextView) findViewById(R.id.tvTotalPickup);
+        tvTotalPickup = (TextView) findViewById(R.id.tvTotalPickup);
         ivUser = (NetworkImageView) findViewById(R.id.ivLoginImage);
         rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
         tvUsername = (TextView) findViewById(R.id.tvUsername);
@@ -226,7 +287,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         btnJobOrders.setOnClickListener(this);
     }
 
-    private void setUpActionBar(){
+    private void setUpActionBar() {
 
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -240,14 +301,105 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void showCashManagement(){
+    private void showCashManagement() {
 
         Intent intent = new Intent(ActivityDashboard.this, ActivityCashManagement.class);
         startActivity(intent);
 
     }
 
-    private void requestRiderInfo(){
+    /**
+     * Gets all failed request from local db
+     * then syncs it accordingly
+     */
+
+    private void syncDataToServer() {
+
+        requests = dbTransaction.getAll();
+
+        requestCounter = 0;
+        numberOfRequest = requests.size();
+
+
+        for (int i = 0; i < requests.size(); i++) {
+
+            SyncDBObject request = requests.get(i);
+
+            if (!request.isSync()) {
+
+                if (request.getRequestType() == ActivityChecklist.REQUEST_SIGNATURE) {
+
+                    requestSubmitSignature(i, request.getId(), request.getData());
+
+                } else if (request.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_RATING) {
+
+                    requestSubmitRating(i, request.getId(), Integer.valueOf(request.getData()));
+
+                } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPLOAD_IMAGES) {
+
+                    requestSubmitImages(i, request.getId(), request.getData());
+
+                } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPDATE) {
+
+                    requestUpdate(i, request.getId(), request.getData());
+
+                }
+            }
+
+        }
+
+    }
+
+    private void requestSubmitImages(int position, String wayBillNo, String images) {
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        images = images.replace("[", "");
+        images = images.replace("]", "");
+
+
+        List<String> imageList = new ArrayList<String>(Arrays.asList(images.split(",")));
+        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, imageList, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void requestUpdate(int position, String jobOrderNo, String newStatus) {
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void requestSubmitRating(int position, String jobOrderNo, Integer rating) {
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        Request request = JobOrderAPI.addRating(position, jobOrderNo, rating, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void requestSubmitSignature(int position, String jobOrderNo, String signature) {
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        Request request = JobOrderAPI.uploadSignature(position, jobOrderNo, signature, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void requestRiderInfo() {
 
         rlProgress.setVisibility(View.VISIBLE);
 
@@ -258,7 +410,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         currentRequest = REQUEST_GET_INFO;
     }
 
-    private void requestOpenJOSummary(){
+    private void requestOpenJOSummary() {
 
         rlProgress.setVisibility(View.VISIBLE);
         Request request = JobOrderAPI.getJobOrders(REQUEST_GET_OPEN_JO, "Open", false, this);
@@ -268,9 +420,9 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         currentRequest = REQUEST_GET_OPEN_JO;
     }
 
-    private void resetRiderInfo(){
+    private void resetRiderInfo() {
 
-        ((ApplicationClass)BaseApplication.getInstance()).setRider(rider);
+        ((ApplicationClass) BaseApplication.getInstance()).setRider(rider);
 
         tvUsername.setText(rider.getName());
         tvDelivery.setText(String.valueOf(rider.getCurrentDeliveryJO()));
@@ -288,18 +440,17 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         ivUser.setImageUrl(rider.getImageUrl(), imageLoader);
     }
 
-    private void resetJOSummary(){
+    private void resetJOSummary() {
 
         //temp
         int pickUpCount = 0;
         int deliveryCount = 0;
-        for(JobOrder item : jobOrders){
+        for (JobOrder item : jobOrders) {
 
-            if(item.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+            if (item.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)) {
 
                 pickUpCount += 1;
-            }
-            else{
+            } else {
 
                 deliveryCount += 1;
             }
@@ -311,16 +462,25 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void handleGetJobOrders(List<com.yilinker.core.model.express.internal.JobOrder> list){
+    private void handleGetJobOrders(List<com.yilinker.core.model.express.internal.JobOrder> list) {
 
         jobOrders = new ArrayList<>();
         JobOrder jobOrder = null;
-        for(com.yilinker.core.model.express.internal.JobOrder item : list){
+        for (com.yilinker.core.model.express.internal.JobOrder item : list) {
 
             jobOrder = new JobOrder(item);
 
             jobOrders.add(jobOrder);
         }
+    }
+
+    private void handleFailedSync() {
+
+        requestCounter++;
+
+        if (requestCounter >= numberOfRequest)
+            rlProgress.setVisibility(View.GONE);
+
     }
 
     /**
@@ -343,7 +503,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         return true;
     }
 
-    private void registrGCM(){
+    private void registrGCM() {
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.

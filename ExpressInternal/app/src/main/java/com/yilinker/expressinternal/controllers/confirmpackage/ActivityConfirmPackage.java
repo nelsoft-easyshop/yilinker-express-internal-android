@@ -68,11 +68,11 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         //Set the layout of the actionbar
         setActionBarLayout(R.layout.layout_actionbar_yellow);
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_package);
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
@@ -150,6 +150,8 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
         btnSave = (Button) findViewById(R.id.btnSave);
 
+        setActionBar();
+
     }
 
     private void initListeners() {
@@ -191,6 +193,18 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         etHeight.addTextChangedListener(this);
         etLength.addTextChangedListener(this);
         etWidth.addTextChangedListener(this);
+    }
+
+    private void setActionBar(){
+
+        //For Action Bar
+
+        setActionBarTitle(getString(R.string.checklist_delivery_package));
+
+        int actionBarColor = R.color.marigold;
+
+        setActionBarBackgroundColor(actionBarColor);
+
     }
 
 

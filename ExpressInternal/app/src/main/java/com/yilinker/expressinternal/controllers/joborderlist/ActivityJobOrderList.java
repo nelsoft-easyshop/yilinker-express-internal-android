@@ -52,6 +52,8 @@ import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderD
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.MenuItemClickListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
@@ -73,7 +75,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public static final String ARG_OPEN_JO = "openJO";
 
     //For API requests
-    private static final int REQUEST_GET_OPEN= 1000;
+    private static final int REQUEST_GET_OPEN = 1000;
     private static final int REQUEST_GET_CURRENT = 1001;
     private static final int REQUEST_GET_COMPLETE = 1002;
     private static final int REQUEST_GET_PROBLEMATIC = 1003;
@@ -92,7 +94,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private static final int FILTER_PICKUP = 2;
     private static final int FILTER_DELIVERY = 3;
     private static final int FILTER_CLAIMING = 4;
-    private static final int FILTER_DROPOFF =5;
+    private static final int FILTER_DROPOFF = 5;
 
     //View Type
     private static final int VIEW_LIST = 1;
@@ -115,6 +117,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private List<JobOrder> filteredList = new ArrayList<>(); // Filtered joborderlist
     private List<JobOrder> jobOrderList;            //Filtered job orders and binded with the adapter
     private List<JobOrder> completeList;            //Complete list of job orders
+    private List<SyncDBObject> requestsList = new ArrayList<>();     //list of failed requests for syncing
     private RecyclerView rvJobOrder;
 
     //For menu
@@ -137,6 +140,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private int filter;
 
     private RequestQueue requestQueue;
+    private SyncDBTransaction dbTransaction;
 
     private HashMap<String, JobOrder> mapMarkers;
 
@@ -151,6 +155,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         setContentView(R.layout.activity_joborderlist);
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
+        dbTransaction = new SyncDBTransaction(this);
         mapMarkers = new HashMap<>();
 
         initViews();
@@ -167,12 +172,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         setUpMapIfNeeded();
 
-        if(shouldReload){
+        if (shouldReload) {
 
             reloadList(adapterTab.getCurrentTab(), false);
 
-        }
-        else {
+        } else {
 
             //Data from Dashboard
             getData();
@@ -213,11 +217,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         super.onClick(v);
 
         int id = v.getId();
-        switch (id){
+        switch (id) {
 
             case R.id.ivSwitch:
 
-                if(!isReloading) {
+                if (!isReloading) {
                     switchFilter();
                 }
 
@@ -231,7 +235,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
 
-    private void initViews(){
+    private void initViews() {
 
         rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
         viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
@@ -244,8 +248,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if (actionId == EditorInfo.IME_ACTION_DONE)
-                {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     filterJobOrderList(v.getText().toString().trim());
                 }
 
@@ -254,18 +257,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         });
 
         etSearchField.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
                 // Do nothing
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Do nothing
             }
 
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String keyword = s.toString().trim();
                 filterJobOrderList(keyword);
             }
@@ -285,11 +285,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
+     * <p>
      * If it isn't installed {@link SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
      * install/update the Google Play services APK on their device.
-     * <p/>
+     * <p>
      * A user can return to this FragmentActivity after following the prompt and correctly
      * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
      * have been completely destroyed during this process (it is likely that it would only be
@@ -316,12 +316,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
-     * <p/>
+     * <p>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
 
-        if(currentView == VIEW_MAP) {
+        if (currentView == VIEW_MAP) {
 
             mMap.clear();
             mapMarkers.clear();
@@ -329,7 +329,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             LatLng markerLocation = null;
             Marker marker = null;
             MarkerOptions markerOptions = null;
-            for (JobOrder item : jobOrderList){
+            for (JobOrder item : jobOrderList) {
 
                 markerLocation = new LatLng(item.getLatitude(), item.getLongitude());
 
@@ -338,7 +338,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                 marker = mMap.addMarker(markerOptions);
 
                 int markerResId = R.drawable.pin_joborder_pickup;
-                if(item.getType().equalsIgnoreCase("delivery")){
+                if (item.getType().equalsIgnoreCase("delivery")) {
                     markerResId = R.drawable.pin_joborder_delivery;
                 }
 
@@ -353,7 +353,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 //            LatLng warehouseLocation = new LatLng(14.122323, 121.34232);
 //            mMap.addMarker(new MarkerOptions().position(warehouseLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromBitmap(DrawableHelper.createDrawableFromView(getWindowManager(), warehouseMarker)));
 
-            if(mLastLocation != null) {
+            if (mLastLocation != null) {
                 //Center map to rider's location
                 LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
@@ -369,7 +369,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
 
     //Set warehouse pin
-    private void setWarehousePin(){
+    private void setWarehousePin() {
 
         warehouseMarker = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.layout_pin_warehouse, null);
         tvDelivery = (TextView) warehouseMarker.findViewById(R.id.tvDelivery);
@@ -404,7 +404,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onSuccess(int requestCode, Object object) {
         super.onSuccess(requestCode, object);
 
-        if(object != null) {
+        if (object != null) {
 
             int type = 0;
 
@@ -439,7 +439,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                 case REQUEST_GET_CURRENT:
 
+                    requestsList = dbTransaction.getAll();
                     type = AdapterJobOrderList.TYPE_CURRENT;
+
                     break;
 
                 case REQUEST_GET_COMPLETE:
@@ -464,7 +466,23 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
 
-                list.add(new JobOrder(item));
+                JobOrder jo = new JobOrder(item);
+
+                //check jo if it's for syncing
+
+                if (requestCode == REQUEST_GET_CURRENT) {
+                    for (int i = 0; i < requestsList.size(); i++) {
+                        if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
+                                || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
+                            if (!requestsList.get(i).isSync())                 //check sync status
+                                jo.setForSyncing(true);
+                        }
+                    }
+
+                }
+
+//                list.add(new JobOrder(item));
+                list.add(jo);
 
             }
 
@@ -477,8 +495,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             resetTabCount();
 
             reloadList(type, false);
-        }
-        else{
+        } else {
 
             rlProgress.setVisibility(View.GONE);
         }
@@ -492,7 +509,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         int currentRequest = getCurrentRequest();
 
-        switch(currentRequest){
+        switch (currentRequest) {
 
             case REQUEST_GET_WAREHOUSES:
 
@@ -508,7 +525,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
 
-        if(!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+        if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
 
@@ -517,7 +534,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
     //Request data from the server
-    private void requestGetJobOrders(){
+    private void requestGetJobOrders() {
 
         rlProgress.setVisibility(View.VISIBLE);
 
@@ -526,7 +543,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         int requestCode = 0;
 
 
-        switch (currentTab){
+        switch (currentTab) {
 
             case TAB_OPEN:
 
@@ -556,11 +573,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         Request request = null;
 
-        if(currentTab == TAB_OPEN) {
+        if (currentTab == TAB_OPEN) {
 
             request = JobOrderAPI.getJobOrders(requestCode, type, filterByBranch, this);
-        }
-        else{
+        } else {
 
             request = JobOrderAPI.getJobOrders(requestCode, type, true, this);
         }
@@ -575,7 +591,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         filteredList.clear();
 
-        for(int i=0;i<jobOrderList.size();i++) {
+        for (int i = 0; i < jobOrderList.size(); i++) {
 
             if ((jobOrderList.get(i).getWaybillNo().toLowerCase()).contains(keyword.toLowerCase())) {
                 filteredList.add(jobOrderList.get(i));
@@ -584,11 +600,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         int type = 0;
 
-        if(adapterTab.getCurrentTab() == 0) {
+        if (adapterTab.getCurrentTab() == 0) {
             type = AdapterJobOrderList.TYPE_OPEN;
-        } else if(adapterTab.getCurrentTab() == 1) {
+        } else if (adapterTab.getCurrentTab() == 1) {
             type = AdapterJobOrderList.TYPE_CURRENT;
-        } else if(adapterTab.getCurrentTab() == 2) {
+        } else if (adapterTab.getCurrentTab() == 2) {
             type = AdapterJobOrderList.TYPE_COMPLETE;
         } else {
             type = AdapterJobOrderList.TYPE_PROBLEMATIC;
@@ -601,55 +617,55 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
 
     //Reload the list
-    private void reloadList(int type, boolean isFiltered){
+    private void reloadList(int type, boolean isFiltered) {
 
 
         adapterJobOrderList.stopTimer();
 
         List<JobOrder> tempOrigJobOrderList = jobOrderList;
 
-        if(isFiltered) {
+        if (isFiltered) {
             jobOrderList = filteredList;
         }
 
 
-    switch (type){
+        switch (type) {
 
-        case AdapterJobOrderList.TYPE_OPEN:
-
-
-            adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN ,this);
-            break;
+            case AdapterJobOrderList.TYPE_OPEN:
 
 
-        case AdapterJobOrderList.TYPE_CURRENT:
-
-            adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_CURRENT ,this);
-            break;
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN, this);
+                break;
 
 
-        case AdapterJobOrderList.TYPE_COMPLETE:
+            case AdapterJobOrderList.TYPE_CURRENT:
 
-            adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_COMPLETE ,this);
-            break;
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_CURRENT, this);
+                break;
 
-        case AdapterJobOrderList.TYPE_PROBLEMATIC:
 
-            adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_PROBLEMATIC ,this);
-            break;
+            case AdapterJobOrderList.TYPE_COMPLETE:
 
-    }
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_COMPLETE, this);
+                break;
+
+            case AdapterJobOrderList.TYPE_PROBLEMATIC:
+
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_PROBLEMATIC, this);
+                break;
+
+        }
 
         rvJobOrder.setAdapter(adapterJobOrderList);
 
         //Start timer if the selected tab is for current JO
-        if(adapterTab.getCurrentTab() == TAB_CURRENT || adapterTab.getCurrentTab() == TAB_PROBLEMATIC){
+        if (adapterTab.getCurrentTab() == TAB_CURRENT || adapterTab.getCurrentTab() == TAB_PROBLEMATIC) {
 
             adapterJobOrderList.startTimer();
         }
 
         //For Filter
-        if(filter != NO_FILTER){
+        if (filter != NO_FILTER) {
 
             filterList(filter);
             filter = NO_FILTER;
@@ -659,12 +675,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
 
         //For Map View
-        if(currentView == VIEW_MAP){
+        if (currentView == VIEW_MAP) {
 
             reloadMap();
         }
 
-        if(isFiltered){
+        if (isFiltered) {
             adapterJobOrderList.notifyDataSetChanged();
             jobOrderList = tempOrigJobOrderList;
         }
@@ -674,12 +690,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
     //Reload the map
-    private void reloadMap(){
+    private void reloadMap() {
 
-        if(LocationHelper.isLocationServicesEnabled(getApplicationContext())) {
+        if (LocationHelper.isLocationServicesEnabled(getApplicationContext())) {
             setUpMap();
-        }
-        else{
+        } else {
 
             LocationHelper.showLocationErrorDialog(ActivityJobOrderList.this, this);
         }
@@ -687,7 +702,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
 
-    private void setTab(){
+    private void setTab() {
 
 
         tabItems = new ArrayList<TabModel>();
@@ -696,7 +711,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         TabModel tab;
         int i = 0;
 
-        for(String item : arrayTabItems){
+        for (String item : arrayTabItems) {
 
             tab = new TabModel();
             tab.setId(i);
@@ -716,7 +731,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void setMenu(){
+    private void setMenu() {
 
         View customView = getLayoutInflater().inflate(R.layout.layout_main_menu, null);
 
@@ -749,7 +764,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onMenuItemClick(int position) {
 
 
-        switch (position){
+        switch (position) {
 
             case 0:
 
@@ -809,23 +824,22 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         dismissMenu();
     }
 
-    private void goToAcknowledgeScreen(){
+    private void goToAcknowledgeScreen() {
 
         Intent intent = new Intent(ActivityJobOrderList.this, ActivityAcknowledge.class);
         startActivity(intent);
 
     }
 
-    private void switchView(){
+    private void switchView() {
 
-        if(currentView == VIEW_LIST){
+        if (currentView == VIEW_LIST) {
             menuItems.set(0, getString(R.string.menu_listview));
             currentView = VIEW_MAP;
 
             reloadMap();
 
-        }
-        else{
+        } else {
 
             menuItems.set(0, getString(R.string.menu_mapview));
             currentView = VIEW_LIST;
@@ -835,14 +849,14 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         viewSwitcher.showNext();
     }
 
-    private void showScanner(){
+    private void showScanner() {
 
         Intent intent = new Intent(this, ActivityScanner.class);
         startActivity(intent);
 
     }
 
-    private void setListAdapter(){
+    private void setListAdapter() {
 
         completeList = new ArrayList<>();
         jobOrderList = new ArrayList<JobOrder>();
@@ -852,7 +866,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvJobOrder.setLayoutManager(layoutManager);
 
-        adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN ,this);
+        adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN, this);
 
         rvJobOrder.setAdapter(adapterJobOrderList);
 
@@ -891,10 +905,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
     //Filter list
-    private void filterList(int type){
+    private void filterList(int type) {
 
         String filter = null;
-        switch (type){
+        switch (type) {
 
             case FILTER_ALL:
 
@@ -924,9 +938,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         }
 
         List<JobOrder> result = new ArrayList<>();
-        for(JobOrder item : completeList){
+        for (JobOrder item : completeList) {
 
-            if(item.getStatus().equalsIgnoreCase(filter)){
+            if (item.getStatus().equalsIgnoreCase(filter)) {
 
                 result.add(item);
             }
@@ -937,7 +951,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         jobOrderList.addAll(result);
         adapterJobOrderList.notifyDataSetChanged();
 
-        if(currentView == VIEW_MAP){
+        if (currentView == VIEW_MAP) {
 
             reloadMap();
         }
@@ -955,7 +969,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
 
-        if(mLastLocation != null && adapterTab.getCurrentTab() == TAB_OPEN ){
+        if (mLastLocation != null && adapterTab.getCurrentTab() == TAB_OPEN) {
 
             setDistance();
         }
@@ -982,7 +996,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         JobOrder jobOrder = mapMarkers.get(marker.getId());
 
-        if(jobOrder != null){
+        if (jobOrder != null) {
 
             goToDetail(jobOrder, adapterTab.getCurrentTab());
         }
@@ -990,17 +1004,16 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         return true;
     }
 
-    private void goToDetail(JobOrder jobOrder, int tab){
+    private void goToDetail(JobOrder jobOrder, int tab) {
 
         Intent intent = null;
 
-        if(tab == TAB_COMPLETED){
+        if (tab == TAB_COMPLETED) {
 
             intent = new Intent(ActivityJobOrderList.this, ActivityComplete.class);
             intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
             intent.putExtra(ActivityComplete.ARG_FROM_HOME, true);
-        }
-        else{
+        } else {
 
             intent = new Intent(ActivityJobOrderList.this, ActivityJobOderDetail.class);
             intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
@@ -1012,7 +1025,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void reportProblematic(JobOrder jobOrder){
+    private void reportProblematic(JobOrder jobOrder) {
 
         Intent intent = new Intent(ActivityJobOrderList.this, ActivityProblematic.class);
         intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder);
@@ -1020,31 +1033,30 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void getData(){
+    private void getData() {
 
         Intent intent = getIntent();
 
         List<JobOrder> list = intent.getParcelableArrayListExtra(ARG_OPEN_JO);
 
-        if(list != null) {
+        if (list != null) {
 
             jobOrderList.addAll(list);
             completeList.addAll(list);
             adapterJobOrderList.notifyDataSetChanged();
-        }
-        else{
+        } else {
 
             requestGetJobOrders();
         }
 
     }
 
-    private void setDistance(){
+    private void setDistance() {
 
-        if(mLastLocation != null) {
+        if (mLastLocation != null) {
             for (JobOrder item : jobOrderList) {
 
-                if(item.getLatitude() > 0 && item.getLongitude() > 0)
+                if (item.getLatitude() > 0 && item.getLongitude() > 0)
                     item.setDistance(LocationHelper.getDistance(mLastLocation.getLatitude(), mLastLocation.getLongitude(), item.getLatitude(), item.getLongitude()));
 
             }
@@ -1054,15 +1066,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         }
     }
 
-    private void centerToLocation(){
+    private void centerToLocation() {
 
-        if(mLastLocation != null) {
+        if (mLastLocation != null) {
             LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
         }
     }
 
-    private void requestWarehouseLocation(){
+    private void requestWarehouseLocation() {
 
         rlProgress.setVisibility(View.VISIBLE);
 
@@ -1073,21 +1085,21 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void addWarehousePins(List<Warehouse> list){
+    private void addWarehousePins(List<Warehouse> list) {
 
         //For warehouse
-        if(warehouseMarker == null){
+        if (warehouseMarker == null) {
 
             setWarehousePin();
         }
 
-        if(list != null) {
+        if (list != null) {
 
             LatLng warehouseLocation = null;
             TextView tvPickup = null;
             TextView tvClaiming = null;
 
-            for(Warehouse item : list) {
+            for (Warehouse item : list) {
 
                 warehouseLocation = new LatLng(item.getLatitude(), item.getLongitude());
 
@@ -1106,7 +1118,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void resetTabCount(){
+    private void resetTabCount() {
 
         TabModel tab = tabItems.get(adapterTab.getCurrentTab());
         tab.setCount(jobOrderList.size());
@@ -1114,7 +1126,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void setActionBar(){
+    private void setActionBar() {
 
         actionBar = getActionBarView();
 
@@ -1125,18 +1137,18 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void switchFilter(){
+    private void switchFilter() {
 
         isReloading = true;
 
         filterByBranch = !filterByBranch;
         int resId = R.string.filter_area;
 
-        if(filterByBranch){
+        if (filterByBranch) {
             resId = R.string.filter_branch;
         }
 
-        Button ivSwitch = (Button)actionBar.findViewById(R.id.ivSwitch);
+        Button ivSwitch = (Button) actionBar.findViewById(R.id.ivSwitch);
 
         ivSwitch.setBackgroundResource(R.drawable.bg_btn_orangeyellow_rounded);
         ivSwitch.setText(getString(resId));
@@ -1145,12 +1157,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void showSwitchButton(boolean isShown){
+    private void showSwitchButton(boolean isShown) {
 
-        Button ivSwitch = (Button)actionBar.findViewById(R.id.ivSwitch);
+        Button ivSwitch = (Button) actionBar.findViewById(R.id.ivSwitch);
 
         int visibility = View.GONE;
-        if(isShown){
+        if (isShown) {
             visibility = View.VISIBLE;
         }
 
@@ -1161,7 +1173,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onDialogDismiss(int requestCode, Bundle bundle) {
 
-        switch(requestCode){
+        switch (requestCode) {
 
             case LocationHelper.REQUEST_DIALOG_LOCATION_ERROR:
 

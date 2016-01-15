@@ -260,6 +260,7 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
         private TextView tvBranchName;
         private TextView tvTimer;
         private TextView tvStatus;
+        private TextView tvForSyncing;
 
         public ViewHolderCurrent(View view, RecyclerViewClickListener<JobOrder> listener){
             super(view, listener);
@@ -269,6 +270,7 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
             tvBranchName = (TextView) view.findViewById(R.id.tvBranch);
             tvTimer = (TextView) view.findViewById(R.id.tvTimer);
             tvStatus = (TextView) view.findViewById(R.id.tvStatus);
+            tvForSyncing = (TextView) view.findViewById(R.id.tvSync);
         }
 
 
@@ -286,6 +288,10 @@ public class AdapterJobOrderList<T extends  JobOrder> extends RecyclerView.Adapt
             tvJobOrderNo.setText(object.getWaybillNo());
             tvBranchName.setText(object.getBranchName());
             tvStatus.setText(object.getStatus());
+
+            if(!object.isForSyncing()){
+                tvForSyncing.setVisibility(View.GONE);
+            }
 
             String address = null;
             if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
