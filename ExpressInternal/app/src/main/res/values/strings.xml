@@ -30,6 +30,7 @@
     <string-array name="navigation_item_array">
         <item >Dashboard</item>
         <item>Cash Management</item>
+        <item>Sync</item>
     </string-array>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
