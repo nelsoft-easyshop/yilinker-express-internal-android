@@ -344,6 +344,8 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
                     requestUpdate(i, request.getId(), request.getData());
 
                 }
+            } else {
+                dbTransaction.delete(request);
             }
 
         }
