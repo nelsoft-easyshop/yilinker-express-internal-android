@@ -59,6 +59,8 @@ public class JobOrder implements Parcelable{
 
     private double amountToCollect;
 
+    private boolean forSyncing;
+
     static {
 
         //Temp
@@ -117,46 +119,6 @@ public class JobOrder implements Parcelable{
             problematicImages = problemDetail.getImages();
         }
 
-    }
-
-    protected JobOrder(Parcel in) {
-
-        jobOrderNo = in.readString();
-        recipient = in.readString();
-        contactNo = in.readString();
-        status = in.readString();
-        size = in.readString();
-        estimatedTimeOfArrival = (java.util.Date) in.readSerializable();
-        earning = in.readDouble();
-        type = in.readString();
-        isOpen = in.readByte() != 0;
-        areaCode = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        pickupAddress = in.readString();
-        dropoffAddress = in.readString();
-        distance = in.readDouble();
-        deliveryAddress = in.readString();
-        itemLocation = in.readString();
-        branchName = in.readString();
-        timeDelivered = (java.util.Date) in.readSerializable();
-        rating = in.readInt();
-        amountToCollect = in.readDouble();
-
-        images = new ArrayList<>();
-        in.readStringList(images);
-
-        items = new ArrayList<>();
-        in.readStringList(items);
-        waybillNo = in.readString();
-        packageDescription = in.readString();
-
-        csrName = in.readString();
-        problemType = in.readString();
-        remarks = in.readString();
-
-        problematicImages = new ArrayList<>();
-        in.readStringList(problematicImages);
     }
 
     public String getJobOrderNo() {
@@ -391,18 +353,13 @@ public class JobOrder implements Parcelable{
         this.packageDescription = packageDescription;
     }
 
+    public boolean isForSyncing() {
+        return forSyncing;
+    }
 
-    public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
-        @Override
-        public JobOrder createFromParcel(Parcel in) {
-            return new JobOrder(in);
-        }
-
-        @Override
-        public JobOrder[] newArray(int size) {
-            return new JobOrder[size];
-        }
-    };
+    public void setForSyncing(boolean forSyncing) {
+        this.forSyncing = forSyncing;
+    }
 
     @Override
     public int describeContents() {
@@ -411,35 +368,80 @@ public class JobOrder implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeString(jobOrderNo);
-        dest.writeString(recipient);
-        dest.writeString(contactNo);
-        dest.writeString(status);
-        dest.writeString(size);
-        dest.writeSerializable(estimatedTimeOfArrival);
-        dest.writeDouble(earning);
-        dest.writeString(type);
-        dest.writeByte((byte) (isOpen ? 1 : 0));
-        dest.writeString(areaCode);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-        dest.writeString(pickupAddress);
-        dest.writeString(dropoffAddress);
-        dest.writeDouble(distance);
-        dest.writeString(deliveryAddress);
-        dest.writeString(itemLocation);
-        dest.writeString(branchName);
-        dest.writeSerializable(timeDelivered);
-        dest.writeInt(rating);
-        dest.writeDouble(amountToCollect);
-        dest.writeStringList(images);
-        dest.writeStringList(items);
-        dest.writeString(waybillNo);
-        dest.writeString(packageDescription);
-        dest.writeString(csrName);
-        dest.writeString(problemType);
-        dest.writeString(remarks);
-        dest.writeStringList(problematicImages);
+        dest.writeString(this.jobOrderNo);
+        dest.writeString(this.recipient);
+        dest.writeString(this.contactNo);
+        dest.writeString(this.status);
+        dest.writeLong(estimatedTimeOfArrival != null ? estimatedTimeOfArrival.getTime() : -1);
+        dest.writeString(this.size);
+        dest.writeDouble(this.earning);
+        dest.writeString(this.type);
+        dest.writeByte(isOpen ? (byte) 1 : (byte) 0);
+        dest.writeString(this.areaCode);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+        dest.writeString(this.pickupAddress);
+        dest.writeString(this.dropoffAddress);
+        dest.writeDouble(this.distance);
+        dest.writeString(this.deliveryAddress);
+        dest.writeString(this.itemLocation);
+        dest.writeString(this.branchName);
+        dest.writeLong(timeDelivered != null ? timeDelivered.getTime() : -1);
+        dest.writeInt(this.rating);
+        dest.writeStringList(this.images);
+        dest.writeStringList(this.items);
+        dest.writeString(this.waybillNo);
+        dest.writeString(this.packageDescription);
+        dest.writeString(this.csrName);
+        dest.writeString(this.problemType);
+        dest.writeString(this.remarks);
+        dest.writeStringList(this.problematicImages);
+        dest.writeDouble(this.amountToCollect);
+        dest.writeByte(forSyncing ? (byte) 1 : (byte) 0);
     }
+
+    protected JobOrder(Parcel in) {
+        this.jobOrderNo = in.readString();
+        this.recipient = in.readString();
+        this.contactNo = in.readString();
+        this.status = in.readString();
+        long tmpEstimatedTimeOfArrival = in.readLong();
+        this.estimatedTimeOfArrival = tmpEstimatedTimeOfArrival == -1 ? null : new Date(tmpEstimatedTimeOfArrival);
+        this.size = in.readString();
+        this.earning = in.readDouble();
+        this.type = in.readString();
+        this.isOpen = in.readByte() != 0;
+        this.areaCode = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.pickupAddress = in.readString();
+        this.dropoffAddress = in.readString();
+        this.distance = in.readDouble();
+        this.deliveryAddress = in.readString();
+        this.itemLocation = in.readString();
+        this.branchName = in.readString();
+        long tmpTimeDelivered = in.readLong();
+        this.timeDelivered = tmpTimeDelivered == -1 ? null : new Date(tmpTimeDelivered);
+        this.rating = in.readInt();
+        this.images = in.createStringArrayList();
+        this.items = in.createStringArrayList();
+        this.waybillNo = in.readString();
+        this.packageDescription = in.readString();
+        this.csrName = in.readString();
+        this.problemType = in.readString();
+        this.remarks = in.readString();
+        this.problematicImages = in.createStringArrayList();
+        this.amountToCollect = in.readDouble();
+        this.forSyncing = in.readByte() != 0;
+    }
+
+    public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {
+        public JobOrder createFromParcel(Parcel source) {
+            return new JobOrder(source);
+        }
+
+        public JobOrder[] newArray(int size) {
+            return new JobOrder[size];
+        }
+    };
 }
