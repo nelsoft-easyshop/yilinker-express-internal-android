@@ -36,12 +36,12 @@ import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.model.PackageType;
 import com.yilinker.expressinternal.model.Rider;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -101,7 +101,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private String recipientPicture;
     private String newStatus;
 
-    private String type, id, typeId, length, width, height, weight, shippingFee; //for confirm package
+    private PackageType packageFee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +120,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         initViews();
 
         bindViews();
+
     }
 
     @Override
@@ -538,14 +539,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         Intent intent = new Intent(ActivityChecklist.this, ActivityConfirmPackage.class);
         intent.putExtra(ARG_JOB_ORDER, jobOrder.getJobOrderNo());
-        intent.putExtra(ActivityConfirmPackage.ARG_TYPE, type);
-        intent.putExtra(ActivityConfirmPackage.ARG_ID, id);
-        intent.putExtra(ActivityConfirmPackage.ARG_TYPE_ID, typeId);
-        intent.putExtra(ActivityConfirmPackage.ARG_LENGTH, length);
-        intent.putExtra(ActivityConfirmPackage.ARG_HEIGHT, height);
-        intent.putExtra(ActivityConfirmPackage.ARG_WIDTH, width);
-        intent.putExtra(ActivityConfirmPackage.ARG_WEIGHT, weight);
-        intent.putExtra(ActivityConfirmPackage.ARG_SHIPPING_FEE, shippingFee);
+        intent.putExtra(ActivityConfirmPackage.ARG_PACKAGE_FEE, packageFee);
 
         startActivityForResult(intent, REQUEST_CONFIRM_PACKAGE);
 
@@ -797,14 +791,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void handleConfirmPackage(Intent data){
 
-        type = data.getStringExtra(ActivityConfirmPackage.ARG_TYPE);
-        id = data.getStringExtra(ActivityConfirmPackage.ARG_ID);
-        typeId = data.getStringExtra(ActivityConfirmPackage.ARG_TYPE_ID);
-        length = data.getStringExtra(ActivityConfirmPackage.ARG_LENGTH);
-        width = data.getStringExtra(ActivityConfirmPackage.ARG_WIDTH);
-        height = data.getStringExtra(ActivityConfirmPackage.ARG_HEIGHT);
-        weight = data.getStringExtra(ActivityConfirmPackage.ARG_WEIGHT);
-        shippingFee = data.getStringExtra(ActivityConfirmPackage.ARG_SHIPPING_FEE);
+        packageFee = data.getParcelableExtra(ActivityConfirmPackage.ARG_PACKAGE_FEE);
 
         int position;
 

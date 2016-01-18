@@ -772,7 +772,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         SyncDBObject result = query.findFirst();
 
+        realm.beginTransaction();
         result.setSync(true);
+        realm.commitTransaction();
 
         dbTransaction.update(result);
 

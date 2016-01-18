@@ -224,7 +224,9 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         SyncDBObject result = query.findFirst();
 
+        realm.beginTransaction();
         result.setSync(true);
+        realm.commitTransaction();
 
         dbTransaction.update(result);
 

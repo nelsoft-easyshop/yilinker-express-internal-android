@@ -19,12 +19,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
-import com.yilinker.core.model.express.internal.PackageType;
 import com.yilinker.core.model.express.internal.ShippingFee;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.model.PackageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +38,13 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
     private static final int REQUEST_CODE_GET_PACKAGE_TYPES = 1000;
     private static final int REQUEST_CODE_CALCULATE_SHIPPING_FEE = 1001;
 
-    public static final String ARG_TYPE = "type";
-    public static final String ARG_TYPE_ID = "typeId";
-    public static final String ARG_ID = "id";
-    public static final String ARG_LENGTH = "length";
-    public static final String ARG_WIDTH = "width";
-    public static final String ARG_HEIGHT = "height";
-    public static final String ARG_WEIGHT = "weight";
-    public static final String ARG_SHIPPING_FEE = "fee";
+    public static final String ARG_PACKAGE_FEE = "packageFee";
 
     private RequestQueue requestQueue;
     private AdapterPackageTypes adapterPackageTypes;
     private AdapterPackageSizes adapterPackageSizes;
     private List<PackageType> packageList = new ArrayList<>();
+    private PackageType packageFee;
 
     private RelativeLayout rlLength, rlWidth, rlHeight, rlWeight, rlSize, rlType, rlProgressBar;
     private ListView lvType, lvSizes;
@@ -76,6 +70,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         setContentView(R.layout.activity_confirm_package);
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
+        packageFee = new PackageType();
 
         initViews();
         initListeners();
@@ -106,18 +101,20 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
         jobOrderNo = intent.getStringExtra(ActivityChecklist.ARG_JOB_ORDER);
 
-        if(intent.getStringExtra(ARG_TYPE) != null) {
+        if(intent.getParcelableExtra(ARG_PACKAGE_FEE) != null) {
 
-            etLength.setText(intent.getStringExtra(ARG_LENGTH));
-            etWidth.setText(intent.getStringExtra(ARG_WIDTH));
-            etHeight.setText(intent.getStringExtra(ARG_HEIGHT));
-            etWeight.setText(intent.getStringExtra(ARG_WEIGHT));
-            etType.setText(intent.getStringExtra(ARG_TYPE));
+            packageFee = intent.getParcelableExtra(ARG_PACKAGE_FEE);
+
+            etLength.setText(packageFee.getLength());
+            etWidth.setText(packageFee.getWidth());
+            etHeight.setText(packageFee.getHeight());
+            etWeight.setText(packageFee.getWeight());
+            etType.setText(packageFee.getTypeName());
             rlProgressBar.setVisibility(View.GONE);
             getPackageTypes();
 
-            tempPackageId = Integer.valueOf(intent.getStringExtra(ARG_TYPE_ID));
-            tempSizeId = Integer.valueOf(intent.getStringExtra(ARG_ID));
+            tempPackageId = Integer.valueOf(packageFee.getTypeId());
+            tempSizeId = Integer.valueOf(packageFee.getSizeId());
 
             isEdit = true;
         }
@@ -282,23 +279,14 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
     private void handlePackageTypesData(Object object) {
 
-        packageList = (ArrayList<PackageType>) object;
-//        List<PackageType> packageTypeServer = (ArrayList<PackageType>) object;
+        List<com.yilinker.core.model.express.internal.PackageType> packageTypeServer = (ArrayList<com.yilinker.core.model.express.internal.PackageType>) object;
 
-//        com.yilinker.expressinternal.model.PackageType packageTypeLocal = new com.yilinker.expressinternal.model.PackageType(packageTypeServer);
+        for(int i=0;i<packageTypeServer.size();i++) {
 
-//        for(int i=0;i<packageTypeServer.size();i++) {
-//
-//            com.yilinker.expressinternal.model.PackageType packageLocal = new com.yilinker.expressinternal.model.PackageType();
-//
-//            packageLocal.setId(packageTypeServer.get(i).getId());
-//            packageLocal.setName(packageTypeServer.get(i).getName());
-//            packageLocal.setSize(packageTypeServer.get(i).getSize());
-//
-//            packageList.add(packageLocal);
-//        }
+            com.yilinker.expressinternal.model.PackageType packageTypeLocal = new com.yilinker.expressinternal.model.PackageType(packageTypeServer.get(i));
 
-//        packageList = packageTypeLocal;
+            packageList.add(packageTypeLocal);
+        }
 
         setPackageList(packageList);
 
@@ -318,7 +306,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         }
     }
 
-    private void setPackageList(List<PackageType> packageList) {
+    private void setPackageList(List<com.yilinker.expressinternal.model.PackageType> packageList) {
 
         adapterPackageTypes = new AdapterPackageTypes(this, packageList);
         lvType.setAdapter(adapterPackageTypes);
@@ -340,14 +328,17 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
                 setResult(RESULT_OK);
                 Intent data = new Intent();
-                data.putExtra(ARG_TYPE, etType.getText().toString());
-                data.putExtra(ARG_TYPE_ID, String.valueOf(packagePosition));
-                data.putExtra(ARG_ID, String.valueOf(sizePosition));
-                data.putExtra(ARG_HEIGHT, etHeight.getText().toString());
-                data.putExtra(ARG_LENGTH, etLength.getText().toString());
-                data.putExtra(ARG_WEIGHT, etWeight.getText().toString());
-                data.putExtra(ARG_WIDTH, etWidth.getText().toString());
-                data.putExtra(ARG_SHIPPING_FEE, tvShippingFee.getText().toString());
+
+                packageFee.setTypeName(etType.getText().toString());
+                packageFee.setTypeId(String.valueOf(packagePosition));
+                packageFee.setSizeId(String.valueOf(sizePosition));
+                packageFee.setHeight(etHeight.getText().toString());
+                packageFee.setLength(etLength.getText().toString());
+                packageFee.setWeight(etWeight.getText().toString());
+                packageFee.setWidth(etWidth.getText().toString());
+                packageFee.setShippingFee(tvShippingFee.getText().toString());
+
+                data.putExtra(ARG_PACKAGE_FEE, packageFee);
 
                 setResult(RESULT_OK, data);
 
@@ -409,6 +400,8 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
                 rlWidth.setVisibility(View.VISIBLE);
 
                 sizeId = packageId;
+                lvSizes.setVisibility(View.GONE);
+                lvType.setVisibility(View.GONE);
 
             }
 

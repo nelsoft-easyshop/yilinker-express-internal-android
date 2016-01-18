@@ -18,10 +18,10 @@ import java.util.List;
 public class AdapterPackageTypes extends BaseAdapter {
 
 
-    private List<PackageType> packageList;
+    private List<com.yilinker.expressinternal.model.PackageType> packageList;
     private Context context;
 
-    public AdapterPackageTypes(Context context, List<PackageType> packageList) {
+    public AdapterPackageTypes(Context context, List<com.yilinker.expressinternal.model.PackageType> packageList) {
 
         this.context = context;
         this.packageList = packageList;
