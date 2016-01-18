@@ -15,11 +15,24 @@ public class PackageType implements Parcelable {
     private String name;
     private List<Sizes> size;
 
-    public PackageType(List<com.yilinker.core.model.express.internal.PackageType> packageType) {
+    /**
+     * For data intent
+     */
 
-//        this.id = packageType.getId();
-//        this.name = packageType.getName();
-//        this.size = convertSizes(packageType.getSize());
+    private String typeName;
+    private String typeId;
+    private String sizeId;
+    private String height;
+    private String length;
+    private String width;
+    private String weight;
+    private String shippingFee;
+
+    public PackageType(com.yilinker.core.model.express.internal.PackageType packageType) {
+
+        this.id = packageType.getId();
+        this.name = packageType.getName();
+        this.size = convertSizes(packageType.getSize());
 
     }
 
@@ -66,6 +79,69 @@ public class PackageType implements Parcelable {
         this.size = size;
     }
 
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getSizeId() {
+        return sizeId;
+    }
+
+    public void setSizeId(String sizeId) {
+        this.sizeId = sizeId;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(String shippingFee) {
+        this.shippingFee = shippingFee;
+    }
 
     public static class Sizes implements Parcelable {
 
@@ -118,6 +194,9 @@ public class PackageType implements Parcelable {
         };
     }
 
+    public PackageType() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -128,18 +207,31 @@ public class PackageType implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeTypedList(size);
+        dest.writeString(this.typeName);
+        dest.writeString(this.typeId);
+        dest.writeString(this.sizeId);
+        dest.writeString(this.height);
+        dest.writeString(this.length);
+        dest.writeString(this.width);
+        dest.writeString(this.weight);
+        dest.writeString(this.shippingFee);
     }
 
-    public PackageType() {
-    }
-
-    public PackageType(Parcel in) {
+    protected PackageType(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
         this.size = in.createTypedArrayList(Sizes.CREATOR);
+        this.typeName = in.readString();
+        this.typeId = in.readString();
+        this.sizeId = in.readString();
+        this.height = in.readString();
+        this.length = in.readString();
+        this.width = in.readString();
+        this.weight = in.readString();
+        this.shippingFee = in.readString();
     }
 
-    public static final Parcelable.Creator<PackageType> CREATOR = new Parcelable.Creator<PackageType>() {
+    public static final Creator<PackageType> CREATOR = new Creator<PackageType>() {
         public PackageType createFromParcel(Parcel source) {
             return new PackageType(source);
         }
