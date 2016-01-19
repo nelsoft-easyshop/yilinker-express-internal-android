@@ -29,6 +29,7 @@ import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
+import com.yilinker.expressinternal.controllers.joborderlist.AdapterJobOrderList;
 import com.yilinker.expressinternal.controllers.signature.ActivitySignature;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
@@ -426,12 +427,17 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
                 handleFailedRequestUpdate();
 
+
+                break;
+
+            default:
+
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                rlProgress.setVisibility(View.GONE);
+
                 break;
 
         }
-
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        rlProgress.setVisibility(View.GONE);
     }
 
     private void setAdapter(){
@@ -665,6 +671,13 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         request.setSync(false);
 
         syncTransaction.add(request);
+
+        //start service even update failed
+        if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+            startChecklistService();
+        }
+
+        goToHome();
 
 
     }

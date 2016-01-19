@@ -109,6 +109,8 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         //Start location service
         appClass.startLocationService();
 
+        checkForSyncItems();
+
     }
 
     @Override
@@ -152,6 +154,18 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         }
     }
+
+
+    private void checkForSyncItems() {
+
+        requests = dbTransaction.getAll(SyncDBObject.class);
+
+        if(requests.size() > 0) {
+            //show sync icon
+            //boolean for sync
+        }
+    }
+
 
     private void goToJobOrderList() {
 
@@ -317,7 +331,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     private void syncDataToServer() {
 
-        requests = dbTransaction.getAll();
+        requests = dbTransaction.getAll(SyncDBObject.class);
 
         requestCounter = 0;
         numberOfRequest = requests.size();

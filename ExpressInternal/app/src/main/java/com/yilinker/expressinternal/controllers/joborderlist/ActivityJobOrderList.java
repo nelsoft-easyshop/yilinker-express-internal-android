@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.adapters.AdapterTab;
 import com.yilinker.expressinternal.base.BaseActivity;
@@ -73,6 +74,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     //For passing Open JOs from DashBoard
     public static final String ARG_OPEN_JO = "openJO";
+    private static final String SERVER_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
     //For API requests
     private static final int REQUEST_GET_OPEN = 1000;
@@ -285,11 +287,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p>
+     * <p/>
      * If it isn't installed {@link SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
      * install/update the Google Play services APK on their device.
-     * <p>
+     * <p/>
      * A user can return to this FragmentActivity after following the prompt and correctly
      * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
      * have been completely destroyed during this process (it is likely that it would only be
@@ -316,7 +318,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
-     * <p>
+     * <p/>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
@@ -439,7 +441,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                 case REQUEST_GET_CURRENT:
 
-                    requestsList = dbTransaction.getAll();
+                    requestsList = dbTransaction.getAll(SyncDBObject.class);
                     type = AdapterJobOrderList.TYPE_CURRENT;
 
                     break;
@@ -459,6 +461,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             jobOrderList.clear();
             completeList.clear();
+
+            if (requestCode == REQUEST_GET_CURRENT){
+                ApplicationClass.saveLocalCurrentListData(this, object); //save to text
+            }
 
 
             List<JobOrder> list = new ArrayList<>();
@@ -481,7 +487,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                 }
 
-//                list.add(new JobOrder(item));
+
                 list.add(jo);
 
             }
@@ -525,8 +531,14 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
 
-        if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+        if (requestCode == REQUEST_GET_CURRENT) {
+
+            loadLocalJobOrderList();
+
+        } else if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
         }
 
         rlProgress.setVisibility(View.GONE);
@@ -1183,4 +1195,39 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         }
 
     }
+
+    private void loadLocalJobOrderList() {
+
+        List<JobOrder> list = new ArrayList<>();
+        requestsList = dbTransaction.getAll(SyncDBObject.class);
+        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
+
+        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+
+            JobOrder jo = new JobOrder(item);
+
+            //check jo if it's for syncing
+                for (int i = 0; i < requestsList.size(); i++) {
+                    if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
+                            || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
+                        if (!requestsList.get(i).isSync())                 //check sync status
+                            jo.setForSyncing(true);
+                    }
+                }
+
+            list.add(jo);
+
+        }
+
+        jobOrderList.addAll(list);
+
+        //For Tab Count
+        int count = listServer.size();
+        tabItems.get(adapterTab.getCurrentTab()).setCount(count);
+        resetTabCount();
+
+        reloadList(AdapterJobOrderList.TYPE_CURRENT, false);
+
+    }
+
 }
