@@ -2,8 +2,10 @@ package com.yilinker.expressinternal.business;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -36,6 +38,7 @@ public class ApplicationClass extends BaseApplication {
     public static final int REQUEST_CODE_REFRESH_TOKEN = 2000;
     public static final String REQUEST_TAG = "requestTag";
     public static final String CURRENT_LIST = "currentList.txt";
+    public static final String SYNC_ITEMS = "hasSyncItems";
 
     private Intent intentServiceLocation;
 
@@ -165,5 +168,30 @@ public class ApplicationClass extends BaseApplication {
 
         return obj;
 
+    }
+
+    public void setHasItemsForSyncing(boolean forSyncing) {
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+
+        SharedPreferences.Editor editor = pref.edit();
+
+        if(forSyncing) {
+            editor.putBoolean(SYNC_ITEMS, true);
+        } else {
+            editor.remove(SYNC_ITEMS);
+        }
+
+        editor.apply();
+
+    }
+
+    public boolean hasItemsForSyncing() {
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+
+        return pref.contains(SYNC_ITEMS);
     }
 }
