@@ -19,7 +19,7 @@
 
     <ImageButton android:id="@+id/ivSync" android:clickable="true"
         android:layout_width="@dimen/actionbar_button_width"
-        android:layout_height="match_parent" android:background="@android:color/transparent" android:src="@drawable/ic_overflow" android:layout_centerVertical="true" android:layout_alignParentRight="true" android:visibility="gone" />
+        android:layout_height="match_parent" android:background="@android:color/transparent" android:src="@drawable/ic_refresh" android:layout_centerVertical="true" android:layout_alignParentRight="true" android:visibility="gone" />
 
     <!--<Button android:id="@+id/ivSwitch" android:clickable="true"-->
         <!--android:layout_width="60dp"-->

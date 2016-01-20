@@ -236,5 +236,9 @@
     <!--Acknowledge-->
     <string name="acknowledge_message">Are sure you want to pickup this package?</string>
 
+    <!--Syncing-->
+
+    <string name="request_sync_success">Job Orders successfully synced!</string>
+
 </resources>
 
