@@ -78,6 +78,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private FragmentNavigationDrawer mNavigationDrawerFragment;
     private Toolbar toolbar;
 
+    private ApplicationClass appClassSyncing;
     private RequestQueue requestQueue;
     private SyncDBTransaction dbTransaction;
     private Realm realm;
@@ -95,21 +96,22 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        registrGCM();
-
         setUpActionBar();
         initViews();
 
         ApplicationClass appClass = (ApplicationClass) BaseApplication.getInstance();
+        appClassSyncing = (ApplicationClass) getApplicationContext();
 
         requestQueue = appClass.getRequestQueue();
         dbTransaction = new SyncDBTransaction(this);
         realm = Realm.getInstance(this);
 
+        registrGCM();
+        checkForSyncItems();
+
+
         //Start location service
         appClass.startLocationService();
-
-        checkForSyncItems();
 
     }
 
@@ -118,6 +120,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         super.onResume();
 
         requestRiderInfo();
+        checkForSyncItems();
     }
 
     @Override
@@ -160,10 +163,25 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         requests = dbTransaction.getAll(SyncDBObject.class);
 
-        if(requests.size() > 0) {
-            //show sync icon
-            //boolean for sync
+        if (requests.size() > 0) {
+
+            for (int i = 0; i < requests.size(); i++) {
+                if (!requests.get(i).isSync()) {
+                    //boolean for sync for navigation drawer item use
+                    appClassSyncing.setHasItemsForSyncing(true);
+                    break;
+                } else {
+                    appClassSyncing.setHasItemsForSyncing(false);
+                }
+            }
+
+        } else {
+
+            appClassSyncing.setHasItemsForSyncing(false);
+
         }
+
+        mNavigationDrawerFragment.reloadNavigationItems();
     }
 
 
@@ -246,6 +264,9 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         if (requestCounter >= numberOfRequest)
             rlProgress.setVisibility(View.GONE);
+
+        appClassSyncing.setHasItemsForSyncing(false);
+        reloadDashboard();
 
     }
 
@@ -496,8 +517,10 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         requestCounter++;
 
-        if (requestCounter >= numberOfRequest)
+        if (requestCounter >= numberOfRequest) {
             rlProgress.setVisibility(View.GONE);
+            reloadDashboard();
+        }
 
     }
 
@@ -528,6 +551,14 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
             Intent intent = new Intent(getApplicationContext(), RegistrationIntentService.class);
             startService(intent);
         }
+
+    }
+
+    private void reloadDashboard() {
+
+        Intent intent = new Intent(this, ActivityDashboard.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
 
     }
 

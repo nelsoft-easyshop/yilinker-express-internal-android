@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.base.BaseApplication;
+import com.yilinker.core.helper.DeviceHelper;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.DateUtility;
@@ -119,7 +121,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private RequestQueue requestQueue;
     private Realm realm;
     private SyncDBTransaction dbTransaction;
-    private RealmResults<SyncDBObject> sync;
+    private List<SyncDBObject> sync;
 
     private View actionBar;
 
@@ -324,7 +326,11 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
             case R.id.ivSync:
 
-                handleSync();
+                if (DeviceHelper.isDeviceConnected(this)) {
+                    handleSync();
+                } else {
+                    Toast.makeText(this, R.string.no_network_connection, Toast.LENGTH_SHORT).show();
+                }
                 break;
 
         }
@@ -724,12 +730,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     private void handleSync() {
 
-        sync = realm.where(SyncDBObject.class)
-                .equalTo("id", jobOrder.getJobOrderNo())
-                .or()
-                .equalTo("id", jobOrder.getWaybillNo())
-                .findAll();
+        sync = dbTransaction.getAll(SyncDBObject.class);
 
+        requestCounter = 0;
         totalRequest = sync.size();
 
         for (int i = 0; i < sync.size(); i++) {
@@ -778,8 +781,14 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         dbTransaction.update(result);
 
-        if (requestCounter >= totalRequest)
+        if (requestCounter >= totalRequest) {
+
             rlProgress.setVisibility(View.GONE);
+            goToMainScreen();
+
+        }
+
+
 
     }
 
@@ -787,8 +796,12 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         requestCounter++;
 
-        if (requestCounter >= totalRequest)
-            rlProgress.setVisibility(View.GONE);
+        if (requestCounter >= totalRequest){
+
+                rlProgress.setVisibility(View.GONE);
+                goToMainScreen();
+
+        }
 
     }
 
