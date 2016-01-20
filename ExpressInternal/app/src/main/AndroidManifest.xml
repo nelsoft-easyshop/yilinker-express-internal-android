@@ -161,7 +161,7 @@
         </service>
 
         <service android:name=".controllers.checklist.ServiceDeliveryChecklist"
-            android:label="@string/app_name" android:enabled="true"/>
+            android:label="@string/app_name" android:enabled="true" android:process=":serviceChecklist"/>
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
