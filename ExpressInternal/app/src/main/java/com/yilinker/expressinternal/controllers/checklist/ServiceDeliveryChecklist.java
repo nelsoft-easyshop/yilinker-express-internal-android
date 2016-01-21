@@ -55,7 +55,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         images = new ArrayList<String>(Arrays.asList(imageIds.split(",")));
 
         requestSubmitSignature();
-        requestSubmitRating();
+//        requestSubmitRating();
         requestSubmitImages();
 
 
