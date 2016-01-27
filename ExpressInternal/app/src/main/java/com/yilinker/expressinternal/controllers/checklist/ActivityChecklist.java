@@ -24,21 +24,25 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
+import com.yilinker.expressinternal.controllers.joborderlist.AdapterJobOrderList;
 import com.yilinker.expressinternal.controllers.signature.ActivitySignature;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.model.PackageType;
 import com.yilinker.expressinternal.model.Rider;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,20 +54,29 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private static final int REQUEST_DIALOG_UPDATE = 2000;
 
-    private static final int REQUEST_SIGNATURE = 1000;
-    private static final int REQUEST_SUBMIT_SIGNATURE = 1001;
-    private static final int REQUEST_SUBMIT_RATING = 1002;
-    private static final int REQUEST_UPDATE = 1003;
-    private static final int REQUEST_UPLOAD_IMAGES = 1004;
+    public static final int REQUEST_SIGNATURE = 1000;
+    public static final int REQUEST_SUBMIT_SIGNATURE = 1001;
+    public static final int REQUEST_SUBMIT_RATING = 1002;
+    public static final int REQUEST_UPDATE = 1003;
+    public static final int REQUEST_UPLOAD_IMAGES = 1004;
 
     private static final int REQUEST_LAUNCH_CAMERA_ID = 2000;
     private static final int REQUEST_LAUNCH_CAMERA_PICTURE = 2001;
     private static final int REQUEST_GALLERY_ID = 2002;
     private static final int REQUEST_GALLERY_PICTURE = 2003;
+    private static final int REQUEST_CONFIRM_PACKAGE = 2004;
 
+
+    private static  int CHECKLIST_PACKAGE_CONFIRMED = 1;
     private static  int CHECKLIST_VALID_ID = 2;
     private static  int CHECKLIST_RECIPIENT_PICTURE = 3;
     private static  int CHECKLIST_SIGNATURE = 4;
+
+    public static final String ARG_WAYBILL_NO = "waybillNo";
+    public static final String ARG_JOBORDER_NO = "jobOrderNo";
+    public static final String ARG_IMAGES = "images";
+    public static final String ARG_SIGNATURE = "signature";
+    public static final String ARG_RATING = "rating";
 
     private RelativeLayout rlProgress;
     private TextView tvJobOrderNo;
@@ -82,11 +95,14 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private int rating;
 
     private RequestQueue requestQueue;
+    SyncDBTransaction syncTransaction;
 
     private Uri photoUri;
     private String validIdImage;
     private String recipientPicture;
     private String newStatus;
+
+    private PackageType packageFee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +114,14 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         setContentView(R.layout.activity_checklist);
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
+        syncTransaction = new SyncDBTransaction(this);
 
         getData();
 
         initViews();
 
         bindViews();
+
     }
 
     @Override
@@ -166,6 +184,14 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
             return;
         }
+        else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_package))) {
+//            if(!items.get(CHECKLIST_PACKAGE_CONFIRMED).isChecked()) {
+
+                showPackageConfirmation();
+                return;
+
+//            }
+        }
 
 
         object.setIsChecked(!object.isChecked());
@@ -208,6 +234,11 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
                     photoUri = Uri.parse(data.getStringExtra(ActivityImageGallery.ARG_NEW_PHOTO));
                     updateRecipientPictureChecklist();
+                    break;
+
+                case REQUEST_CONFIRM_PACKAGE:
+
+                    handleConfirmPackage(data);
                     break;
 
             }
@@ -322,7 +353,11 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
                     Toast.makeText(getApplicationContext(), getString(R.string.checklist_job_completed), Toast.LENGTH_LONG).show();
                     goToCompleteScreen();
+                    startChecklistService();
+
                     finish();
+
+
                 }
 
                 break;
@@ -330,6 +365,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
 
     }
+
 
     @Override
     protected void handleRefreshToken() {
@@ -367,8 +403,41 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         ImageUtility.clearCache();
 
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        rlProgress.setVisibility(View.GONE);
+        switch(requestCode) {
+
+//            case REQUEST_SUBMIT_SIGNATURE:
+//
+//                handleFailedSubmitSignature();
+//
+//                break;
+//
+//            case REQUEST_SUBMIT_RATING:
+//
+//                handleFailedSubmitRating();
+//
+//                break;
+//
+//            case REQUEST_UPLOAD_IMAGES:
+//
+//                handleFailedUploadImages();
+//
+//                break;
+
+            case REQUEST_UPDATE:
+
+                handleFailedRequestUpdate();
+
+
+                break;
+
+            default:
+
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                rlProgress.setVisibility(View.GONE);
+
+                break;
+
+        }
     }
 
     private void setAdapter(){
@@ -472,6 +541,16 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         startActivityForResult(intent, REQUEST_SIGNATURE);
     }
 
+    private void showPackageConfirmation() {
+
+        Intent intent = new Intent(ActivityChecklist.this, ActivityConfirmPackage.class);
+        intent.putExtra(ARG_JOB_ORDER, jobOrder.getJobOrderNo());
+        intent.putExtra(ActivityConfirmPackage.ARG_PACKAGE_FEE, packageFee);
+
+        startActivityForResult(intent, REQUEST_CONFIRM_PACKAGE);
+
+    }
+
     private void getData(){
 
         jobOrder = getIntent().getParcelableExtra(ARG_JOB_ORDER);
@@ -511,9 +590,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
             requestUpdate(JobOrderConstant.JO_COMPLETE);
-            requestSubmitRating();
-            requestSubmitSignature();
-            requestUploadImages();
+//            requestSubmitRating();
+//            requestSubmitSignature();
+//            requestUploadImages();
         }
         else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
 
@@ -540,6 +619,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
+
     private void requestSubmitRating(){
 
         Request request = JobOrderAPI.addRating(REQUEST_SUBMIT_RATING, jobOrder.getJobOrderNo(), rating, this);
@@ -551,7 +631,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void requestUploadImages(){
 
-        List<String> images = new ArrayList<>();
+       List<String> images = new ArrayList<>();
 
         Uri uri = Uri.parse(validIdImage);
 //        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
@@ -578,6 +658,53 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
+
+    }
+
+    private void handleFailedRequestUpdate(){
+
+        SyncDBObject request = new SyncDBObject();
+        request.setRequestType(REQUEST_UPDATE);
+        request.setKey(String.format("%s%s", jobOrder.getJobOrderNo(), String.valueOf(REQUEST_UPDATE)));
+        request.setId(jobOrder.getJobOrderNo());
+        request.setData(newStatus);
+        request.setSync(false);
+
+        syncTransaction.add(request);
+
+        //start service even update failed
+        if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+            startChecklistService();
+        }
+
+        goToHome();
+
+
+    }
+
+    /**
+     * Starts service for other checklist requests
+     */
+
+    private void startChecklistService() {
+
+        Intent i = new Intent(this, ServiceDeliveryChecklist.class);
+
+        List<String> images = new ArrayList<>();
+
+        Uri uri = Uri.parse(validIdImage);
+        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+
+        uri = Uri.parse(recipientPicture);
+        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+
+        i.putExtra(ARG_WAYBILL_NO, jobOrder.getWaybillNo());
+        i.putExtra(ARG_JOBORDER_NO, jobOrder.getJobOrderNo());
+        i.putExtra(ARG_RATING, String.valueOf(rating));
+        i.putExtra(ARG_SIGNATURE, signatureImage);
+        i.putExtra(ARG_IMAGES, String.valueOf(images));
+
+        this.startService(i);
 
     }
 
@@ -667,6 +794,26 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         Toast.makeText(getApplicationContext(), signatureImage, Toast.LENGTH_LONG).show();
 
         int position = items.size() - 1;
+        items.get(position).setIsChecked(true);
+        adapter.notifyItemChanged(position);
+
+        //Check if all items are checked to enable Confirm button
+        setConfirmButton(isComplete());
+
+    }
+
+    private void handleConfirmPackage(Intent data){
+
+        packageFee = data.getParcelableExtra(ActivityConfirmPackage.ARG_PACKAGE_FEE);
+
+        int position;
+
+        if(items.size() == 5) {
+            position = CHECKLIST_PACKAGE_CONFIRMED;
+        } else {
+            position = 0;
+        }
+
         items.get(position).setIsChecked(true);
         adapter.notifyItemChanged(position);
 

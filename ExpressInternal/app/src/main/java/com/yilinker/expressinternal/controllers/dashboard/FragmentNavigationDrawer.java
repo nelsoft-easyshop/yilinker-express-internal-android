@@ -90,7 +90,7 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
 
 
         String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
-        mDrawerListView.setAdapter(new ArrayAdapter<>(
+        mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
                getActivity().getApplicationContext(),
                 R.layout.layout_navigation_drawer_item,
                 R.id.tvNavDrawerItem, menuItems));
@@ -150,6 +150,18 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    public void reloadNavigationItems() {
+
+        String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
+        mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
+                getActivity().getApplicationContext(),
+                R.layout.layout_navigation_drawer_item,
+                R.id.tvNavDrawerItem, menuItems));
+
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
     }
 
     private void selectItem(int position) {

@@ -22,11 +22,31 @@
         style="@style/JobOrderListAddressStyle"
         android:text="Malate Manila, Metro Manila"/>
 
-    <TextView android:id="@+id/tvBranch"
+
+    <LinearLayout
+        style="@style/JobOrderItemHeaderStyle"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="YE Malate Branch" android:textAllCaps="true" android:textColor="@color/warm_gray" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"/>
+        android:weightSum="2">
 
+        <TextView android:id="@+id/tvBranch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YE Malate Branch"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvSync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="For Syncing"
+            android:textColor="@color/error"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:textSize="10sp" />
+    </LinearLayout>
 
     <TextView android:id="@+id/tvTimer"
         android:layout_width="fill_parent"

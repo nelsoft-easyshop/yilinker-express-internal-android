@@ -30,6 +30,7 @@
     <string-array name="navigation_item_array">
         <item >Dashboard</item>
         <item>Cash Management</item>
+        <item>Sync</item>
     </string-array>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -219,6 +220,14 @@
     <string name="printing_select">Select a Printer</string>
     <string name="printing_search_again">Search Again</string>
 
+    <!--Confirm Package-->
+
+    <string name="package_title_type">Package Type</string>
+    <string name="package_title_weight">Package Weight</string>
+    <string name="package_title_size">Package Size</string>
+    <string name="package_shipping_fee">Shipping Fee</string>
+    <string name="package_button_save">Save</string>
+
 
     <!--Checklist-->
     <string name="checklist_job_completed">Job order is completed!</string>
@@ -226,6 +235,10 @@
 
     <!--Acknowledge-->
     <string name="acknowledge_message">Are sure you want to pickup this package?</string>
+
+    <!--Syncing-->
+
+    <string name="request_sync_success">Job Orders successfully synced!</string>
 
 </resources>
 

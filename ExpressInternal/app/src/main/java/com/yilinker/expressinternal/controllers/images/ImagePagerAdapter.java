@@ -188,7 +188,7 @@ public class ImagePagerAdapter extends PagerAdapter implements
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
 
-        AssetFileDescriptor fileDescriptor =null;
+        AssetFileDescriptor fileDescriptor = null;
         try {
 
             fileDescriptor = context.getContentResolver().openAssetFileDescriptor( uri, "r");
