@@ -231,6 +231,8 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
 //        rlProgressBar.setVisibility(View.VISIBLE);
 
+        tvShippingFee.setText("Calculating...");
+
         String length, height, width, weight;
 
         length = etLength.getText().toString();
@@ -252,8 +254,15 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
         ShippingFee shippingFee = (ShippingFee) object;
 
-        tvShippingFee.setText(shippingFee.getTotalShippingFee());
-        btnSave.setEnabled(true);
+        //temp To format the shipping fee to 2 decimal places
+        float totalFee = Float.parseFloat(shippingFee.getTotalShippingFee());
+        String fee  = String.format("%.2f", totalFee);
+
+//        tvShippingFee.setText(shippingFee.getTotalShippingFee());
+        tvShippingFee.setText(String.format("P%s", fee));
+
+
+        btnSave.setEnabled(totalFee > 0);
 
     }
 
@@ -430,6 +439,8 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
             case REQUEST_CODE_CALCULATE_SHIPPING_FEE:
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                tvShippingFee.setText("-");
+                btnSave.setEnabled(false);
                 break;
 
         }

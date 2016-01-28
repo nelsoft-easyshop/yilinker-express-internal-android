@@ -284,6 +284,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            rlProgress.setVisibility(View.GONE);
             return;
         }
 

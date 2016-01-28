@@ -86,4 +86,6 @@
 
 <include android:layout_height="match_parent" android:layout_width="match_parent" layout="@layout/layout_progress" android:id="@+id/rlProgress" android:layout_below="@+id/rvTab"/>
 
+    <include layout="@layout/layout_taptoreload" android:id="@+id/rlReload" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/rvTab"/>
+
 </RelativeLayout>

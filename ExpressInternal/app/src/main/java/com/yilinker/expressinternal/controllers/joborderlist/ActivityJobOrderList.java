@@ -113,6 +113,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private List<Object> listObjects;
 
     private RelativeLayout rlProgress;
+    private RelativeLayout rlReload;
 
     //For JO list
     private AdapterJobOrderList adapterJobOrderList;
@@ -232,6 +233,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             case R.id.iv_scanTrackingCode:
                 showScanner();
                 break;
+
+            case R.id.rlReload:
+
+                rlReload.setVisibility(View.GONE);
+                requestGetJobOrders();
+                break;
         }
 
     }
@@ -240,10 +247,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private void initViews() {
 
         rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        rlReload = (RelativeLayout) findViewById(R.id.rlReload);
         viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         rvTab = (RecyclerView) findViewById(R.id.rvTab);
         ivScanQr = (ImageView) findViewById(R.id.iv_scanTrackingCode);
         etSearchField = (EditText) findViewById(R.id.et_searchField);
+
+
+        rlReload.setVisibility(View.GONE);
+        rlReload.setOnClickListener(this);
 
         ivScanQr.setOnClickListener(this);
         etSearchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -389,6 +401,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     @Override
     public void onTabItemClick(int position) {
+
+        rlReload.setVisibility(View.GONE);
 
         //Set visibility of Switch Filter Button
         showSwitchButton(position == TAB_OPEN);
@@ -537,7 +551,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         } else if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
 
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            rlReload.setVisibility(View.VISIBLE);
 
         }
 
