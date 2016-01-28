@@ -292,8 +292,9 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         switch (requestCode) {
 
             default:
-
-                handleFailedSync();
+                
+                if(requestCode != 1001)
+                    handleFailedSync();
 
         }
 
