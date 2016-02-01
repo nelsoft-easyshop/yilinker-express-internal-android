@@ -1,6 +1,7 @@
 package com.yilinker.expressinternal.controllers.dashboard;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,59 +15,64 @@ import java.util.List;
 /**
  * Created by rlcoronado on 20/01/2016.
  */
-public class AdapterNavigationDrawerItem extends ArrayAdapter {
+public class AdapterNavigationDrawerItem extends ArrayAdapter<String> {
 
-    private ApplicationClass appClass = (ApplicationClass) this.getContext();
+    private ApplicationClass appClass;
+    private LayoutInflater inflater;
+    private int resourceId;
+    private String[] objects;
 
-    public AdapterNavigationDrawerItem(Context context, int resource) {
-        super(context, resource);
-    }
-
-    public AdapterNavigationDrawerItem(Context context, int resource, int textViewResourceId) {
-        super(context, resource, textViewResourceId);
-    }
-
-    public AdapterNavigationDrawerItem(Context context, int resource, Object[] objects) {
-        super(context, resource, objects);
-    }
-
-    public AdapterNavigationDrawerItem(Context context, int resource, int textViewResourceId, Object[] objects) {
+    public AdapterNavigationDrawerItem(Context context, int resource, int textViewResourceId, String[] objects) {
         super(context, resource, textViewResourceId, objects);
+
+        this.appClass = (ApplicationClass) context;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.resourceId = resource;
+        this.objects = objects;
     }
 
-    public AdapterNavigationDrawerItem(Context context, int resource, List objects) {
-        super(context, resource, objects);
-    }
-
-    public AdapterNavigationDrawerItem(Context context, int resource, int textViewResourceId, List objects) {
-        super(context, resource, textViewResourceId, objects);
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (position == 2) {
-            TextView tvItem = new TextView(this.getContext());
-            tvItem.setText(String.valueOf(this.getItem(position)));
-            tvItem.setPadding(100, 20, 0, 20);
+        ViewHolder holder;
 
-            if (appClass.hasItemsForSyncing()) {
+        if (convertView == null) {
 
-                tvItem.setTextColor(getContext().getResources().getColor(R.color.orange_red));
-                tvItem.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_refresh), null);
+            convertView = inflater.inflate(resourceId, null);
+            holder = new ViewHolder();
 
-            } else {
+            holder.tvItem = (TextView) convertView.findViewById(R.id.tvNavDrawerItem);
 
-                tvItem.setTextColor(getContext().getResources().getColor(R.color.gray));
-            }
-
-            return tvItem;
+            convertView.setTag(holder);
 
         } else {
 
-            return super.getView(position, convertView, parent);
+            holder = (ViewHolder) convertView.getTag();
 
         }
+
+
+        //Set values of views
+        String text = objects[position];
+
+        holder.tvItem.setText(text);
+
+        if (position == 2) {
+
+            if (appClass.hasItemsForSyncing()) {
+
+                holder.tvItem.setTextColor(getContext().getResources().getColor(R.color.orange_red));
+
+            } else {
+
+                holder.tvItem.setTextColor(getContext().getResources().getColor(R.color.gray));
+            }
+
+
+        }
+
+        return convertView;
     }
 
     @Override
@@ -88,4 +94,10 @@ public class AdapterNavigationDrawerItem extends ArrayAdapter {
         return false;
     }
 
+
+    public class ViewHolder {
+
+        private TextView tvItem;
+
+    }
 }

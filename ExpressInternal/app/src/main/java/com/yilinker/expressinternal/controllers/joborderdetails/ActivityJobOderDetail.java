@@ -29,6 +29,7 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
 import com.yilinker.expressinternal.controllers.contact.ActivityContact;
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
@@ -757,6 +758,10 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
                     requestUpdate(i, syncItem.getId(), syncItem.getData());
 
+                } else if (syncItem.getRequestType() == ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE) {
+
+                    requestCalculateShippingFee(i, syncItem.getId(), syncItem.getData());
+
                 }
 
             }
@@ -862,6 +867,31 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         rlProgress.setVisibility(View.VISIBLE);
 
         Request request = JobOrderAPI.uploadSignature(position, jobOrderNo, signature, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void requestCalculateShippingFee(int position, String jobOrderNo, String packageData) {
+
+        packageData = packageData.replace("[", "");
+        packageData = packageData.replace("]", "");
+
+
+        List<String> packageFee = new ArrayList<String>(Arrays.asList(packageData.split(",")));
+
+        String sizeId, length, width, height, weight;
+
+        sizeId = packageFee.get(0);
+        length = packageFee.get(1);
+        width  = packageFee.get(2);
+        height = packageFee.get(3);
+        weight = packageFee.get(4);
+
+        Request request = JobOrderAPI.calculateShippingFee(position,
+                Integer.valueOf(sizeId), length, width, height, weight, jobOrderNo, "1", this);
+
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);

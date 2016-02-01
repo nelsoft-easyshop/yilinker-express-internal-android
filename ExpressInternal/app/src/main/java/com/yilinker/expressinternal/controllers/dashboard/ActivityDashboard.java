@@ -31,6 +31,7 @@ import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.cashmanagement.ActivityCashManagement;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
@@ -292,8 +293,8 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         switch (requestCode) {
 
             default:
-                
-                if(requestCode != 1001)
+
+                if (requestCode != 1001)
                     handleFailedSync();
 
         }
@@ -382,7 +383,12 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
                     requestUpdate(i, request.getId(), request.getData());
 
+                } else if (request.getRequestType() == ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE) {
+
+                    requestCalculateShippingFee(i, request.getId(), request.getData());
+
                 }
+
             } else {
                 dbTransaction.delete(request);
             }
@@ -390,6 +396,10 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         }
 
     }
+
+    /**
+     * Functions for Sync Requests
+     */
 
     private void requestSubmitImages(int position, String wayBillNo, String images) {
 
@@ -439,6 +449,35 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         requestQueue.add(request);
 
     }
+
+    private void requestCalculateShippingFee(int position, String jobOrderNo, String packageData) {
+
+        packageData = packageData.replace("[", "");
+        packageData = packageData.replace("]", "");
+
+
+        List<String> packageFee = new ArrayList<String>(Arrays.asList(packageData.split(",")));
+
+        String sizeId, length, width, height, weight;
+
+        sizeId = packageFee.get(0);
+        length = packageFee.get(1);
+        width  = packageFee.get(2);
+        height = packageFee.get(3);
+        weight = packageFee.get(4);
+
+        Request request = JobOrderAPI.calculateShippingFee(position,
+                Integer.valueOf(sizeId), length, width, height, weight, jobOrderNo, "1", this);
+
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    /**
+     * End function for Sync Requests
+     */
 
     private void requestRiderInfo() {
 
