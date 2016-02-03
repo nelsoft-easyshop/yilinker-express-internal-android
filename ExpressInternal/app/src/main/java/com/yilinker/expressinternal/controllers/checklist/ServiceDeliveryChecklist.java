@@ -24,12 +24,15 @@ import java.util.List;
  */
 public class ServiceDeliveryChecklist extends Service implements ResponseHandler {
 
+    private ApplicationClass appClass;
+
     private RequestQueue requestQueue;
     private SyncDBTransaction dbTransaction;
 
     private String wayBillNo, jobOrderNo, signature, imageIds;
     private int rating;
-    private List<String> images;
+//    private List<String> images;
+    private String[] images;
 
     @Nullable
     @Override
@@ -42,22 +45,11 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        wayBillNo = intent.getStringExtra(ActivityChecklist.ARG_WAYBILL_NO);
-        jobOrderNo = intent.getStringExtra(ActivityChecklist.ARG_JOBORDER_NO);
-        imageIds = intent.getStringExtra(ActivityChecklist.ARG_IMAGES);
-        signature = intent.getStringExtra(ActivityChecklist.ARG_SIGNATURE);
-        rating = Integer.valueOf(intent.getStringExtra(ActivityChecklist.ARG_RATING));
-
-        imageIds = imageIds.replace("[","");
-        imageIds = imageIds.replace("]","");
-
-
-        images = new ArrayList<String>(Arrays.asList(imageIds.split(",")));
+        getData(intent);
 
         requestSubmitSignature();
 //        requestSubmitRating();
         requestSubmitImages();
-
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -66,13 +58,31 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
     public void onCreate() {
         super.onCreate();
 
+        appClass = (ApplicationClass) ApplicationClass.getInstance();
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
         dbTransaction = new SyncDBTransaction(this);
     }
 
+    private void getData(Intent intent){
+
+        wayBillNo = intent.getStringExtra(ActivityChecklist.ARG_WAYBILL_NO);
+        jobOrderNo = intent.getStringExtra(ActivityChecklist.ARG_JOBORDER_NO);
+//        imageIds = intent.getStringExtra(ActivityChecklist.ARG_IMAGES);
+        signature = intent.getStringExtra(ActivityChecklist.ARG_SIGNATURE);
+        rating = Integer.valueOf(intent.getStringExtra(ActivityChecklist.ARG_RATING));
+
+//        imageIds = imageIds.replace("[","");
+//        imageIds = imageIds.replace("]","");
+
+
+//        images = new ArrayList<String>(Arrays.asList(imageIds.split(",")));
+        images = intent.getStringArrayExtra(ActivityChecklist.ARG_IMAGES);
+    }
+
     private void requestSubmitImages() {
 
-        Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, images, this);
+//        Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, images, this);
+        Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, Arrays.asList(images), this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -101,6 +111,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
     public void onSuccess(int requestCode, Object object) {
 
         //do nothing
+
 
     }
 
@@ -132,7 +143,6 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         }
 
 
-
     }
 
 
@@ -146,6 +156,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         request.setSync(false);
 
         dbTransaction.add(request);
+
 
     }
 
@@ -168,7 +179,8 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         request.setRequestType(ActivityChecklist.REQUEST_UPLOAD_IMAGES);
         request.setKey(String.format("%s%s", wayBillNo, String.valueOf(ActivityChecklist.REQUEST_UPLOAD_IMAGES)));
         request.setId(wayBillNo);
-        request.setData(String.valueOf(images));
+//        request.setData(String.valueOf(images));
+        request.setData(Arrays.toString(images));
         request.setSync(false);
 
         dbTransaction.add(request);

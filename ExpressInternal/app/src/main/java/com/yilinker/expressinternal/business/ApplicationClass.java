@@ -22,6 +22,8 @@ import com.yilinker.core.model.express.internal.JobOrder;
 import com.yilinker.expressinternal.BuildConfig;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.APIConstant;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.service.LocationService;
 
@@ -170,28 +172,35 @@ public class ApplicationClass extends BaseApplication {
 
     }
 
-    public void setHasItemsForSyncing(boolean forSyncing) {
-
-        SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(getApplicationContext());
-
-        SharedPreferences.Editor editor = pref.edit();
-
-        if(forSyncing) {
-            editor.putBoolean(SYNC_ITEMS, true);
-        } else {
-            editor.remove(SYNC_ITEMS);
-        }
-
-        editor.apply();
-
-    }
+//    public void setHasItemsForSyncing(boolean forSyncing) {
+//
+//        SharedPreferences pref = PreferenceManager
+//                .getDefaultSharedPreferences(getApplicationContext());
+//
+//        SharedPreferences.Editor editor = pref.edit();
+//
+//        if(forSyncing) {
+//            editor.putBoolean(SYNC_ITEMS, true);
+//        } else {
+//            editor.remove(SYNC_ITEMS);
+//        }
+//
+//        editor.commit();
+//
+//    }
 
     public boolean hasItemsForSyncing() {
 
-        SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(getApplicationContext());
+//        SharedPreferences pref = PreferenceManager
+//                .getDefaultSharedPreferences(getApplicationContext());
+//
+//        return pref.contains(SYNC_ITEMS);
 
-        return pref.contains(SYNC_ITEMS);
+        SyncDBTransaction dbTransaction = new SyncDBTransaction(this);
+
+        int count = dbTransaction.getAll(SyncDBObject.class).size();
+
+        return count > 0;
+
     }
 }

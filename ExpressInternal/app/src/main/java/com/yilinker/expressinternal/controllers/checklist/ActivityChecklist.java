@@ -401,7 +401,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
 
-        ImageUtility.clearCache();
+//        ImageUtility.clearCache();
 
         switch(requestCode) {
 
@@ -672,13 +672,16 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         syncTransaction.add(request);
 
+        //Set flag for sync in Application class to true
+//        ApplicationClass appClass = (ApplicationClass) ApplicationClass.getInstance();
+//        appClass.setHasItemsForSyncing(true);
+
         //start service even update failed
         if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
             startChecklistService();
         }
 
         goToHome();
-
 
     }
 
@@ -690,19 +693,26 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         Intent i = new Intent(this, ServiceDeliveryChecklist.class);
 
-        List<String> images = new ArrayList<>();
+//        List<String> images = new ArrayList<>();
+
+        String[] images = new String[2];
 
         Uri uri = Uri.parse(validIdImage);
-        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+//        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+//        images[0] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath());
+        images[0] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath(), getApplicationContext());
 
         uri = Uri.parse(recipientPicture);
-        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+//        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
+//        images[1] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath());
+        images[1] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath(), getApplicationContext());
 
         i.putExtra(ARG_WAYBILL_NO, jobOrder.getWaybillNo());
         i.putExtra(ARG_JOBORDER_NO, jobOrder.getJobOrderNo());
         i.putExtra(ARG_RATING, String.valueOf(rating));
         i.putExtra(ARG_SIGNATURE, signatureImage);
-        i.putExtra(ARG_IMAGES, String.valueOf(images));
+//        i.putExtra(ARG_IMAGES, String.valueOf(images));
+        i.putExtra(ARG_IMAGES, images);
 
         this.startService(i);
 

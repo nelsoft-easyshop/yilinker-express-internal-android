@@ -49,6 +49,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         setActionBar();
     }
 
+    /***
+     * Hides the action bar
+     */
+    public void hideActionBar(){
+
+        actionBar.hide();
+    }
+
     public void hideMenuButton(){
 
         ivMenu.setVisibility(View.GONE);

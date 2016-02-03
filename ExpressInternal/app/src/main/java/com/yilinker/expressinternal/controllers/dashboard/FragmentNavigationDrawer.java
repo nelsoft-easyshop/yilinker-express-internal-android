@@ -88,14 +88,15 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
 
         btnLogout.setOnClickListener(this);
 
-
-        String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
-        mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
-               getActivity().getApplicationContext(),
-                R.layout.layout_navigation_drawer_item,
-                R.id.tvNavDrawerItem, menuItems));
-
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        reloadNavigationItems();
+//
+//        String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
+//        mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
+//               getActivity().getApplicationContext(),
+//                R.layout.layout_navigation_drawer_item,
+//                R.id.tvNavDrawerItem, menuItems));
+//
+//        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
     }
 
@@ -152,7 +153,7 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    public void reloadNavigationItems() {
+    private void reloadNavigationItems() {
 
         String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
         mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
