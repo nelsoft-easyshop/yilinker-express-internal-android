@@ -32,6 +32,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+
 /**
  * Created by J.Bautista
  */
@@ -162,6 +165,7 @@ public class ApplicationClass extends BaseApplication {
                 }.getType();
 
                 obj = new Gson().fromJson(jsonStr, listType);
+
             }
 
         } catch (IOException e) {
@@ -171,6 +175,7 @@ public class ApplicationClass extends BaseApplication {
         return obj;
 
     }
+
 
 //    public void setHasItemsForSyncing(boolean forSyncing) {
 //
@@ -196,9 +201,18 @@ public class ApplicationClass extends BaseApplication {
 //
 //        return pref.contains(SYNC_ITEMS);
 
-        SyncDBTransaction dbTransaction = new SyncDBTransaction(this);
+        Realm realm = Realm.getInstance(this);
 
-        int count = dbTransaction.getAll(SyncDBObject.class).size();
+        RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
+
+        query.equalTo("isSync", false);
+
+
+//        SyncDBTransaction dbTransaction = new SyncDBTransaction(this);
+
+//        int count = dbTransaction.getAll(SyncDBObject.class).size();
+
+        int count = (int)query.count();
 
         return count > 0;
 

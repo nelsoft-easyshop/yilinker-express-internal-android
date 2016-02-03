@@ -16,11 +16,13 @@ import com.yilinker.expressinternal.dao.SyncDBTransaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 /**
  * Created by wagnavu on 2/1/16.
@@ -246,6 +248,8 @@ public class ActivitySync extends BaseActivity{
             if (requestCounter >= numberOfRequest) {
 //        if (requestCounter.get() >= numberOfRequest) {
 
+                purgeData();
+
                 setResult(RESULT_OK);
                 finish();
             }
@@ -263,11 +267,29 @@ public class ActivitySync extends BaseActivity{
 
             if (requestCounter >= numberOfRequest) {
 
-                //TODO Set activity result
+                purgeData();
+
                 setResult(RESULT_CANCELED);
                 finish();
             }
         }
+
+    }
+
+    private void purgeData(){
+
+//        RealmResults<SyncDBObject> query = realm.where(SyncDBObject.class).equalTo("isSync", true).findAll();
+//
+//        realm.beginTransaction();
+//
+//        query.clear();
+//
+//        realm.commitTransaction();
+
+        HashMap<String, Object> mapQuery = new HashMap<>();
+        mapQuery.put("isSync", true);
+
+        dbTransaction.deleteAll(SyncDBObject.class, mapQuery);
 
     }
 }

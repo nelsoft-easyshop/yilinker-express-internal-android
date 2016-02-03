@@ -468,9 +468,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             jobOrderList.clear();
             completeList.clear();
 
-            if (requestCode == REQUEST_GET_CURRENT){
-                ApplicationClass.saveLocalCurrentListData(this, object); //save to text
-            }
+
 
 
 //            List<JobOrder> list = new ArrayList<>();
@@ -510,6 +508,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
             createList(listServer, type);
+
+
+            //Save current JO data to local storage for offline function
+            if (requestCode == REQUEST_GET_CURRENT){
+                ApplicationClass.saveLocalCurrentListData(this, listServer); //save to text
+            }
 
         } else {
 
@@ -1301,24 +1305,25 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         if(requestsList.size() > 0){
 
-            StringBuilder builder = new StringBuilder();
-            builder.append("|");
+            StringBuilder syncBuilder = new StringBuilder();
+            syncBuilder.append("|");
 
             for(SyncDBObject object: requestsList){
 
                 if(!object.isSync()){
 
-                    builder.append(object.getId());
-                    builder.append("|");
+                    syncBuilder.append(object.getId());
+                    syncBuilder.append("|");
                 }
             }
 
-            dictionary = builder.toString();
+            dictionary = syncBuilder.toString();
 
         }
 
-        return dictionary;
+        return  dictionary;
 
     }
+
 
 }
