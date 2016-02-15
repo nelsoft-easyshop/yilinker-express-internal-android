@@ -3,10 +3,12 @@ package com.yilinker.expressinternal.controllers.checklist;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -104,6 +106,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private PackageType packageFee;
 
+    //To determine what checklist item is clicked
+    private int clickedItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -135,6 +140,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     public void onItemClick(int position, ChecklistItem object) {
 
+        clickedItem = position;
+
         String checkListItem = object.getTitle();
 
         if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_signature))){
@@ -153,7 +160,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
         else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_valid_id))){
 
-            if(!items.get(CHECKLIST_VALID_ID).isChecked()) {
+//            if(!items.get(CHECKLIST_VALID_ID).isChecked()) {
+            if(!items.get(position).isChecked()) {
 
                 launchCamera(REQUEST_LAUNCH_CAMERA_ID);
             }
@@ -170,7 +178,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
         else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_picture))){
 
-            if(!items.get(CHECKLIST_RECIPIENT_PICTURE).isChecked()) {
+//            if(!items.get(CHECKLIST_RECIPIENT_PICTURE).isChecked()) {
+            if(!items.get(position).isChecked()) {
 
                 launchCamera(REQUEST_LAUNCH_CAMERA_PICTURE);
             }
@@ -321,7 +330,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     public void onSuccess(int requestCode, Object object) {
         super.onSuccess(requestCode, object);
 
-        ImageUtility.clearCache();
+//        ImageUtility.clearCache();
 
         switch (requestCode){
 
@@ -776,23 +785,29 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void launchCamera(int requestCode){
 
-//        try {
-//
-//            File outputDir = getExternalCacheDir();
-//            File outputFile = File.createTempFile("image", ".jpg", outputDir);
 
         String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
-        File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
 
-        photoUri = Uri.fromFile(outputFile);
+        try
+        {
 
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-        startActivityForResult(intent, requestCode);
+            File folder = new File(Environment.getExternalStorageDirectory().toString(), ImageUtility.TEMP_IMAGE_FOLDER);
 
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+            if(!folder.exists()) folder.mkdirs();
+
+            File outputFile = new File(String.format("%s/%s/%s.jpeg", Environment.getExternalStorageDirectory().toString(), ImageUtility.TEMP_IMAGE_FOLDER, tempFileName));
+
+            photoUri = Uri.fromFile(outputFile);
+
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+            startActivityForResult(intent, requestCode);
+
+        }
+        catch (Exception e){
+            Log.d("Image Exception", e.getMessage());
+        }
+
 
     }
 
@@ -801,7 +816,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         signatureImage = data.getStringExtra(ActivitySignature.ARG_IMAGE_FILE);
         rating = data.getIntExtra(ActivitySignature.ARG_RATING, 0);
 
-        Toast.makeText(getApplicationContext(), signatureImage, Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), signatureImage, Toast.LENGTH_LONG).show();
 
         int position = items.size() - 1;
         items.get(position).setIsChecked(true);
@@ -844,7 +859,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void updateValidIDChecklist(){
 
-        int position = CHECKLIST_VALID_ID;
+//        int position = CHECKLIST_VALID_ID;
+        int position = clickedItem;
         items.get(position).setIsChecked(true);
         adapter.notifyItemChanged(position);
 
@@ -857,7 +873,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void updateRecipientPictureChecklist(){
 
-        int position = CHECKLIST_RECIPIENT_PICTURE;
+//        int position = CHECKLIST_RECIPIENT_PICTURE;
+        int position = clickedItem;
         items.get(position).setIsChecked(true);
         adapter.notifyItemChanged(position);
 

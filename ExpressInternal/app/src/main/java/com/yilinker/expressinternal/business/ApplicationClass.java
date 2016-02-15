@@ -19,6 +19,7 @@ import com.yilinker.core.helper.FileHelper;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.OAuthentication;
 import com.yilinker.core.model.express.internal.JobOrder;
+import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.BuildConfig;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.APIConstant;
@@ -56,6 +57,7 @@ public class ApplicationClass extends BaseApplication {
         super.onCreate();
 
         setDomain(BuildConfig.SERVER_URL);
+
     }
 
     public static void refreshToken(ResponseHandler handler) {
@@ -196,25 +198,15 @@ public class ApplicationClass extends BaseApplication {
 
     public boolean hasItemsForSyncing() {
 
-//        SharedPreferences pref = PreferenceManager
-//                .getDefaultSharedPreferences(getApplicationContext());
-//
-//        return pref.contains(SYNC_ITEMS);
-
         Realm realm = Realm.getInstance(this);
-
         RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
 
         query.equalTo("isSync", false);
-
-
-//        SyncDBTransaction dbTransaction = new SyncDBTransaction(this);
-
-//        int count = dbTransaction.getAll(SyncDBObject.class).size();
 
         int count = (int)query.count();
 
         return count > 0;
 
     }
+
 }
