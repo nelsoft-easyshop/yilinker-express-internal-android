@@ -6,24 +6,27 @@
         android:layout_width="60dp"
         android:layout_height="match_parent" android:orientation="vertical" android:background="@color/gray2">
 
-        <ImageButton style="@style/SideMenuButtonStyle"/>
+        <ImageButton android:id="@+id/btnQRCode" android:src="@drawable/ic_qrcode" style="@style/SideMenuButtonStyle"/>
 
-        <ImageButton android:id="@+id/ivMap" android:src="@drawable/ic_map" style="@style/SideMenuButtonStyle" />
+        <ImageButton android:id="@+id/btnMap" android:src="@drawable/ic_map" style="@style/SideMenuButtonStyle" />
 
-        <ImageButton android:id="@+id/ivCall" android:src="@drawable/ic_call" style="@style/SideMenuButtonStyle"/>
+        <ImageButton android:id="@+id/btnContact" android:src="@drawable/ic_call" style="@style/SideMenuButtonStyle"/>
 
-        <ImageButton android:id="@+id/ivImage" android:src="@drawable/ic_image" style="@style/SideMenuButtonStyle" />
+        <ImageButton android:id="@+id/btnImage" android:src="@drawable/ic_image" style="@style/SideMenuButtonStyle" />
+
+        <ImageButton android:id="@+id/btnCaution" android:src="@drawable/ic_caution" style="@style/SideMenuButtonStyle" android:visibility="gone" />
+
+        <ImageButton android:id="@+id/btnPrint" android:src="@drawable/ic_print" style="@style/SideMenuButtonStyle"  />
 
     </LinearLayout>
 
-    <ScrollView
+    <ScrollView android:layout_above="@id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_toRightOf="@+id/llSideMenu">
 
         <LinearLayout android:id="@+id/llContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent" android:orientation="vertical"  android:padding="20dp" >
-
 
 
         </LinearLayout>
@@ -34,10 +37,12 @@
         android:layout_width="match_parent"
         android:layout_height="60dp" android:layout_alignParentBottom="true">
 
-        <Button android:id="@+id/btnPositive" android:background="@color/orange_yellow" style="@style/JobOrderDetailFooterButtonStyle" />
+        <Button android:id="@+id/btnPositive" android:background="@drawable/bg_btn_orangeyellow" style="@style/JobOrderDetailFooterButtonStyle" />
 
-        <Button android:id="@+id/btnNegative" android:background="@color/marigold" style="@style/JobOrderDetailFooterButtonStyle" />
+        <Button android:id="@+id/btnNegative" android:background="@drawable/bg_btn_marigold" style="@style/JobOrderDetailFooterButtonStyle" />
 
     </LinearLayout>
+
+    <include layout="@layout/layout_progress" android:id="@+id/rlProgress"/>
 
 </RelativeLayout>

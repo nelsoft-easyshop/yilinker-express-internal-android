@@ -16,12 +16,17 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.yilinker.core.base.BaseApplication;
+import com.yilinker.core.constants.ErrorMessages;
+import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.core.model.Login;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 
 /**
  * Created by J.Bautista
  */
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, ResponseHandler {
 
     private ImageButton ivBack;
     private ImageButton ivMenu;
@@ -33,12 +38,23 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     private int layoutActionBar = R.layout.layout_actionbar;
 
+    private boolean isRetrievingToken;
+
+    private int currentRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setActionBar();
+    }
+
+    /***
+     * Hides the action bar
+     */
+    public void hideActionBar(){
+
+        actionBar.hide();
     }
 
     public void hideMenuButton(){
@@ -132,6 +148,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             ivMenu.setOnClickListener(this);
     }
 
+    public View getActionBarView(){
+
+        return actionBar.getCustomView();
+
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -156,4 +178,46 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
 
     }
+
+    @Override
+    public void onFailed(int requestCode, String message) {
+
+        if(message.equalsIgnoreCase(ErrorMessages.ERR_EXPIRED_TOKEN)){
+
+            if(!isRetrievingToken) {
+
+                currentRequest = requestCode;
+                isRetrievingToken = true;
+                ApplicationClass.refreshToken(this);
+                return;
+            }
+        }
+
+
+    }
+
+    @Override
+    public void onSuccess(int requestCode, Object object) {
+
+        if(requestCode == ApplicationClass.REQUEST_CODE_REFRESH_TOKEN){
+
+            Login oAuth = (Login) object;
+
+            BaseApplication appClass = ApplicationClass.getInstance();
+
+            appClass.saveAccessToken(oAuth.getAccess_token());
+            appClass.saveRefreshToken(oAuth.getRefresh_token());
+
+            handleRefreshToken();
+
+            return;
+        }
+
+    }
+
+    public int getCurrentRequest() {
+        return currentRequest;
+    }
+
+    protected abstract void handleRefreshToken();
 }

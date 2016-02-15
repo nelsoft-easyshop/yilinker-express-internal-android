@@ -8,6 +8,7 @@ public class TabModel {
         private int id;
         private String title;
         private boolean isSelected;
+        private int count;
 
         public TabModel(){
 
@@ -37,4 +38,11 @@ public class TabModel {
             this.isSelected = isSelected;
         }
 
+        public int getCount() {
+         return count;
+        }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

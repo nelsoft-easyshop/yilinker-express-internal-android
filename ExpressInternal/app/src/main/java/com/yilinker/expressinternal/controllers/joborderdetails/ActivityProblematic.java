@@ -3,8 +3,10 @@ package com.yilinker.expressinternal.controllers.joborderdetails;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
@@ -17,6 +19,7 @@ public class ActivityProblematic extends BaseActivity {
 
     public static final String ARG_JOB_ORDER = "jobOrder";
 
+    private String jobOrderNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,8 @@ public class ActivityProblematic extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problematic);
+
+        getData();
 
         initViews();
 
@@ -51,9 +56,11 @@ public class ActivityProblematic extends BaseActivity {
 
     private void initViews(){
 
+
         //For Action Bar
         setTitle(getString(R.string.actionbar_title_problematic));
         setActionBarBackgroundColor(R.color.marigold);
+
     }
 
 
@@ -83,6 +90,7 @@ public class ActivityProblematic extends BaseActivity {
 
         Bundle bundle = new Bundle();
         bundle.putInt(FragmentReportForm.ARG_TYPE, type);
+        bundle.putString(FragmentReportForm.ARG_JONUMBER, jobOrderNo);
 
         FragmentReportForm fragment = FragmentReportForm.createInstance(bundle);
 
@@ -118,4 +126,17 @@ public class ActivityProblematic extends BaseActivity {
 
         }
     }
+
+    @Override
+    protected void handleRefreshToken() {
+
+    }
+
+    private void getData(){
+
+        Intent intent = getIntent();
+        jobOrderNo = intent.getStringExtra(ARG_JOB_ORDER);
+    }
+
+
 }

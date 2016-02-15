@@ -8,35 +8,57 @@
 
             <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5"  android:text="@string/job_order_number"/>
 
-            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"/>
+            <TextView android:textAllCaps="true" android:textStyle="bold" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="@string/eta"  android:visibility="gone"/>
 
         </TableRow>
 
         <TableRow android:layout_marginBottom="10dp" >
 
-            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="5" android:text="JO123345667" />
-            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="12:00" />
+            <TextView android:id="@+id/tvJobOrderNo" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="4" android:text="-" />
+            <TextView android:id="@+id/tvETA" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="1" android:gravity="right" android:text="-"  android:visibility="gone"/>
 
         </TableRow>
 
         <TextView
-            style="@style/JobOrderDetailLabelStyle" android:text="@string/rating"/>
-        <RatingBar android:id="@+id/ratingJob" style="@style/CustomRatingBarStyle" android:layout_width="wrap_content" android:layout_height="20dp" android:numStars="5" android:layout_marginBottom="10dp" />
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/rating" android:visibility="gone"/>
 
+        <LinearLayout android:layout_height="20dp" android:layout_width="wrap_content" android:layout_marginBottom="10dp" android:visibility="gone">
+            <RatingBar android:id="@+id/ratingJob" android:progressDrawable="@drawable/ratingbar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"  android:numStars="0"
+                android:stepSize="1" android:rating="1"  android:isIndicator="true" />
+        </LinearLayout>
 
         <TextView
-            style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"/>
-        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/time_used"  android:visibility="gone"/>
+        <TextView android:id="@+id/tvTimeUsed" style="@style/JobOrderDetailTextStyle" android:text="-"  android:visibility="gone"/>
 
         <TextView
-            style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"/>
-        <TextView style="@style/JobOrderDetailTextStyle" android:text="JO123345667" />
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/earned"  android:visibility="gone"/>
+        <TextView android:id="@+id/tvEarned" style="@style/JobOrderDetailTextStyle" android:text="-"  android:visibility="gone"/>
+
+        <TextView android:id="@+id/tvLabelRecipient"
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/consignee"  />
+        <TextView android:id="@+id/tvRecipient" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/contact_number"  />
+        <TextView android:id="@+id/tvContactNo" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/item"  />
+        <TextView android:id="@+id/tvItem" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
+        <TextView
+            style="@style/JobOrderDetailLabelStyle" android:text="@string/amount_collected"  />
+        <TextView android:id="@+id/tvAmountColected" style="@style/JobOrderDetailTextStyle" android:text="-"  />
+
 
     </TableLayout>
 
 
-    <Button android:layout_alignParentBottom="true"
+    <Button android:id="@+id/btnOk" android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_button_height" android:background="@color/orange_yellow" android:textColor="@color/white" android:text="@string/ok" />
+        android:layout_height="@dimen/bottom_button_height" android:background="@drawable/bg_btn_orangeyellow" android:textColor="@color/white" android:text="@string/ok" />
+
+    <include layout="@layout/layout_progress" android:id="@+id/rlProgress" />
 
 </RelativeLayout>

@@ -9,7 +9,7 @@
         <TextView android:id="@+id/tvType"
             android:layout_weight="0.8"
             style="@style/JobOrderListTagStyle"
-            android:text="@string/prof_delivery"/>
+            android:text=""/>
 
         <TextView android:id="@+id/tvJobOrderNo"
             android:layout_weight="1.2"
@@ -24,34 +24,34 @@
 
     <TextView android:id="@+id/tvAddress"
         style="@style/JobOrderListAddressStyle"
-        android:text="Malate Manila, Metro Manila" android:layout_below="@+id/llHeader" android:layout_toRightOf="@+id/viewLine" android:maxLines="3"/>
+        android:text="-" android:layout_below="@+id/llHeader" android:layout_toRightOf="@+id/viewLine" android:maxLines="3"/>
 
     <TextView android:id="@+id/tvBranch"
         style="@style/JobOrderListAddressStyle"
-        android:text="Malate Manila Branch" android:layout_below="@+id/tvAddress" android:layout_toRightOf="@+id/viewLine"/>
+        android:text="-" android:layout_below="@+id/tvAddress" android:layout_toRightOf="@+id/viewLine"/>
 
     <LinearLayout android:id="@+id/llFooter" android:layout_below="@id/tvBranch" style="@style/JobOrderFooterStyle">
 
         <TextView android:id="@+id/tvDistance"
             style="@style/JobOrderItemFooterStyle"
-            android:text="+639001234567"/>
+            android:text="-"/>
 
         <TextView android:id="@+id/tvSize"
             style="@style/JobOrderItemFooterStyle"
-            android:text="14:53:03" />
+            android:text="-" />
 
         <TextView android:id="@+id/tvEarning"
             style="@style/JobOrderItemFooterStyle"
-            android:text="14:53:03"/>
+            android:text="-" android:visibility="gone"/>
 
         <TextView android:id="@+id/tvETA"
             style="@style/JobOrderItemFooterStyle"
-            android:text="14:53:03" />
+            android:text="-" android:visibility="gone" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp" android:background="#dddddd" android:layout_alignParentBottom="true"/>
+        android:layout_height="1dp" android:background="#dddddd" android:layout_alignParentBottom="true"  android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

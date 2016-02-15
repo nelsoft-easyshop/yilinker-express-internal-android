@@ -6,7 +6,7 @@
 
     <ImageButton android:id="@+id/ivBack" android:clickable="true"
         android:layout_width="@dimen/actionbar_button_width"
-        android:layout_height="wrap_content" android:background="@android:color/transparent" android:src="@drawable/ic_back_arrow" android:layout_centerVertical="true" android:layout_alignParentLeft="true"/>
+        android:layout_height="match_parent" android:background="@android:color/transparent" android:src="@drawable/ic_back_arrow" android:layout_centerVertical="true" android:layout_alignParentLeft="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,12 +14,16 @@
         android:layout_gravity="center"
         android:text="@string/job_order"
         android:textColor="@color/greyish_brown"
-        android:id="@+id/title"
+        android:id="@+id/tvTitle"
         android:textSize="18sp"  android:textAllCaps="true" android:layout_centerInParent="true" />
 
     <ImageButton android:id="@+id/ivMenu" android:clickable="true"
         android:layout_width="@dimen/actionbar_button_width"
-        android:layout_height="match_parent" android:background="@android:color/transparent" android:src="@drawable/ic_overflow" android:layout_centerVertical="true" android:layout_alignParentRight="true"/>
+        android:layout_height="match_parent" android:background="@android:color/transparent" android:src="@drawable/ic_overflow" android:layout_centerVertical="true" android:layout_alignParentRight="true" />
+
+    <Button android:id="@+id/ivSwitch" android:clickable="true"
+        android:layout_width="60dp"
+        android:layout_height="30dp"  android:background="@drawable/bg_btn_marigold_rounded"  android:layout_centerVertical="true" android:layout_toLeftOf="@+id/ivMenu" android:visibility="gone" android:textSize="10sp" android:text="@string/filter_area" android:textColor="@color/white"/>
 
 
 </RelativeLayout>

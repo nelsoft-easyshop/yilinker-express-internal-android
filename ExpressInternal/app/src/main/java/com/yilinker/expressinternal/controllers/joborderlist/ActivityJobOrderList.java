@@ -6,15 +6,22 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -23,42 +30,67 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.adapters.AdapterTab;
 import com.yilinker.expressinternal.base.BaseActivity;
+import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
+import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
+import com.yilinker.expressinternal.interfaces.DialogDismissListener;
 import com.yilinker.expressinternal.interfaces.MenuItemClickListener;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.TabModel;
+import com.yilinker.expressinternal.model.Warehouse;
 import com.yilinker.expressinternal.utilities.DrawableHelper;
+import com.yilinker.expressinternal.utilities.LocationHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
-public class ActivityJobOrderList extends BaseActivity implements TabItemClickListener, ResponseHandler, View.OnClickListener, MenuItemClickListener, RecyclerViewClickListener<JobOrder>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class ActivityJobOrderList extends BaseActivity implements TabItemClickListener, ResponseHandler, View.OnClickListener, MenuItemClickListener, RecyclerViewClickListener<JobOrder>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, DialogDismissListener {
+
+    //For passing Open JOs from DashBoard
+    public static final String ARG_OPEN_JO = "openJO";
+    private static final String SERVER_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
     //For API requests
-    private static final int REQUEST_GET_OPEN= 1000;
+    private static final int REQUEST_GET_OPEN = 1000;
     private static final int REQUEST_GET_CURRENT = 1001;
     private static final int REQUEST_GET_COMPLETE = 1002;
     private static final int REQUEST_GET_PROBLEMATIC = 1003;
+    private static final int REQUEST_GET_WAREHOUSES = 1004;
+
 
     //For Tabs
     private static final int TAB_OPEN = 0;
     private static final int TAB_CURRENT = 1;
-    private static final int TAB_COMPLETE = 2;
+    private static final int TAB_COMPLETED = 2;
     private static final int TAB_PROBLEMATIC = 3;
 
+    //For Filter
+    private static final int NO_FILTER = 0;
+    private static final int FILTER_ALL = 1;
+    private static final int FILTER_PICKUP = 2;
+    private static final int FILTER_DELIVERY = 3;
+    private static final int FILTER_CLAIMING = 4;
+    private static final int FILTER_DROPOFF = 5;
+
+    //View Type
     private static final int VIEW_LIST = 1;
     private static final int VIEW_MAP = 2;
 
@@ -72,9 +104,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private List<TabModel> tabItems;
     private List<Object> listObjects;
 
+    private RelativeLayout rlProgress;
+    private RelativeLayout rlReload;
+
     //For JO list
     private AdapterJobOrderList adapterJobOrderList;
-    private List<JobOrder> jobOrderList;
+    private List<JobOrder> filteredList = new ArrayList<>(); // Filtered joborderlist
+    private List<JobOrder> jobOrderList;            //Filtered job orders and binded with the adapter
+    private List<JobOrder> completeList;            //Complete list of job orders
+    private List<SyncDBObject> requestsList = new ArrayList<>();     //list of failed requests for syncing
     private RecyclerView rvJobOrder;
 
     //For menu
@@ -90,12 +128,30 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private View warehouseMarker;
     private TextView tvDelivery;
     private TextView tvPickup;
+    private ImageView ivScanQr;
+    private EditText etSearchField;
 
+    private boolean shouldReload;
+    private int filter;
+
+    private RequestQueue requestQueue;
+    private SyncDBTransaction dbTransaction;
+
+    private HashMap<String, JobOrder> mapMarkers;
+
+    private boolean filterByBranch;
+    private boolean isReloading;
+
+    private View actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joborderlist);
+
+        requestQueue = ApplicationClass.getInstance().getRequestQueue();
+        dbTransaction = new SyncDBTransaction(this);
+        mapMarkers = new HashMap<>();
 
         initViews();
 
@@ -103,7 +159,6 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         setUpMapIfNeeded();
 
-        requestData(TAB_OPEN);
     }
 
     @Override
@@ -111,6 +166,21 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         super.onResume();
 
         setUpMapIfNeeded();
+
+        if (shouldReload) {
+
+            reloadList(adapterTab.getCurrentTab(), false);
+
+        } else {
+
+            //Data from Dashboard
+            getData();
+
+            resetTabCount();
+
+            reloadList(AdapterJobOrderList.TYPE_OPEN, false);
+            shouldReload = true;
+        }
     }
 
     @Override
@@ -131,16 +201,81 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
+    }
+
+    @Override
     public void onClick(View v) {
         super.onClick(v);
+
+        int id = v.getId();
+        switch (id) {
+
+            case R.id.ivSwitch:
+
+                if (!isReloading) {
+                    switchFilter();
+                }
+
+                break;
+
+            case R.id.iv_scanTrackingCode:
+                showScanner();
+                break;
+
+            case R.id.rlReload:
+
+                rlReload.setVisibility(View.GONE);
+                requestGetJobOrders();
+                break;
+        }
 
     }
 
 
-    private void initViews(){
+    private void initViews() {
 
+        rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        rlReload = (RelativeLayout) findViewById(R.id.rlReload);
         viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         rvTab = (RecyclerView) findViewById(R.id.rvTab);
+        ivScanQr = (ImageView) findViewById(R.id.iv_scanTrackingCode);
+        etSearchField = (EditText) findViewById(R.id.et_searchField);
+
+
+        rlReload.setVisibility(View.GONE);
+        rlReload.setOnClickListener(this);
+
+        ivScanQr.setOnClickListener(this);
+        etSearchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    filterJobOrderList(v.getText().toString().trim());
+                }
+
+                return false;
+            }
+        });
+
+        etSearchField.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                // Do nothing
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keyword = s.toString().trim();
+                filterJobOrderList(keyword);
+            }
+        });
 
         //Set tab items
         setTab();
@@ -148,6 +283,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         setMenu();
 
         setListAdapter();
+
+        setActionBar();
     }
 
     /**
@@ -173,7 +310,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
+
+                mMap.setOnMarkerClickListener(this);
+
                 setUpMap();
+                centerToLocation();
             }
         }
     }
@@ -186,42 +327,55 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
      */
     private void setUpMap() {
 
-        if(currentView == VIEW_MAP) {
+        if (currentView == VIEW_MAP) {
 
             mMap.clear();
+            mapMarkers.clear();
 
             LatLng markerLocation = null;
-            for (JobOrder item : jobOrderList){
+            Marker marker = null;
+            MarkerOptions markerOptions = null;
+            for (JobOrder item : jobOrderList) {
 
                 markerLocation = new LatLng(item.getLatitude(), item.getLongitude());
 
-                mMap.addMarker(new MarkerOptions().position(markerLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_joborder_pickup));
+                markerOptions = new MarkerOptions().position(markerLocation).title("Marker");
+
+                marker = mMap.addMarker(markerOptions);
+
+                int markerResId = R.drawable.pin_joborder_pickup;
+                if (item.getType().equalsIgnoreCase("delivery")) {
+                    markerResId = R.drawable.pin_joborder_delivery;
+                }
+
+                marker.setIcon(BitmapDescriptorFactory.fromResource(markerResId));
+
+                mapMarkers.put(marker.getId(), item);
 
             }
 
-            //For warehouse
-            if(warehouseMarker == null){
 
-                setWarehousePin();
+//            //Temp
+//            LatLng warehouseLocation = new LatLng(14.122323, 121.34232);
+//            mMap.addMarker(new MarkerOptions().position(warehouseLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromBitmap(DrawableHelper.createDrawableFromView(getWindowManager(), warehouseMarker)));
+
+            if (mLastLocation != null) {
+                //Center map to rider's location
+                LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
+
             }
 
-            //Temp
-            LatLng warehouseLocation = new LatLng(14.122323, 121.34232);
-            mMap.addMarker(new MarkerOptions().position(warehouseLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromBitmap(DrawableHelper.createDrawableFromView(getWindowManager(), warehouseMarker)));
+            mMap.setMyLocationEnabled(true);
 
-
-            //Center map to rider's location
-            LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
-
+            requestWarehouseLocation();
         }
 
     }
 
 
     //Set warehouse pin
-    private void setWarehousePin(){
+    private void setWarehousePin() {
 
         warehouseMarker = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.layout_pin_warehouse, null);
         tvDelivery = (TextView) warehouseMarker.findViewById(R.id.tvDelivery);
@@ -240,79 +394,359 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onTabItemClick(int position) {
 
-        requestData(position);
+        rlReload.setVisibility(View.GONE);
 
-        //temp
-        reloadList(position);
+        //Set visibility of Switch Filter Button
+        showSwitchButton(position == TAB_OPEN);
+
+        jobOrderList.clear();
+        completeList.clear();
+
+
+        adapterJobOrderList.notifyDataSetChanged();
+
+        requestGetJobOrders();
     }
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
+
+        if (object != null) {
+
+            int type = 0;
+
+            switch (requestCode) {
+
+                case REQUEST_GET_WAREHOUSES:
+
+//                    List<com.yilinker.core.model.express.internal.Warehouse> list = (List<com.yilinker.core.model.express.internal.Warehouse>) object;
+//
+//                    List<Warehouse> warehouseList = new ArrayList<>();
+//                    Warehouse warehouse = null;
+//
+//                    for(com.yilinker.core.model.express.internal.Warehouse item : list){
+//                        warehouse = new Warehouse(item);
+//                        warehouseList.add(warehouse);
+//                    }
+
+                    //temp
+                    List<Warehouse> warehouseList = new ArrayList<>();
+                    Warehouse warehouse = new Warehouse((com.yilinker.core.model.express.internal.Warehouse) object);
+                    warehouseList.add(warehouse);
+
+                    addWarehousePins(warehouseList);
+
+                    rlProgress.setVisibility(View.GONE);
+                    return;
+
+                case REQUEST_GET_OPEN:
+
+                    type = AdapterJobOrderList.TYPE_OPEN;
+                    break;
+
+                case REQUEST_GET_CURRENT:
+
+                    requestsList = dbTransaction.getAll(SyncDBObject.class);
+                    type = AdapterJobOrderList.TYPE_CURRENT;
+
+                    break;
+
+                case REQUEST_GET_COMPLETE:
+
+                    type = AdapterJobOrderList.TYPE_COMPLETE;
+                    break;
+
+                case REQUEST_GET_PROBLEMATIC:
+
+                    type = AdapterJobOrderList.TYPE_PROBLEMATIC;
+                    break;
+
+
+            }
+
+            jobOrderList.clear();
+            completeList.clear();
+
+
+
+
+//            List<JobOrder> list = new ArrayList<>();
+//            List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
+//
+//            for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+//
+//                JobOrder jo = new JobOrder(item);
+//
+//                //check jo if it's for syncing
+//
+//                if (requestCode == REQUEST_GET_CURRENT) {
+//                    for (int i = 0; i < requestsList.size(); i++) {
+//                        if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
+//                                || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
+//                            if (!requestsList.get(i).isSync())                 //check sync status
+//                                jo.setForSyncing(true);
+//                        }
+//                    }
+//
+//                }
+//
+//
+//                list.add(jo);
+//
+//            }
+//
+//            jobOrderList.addAll(list);
+//            completeList.addAll(list);
+//
+//            //For Tab Count
+//            int count = listServer.size();
+//            tabItems.get(adapterTab.getCurrentTab()).setCount(count);
+//            resetTabCount();
+//
+//            reloadList(type, false);
+
+            List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
+            createList(listServer, type);
+
+
+            //Save current JO data to local storage for offline function
+            if (requestCode == REQUEST_GET_CURRENT){
+                ApplicationClass.saveLocalCurrentListData(this, listServer); //save to text
+            }
+
+        } else {
+
+            rlProgress.setVisibility(View.GONE);
+        }
+
+        isReloading = false;
 
     }
 
     @Override
-    public void onFailed(int requestCode, String message) {
+    protected void handleRefreshToken() {
 
+        int currentRequest = getCurrentRequest();
+
+        switch (currentRequest) {
+
+            case REQUEST_GET_WAREHOUSES:
+
+                requestWarehouseLocation();
+                break;
+
+            default:
+                requestGetJobOrders();
+        }
+    }
+
+    @Override
+    public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
+
+//        if (requestCode == REQUEST_GET_CURRENT) {
+//
+////            loadLocalJobOrderList();
+//            List<com.yilinker.core.model.express.internal.JobOrder> listLocal = ApplicationClass.getLocalData(this);
+//            createList(listLocal, AdapterJobOrderList.TYPE_CURRENT);
+//
+//        } else if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+//
+////            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+//            rlReload.setVisibility(View.VISIBLE);
+//
+//        }
+
+
+        if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
+
+            if (requestCode == REQUEST_GET_CURRENT) {
+
+                List<com.yilinker.core.model.express.internal.JobOrder> listLocal = ApplicationClass.getLocalData(this);
+                createList(listLocal, AdapterJobOrderList.TYPE_CURRENT);
+            }
+            else {
+                rlReload.setVisibility(View.VISIBLE);
+            }
+        }
+        //TODO Load a view showing no Entries Found message
+
+        rlProgress.setVisibility(View.GONE);
+        isReloading = false;
     }
 
     //Request data from the server
-    private void requestData(int requestCode){
+    private void requestGetJobOrders() {
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        int currentTab = adapterTab.getCurrentTab();
+        String type = null;
+        int requestCode = 0;
 
 
-
-    }
-
-    //Reload the list
-    private void reloadList(int type){
-
-        adapterJobOrderList.stopTimer();
-
-        switch (type){
+        switch (currentTab) {
 
             case TAB_OPEN:
 
-                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN ,this);
+                type = "Open";
+                requestCode = REQUEST_GET_OPEN;
                 break;
 
             case TAB_CURRENT:
 
-                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_CURRENT ,this);
+                type = "Current";
+                requestCode = REQUEST_GET_CURRENT;
                 break;
 
-            case TAB_COMPLETE:
+            case TAB_COMPLETED:
 
-                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_COMPLETE ,this);
+                type = "Completed";
+                requestCode = REQUEST_GET_COMPLETE;
                 break;
 
             case TAB_PROBLEMATIC:
 
-                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_PROBLEMATIC ,this);
+                type = "Problematic";
+                requestCode = REQUEST_GET_PROBLEMATIC;
+                break;
+
+        }
+
+        Request request = null;
+
+        if (currentTab == TAB_OPEN) {
+
+            request = JobOrderAPI.getJobOrders(requestCode, type, filterByBranch, this);
+        } else {
+
+            request = JobOrderAPI.getJobOrders(requestCode, type, true, this);
+        }
+
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void filterJobOrderList(String keyword) {
+
+        filteredList.clear();
+
+        for (int i = 0; i < jobOrderList.size(); i++) {
+
+            if ((jobOrderList.get(i).getWaybillNo().toLowerCase()).contains(keyword.toLowerCase())) {
+                filteredList.add(jobOrderList.get(i));
+            }
+        }
+
+        int type = 0;
+
+        if (adapterTab.getCurrentTab() == 0) {
+            type = AdapterJobOrderList.TYPE_OPEN;
+        } else if (adapterTab.getCurrentTab() == 1) {
+            type = AdapterJobOrderList.TYPE_CURRENT;
+        } else if (adapterTab.getCurrentTab() == 2) {
+            type = AdapterJobOrderList.TYPE_COMPLETE;
+        } else {
+            type = AdapterJobOrderList.TYPE_PROBLEMATIC;
+        }
+
+        reloadList(type, true);
+
+
+    }
+
+
+    //Reload the list
+    private void reloadList(int type, boolean isFiltered) {
+
+
+        adapterJobOrderList.stopTimer();
+
+        List<JobOrder> tempOrigJobOrderList = jobOrderList;
+
+        if (isFiltered) {
+            jobOrderList = filteredList;
+        }
+
+
+        switch (type) {
+
+            case AdapterJobOrderList.TYPE_OPEN:
+
+
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN, this);
+                break;
+
+
+            case AdapterJobOrderList.TYPE_CURRENT:
+
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_CURRENT, this);
+                break;
+
+
+            case AdapterJobOrderList.TYPE_COMPLETE:
+
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_COMPLETE, this);
+                break;
+
+            case AdapterJobOrderList.TYPE_PROBLEMATIC:
+
+                adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_PROBLEMATIC, this);
                 break;
 
         }
 
         rvJobOrder.setAdapter(adapterJobOrderList);
 
-        //Start timer if the selected tab is for current JO
-        if(type == TAB_CURRENT){
+//        By Joan: I have removed this part since the timer is hidden
+//        //Start timer if the selected tab is for current JO
+//        if (adapterTab.getCurrentTab() == TAB_CURRENT || adapterTab.getCurrentTab() == TAB_PROBLEMATIC) {
+//
+//            adapterJobOrderList.startTimer();
+//        }
 
-            adapterJobOrderList.startTimer();
+        //For Filter
+        if (filter != NO_FILTER) {
+
+            filterList(filter);
+            filter = NO_FILTER;
+        }
+
+        setDistance();
+
+
+        //For Map View
+        if (currentView == VIEW_MAP) {
+
+            reloadMap();
+        }
+
+        if (isFiltered) {
+            adapterJobOrderList.notifyDataSetChanged();
+            jobOrderList = tempOrigJobOrderList;
+        }
+
+
+        rlProgress.setVisibility(View.GONE);
+    }
+
+    //Reload the map
+    private void reloadMap() {
+
+        if (LocationHelper.isLocationServicesEnabled(getApplicationContext())) {
+            setUpMap();
+        } else {
+
+            LocationHelper.showLocationErrorDialog(ActivityJobOrderList.this, this);
         }
 
     }
 
-    //Reload the map
-    private void reloadMap(){
 
-
-        //TODO Add markers
-        setUpMap();
-
-    }
-
-
-    private void setTab(){
+    private void setTab() {
 
 
         tabItems = new ArrayList<TabModel>();
@@ -321,7 +755,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         TabModel tab;
         int i = 0;
 
-        for(String item : arrayTabItems){
+        for (String item : arrayTabItems) {
 
             tab = new TabModel();
             tab.setId(i);
@@ -341,7 +775,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void setMenu(){
+    private void setMenu() {
 
         View customView = getLayoutInflater().inflate(R.layout.layout_main_menu, null);
 
@@ -373,16 +807,60 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onMenuItemClick(int position) {
 
-        switch (position){
+
+        switch (position) {
 
             case 0:
 
                 switchView();
                 break;
 
-            case 6:
+            case 1:
+
+                adapterTab.setCurrentTab(TAB_CURRENT);
+                filterList(FILTER_ALL);
+                break;
+
+            case 2:
+
+//                filterList(FILTER_PICKUP);
+                adapterTab.setCurrentTab(TAB_CURRENT);
+                filter = FILTER_PICKUP;
+                onTabItemClick(TAB_CURRENT);
+                break;
+
+            case 3:
+
+//                filterList((FILTER_DELIVERY));
+                adapterTab.setCurrentTab(TAB_CURRENT);
+                filter = FILTER_DELIVERY;
+                onTabItemClick(TAB_CURRENT);
+                break;
+
+//            case 4:
+//
+////                filterList(FILTER_CLAIMING);
+//                adapterTab.setCurrentTab(TAB_CURRENT);
+//                filter = FILTER_CLAIMING;
+//                onTabItemClick(TAB_CURRENT);
+//                break;
+
+            case 4:
+
+//                filterList(FILTER_DROPOFF);
+                adapterTab.setCurrentTab(TAB_CURRENT);
+                filter = FILTER_DROPOFF;
+                onTabItemClick(TAB_CURRENT);
+                break;
+
+            case 5:
 
                 showScanner();
+                break;
+
+            case 6:
+
+                goToAcknowledgeScreen();
                 break;
 
         }
@@ -390,16 +868,22 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         dismissMenu();
     }
 
-    private void switchView(){
+    private void goToAcknowledgeScreen() {
 
-        if(currentView == VIEW_LIST){
+        Intent intent = new Intent(ActivityJobOrderList.this, ActivityAcknowledge.class);
+        startActivity(intent);
+
+    }
+
+    private void switchView() {
+
+        if (currentView == VIEW_LIST) {
             menuItems.set(0, getString(R.string.menu_listview));
             currentView = VIEW_MAP;
 
             reloadMap();
 
-        }
-        else{
+        } else {
 
             menuItems.set(0, getString(R.string.menu_mapview));
             currentView = VIEW_LIST;
@@ -409,47 +893,24 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         viewSwitcher.showNext();
     }
 
-    private void showScanner(){
+    private void showScanner() {
 
         Intent intent = new Intent(this, ActivityScanner.class);
         startActivity(intent);
 
     }
 
-    private void setListAdapter(){
+    private void setListAdapter() {
 
+        completeList = new ArrayList<>();
         jobOrderList = new ArrayList<JobOrder>();
-
-        //Temp
-        double latitude = 14.1230;
-        double longitude = 121.0120;
-        for(int i = 0; i < 100; i++){
-
-            JobOrder jo = new JobOrder();
-            jo.setJobOrderNo("JO121213131" + i);
-
-            Calendar tempDate = Calendar.getInstance();
-            tempDate.set(Calendar.MONTH, 9);
-            tempDate.set(Calendar.DATE, 1);
-            tempDate.set(Calendar.YEAR, 2015);
-
-            latitude += 0.001;
-            longitude += 0.001;
-
-            jo.setLatitude(latitude);
-            jo.setLongitude(longitude);
-            jo.setEstimatedTimeOfArrival(tempDate.getTime());
-            jo.setStatus(JobOrderConstant.JO_COMPLETE);
-            jobOrderList.add(jo);
-        }
 
         rvJobOrder = (RecyclerView) findViewById(R.id.rvJobOrder);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvJobOrder.setLayoutManager(layoutManager);
 
-        adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN ,this);
-
+        adapterJobOrderList = new AdapterJobOrderList(jobOrderList, AdapterJobOrderList.TYPE_OPEN, this);
 
         rvJobOrder.setAdapter(adapterJobOrderList);
 
@@ -458,37 +919,61 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onItemClick(int position, JobOrder object) {
 
-        Toast.makeText(getApplicationContext(), object.getJobOrderNo(), Toast.LENGTH_LONG).show();
-
         int currentTab = adapterTab.getCurrentTab();
-        switch(currentTab){
+        goToDetail(object, currentTab);
+    }
 
-            case TAB_OPEN:
+    //Filter list
+    private void filterList(int type) {
 
-                goToDetail(object, currentTab);
+        String filter = null;
+        switch (type) {
+
+            case FILTER_ALL:
+
+                requestGetJobOrders();
+                return;
+
+            case FILTER_CLAIMING:
+
+                filter = JobOrderConstant.JO_CURRENT_CLAIMING;
                 break;
 
-            case TAB_CURRENT:
+            case FILTER_DROPOFF:
 
-                goToDetail(object, currentTab);
+                filter = JobOrderConstant.JO_CURRENT_DROPOFF;
                 break;
 
-            case TAB_COMPLETE:
+            case FILTER_PICKUP:
 
-                goToDetail(object, currentTab);
+                filter = JobOrderConstant.JO_CURRENT_PICKUP;
                 break;
 
-            case TAB_PROBLEMATIC:
+            case FILTER_DELIVERY:
 
-                reportProblematic(object);
+                filter = JobOrderConstant.JO_CURRENT_DELIVERY;
                 break;
 
         }
 
-    }
+        List<JobOrder> result = new ArrayList<>();
+        for (JobOrder item : completeList) {
 
-    //Filter list
-    private void filterList(){
+            if (item.getStatus().equalsIgnoreCase(filter)) {
+
+                result.add(item);
+            }
+
+        }
+
+        jobOrderList.clear();
+        jobOrderList.addAll(result);
+        adapterJobOrderList.notifyDataSetChanged();
+
+        if (currentView == VIEW_MAP) {
+
+            reloadMap();
+        }
 
     }
 
@@ -501,6 +986,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         // updates. Gets the best and most recent location currently available, which may be null
         // in rare cases when a location is not available.
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+
+        if (mLastLocation != null && adapterTab.getCurrentTab() == TAB_OPEN) {
+
+            setDistance();
+        }
+
+        centerToLocation();
+
 
     }
 
@@ -516,19 +1010,33 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void goToDetail(JobOrder jobOrder, int tab){
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        JobOrder jobOrder = mapMarkers.get(marker.getId());
+
+        if (jobOrder != null) {
+
+            goToDetail(jobOrder, adapterTab.getCurrentTab());
+        }
+
+        return true;
+    }
+
+    private void goToDetail(JobOrder jobOrder, int tab) {
 
         Intent intent = null;
 
-        if(tab == TAB_COMPLETE){
+        if (tab == TAB_COMPLETED) {
 
             intent = new Intent(ActivityJobOrderList.this, ActivityComplete.class);
             intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
-        }
-        else{
+            intent.putExtra(ActivityComplete.ARG_FROM_HOME, true);
+        } else {
 
             intent = new Intent(ActivityJobOrderList.this, ActivityJobOderDetail.class);
             intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+            intent.putExtra(ActivityJobOderDetail.ARG_CURRENT_STATUS, adapterTab.getCurrentTab());
         }
 
 
@@ -536,12 +1044,286 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void reportProblematic(JobOrder jobOrder){
+    private void reportProblematic(JobOrder jobOrder) {
 
         Intent intent = new Intent(ActivityJobOrderList.this, ActivityProblematic.class);
         intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder);
         startActivity(intent);
 
     }
+
+    private void getData() {
+
+        Intent intent = getIntent();
+
+        List<JobOrder> list = intent.getParcelableArrayListExtra(ARG_OPEN_JO);
+
+        if (list != null) {
+
+            jobOrderList.addAll(list);
+            completeList.addAll(list);
+            adapterJobOrderList.notifyDataSetChanged();
+        } else {
+
+            requestGetJobOrders();
+        }
+
+    }
+
+    private void setDistance() {
+
+        if (mLastLocation != null) {
+            for (JobOrder item : jobOrderList) {
+
+                if (item.getLatitude() > 0 && item.getLongitude() > 0)
+                    item.setDistance(LocationHelper.getDistance(mLastLocation.getLatitude(), mLastLocation.getLongitude(), item.getLatitude(), item.getLongitude()));
+
+            }
+
+            adapterJobOrderList.notifyDataSetChanged();
+
+        }
+    }
+
+    private void centerToLocation() {
+
+        if (mLastLocation != null) {
+            LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
+        }
+    }
+
+    private void requestWarehouseLocation() {
+
+        rlProgress.setVisibility(View.VISIBLE);
+
+        Request request = JobOrderAPI.getWarehouses(REQUEST_GET_WAREHOUSES, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
+    private void addWarehousePins(List<Warehouse> list) {
+
+        //For warehouse
+        if (warehouseMarker == null) {
+
+            setWarehousePin();
+        }
+
+        if (list != null) {
+
+            LatLng warehouseLocation = null;
+            TextView tvPickup = null;
+            TextView tvClaiming = null;
+
+            for (Warehouse item : list) {
+
+                warehouseLocation = new LatLng(item.getLatitude(), item.getLongitude());
+
+                tvPickup = (TextView) warehouseMarker.findViewById(R.id.tvPickup);
+                tvClaiming = (TextView) warehouseMarker.findViewById(R.id.tvDelivery);
+
+                tvPickup.setText(String.valueOf(item.getForPickup()));
+                tvClaiming.setText(String.valueOf(item.getForClaiming()));
+
+                mMap.addMarker(new MarkerOptions().position(warehouseLocation).title("Warehouse")).setIcon(BitmapDescriptorFactory.fromBitmap(DrawableHelper.createDrawableFromView(getWindowManager(), warehouseMarker)));
+
+            }
+
+        }
+
+
+    }
+
+    private void resetTabCount() {
+
+        TabModel tab = tabItems.get(adapterTab.getCurrentTab());
+        tab.setCount(jobOrderList.size());
+        adapterTab.notifyItemChanged(adapterTab.getCurrentTab());
+
+    }
+
+    private void setActionBar() {
+
+        actionBar = getActionBarView();
+
+        Button ivSwitch = (Button) actionBar.findViewById(R.id.ivSwitch);
+        ivSwitch.setOnClickListener(this);
+
+        ivSwitch.setVisibility(View.VISIBLE);
+
+    }
+
+    private void switchFilter() {
+
+        isReloading = true;
+
+        filterByBranch = !filterByBranch;
+        int resId = R.string.filter_area;
+
+        if (filterByBranch) {
+            resId = R.string.filter_branch;
+        }
+
+        Button ivSwitch = (Button) actionBar.findViewById(R.id.ivSwitch);
+
+        ivSwitch.setBackgroundResource(R.drawable.bg_btn_orangeyellow_rounded);
+        ivSwitch.setText(getString(resId));
+
+        requestGetJobOrders();
+
+    }
+
+    private void showSwitchButton(boolean isShown) {
+
+        Button ivSwitch = (Button) actionBar.findViewById(R.id.ivSwitch);
+
+        int visibility = View.GONE;
+        if (isShown) {
+            visibility = View.VISIBLE;
+        }
+
+        ivSwitch.setVisibility(visibility);
+    }
+
+
+    @Override
+    public void onDialogDismiss(int requestCode, Bundle bundle) {
+
+        switch (requestCode) {
+
+            case LocationHelper.REQUEST_DIALOG_LOCATION_ERROR:
+
+                switchView();
+                break;
+
+        }
+
+    }
+
+//    private void loadLocalJobOrderList() {
+//
+////        List<JobOrder> list = new ArrayList<>();
+////        requestsList = dbTransaction.getAll(SyncDBObject.class);
+////        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
+////
+////        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+////
+////            JobOrder jo = new JobOrder(item);
+////
+////            //check jo if it's for syncing
+////                for (int i = 0; i < requestsList.size(); i++) {
+////                    if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
+////                            || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
+////                        if (!requestsList.get(i).isSync())                 //check sync status
+////                            jo.setForSyncing(true);
+////                    }
+////                }
+////
+////            list.add(jo);
+////
+////        }
+//
+//
+//        List<JobOrder> list = new ArrayList<>();
+//        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
+//
+//        //Create search dictionary
+//        String searchDictionary = getSearchDictionary();
+//
+//        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+//
+//            JobOrder jo = new JobOrder(item);
+//
+//            //check jo if it's for syncing
+//            String waybillNo = jo.getWaybillNo();
+//            String joNumber = jo.getJobOrderNo();
+//
+//            if(searchDictionary.contains(waybillNo) || searchDictionary.contains(joNumber)){
+//                jo.setForSyncing(true);
+//            }
+//
+//            list.add(jo);
+//
+//        }
+//
+//        jobOrderList.addAll(list);
+//
+//        //For Tab Count
+//        int count = listServer.size();
+//        tabItems.get(adapterTab.getCurrentTab()).setCount(count);
+//        resetTabCount();
+//
+//        reloadList(AdapterJobOrderList.TYPE_CURRENT, false);
+//
+//    }
+
+    private void createList(List<com.yilinker.core.model.express.internal.JobOrder> listServer, int type){
+
+        List<JobOrder> list = new ArrayList<>();
+
+        //Create search dictionary
+        String searchDictionary = getSearchDictionary();
+
+        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+
+            JobOrder jo = new JobOrder(item);
+
+            if(searchDictionary != null) {
+                //check jo if it's for syncing
+                String waybillNo = String.format("|%s|", jo.getWaybillNo());
+                String joNumber = String.format("|%s|", jo.getJobOrderNo());
+
+                if (searchDictionary.contains(waybillNo) || searchDictionary.contains(joNumber)) {
+                    jo.setForSyncing(true);
+                }
+            }
+
+            list.add(jo);
+
+        }
+
+        jobOrderList.addAll(list);
+        completeList.addAll(list);
+
+        //For Tab Count
+        int count = listServer.size();
+        tabItems.get(adapterTab.getCurrentTab()).setCount(count);
+        resetTabCount();
+
+        reloadList(type, false);
+
+    }
+
+    private String getSearchDictionary(){
+
+        String dictionary = null;
+
+        requestsList = dbTransaction.getAll(SyncDBObject.class);
+
+        if(requestsList.size() > 0){
+
+            StringBuilder syncBuilder = new StringBuilder();
+            syncBuilder.append("|");
+
+            for(SyncDBObject object: requestsList){
+
+                if(!object.isSync()){
+
+                    syncBuilder.append(object.getId());
+                    syncBuilder.append("|");
+                }
+            }
+
+            dictionary = syncBuilder.toString();
+
+        }
+
+        return  dictionary;
+
+    }
+
 
 }

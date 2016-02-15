@@ -2,28 +2,55 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        config_prod {
+            keyAlias 'yilinker-express-internal'
+            keyPassword 'Passw0rd'
+            storeFile file('/Users/wagnavu/Documents/express_keystore/yilinker_express_keystore.jks')
+            storePassword 'Passw0rd'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion '22.0.1'
-
     defaultConfig {
         applicationId "com.yilinker.expressinternal"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.1.2"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "SERVER_URL", '"http://api.express.api.easydeal.ph/v1"'
+        }
         release {
+            buildConfigField "String", "SERVER_URL", '"http://api.express.yilinker.com/v1"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config_prod
+        }
+        production {
+            buildConfigField "String", "SERVER_URL", '"https://api-express.yilinker.com/v1"'
+            signingConfig signingConfigs.config_prod
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/login_credential'] } }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.android.gms:play-services:7.5.+'
     compile project(':core')
     compile 'com.android.support:appcompat-v7:22.2.1'
-
+    compile 'com.github.jd-alexander:library:1.0.5'
+    compile 'com.google.android.gms:play-services-location:8.3.0'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
+    compile 'io.realm:realm-android:0.87.2'
 }

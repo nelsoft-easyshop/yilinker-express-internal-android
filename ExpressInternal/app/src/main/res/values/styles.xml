@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/black</item>
         <item name="colorAccent">@android:color/white</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
     </style>
 
@@ -51,12 +52,12 @@
     <!-- Login Styles -->
     <style name="LoginEditTextStyle">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:paddingLeft">15dp</item>
-        <item name="android:background">@color/warm_gray</item>
+        <item name="android:background">@drawable/bg_login_edittext</item>
     </style>
 
     <!-- Profile Styles -->
@@ -64,14 +65,14 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:gravity">center_horizontal|top</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/greyish_brown</item>
     </style>
     <style name="ProfileTextStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:gravity">center_horizontal|bottom</item>
-        <item name="android:textSize">25dp</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:textColor">@color/greyish_brown</item>
     </style>
 
@@ -150,6 +151,7 @@
     <style name="SideMenuButtonStyle">
         <item name="android:layout_height">60dp</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="JobOrderFooterStyle">
@@ -167,6 +169,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/orange_yellow</item>
+        <item name="android:textSize">12dp</item>
 
     </style>
 
@@ -211,8 +214,22 @@
     </style>
 
     <style name="CustomRatingBarStyle" parent="@android:style/Widget.DeviceDefault.RatingBar.Small">
-        <item name="android:progressDrawable">@drawable/rating_bar_star</item>
-        <item name="android:indeterminateDrawable">@drawable/rating_bar_star_selected</item>
+        <item name="android:progressDrawable">@drawable/ratingbar</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar</item>
+    </style>
+
+    <style name="ContactButtonStyle">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:background">@drawable/bg_contact_button</item>
+    </style>
+
+    <style name="TransparentActivityTheme" parent="Theme.AppCompat.Light">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
 </resources>
