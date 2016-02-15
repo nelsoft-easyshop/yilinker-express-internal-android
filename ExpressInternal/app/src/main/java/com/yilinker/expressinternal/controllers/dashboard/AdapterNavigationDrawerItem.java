@@ -78,16 +78,27 @@ public class AdapterNavigationDrawerItem extends ArrayAdapter<String> {
     @Override
     public boolean isEnabled(int position) {
 
-        if (position == 2) {
-            if (appClass.hasItemsForSyncing()) { //enable depending on sync state
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        if(position == 2 && !appClass.hasItemsForSyncing()) {
+            return false;
+        }
+        else{
             return true;
         }
     }
+
+    //    @Override
+//    public boolean isEnabled(int position) {
+//
+//        if (position == 2) {
+//            if (appClass.hasItemsForSyncing()) { //enable depending on sync state
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } else {
+//            return true;
+//        }
+//    }
 
     @Override
     public boolean areAllItemsEnabled() {

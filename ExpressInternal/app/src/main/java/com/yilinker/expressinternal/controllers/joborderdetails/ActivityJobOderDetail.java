@@ -38,6 +38,7 @@ import com.yilinker.expressinternal.controllers.navigation.ActivityNavigation;
 import com.yilinker.expressinternal.controllers.printer.FragmentDialogPrint2;
 import com.yilinker.expressinternal.controllers.printer.FragmentDialogPrinterList;
 import com.yilinker.expressinternal.controllers.qrcode.ActivityQRCode;
+import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -136,8 +137,8 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         setContentView(R.layout.activity_joborderdetail);
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
-        realm = Realm.getInstance(this);
-        dbTransaction = new SyncDBTransaction(this);
+//        realm = Realm.getInstance(this);
+//        dbTransaction = new SyncDBTransaction(this);
 
         //Get data passed by the previous activity
         getData();
@@ -208,6 +209,19 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+
+            case ActivitySync.REQUEST_SYNC:
+
+                handleSyncResult(resultCode);
+                break;
+        }
+    }
+
+    @Override
     public void onSuccess(int requestCode, Object object) {
         super.onSuccess(requestCode, object);
 
@@ -233,12 +247,12 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
                 finish();
                 break;
 
-            //for syncing requests
-            default:
-
-                handleSyncSuccess(requestCode);
-
-                break;
+//            //for syncing requests
+//            default:
+//
+//                handleSyncSuccess(requestCode);
+//
+//                break;
 
         }
 
@@ -267,13 +281,13 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
                 break;
 
-            //for syncing
-
-            default:
-
-                handleFailedSync();
-
-                break;
+//            //for syncing
+//
+//            default:
+//
+//                handleFailedSync();
+//
+//                break;
         }
 
     }
@@ -328,7 +342,8 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
             case R.id.ivSync:
 
                 if (DeviceHelper.isDeviceConnected(this)) {
-                    handleSync();
+//                    handleSync();
+                    showSyncScreen();
                 } else {
                     Toast.makeText(this, R.string.no_network_connection, Toast.LENGTH_SHORT).show();
                 }
@@ -729,86 +744,86 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     }
 
-    private void handleSync() {
-
-        sync = dbTransaction.getAll(SyncDBObject.class);
-
-        requestCounter = 0;
-        totalRequest = sync.size();
-
-        for (int i = 0; i < sync.size(); i++) {
-
-            SyncDBObject syncItem = sync.get(i);
-
-            if (!syncItem.isSync()) {
-
-                if (syncItem.getRequestType() == ActivityChecklist.REQUEST_SIGNATURE) {
-
-                    requestSubmitSignature(i, syncItem.getId(), syncItem.getData());
-
-                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_RATING) {
-
-                    requestSubmitRating(i, syncItem.getId(), Integer.valueOf(syncItem.getData()));
-
-                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_UPLOAD_IMAGES) {
-
-                    requestSubmitImages(i, syncItem.getId(), syncItem.getData());
-
-                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_UPDATE) {
-
-                    requestUpdate(i, syncItem.getId(), syncItem.getData());
-
-                } else if (syncItem.getRequestType() == ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE) {
-
-                    requestCalculateShippingFee(i, syncItem.getId(), syncItem.getData());
-
-                }
-
-            }
-
-        }
-
-    }
-
-    private void handleSyncSuccess(int position) {
-
-        requestCounter++;
-
-        RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
-
-        query.equalTo("key", sync.get(position).getKey());
-
-        SyncDBObject result = query.findFirst();
-
-        realm.beginTransaction();
-        result.setSync(true);
-        realm.commitTransaction();
-
-        dbTransaction.update(result);
-
-        if (requestCounter >= totalRequest) {
-
-            rlProgress.setVisibility(View.GONE);
-            goToMainScreen();
-
-        }
-
-
-
-    }
-
-    private void handleFailedSync() {
-
-        requestCounter++;
-
-        if (requestCounter >= totalRequest){
-
-                rlProgress.setVisibility(View.GONE);
-                goToMainScreen();
-
-        }
-
-    }
+//    private void handleSync() {
+//
+//        sync = dbTransaction.getAll(SyncDBObject.class);
+//
+//        requestCounter = 0;
+//        totalRequest = sync.size();
+//
+//        for (int i = 0; i < sync.size(); i++) {
+//
+//            SyncDBObject syncItem = sync.get(i);
+//
+//            if (!syncItem.isSync()) {
+//
+//                if (syncItem.getRequestType() == ActivityChecklist.REQUEST_SIGNATURE) {
+//
+//                    requestSubmitSignature(i, syncItem.getId(), syncItem.getData());
+//
+//                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_RATING) {
+//
+//                    requestSubmitRating(i, syncItem.getId(), Integer.valueOf(syncItem.getData()));
+//
+//                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_UPLOAD_IMAGES) {
+//
+//                    requestSubmitImages(i, syncItem.getId(), syncItem.getData());
+//
+//                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_UPDATE) {
+//
+//                    requestUpdate(i, syncItem.getId(), syncItem.getData());
+//
+//                } else if (syncItem.getRequestType() == ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE) {
+//
+//                    requestCalculateShippingFee(i, syncItem.getId(), syncItem.getData());
+//
+//                }
+//
+//            }
+//
+//        }
+//
+//    }
+//
+//    private void handleSyncSuccess(int position) {
+//
+//        requestCounter++;
+//
+//        RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
+//
+//        query.equalTo("key", sync.get(position).getKey());
+//
+//        SyncDBObject result = query.findFirst();
+//
+//        realm.beginTransaction();
+//        result.setSync(true);
+//        realm.commitTransaction();
+//
+//        dbTransaction.update(result);
+//
+//        if (requestCounter >= totalRequest) {
+//
+//            rlProgress.setVisibility(View.GONE);
+//            goToMainScreen();
+//
+//        }
+//
+//
+//
+//    }
+//
+//    private void handleFailedSync() {
+//
+//        requestCounter++;
+//
+//        if (requestCounter >= totalRequest){
+//
+//                rlProgress.setVisibility(View.GONE);
+//                goToMainScreen();
+//
+//        }
+//
+//    }
 
     private void requestUpdateStatus(String newStatus) {
 
@@ -824,79 +839,79 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     }
 
-    private void requestSubmitImages(int position, String wayBillNo, String images) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        images = images.replace("[", "");
-        images = images.replace("]", "");
-
-
-        List<String> imageList = new ArrayList<String>(Arrays.asList(images.split(",")));
-        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, imageList, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestUpdate(int position, String jobOrderNo, String newStatus) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestSubmitRating(int position, String jobOrderNo, Integer rating) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        Request request = JobOrderAPI.addRating(position, jobOrderNo, rating, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestSubmitSignature(int position, String jobOrderNo, String signature) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        Request request = JobOrderAPI.uploadSignature(position, jobOrderNo, signature, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestCalculateShippingFee(int position, String jobOrderNo, String packageData) {
-
-        packageData = packageData.replace("[", "");
-        packageData = packageData.replace("]", "");
-
-
-        List<String> packageFee = new ArrayList<String>(Arrays.asList(packageData.split(",")));
-
-        String sizeId, length, width, height, weight;
-
-        sizeId = packageFee.get(0);
-        length = packageFee.get(1);
-        width  = packageFee.get(2);
-        height = packageFee.get(3);
-        weight = packageFee.get(4);
-
-        Request request = JobOrderAPI.calculateShippingFee(position,
-                Integer.valueOf(sizeId), length, width, height, weight, jobOrderNo, "1", this);
-
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
+//    private void requestSubmitImages(int position, String wayBillNo, String images) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        images = images.replace("[", "");
+//        images = images.replace("]", "");
+//
+//
+//        List<String> imageList = new ArrayList<String>(Arrays.asList(images.split(",")));
+//        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, imageList, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestUpdate(int position, String jobOrderNo, String newStatus) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestSubmitRating(int position, String jobOrderNo, Integer rating) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        Request request = JobOrderAPI.addRating(position, jobOrderNo, rating, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestSubmitSignature(int position, String jobOrderNo, String signature) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        Request request = JobOrderAPI.uploadSignature(position, jobOrderNo, signature, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestCalculateShippingFee(int position, String jobOrderNo, String packageData) {
+//
+//        packageData = packageData.replace("[", "");
+//        packageData = packageData.replace("]", "");
+//
+//
+//        List<String> packageFee = new ArrayList<String>(Arrays.asList(packageData.split(",")));
+//
+//        String sizeId, length, width, height, weight;
+//
+//        sizeId = packageFee.get(0);
+//        length = packageFee.get(1);
+//        width  = packageFee.get(2);
+//        height = packageFee.get(3);
+//        weight = packageFee.get(4);
+//
+//        Request request = JobOrderAPI.calculateShippingFee(position,
+//                Integer.valueOf(sizeId), length, width, height, weight, jobOrderNo, "1", this);
+//
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
 
     private void goToMainScreen() {
 
@@ -1007,5 +1022,26 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         FragmentDialogPrinterList dialog = FragmentDialogPrinterList.createInstance(REQUEST_DIALOG_PRINT, jobOrder);
         dialog.show(getFragmentManager(), null);
+    }
+
+    private void showSyncScreen(){
+
+        Intent intent = new Intent(ActivityJobOderDetail.this, ActivitySync.class);
+        startActivityForResult(intent, ActivitySync.REQUEST_SYNC);
+
+    }
+
+    private void handleSyncResult(int resultCode){
+
+        if(resultCode == RESULT_OK){
+
+            Toast.makeText(getApplicationContext(), "Data sync successful", Toast.LENGTH_SHORT).show();
+            goToMainScreen();
+        }
+        else{
+
+            Toast.makeText(getApplicationContext(), "Data sync failed. Try again later.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

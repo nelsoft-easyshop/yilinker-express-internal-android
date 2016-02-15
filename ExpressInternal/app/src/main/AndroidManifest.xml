@@ -186,6 +186,10 @@
             android:name = ".controllers.qrscanner.ActivityAcknowledge" >
         </activity>
 
+        <activity android:name=".controllers.sync.ActivitySync"
+            android:theme="@style/TransparentActivityTheme"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
