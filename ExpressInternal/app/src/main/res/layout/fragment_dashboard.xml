@@ -137,13 +137,13 @@
                 android:layout_height="30dp"
                 android:layout_width="30dp"
                 android:text="-"
-                android:gravity="center" android:layout_margin="10dp" android:padding="5dp" android:textSize="12sp" android:textColor="@color/white"/>
+                android:gravity="center" android:layout_margin="10dp" android:padding="5dp" android:textSize="@dimen/dashboard_josummary_textsize" android:textColor="@color/white"/>
 
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="@string/prof_job_orders"
-                android:textSize="18sp" android:textColor="@color/greyish_brown" android:gravity="center"/>
+                android:textSize="@dimen/dashboard_josummarylabel_textsize" android:textColor="@color/greyish_brown" android:gravity="center"/>
 
 
         </TableRow>
@@ -156,13 +156,13 @@
                 android:layout_height="30dp"
                 android:layout_width="30dp"
                 android:text="-"
-                android:gravity="center" android:layout_margin="10dp" android:padding="5dp" android:textSize="12sp" android:textColor="@color/orange_yellow"/>
+                android:gravity="center" android:layout_margin="10dp" android:padding="5dp" android:textSize="@dimen/dashboard_josummary_textsize" android:textColor="@color/orange_yellow"/>
 
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="@string/prof_pickups"
-                android:textSize="18sp"  android:gravity="center" android:textColor="@color/white"/>
+                android:textSize="@dimen/dashboard_josummarylabel_textsize"  android:gravity="center" android:textColor="@color/white"/>
 
 
         </TableRow>
@@ -175,13 +175,13 @@
                 android:layout_height="30dp"
                 android:layout_width="30dp"
                 android:text="-"
-                android:gravity="center" android:layout_margin="10dp" android:padding="5dp" android:textSize="12sp" android:textColor="@color/orange_yellow"/>
+                android:gravity="center" android:layout_margin="10dp" android:padding="5dp" android:textSize="@dimen/dashboard_josummary_textsize" android:textColor="@color/orange_yellow"/>
 
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="@string/prof_deliveries"
-                android:textSize="18sp"  android:gravity="center" android:textColor="@color/white"/>
+                android:textSize="@dimen/dashboard_josummarylabel_textsize"  android:gravity="center" android:textColor="@color/white"/>
 
         </TableRow>
 

@@ -65,14 +65,14 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:gravity">center_horizontal|top</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">@dimen/dashboard_profilelabel_textsize</item>
         <item name="android:textColor">@color/greyish_brown</item>
     </style>
     <style name="ProfileTextStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:gravity">center_horizontal|bottom</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">@dimen/dashboard_profile_textsize</item>
         <item name="android:textColor">@color/greyish_brown</item>
     </style>
 
@@ -122,6 +122,8 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center_vertical|end</item>
+        <item name="android:textSize">@dimen/joborderlist_waybillno_textsize</item>
+        <item name="android:paddingLeft">@dimen/joborderlist_waybillno_paddingleft</item>
     </style>
 
     <style name="JobOrderListAddressStyle">

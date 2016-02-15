@@ -30,6 +30,17 @@
     <dimen name="calculator_input_height">50dp</dimen>
     <dimen name="calculator_button_height">50dp</dimen>
 
+    <!--Dashboard-->
+    <dimen name="dashboard_profile_textsize">18sp</dimen>
+    <dimen name="dashboard_profilelabel_textsize">16sp</dimen>
+    <dimen name="dashboard_josummary_textsize">12sp</dimen>
+    <dimen name="dashboard_josummarylabel_textsize">16sp</dimen>
 
+    <!--Cash Management-->
+    <dimen name="cashmanagement_summary_textsize">12sp</dimen>
+
+    <!-- Job Order Details-->
+    <dimen name="joborderlist_waybillno_textsize">10sp</dimen>
+    <dimen name="joborderlist_waybillno_paddingleft">10sp</dimen>
 
 </resources>
