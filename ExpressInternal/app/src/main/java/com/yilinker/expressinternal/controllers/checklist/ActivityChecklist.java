@@ -68,8 +68,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
 
     private static  int CHECKLIST_PACKAGE_CONFIRMED = 1;
-    private static  int CHECKLIST_VALID_ID = 2;
-    private static  int CHECKLIST_RECIPIENT_PICTURE = 3;
+//    private static  int CHECKLIST_VALID_ID = 2;
+//    private static  int CHECKLIST_RECIPIENT_PICTURE = 3;
     private static  int CHECKLIST_SIGNATURE = 4;
 
     public static final String ARG_WAYBILL_NO = "waybillNo";
@@ -104,6 +104,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private PackageType packageFee;
 
+    private int clickedPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -135,6 +137,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     public void onItemClick(int position, ChecklistItem object) {
 
+        clickedPosition = position;
+
         String checkListItem = object.getTitle();
 
         if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_signature))){
@@ -153,7 +157,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
         else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_valid_id))){
 
-            if(!items.get(CHECKLIST_VALID_ID).isChecked()) {
+            if(!items.get(position).isChecked()) {
+//            if(!items.get(CHECKLIST_VALID_ID).isChecked()) {
 
                 launchCamera(REQUEST_LAUNCH_CAMERA_ID);
             }
@@ -170,7 +175,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
         else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_picture))){
 
-            if(!items.get(CHECKLIST_RECIPIENT_PICTURE).isChecked()) {
+//            if(!items.get(CHECKLIST_RECIPIENT_PICTURE).isChecked()) {
+            if(!items.get(position).isChecked()) {
 
                 launchCamera(REQUEST_LAUNCH_CAMERA_PICTURE);
             }
@@ -471,9 +477,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY) && jobOrder.getAmountToCollect() == 0) {
 
-            CHECKLIST_RECIPIENT_PICTURE -= 1;
-            CHECKLIST_SIGNATURE -= 1;
-            CHECKLIST_VALID_ID -= 1;
+//            CHECKLIST_RECIPIENT_PICTURE -= 1;
+//            CHECKLIST_SIGNATURE -= 1;
+//            CHECKLIST_VALID_ID -= 1;
 
             items.remove(0);
         }
@@ -844,9 +850,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void updateValidIDChecklist(){
 
-        int position = CHECKLIST_VALID_ID;
-        items.get(position).setIsChecked(true);
-        adapter.notifyItemChanged(position);
+//        int position = CHECKLIST_VALID_ID;
+//        items.get(position).setIsChecked(true);
+//        adapter.notifyItemChanged(position);
+
+        items.get(clickedPosition).setIsChecked(true);
+        adapter.notifyItemChanged(clickedPosition);
 
         validIdImage = photoUri.toString();
 
@@ -857,9 +866,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void updateRecipientPictureChecklist(){
 
-        int position = CHECKLIST_RECIPIENT_PICTURE;
-        items.get(position).setIsChecked(true);
-        adapter.notifyItemChanged(position);
+//        int position = CHECKLIST_RECIPIENT_PICTURE;
+//        items.get(position).setIsChecked(true);
+//        adapter.notifyItemChanged(position);
+
+        items.get(clickedPosition).setIsChecked(true);
+        adapter.notifyItemChanged(clickedPosition);
 
         recipientPicture = photoUri.toString();
 
