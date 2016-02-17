@@ -86,7 +86,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private RecyclerView rvChecklist;
     private AdapterChecklist adapter;
-    private List<ChecklistItem> items;
+    private static List<ChecklistItem> items;
 
     private JobOrder jobOrder;
 
@@ -98,8 +98,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     SyncDBTransaction syncTransaction;
 
     private Uri photoUri;
-    private String validIdImage;
-    private String recipientPicture;
+    private static String validIdImage;
+    private static String recipientPicture;
     private String newStatus;
 
     private PackageType packageFee;
@@ -132,6 +132,25 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
         rlProgress.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putString("photoUri", photoUri.toString());
+        outState.putInt("clickedPosition", clickedPosition);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        if(savedInstanceState != null) {
+
+            photoUri = Uri.parse(savedInstanceState.getString("photoUri"));
+            clickedPosition = savedInstanceState.getInt("clickedPosition");
+
+        }
     }
 
     @Override

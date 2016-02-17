@@ -2,6 +2,7 @@ package com.yilinker.expressinternal.controllers.qrcode;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,13 +40,19 @@ public class ActivityQRCode extends BaseActivity {
 
         initViews();
 
-        generateQRCode();
+        //        generateQRCode();
+
+        //For generating QR code image in the background
+        TaskGenerateQR task = new TaskGenerateQR();
+        task.execute();
+
     }
 
     @Override
     protected void handleRefreshToken() {
 
     }
+
 
     private void getData(){
 
@@ -64,10 +71,34 @@ public class ActivityQRCode extends BaseActivity {
 
     }
 
-    private void generateQRCode(){
+//    private void generateQRCode(){
+//
+//        QRCodeWriter writer = new QRCodeWriter();
+//        int dimension = getResources().getDimensionPixelSize(R.dimen.qr_code_size);
+//
+//        try {
+//
+//            BitMatrix matrix = writer.encode(
+//                    jobOrder.getWaybillNo(), BarcodeFormat.QR_CODE, dimension, dimension
+//            );
+//
+//            Bitmap bitmap = toBitmap(matrix);
+//
+//            ivQRCode.setImageBitmap(bitmap);
+//
+//            tvWaybillNo.setText(jobOrder.getWaybillNo());
+//
+//        } catch (WriterException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+
+    private Bitmap generateQRCode(){
 
         QRCodeWriter writer = new QRCodeWriter();
         int dimension = getResources().getDimensionPixelSize(R.dimen.qr_code_size);
+        Bitmap bitmap = null;
 
         try {
 
@@ -75,15 +106,17 @@ public class ActivityQRCode extends BaseActivity {
                     jobOrder.getWaybillNo(), BarcodeFormat.QR_CODE, dimension, dimension
             );
 
-            Bitmap bitmap = toBitmap(matrix);
+            bitmap = toBitmap(matrix);
 
-            ivQRCode.setImageBitmap(bitmap);
-
-            tvWaybillNo.setText(jobOrder.getWaybillNo());
+//            ivQRCode.setImageBitmap(bitmap);
+//
+//            tvWaybillNo.setText(jobOrder.getWaybillNo());
 
         } catch (WriterException e) {
             e.printStackTrace();
         }
+
+        return bitmap;
 
     }
 
@@ -98,5 +131,37 @@ public class ActivityQRCode extends BaseActivity {
             }
         }
         return bmp;
+    }
+
+    private class TaskGenerateQR extends AsyncTask<Void, Void, Bitmap>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            tvWaybillNo.setText(getString(R.string.generating_qr));
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+
+
+            Bitmap bitmap = generateQRCode();
+
+            return bitmap;
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+
+            if(bitmap != null) {
+                ivQRCode.setImageBitmap(bitmap);
+            }
+
+            tvWaybillNo.setText(jobOrder.getWaybillNo());
+
+        }
     }
 }
