@@ -219,13 +219,13 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
                         || etLength.getText().toString().isEmpty()
                         || etWidth.getText().toString().isEmpty()
                         || etWeight.getText().toString().isEmpty()) {
-
+                btnSave.setEnabled(false);
                 } else {
                     calculateShippingFee();
                 }
             } else {
                 if (etSize.getText().toString().isEmpty() || etWeight.getText().toString().isEmpty()) {
-
+                    btnSave.setEnabled(false);
 //                    onBackPressed();
 
                 } else {
