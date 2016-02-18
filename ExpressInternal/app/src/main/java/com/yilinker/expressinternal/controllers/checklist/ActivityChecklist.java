@@ -86,7 +86,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private RecyclerView rvChecklist;
     private AdapterChecklist adapter;
-    private static List<ChecklistItem> items;
+    private List<ChecklistItem> items;
 
     private JobOrder jobOrder;
 
@@ -98,8 +98,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     SyncDBTransaction syncTransaction;
 
     private Uri photoUri;
-    private static String validIdImage;
-    private static String recipientPicture;
+//    private String validIdImage;
+//    private String recipientPicture;
     private String newStatus;
 
     private PackageType packageFee;
@@ -139,6 +139,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         outState.putString("photoUri", photoUri.toString());
         outState.putInt("clickedPosition", clickedPosition);
+        outState.putParcelableArrayList("list", (ArrayList) items);
 
     }
 
@@ -150,6 +151,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             photoUri = Uri.parse(savedInstanceState.getString("photoUri"));
             clickedPosition = savedInstanceState.getInt("clickedPosition");
 
+            items.clear();
+            items.addAll((List)savedInstanceState.getParcelableArrayList("list"));
         }
     }
 
@@ -184,7 +187,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             else{
 
                 ArrayList<String> images = new ArrayList<>();
-                images.add(validIdImage);
+//                images.add(validIdImage);
+                String image = items.get(clickedPosition).getAttachedItem().getString("image");
+                images.add(image);
 
                 showImageGallery(images, REQUEST_GALLERY_ID);
 
@@ -202,7 +207,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             else {
 
                 ArrayList<String> images = new ArrayList<>();
-                images.add(recipientPicture);
+//                images.add(recipientPicture);
+                String image = items.get(clickedPosition).getAttachedItem().getString("image");
+                images.add(image);
 
                 showImageGallery(images, REQUEST_GALLERY_PICTURE);
             }
@@ -350,11 +357,11 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         switch (requestCode){
 
-            case REQUEST_SUBMIT_SIGNATURE:
-
-//                requestSubmitRating();
-                requestUploadImages();
-                break;
+//            case REQUEST_SUBMIT_SIGNATURE:
+//
+////                requestSubmitRating();
+//                requestUploadImages();
+//                break;
 
             case REQUEST_SUBMIT_RATING:
 
@@ -408,10 +415,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
                 requestSubmitRating();
                 break;
 
-            case REQUEST_UPLOAD_IMAGES:
-
-                requestUploadImages();
-                break;
+//            case REQUEST_UPLOAD_IMAGES:
+//
+//                requestUploadImages();
+//                break;
 
             case REQUEST_UPDATE:
 
@@ -654,24 +661,24 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void requestUploadImages(){
-
-       List<String> images = new ArrayList<>();
-
-        Uri uri = Uri.parse(validIdImage);
+//    private void requestUploadImages(){
+//
+//       List<String> images = new ArrayList<>();
+//
+//        Uri uri = Uri.parse(validIdImage);
+////        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
 //        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
-        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
-
-        uri = Uri.parse(recipientPicture);
+//
+//        uri = Uri.parse(recipientPicture);
+////        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
 //        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
-        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
-
-        Request request = JobOrderAPI.uploadJobOrderImages(REQUEST_UPLOAD_IMAGES, jobOrder.getWaybillNo(), images, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
+//
+//        Request request = JobOrderAPI.uploadJobOrderImages(REQUEST_UPLOAD_IMAGES, jobOrder.getWaybillNo(), images, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
 
     private void requestUpdate(String newStatus){
 
@@ -697,10 +704,6 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         syncTransaction.add(request);
 
-        //Set flag for sync in Application class to true
-//        ApplicationClass appClass = (ApplicationClass) ApplicationClass.getInstance();
-//        appClass.setHasItemsForSyncing(true);
-
         //start service even update failed
         if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
             startChecklistService();
@@ -718,25 +721,24 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         Intent i = new Intent(this, ServiceDeliveryChecklist.class);
 
-//        List<String> images = new ArrayList<>();
-
         String[] images = new String[2];
 
+        int validIdPosition = getChecklistItem(getString(R.string.checklist_delivery_valid_id));
+        int recipientImagePosition = getChecklistItem(getString(R.string.checklist_delivery_picture));
+
+        String validIdImage = items.get(validIdPosition).getAttachedItem().getString("image");
+        String recipientPicture = items.get(recipientImagePosition).getAttachedItem().getString("image");
+
         Uri uri = Uri.parse(validIdImage);
-//        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
-//        images[0] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath());
         images[0] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath(), getApplicationContext());
 
         uri = Uri.parse(recipientPicture);
-//        images.add(ImageUtility.compressCameraFileBitmap(uri.getEncodedPath()));
-//        images[1] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath());
         images[1] = ImageUtility.compressCameraFileBitmap(uri.getEncodedPath(), getApplicationContext());
 
         i.putExtra(ARG_WAYBILL_NO, jobOrder.getWaybillNo());
         i.putExtra(ARG_JOBORDER_NO, jobOrder.getJobOrderNo());
         i.putExtra(ARG_RATING, String.valueOf(rating));
         i.putExtra(ARG_SIGNATURE, signatureImage);
-//        i.putExtra(ARG_IMAGES, String.valueOf(images));
         i.putExtra(ARG_IMAGES, images);
 
         this.startService(i);
@@ -801,11 +803,6 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void launchCamera(int requestCode){
 
-//        try {
-//
-//            File outputDir = getExternalCacheDir();
-//            File outputFile = File.createTempFile("image", ".jpg", outputDir);
-
         String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
         File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
 
@@ -815,18 +812,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
         startActivityForResult(intent, requestCode);
 
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     private void handleSignature(Intent data){
 
         signatureImage = data.getStringExtra(ActivitySignature.ARG_IMAGE_FILE);
         rating = data.getIntExtra(ActivitySignature.ARG_RATING, 0);
-
-        Toast.makeText(getApplicationContext(), signatureImage, Toast.LENGTH_LONG).show();
 
         int position = items.size() - 1;
         items.get(position).setIsChecked(true);
@@ -869,14 +860,16 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     private void updateValidIDChecklist(){
 
-//        int position = CHECKLIST_VALID_ID;
-//        items.get(position).setIsChecked(true);
-//        adapter.notifyItemChanged(position);
+        String validIdImage = photoUri.toString();
+
+        //Put image in attachedItem field of the checklist item
+        Bundle bundle = new Bundle();
+        bundle.putString("image", validIdImage);
+        items.get(clickedPosition).setAttachedItem(bundle);
 
         items.get(clickedPosition).setIsChecked(true);
         adapter.notifyItemChanged(clickedPosition);
 
-        validIdImage = photoUri.toString();
 
         //Check if all items are checked to enable Confirm button
         setConfirmButton(isComplete());
@@ -889,21 +882,33 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 //        items.get(position).setIsChecked(true);
 //        adapter.notifyItemChanged(position);
 
+        String recipientPicture = photoUri.toString();
+
+        //Put image in attachedItem field of the checklist item
+        Bundle bundle = new Bundle();
+        bundle.putString("image", recipientPicture);
+        items.get(clickedPosition).setAttachedItem(bundle);
+
         items.get(clickedPosition).setIsChecked(true);
         adapter.notifyItemChanged(clickedPosition);
-
-        recipientPicture = photoUri.toString();
 
         //Check if all items are checked to enable Confirm button
         setConfirmButton(isComplete());
 
     }
+    private int getChecklistItem(String name){
 
-//    private void showImageGallery(){
-//
-//        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        galleryIntent.setType("image/*");
-//        startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"),
-//                REQUEST_SHOW_GALLERY);
-//    }
+        int position = -1;
+        for(int i = 0; i < items.size(); i++){
+
+            ChecklistItem item = items.get(i);
+
+            if(item.getTitle().equalsIgnoreCase(name)){
+                position = i;
+                break;
+            }
+        }
+
+        return position;
+    }
 }
