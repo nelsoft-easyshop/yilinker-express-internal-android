@@ -66,6 +66,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private static final int REQUEST_GALLERY_PICTURE = 2003;
     private static final int REQUEST_CONFIRM_PACKAGE = 2004;
 
+    private final static String KEY_PHOTO_URI = "photoUri";
+    private final static String KEY_CLICKED_POSITION = "clickedPosition";
+    private final static String KEY_LIST = "list";
 
     private static  int CHECKLIST_PACKAGE_CONFIRMED = 1;
 //    private static  int CHECKLIST_VALID_ID = 2;
@@ -137,9 +140,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        outState.putString("photoUri", photoUri.toString());
-        outState.putInt("clickedPosition", clickedPosition);
-        outState.putParcelableArrayList("list", (ArrayList) items);
+        if (photoUri != null){
+            outState.putString(KEY_PHOTO_URI, photoUri.toString());
+
+        }
+        outState.putInt(KEY_CLICKED_POSITION, clickedPosition);
+        outState.putParcelableArrayList(KEY_LIST, (ArrayList) items);
 
     }
 
@@ -148,11 +154,11 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         if(savedInstanceState != null) {
 
-            photoUri = Uri.parse(savedInstanceState.getString("photoUri"));
-            clickedPosition = savedInstanceState.getInt("clickedPosition");
+            photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
+            clickedPosition = savedInstanceState.getInt(KEY_CLICKED_POSITION);
 
             items.clear();
-            items.addAll((List)savedInstanceState.getParcelableArrayList("list"));
+            items.addAll((List)savedInstanceState.getParcelableArrayList(KEY_LIST));
         }
     }
 

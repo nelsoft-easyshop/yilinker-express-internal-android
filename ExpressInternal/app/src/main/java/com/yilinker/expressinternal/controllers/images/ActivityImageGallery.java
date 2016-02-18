@@ -20,6 +20,8 @@ import java.util.List;
  */
 public class ActivityImageGallery extends BaseActivity {
 
+    private final static String KEY_PHOTO_URI = "photoUri";
+
     public static final String ARG_RETAKE = "retake";
     public static final String ARG_IMAGES = "images";
     public static final String ARG_TYPE = "type";
@@ -55,6 +57,25 @@ public class ActivityImageGallery extends BaseActivity {
         getData();
         initViews();
 
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (photoUri!=null){
+            outState.putString(KEY_PHOTO_URI, photoUri.toString());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+    if (savedInstanceState != null){
+        photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
+
+    }
 
     }
 
