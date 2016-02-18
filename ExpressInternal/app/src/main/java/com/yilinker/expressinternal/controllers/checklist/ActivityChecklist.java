@@ -137,7 +137,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        outState.putString("photoUri", photoUri.toString());
+        if (photoUri != null){
+            outState.putString("photoUri", photoUri.toString());
+
+        }
         outState.putInt("clickedPosition", clickedPosition);
         outState.putParcelableArrayList("list", (ArrayList) items);
 
