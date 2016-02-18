@@ -248,7 +248,7 @@
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="10dp" />
+                android:paddingRight="10dp" />
 
         </RelativeLayout>
 

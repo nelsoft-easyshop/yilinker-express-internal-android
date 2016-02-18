@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Dashboard-->
+    <dimen name="dashboard_profile_textsize">16sp</dimen>
+    <dimen name="dashboard_profilelabel_textsize">14sp</dimen>
+    <dimen name="dashboard_josummary_textsize">10sp</dimen>
+    <dimen name="dashboard_josummarylabel_textsize">14sp</dimen>
+
+</resources>

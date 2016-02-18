@@ -17,12 +17,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.controllers.login.ActivityLogin;
 import com.yilinker.expressinternal.controllers.login.ActivityLogout;
 
 public class FragmentNavigationDrawer extends Fragment implements OnClickListener{
@@ -40,6 +38,9 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
     private View mFragmentContainerView;
     private ViewGroup viewNavDrawerImage, viewNavDrawerButton;
     private Button btnLogout;
+
+    //Adapter for the navigation items
+    private AdapterNavigationDrawerItem adapter;
 
     public FragmentNavigationDrawer() {}
 
@@ -88,14 +89,15 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
 
         btnLogout.setOnClickListener(this);
 
-
-        String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
-        mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
-               getActivity().getApplicationContext(),
-                R.layout.layout_navigation_drawer_item,
-                R.id.tvNavDrawerItem, menuItems));
-
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        loadNavigationItems();
+//
+//        String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
+//        mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
+//               getActivity().getApplicationContext(),
+//                R.layout.layout_navigation_drawer_item,
+//                R.id.tvNavDrawerItem, menuItems));
+//
+//        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
     }
 
@@ -113,9 +115,9 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
+//                if (!isAdded()) {
+//                    return;
+//                }
 
                 getActivity().supportInvalidateOptionsMenu();
             }
@@ -123,9 +125,12 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
+//                if (!isAdded()) {
+//                    return;
+//                }
+
+
+                adapter.notifyDataSetChanged();
 
                 if (!mUserLearnedDrawer) {
                     mUserLearnedDrawer = true;
@@ -152,14 +157,16 @@ public class FragmentNavigationDrawer extends Fragment implements OnClickListene
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    public void reloadNavigationItems() {
+    private void loadNavigationItems() {
 
         String[] menuItems = getResources().getStringArray(R.array.navigation_item_array);
-        mDrawerListView.setAdapter(new AdapterNavigationDrawerItem(
+
+        adapter = new AdapterNavigationDrawerItem(
                 getActivity().getApplicationContext(),
                 R.layout.layout_navigation_drawer_item,
-                R.id.tvNavDrawerItem, menuItems));
+                R.id.tvNavDrawerItem, menuItems);
 
+        mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
     }

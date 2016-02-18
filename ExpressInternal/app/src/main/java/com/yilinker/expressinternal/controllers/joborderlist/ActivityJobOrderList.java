@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.android.volley.Request;
@@ -490,45 +489,53 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             jobOrderList.clear();
             completeList.clear();
 
-            if (requestCode == REQUEST_GET_CURRENT){
-                ApplicationClass.saveLocalCurrentListData(this, object); //save to text
-            }
 
 
-            List<JobOrder> list = new ArrayList<>();
+
+//            List<JobOrder> list = new ArrayList<>();
+//            List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
+//
+//            for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+//
+//                JobOrder jo = new JobOrder(item);
+//
+//                //check jo if it's for syncing
+//
+//                if (requestCode == REQUEST_GET_CURRENT) {
+//                    for (int i = 0; i < requestsList.size(); i++) {
+//                        if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
+//                                || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
+//                            if (!requestsList.get(i).isSync())                 //check sync status
+//                                jo.setForSyncing(true);
+//                        }
+//                    }
+//
+//                }
+//
+//
+//                list.add(jo);
+//
+//            }
+//
+//            jobOrderList.addAll(list);
+//            completeList.addAll(list);
+//
+//            //For Tab Count
+//            int count = listServer.size();
+//            tabItems.get(adapterTab.getCurrentTab()).setCount(count);
+//            resetTabCount();
+//
+//            reloadList(type, false);
+
             List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
-
-            for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
-
-                JobOrder jo = new JobOrder(item);
-
-                //check jo if it's for syncing
-
-                if (requestCode == REQUEST_GET_CURRENT) {
-                    for (int i = 0; i < requestsList.size(); i++) {
-                        if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
-                                || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
-                            if (!requestsList.get(i).isSync())                 //check sync status
-                                jo.setForSyncing(true);
-                        }
-                    }
-
-                }
+            createList(listServer, type);
 
 
-                list.add(jo);
-
+            //Save current JO data to local storage for offline function
+            if (requestCode == REQUEST_GET_CURRENT){
+                ApplicationClass.saveLocalCurrentListData(this, listServer); //save to text
             }
 
-            jobOrderList.addAll(list);
-            completeList.addAll(list);
-
-            //For Tab Count
-            int count = listServer.size();
-            tabItems.get(adapterTab.getCurrentTab()).setCount(count);
-            resetTabCount();
-
-            reloadList(type, false);
         } else {
 
             rlProgress.setVisibility(View.GONE);
@@ -558,46 +565,52 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
+        if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
 
-        switch (requestCode) {
 
-            case REQUEST_GET_OPEN:
+            switch (requestCode) {
 
+                case REQUEST_GET_OPEN:
+
+                    //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_OPEN);
-
-                break;
-
-            case REQUEST_GET_CURRENT:
-
-                loadLocalJobOrderList(AdapterJobOrderList.TYPE_CURRENT);
-
-                break;
-
-            case REQUEST_GET_COMPLETE:
-
-//                loadLocalJobOrderList(AdapterJobOrderList.TYPE_COMPLETE);
-
-                break;
-
-            case REQUEST_GET_PROBLEMATIC:
-
-//                loadLocalJobOrderList(AdapterJobOrderList.TYPE_PROBLEMATIC);
-
-                break;
-
-            default:
-                if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
-
-                    //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                     rlReload.setVisibility(View.VISIBLE);
 
-                }
-                break;
+                    break;
 
+                case REQUEST_GET_CURRENT:
+
+                    List<com.yilinker.core.model.express.internal.JobOrder> listLocal = ApplicationClass.getLocalData(this);
+                    createList(listLocal, AdapterJobOrderList.TYPE_CURRENT);
+
+                    break;
+
+                case REQUEST_GET_COMPLETE:
+
+                    //TODO: Local list for offline viewing
+//                loadLocalJobOrderList(AdapterJobOrderList.TYPE_COMPLETE);
+                    rlReload.setVisibility(View.VISIBLE);
+
+                    break;
+
+                case REQUEST_GET_PROBLEMATIC:
+
+                    //TODO: Local list for offline viewing
+//                loadLocalJobOrderList(AdapterJobOrderList.TYPE_PROBLEMATIC);
+                    rlReload.setVisibility(View.VISIBLE);
+
+                    break;
+
+                default:
+                    //TODO Load a view showing no Entries Found message
+                    rlReload.setVisibility(View.VISIBLE);
+                    break;
+            }
+        } else {
+            rlProgress.setVisibility(View.GONE);
+            isReloading = false;
         }
 
-        rlProgress.setVisibility(View.GONE);
-        isReloading = false;
     }
 
     //Request data from the server
@@ -725,11 +738,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         rvJobOrder.setAdapter(adapterJobOrderList);
 
-        //Start timer if the selected tab is for current JO
-        if (adapterTab.getCurrentTab() == TAB_CURRENT || adapterTab.getCurrentTab() == TAB_PROBLEMATIC) {
-
-            adapterJobOrderList.startTimer();
-        }
+//        By Joan: I have removed this part since the timer is hidden
+//        //Start timer if the selected tab is for current JO
+//        if (adapterTab.getCurrentTab() == TAB_CURRENT || adapterTab.getCurrentTab() == TAB_PROBLEMATIC) {
+//
+//            adapterJobOrderList.startTimer();
+//        }
 
         //For Filter
         if (filter != NO_FILTER) {
@@ -962,31 +976,6 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         int currentTab = adapterTab.getCurrentTab();
         goToDetail(object, currentTab);
-
-//        switch(currentTab){
-//
-//            case TAB_OPEN:
-//
-//                goToDetail(object, currentTab);
-//                break;
-//
-//            case TAB_CURRENT:
-//
-//                goToDetail(object, currentTab);
-//                break;
-//
-//            case TAB_COMPLETED:
-//
-//                goToDetail(object, currentTab);
-//                break;
-//
-//            case TAB_PROBLEMATIC:
-//
-//                reportProblematic(object);
-//                break;
-//
-//        }
-
     }
 
     //Filter list
@@ -1270,22 +1259,82 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void loadLocalJobOrderList(int type) {
+//    private void loadLocalJobOrderList() {
+//
+////        List<JobOrder> list = new ArrayList<>();
+////        requestsList = dbTransaction.getAll(SyncDBObject.class);
+////        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
+////
+////        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+////
+////            JobOrder jo = new JobOrder(item);
+////
+////            //check jo if it's for syncing
+////                for (int i = 0; i < requestsList.size(); i++) {
+////                    if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
+////                            || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
+////                        if (!requestsList.get(i).isSync())                 //check sync status
+////                            jo.setForSyncing(true);
+////                    }
+////                }
+////
+////            list.add(jo);
+////
+////        }
+//
+//
+//        List<JobOrder> list = new ArrayList<>();
+//        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
+//
+//        //Create search dictionary
+//        String searchDictionary = getSearchDictionary();
+//
+//        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
+//
+//            JobOrder jo = new JobOrder(item);
+//
+//            //check jo if it's for syncing
+//            String waybillNo = jo.getWaybillNo();
+//            String joNumber = jo.getJobOrderNo();
+//
+//            if(searchDictionary.contains(waybillNo) || searchDictionary.contains(joNumber)){
+//                jo.setForSyncing(true);
+//            }
+//
+//            list.add(jo);
+//
+//        }
+//
+//        jobOrderList.addAll(list);
+//
+//        //For Tab Count
+//        int count = listServer.size();
+//        tabItems.get(adapterTab.getCurrentTab()).setCount(count);
+//        resetTabCount();
+//
+//        reloadList(AdapterJobOrderList.TYPE_CURRENT, false);
+//
+//    }
+
+    private void createList(List<com.yilinker.core.model.express.internal.JobOrder> listServer, int type){
 
         List<JobOrder> list = new ArrayList<>();
-        requestsList = dbTransaction.getAll(SyncDBObject.class);
-        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
+
+        //Create search dictionary
+        String searchDictionary = getSearchDictionary();
 
         for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
 
             JobOrder jo = new JobOrder(item);
 
-            //check jo if it's for syncing
-            for (int i = 0; i < requestsList.size(); i++) {
-                if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
-                        || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
-                    if (!requestsList.get(i).isSync())                 //check sync status
-                        jo.setForSyncing(true);
+
+            if(searchDictionary != null) {
+                //check jo if it's for syncing
+                String waybillNo = String.format("|%s|", jo.getWaybillNo());
+                String joNumber = String.format("|%s|", jo.getJobOrderNo());
+
+                if (searchDictionary.contains(waybillNo) || searchDictionary.contains(joNumber)) {
+                    jo.setForSyncing(true);
                 }
             }
 
@@ -1294,6 +1343,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         }
 
         jobOrderList.addAll(list);
+        completeList.addAll(list);
 
         //For Tab Count
         int count = listServer.size();
@@ -1303,5 +1353,34 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         reloadList(type, false);
 
     }
+
+    private String getSearchDictionary(){
+
+        String dictionary = null;
+
+        requestsList = dbTransaction.getAll(SyncDBObject.class);
+
+        if(requestsList.size() > 0){
+
+            StringBuilder syncBuilder = new StringBuilder();
+            syncBuilder.append("|");
+
+            for(SyncDBObject object: requestsList){
+
+                if(!object.isSync()){
+
+                    syncBuilder.append(object.getId());
+                    syncBuilder.append("|");
+                }
+            }
+
+            dictionary = syncBuilder.toString();
+
+        }
+
+        return  dictionary;
+
+    }
+
 
 }

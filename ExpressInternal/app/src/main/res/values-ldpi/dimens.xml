@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Dashboard-->
+    <dimen name="dashboard_profile_textsize">14sp</dimen>
+    <dimen name="dashboard_profilelabel_textsize">12sp</dimen>
+    <dimen name="dashboard_josummary_textsize">8sp</dimen>
+    <dimen name="dashboard_josummarylabel_textsize">12sp</dimen>
+
+    <!--Cash Management-->
+    <dimen name="cashmanagement_summary_textsize">8sp</dimen>
+
+    <!-- Job Order Details-->
+    <dimen name="joborderlist_waybillno_textsize">8sp</dimen>
+
+</resources>

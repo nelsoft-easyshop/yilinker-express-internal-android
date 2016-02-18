@@ -33,6 +33,7 @@ import com.yilinker.expressinternal.controllers.cashmanagement.ActivityCashManag
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
+import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
@@ -53,7 +54,6 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     private static final String TAG = "ActivityDashboard";
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
 
     private static final int REQUEST_GET_INFO = 1000;
     private static final int REQUEST_GET_OPEN_JO = 1001;
@@ -108,7 +108,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         realm = Realm.getInstance(this);
 
         registrGCM();
-        checkForSyncItems();
+//        checkForSyncItems();
 
 
         //Start location service
@@ -121,7 +121,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         super.onResume();
 
         requestRiderInfo();
-        checkForSyncItems();
+//        checkForSyncItems();
     }
 
     @Override
@@ -159,31 +159,45 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private void checkForSyncItems() {
+        switch (requestCode){
 
-        requests = dbTransaction.getAll(SyncDBObject.class);
+            case ActivitySync.REQUEST_SYNC:
 
-        if (requests.size() > 0) {
-
-            for (int i = 0; i < requests.size(); i++) {
-                if (!requests.get(i).isSync()) {
-                    //boolean for sync for navigation drawer item use
-                    appClassSyncing.setHasItemsForSyncing(true);
-                    break;
-                } else {
-                    appClassSyncing.setHasItemsForSyncing(false);
-                }
-            }
-
-        } else {
-
-            appClassSyncing.setHasItemsForSyncing(false);
-
+                handleSyncResult(resultCode);
+                break;
         }
 
-        mNavigationDrawerFragment.reloadNavigationItems();
     }
+
+
+//        private void checkForSyncItems() {
+//
+//        requests = dbTransaction.getAll(SyncDBObject.class);
+//
+//        if (requests.size() > 0) {
+//
+//            for (int i = 0; i < requests.size(); i++) {
+//                if (!requests.get(i).isSync()) {
+//                    //boolean for sync for navigation drawer item use
+//                    appClassSyncing.setHasItemsForSyncing(true);
+//                    break;
+//                } else {
+//                    appClassSyncing.setHasItemsForSyncing(false);
+//                }
+//            }
+//
+//        } else {
+//
+//            appClassSyncing.setHasItemsForSyncing(false);
+//
+//        }
+//
+//        mNavigationDrawerFragment.reloadNavigationItems();
+//    }
 
 
     private void goToJobOrderList() {
@@ -236,40 +250,40 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
                 break;
 
-            //for syncing requests
-            default:
-
-                handleSyncSuccess(requestCode);
-
-                break;
+//            //for syncing requests
+//            default:
+//
+//                handleSyncSuccess(requestCode);
+//
+//                break;
 
         }
 
     }
 
-    private void handleSyncSuccess(int position) {
-
-        requestCounter++;
-
-        RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
-
-        query.equalTo("key", requests.get(position).getKey());
-
-        SyncDBObject result = query.findFirst();
-
-        realm.beginTransaction();
-        result.setSync(true);
-        realm.commitTransaction();
-
-        dbTransaction.update(result);
-
-        if (requestCounter >= numberOfRequest)
-            rlProgress.setVisibility(View.GONE);
-
-        appClassSyncing.setHasItemsForSyncing(false);
-        reloadDashboard();
-
-    }
+//    private void handleSyncSuccess(int position) {
+//
+//        requestCounter++;
+//
+//        RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
+//
+//        query.equalTo("key", requests.get(position).getKey());
+//
+//        SyncDBObject result = query.findFirst();
+//
+//        realm.beginTransaction();
+//        result.setSync(true);
+//        realm.commitTransaction();
+//
+//        dbTransaction.update(result);
+//
+//        if (requestCounter >= numberOfRequest)
+//            rlProgress.setVisibility(View.GONE);
+//
+//        appClassSyncing.setHasItemsForSyncing(false);
+//        reloadDashboard();
+//
+//    }
 
     @Override
     public void onFailed(int requestCode, String message) {
@@ -289,15 +303,15 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
             return;
         }
 
-        //for syncing
-        switch (requestCode) {
-
-            default:
-
-                if (requestCode != 1001)
-                    handleFailedSync();
-
-        }
+//        //for syncing
+//        switch (requestCode) {
+//
+//            default:
+//
+//                if (requestCode != 1001)
+//                    handleFailedSync();
+//
+//        }
 
 
         rlProgress.setVisibility(View.GONE);
@@ -348,136 +362,143 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     }
 
-    /**
-     * Gets all failed request from local db
-     * then syncs it accordingly
-     */
+    private void syncDataToServer(){
 
-    private void syncDataToServer() {
-
-        requests = dbTransaction.getAll(SyncDBObject.class);
-
-        requestCounter = 0;
-        numberOfRequest = requests.size();
-
-
-        for (int i = 0; i < requests.size(); i++) {
-
-            SyncDBObject request = requests.get(i);
-
-            if (!request.isSync()) {
-
-                if (request.getRequestType() == ActivityChecklist.REQUEST_SIGNATURE) {
-
-                    requestSubmitSignature(i, request.getId(), request.getData());
-
-                } else if (request.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_RATING) {
-
-                    requestSubmitRating(i, request.getId(), Integer.valueOf(request.getData()));
-
-                } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPLOAD_IMAGES) {
-
-                    requestSubmitImages(i, request.getId(), request.getData());
-
-                } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPDATE) {
-
-                    requestUpdate(i, request.getId(), request.getData());
-
-                } else if (request.getRequestType() == ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE) {
-
-                    requestCalculateShippingFee(i, request.getId(), request.getData());
-
-                }
-
-            } else {
-                dbTransaction.delete(request);
-            }
-
-        }
-
+        Intent intent = new Intent(this, ActivitySync.class);
+        startActivityForResult(intent, ActivitySync.REQUEST_SYNC);
     }
 
-    /**
-     * Functions for Sync Requests
-     */
-
-    private void requestSubmitImages(int position, String wayBillNo, String images) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        images = images.replace("[", "");
-        images = images.replace("]", "");
-
-
-        List<String> imageList = new ArrayList<String>(Arrays.asList(images.split(",")));
-        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, imageList, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestUpdate(int position, String jobOrderNo, String newStatus) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestSubmitRating(int position, String jobOrderNo, Integer rating) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        Request request = JobOrderAPI.addRating(position, jobOrderNo, rating, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestSubmitSignature(int position, String jobOrderNo, String signature) {
-
-        rlProgress.setVisibility(View.VISIBLE);
-
-        Request request = JobOrderAPI.uploadSignature(position, jobOrderNo, signature, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    private void requestCalculateShippingFee(int position, String jobOrderNo, String packageData) {
-
-        packageData = packageData.replace("[", "");
-        packageData = packageData.replace("]", "");
-
-
-        List<String> packageFee = new ArrayList<String>(Arrays.asList(packageData.split(",")));
-
-        String sizeId, length, width, height, weight;
-
-        sizeId = packageFee.get(0);
-        length = packageFee.get(1);
-        width  = packageFee.get(2);
-        height = packageFee.get(3);
-        weight = packageFee.get(4);
-
-        Request request = JobOrderAPI.calculateShippingFee(position,
-                Integer.valueOf(sizeId), length, width, height, weight, jobOrderNo, "1", this);
-
-        request.setTag(ApplicationClass.REQUEST_TAG);
-
-        requestQueue.add(request);
-
-    }
-
-    /**
-     * End function for Sync Requests
-     */
+//    /**
+//     * Gets all failed request from local db
+//     * then syncs it accordingly
+//     */
+//
+//    private void syncDataToServer() {
+//
+//        requests = dbTransaction.getAll(SyncDBObject.class);
+//
+//        requestCounter = 0;
+//        numberOfRequest = requests.size();
+//
+//
+//        for (int i = 0; i < requests.size(); i++) {
+//
+//            SyncDB
+// Object request = requests.get(i);
+//
+//            if (!request.isSync()) {
+//
+//                if (request.getRequestType() == ActivityChecklist.REQUEST_SIGNATURE) {
+//
+//                    requestSubmitSignature(i, request.getId(), request.getData());
+//
+//                } else if (request.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_RATING) {
+//
+//                    requestSubmitRating(i, request.getId(), Integer.valueOf(request.getData()));
+//
+//                } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPLOAD_IMAGES) {
+//
+//                    requestSubmitImages(i, request.getId(), request.getData());
+//
+//                } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPDATE) {
+//
+//                    requestUpdate(i, request.getId(), request.getData());
+//
+//                } else if (request.getRequestType() == ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE) {
+//
+//                    requestCalculateShippingFee(i, request.getId(), request.getData());
+//
+//                }
+//
+//            } else {
+//                dbTransaction.delete(request);
+//            }
+//
+//        }
+//
+//    }
+//
+//    /**
+//     * Functions for Sync Requests
+//     */
+//
+//    private void requestSubmitImages(int position, String wayBillNo, String images) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        images = images.replace("[", "");
+//        images = images.replace("]", "");
+//
+//
+//        List<String> imageList = new ArrayList<String>(Arrays.asList(images.split(",")));
+//        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, imageList, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestUpdate(int position, String jobOrderNo, String newStatus) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestSubmitRating(int position, String jobOrderNo, Integer rating) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        Request request = JobOrderAPI.addRating(position, jobOrderNo, rating, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestSubmitSignature(int position, String jobOrderNo, String signature) {
+//
+//        rlProgress.setVisibility(View.VISIBLE);
+//
+//        Request request = JobOrderAPI.uploadSignature(position, jobOrderNo, signature, this);
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    private void requestCalculateShippingFee(int position, String jobOrderNo, String packageData) {
+//
+//        packageData = packageData.replace("[", "");
+//        packageData = packageData.replace("]", "");
+//
+//
+//        List<String> packageFee = new ArrayList<String>(Arrays.asList(packageData.split(",")));
+//
+//        String sizeId, length, width, height, weight;
+//
+//        sizeId = packageFee.get(0);
+//        length = packageFee.get(1);
+//        width  = packageFee.get(2);
+//        height = packageFee.get(3);
+//        weight = packageFee.get(4);
+//
+//        Request request = JobOrderAPI.calculateShippingFee(position,
+//                Integer.valueOf(sizeId), length, width, height, weight, jobOrderNo, "1", this);
+//
+//        request.setTag(ApplicationClass.REQUEST_TAG);
+//
+//        requestQueue.add(request);
+//
+//    }
+//
+//    /**
+//     * End function for Sync Requests
+//     */
 
     private void requestRiderInfo() {
 
@@ -603,5 +624,17 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     }
 
+    private void handleSyncResult(int resultCode){
+
+        if(resultCode == RESULT_OK){
+            //TODO Show success message
+            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            //TODO Show error message
+            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 }
