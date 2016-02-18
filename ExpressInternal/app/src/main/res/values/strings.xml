@@ -18,7 +18,8 @@
         <item name="menu_delivery">View For Delivery</item>
         <!--<item name="menu_claiming">View For Claiming</item>-->
         <item name="menu_dropoff">View For Dropoff</item>
-        <item name="menu_scanner">QR Code Scanner</item>
+        <item name="menu_scanner">QR Code Single Scanner</item>
+        <item name="menu_scanner">QR Code Bulk Scanner</item>
         <item name="menu_acknowledge">Direct Acknowledge</item>
     </string-array>
 
@@ -165,6 +166,7 @@
 
     <!--Action Bar Title-->
     <string name="actionbar_title_qrcode">QR Code</string>
+    <string name="actionbar_title_qrcode_single_scanning">QR Code Single Scanning</string>
     <string name="actionbar_title_cashmanagement">Cash Management</string>
     <string name="actionbar_title_problematic">Problematic</string>
     <string name="actionbar_title_navigation">navigation</string>

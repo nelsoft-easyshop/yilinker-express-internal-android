@@ -141,6 +141,11 @@
             android:theme="@style/ActivityTheme" >
         </activity>
 
+        <activity android:name=".controllers.qrscanner.ActivitySingleScanner"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" >
+        </activity>
+
         <service
             android:name=".gcm.RiderGcmListenerService"
             android:exported="false" >
