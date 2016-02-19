@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * Created by J.Bautista
  */
-public class ActivityChecklist extends BaseActivity implements RecyclerViewClickListener<ChecklistItem>, ResponseHandler, DialogDismissListener{
+public class ActivityChecklist extends BaseActivity implements RecyclerViewClickListener<ChecklistItem>, ResponseHandler, DialogDismissListener {
 
     public static final String ARG_JOB_ORDER = "jobOrder";
 
@@ -70,10 +70,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private final static String KEY_CLICKED_POSITION = "clickedPosition";
     private final static String KEY_LIST = "list";
 
-    private static  int CHECKLIST_PACKAGE_CONFIRMED = 1;
-//    private static  int CHECKLIST_VALID_ID = 2;
+    private static int CHECKLIST_PACKAGE_CONFIRMED = 1;
+    //    private static  int CHECKLIST_VALID_ID = 2;
 //    private static  int CHECKLIST_RECIPIENT_PICTURE = 3;
-    private static  int CHECKLIST_SIGNATURE = 4;
+    private static int CHECKLIST_SIGNATURE = 4;
 
     public static final String ARG_WAYBILL_NO = "waybillNo";
     public static final String ARG_JOBORDER_NO = "jobOrderNo";
@@ -101,7 +101,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     SyncDBTransaction syncTransaction;
 
     private Uri photoUri;
-//    private String validIdImage;
+    //    private String validIdImage;
 //    private String recipientPicture;
     private String newStatus;
 
@@ -140,7 +140,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        if (photoUri != null){
+        if (photoUri != null) {
             outState.putString(KEY_PHOTO_URI, photoUri.toString());
 
         }
@@ -152,13 +152,13 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
 
             photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
             clickedPosition = savedInstanceState.getInt(KEY_CLICKED_POSITION);
 
             items.clear();
-            items.addAll((List)savedInstanceState.getParcelableArrayList(KEY_LIST));
+            items.addAll((List) savedInstanceState.getParcelableArrayList(KEY_LIST));
         }
     }
 
@@ -169,7 +169,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         String checkListItem = object.getTitle();
 
-        if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_signature))){
+        if (checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_signature))) {
 
 //            if(!items.get(CHECKLIST_SIGNATURE).isChecked()) {
 //                showSignature();
@@ -182,15 +182,13 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             showSignature();
 
             return;
-        }
-        else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_valid_id))){
+        } else if (checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_valid_id))) {
 
-            if(!items.get(position).isChecked()) {
+            if (!items.get(position).isChecked()) {
 //            if(!items.get(CHECKLIST_VALID_ID).isChecked()) {
 
                 launchCamera(REQUEST_LAUNCH_CAMERA_ID);
-            }
-            else{
+            } else {
 
                 ArrayList<String> images = new ArrayList<>();
 //                images.add(validIdImage);
@@ -202,15 +200,13 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             }
 
             return;
-        }
-        else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_picture))){
+        } else if (checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_picture))) {
 
 //            if(!items.get(CHECKLIST_RECIPIENT_PICTURE).isChecked()) {
-            if(!items.get(position).isChecked()) {
+            if (!items.get(position).isChecked()) {
 
                 launchCamera(REQUEST_LAUNCH_CAMERA_PICTURE);
-            }
-            else {
+            } else {
 
                 ArrayList<String> images = new ArrayList<>();
 //                images.add(recipientPicture);
@@ -221,12 +217,11 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             }
 
             return;
-        }
-        else if(checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_package))) {
+        } else if (checkListItem.equalsIgnoreCase(getString(R.string.checklist_delivery_package))) {
 //            if(!items.get(CHECKLIST_PACKAGE_CONFIRMED).isChecked()) {
 
-                showPackageConfirmation();
-                return;
+            showPackageConfirmation();
+            return;
 
 //            }
         }
@@ -243,7 +238,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
 
@@ -284,7 +279,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void initViews(){
+    private void initViews() {
 
         rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
         tvJobOrderNo = (TextView) findViewById(R.id.tvJobOrderNo);
@@ -307,11 +302,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         //Set Button's Text
         String buttonText = null;
-        if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+        if (jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
 
             buttonText = getString(R.string.checklist_delivery_complete);
-        }
-        else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+        } else if (jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)) {
 
             buttonText = getString(R.string.checklist_pickup_complete);
         }
@@ -324,7 +318,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         super.onClick(v);
 
         int id = v.getId();
-        switch (id){
+        switch (id) {
 
             case R.id.btnConfirm:
 
@@ -334,7 +328,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void bindViews(){
+    private void bindViews() {
 
 //        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
 
@@ -361,7 +355,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         ImageUtility.clearCache();
 
-        switch (requestCode){
+        switch (requestCode) {
 
 //            case REQUEST_SUBMIT_SIGNATURE:
 //
@@ -382,14 +376,13 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             case REQUEST_UPDATE:
 
                 String status = jobOrder.getStatus();
-                if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+                if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)) {
 
                     Toast.makeText(getApplicationContext(), getString(R.string.checklist_job_updated), Toast.LENGTH_LONG).show();
                     goToHome();
                     startPickupService();
 
-                }
-                else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+                } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
 
                     Toast.makeText(getApplicationContext(), getString(R.string.checklist_job_completed), Toast.LENGTH_LONG).show();
                     goToCompleteScreen();
@@ -443,7 +436,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
 //        ImageUtility.clearCache();
 
-        switch(requestCode) {
+        switch (requestCode) {
 
 //            case REQUEST_SUBMIT_SIGNATURE:
 //
@@ -480,7 +473,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
     }
 
-    private void setAdapter(){
+    private void setAdapter() {
 
         items = new ArrayList<>();
 
@@ -488,20 +481,18 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         String[] arrayItems = null;
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+        if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
             arrayItems = getResources().getStringArray(R.array.checklist_delivery);
 
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)) {
             arrayItems = getResources().getStringArray(R.array.checklist_claiming);
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)) {
             arrayItems = getResources().getStringArray(R.array.checklist_pickup);
         }
 
         ChecklistItem item = null;
         int size = arrayItems.length;
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
 
             item = new ChecklistItem();
             item.setTitle(arrayItems[i]);
@@ -509,15 +500,14 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             items.add(item);
         }
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY) && jobOrder.getAmountToCollect() == 0) {
+        if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY) && jobOrder.getAmountToCollect() == 0) {
 
 //            CHECKLIST_RECIPIENT_PICTURE -= 1;
 //            CHECKLIST_SIGNATURE -= 1;
 //            CHECKLIST_VALID_ID -= 1;
 
             items.remove(0);
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) && jobOrder.getAmountToCollect() == 0) {
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) && jobOrder.getAmountToCollect() == 0) {
 
             items.remove(0);
         }
@@ -537,12 +527,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private boolean isComplete(){
+    private boolean isComplete() {
 
         boolean isComplete = true;
-        for(ChecklistItem item : items){
+        for (ChecklistItem item : items) {
 
-            if(!item.isChecked()){
+            if (!item.isChecked()) {
                 isComplete = false;
                 break;
             }
@@ -552,16 +542,15 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         return isComplete;
     }
 
-    private void setConfirmButton(boolean isEnabled){
+    private void setConfirmButton(boolean isEnabled) {
 
         int textColor = 0;
 
-        if(isEnabled){
+        if (isEnabled) {
 
             btnConfirm.setBackgroundResource(R.drawable.bg_btn_orangeyellow);
             textColor = getResources().getColor(R.color.white);
-        }
-        else{
+        } else {
 
             btnConfirm.setBackgroundResource(R.color.white_gray);
             textColor = getResources().getColor(R.color.warm_gray);
@@ -573,7 +562,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     }
 
 
-    private void showSignature(){
+    private void showSignature() {
 
         Intent intent = new Intent(ActivityChecklist.this, ActivitySignature.class);
         intent.putExtra(ActivitySignature.ARG_IMAGE_FILE, signatureImage);
@@ -591,61 +580,54 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void getData(){
+    private void getData() {
 
         jobOrder = getIntent().getParcelableExtra(ARG_JOB_ORDER);
 
     }
 
-    private void handleCompleteButton(){
+    private void handleCompleteButton() {
 
         String type = jobOrder.getType();
         String status = jobOrder.getStatus();
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+        if (status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)) {
 
 
-
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)) {
 
 
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)) {
 
             //Check if the job order is within the rider's area. If yes, show the dialog for selecting new status, else update the status to For Drop-off
 
-            Rider rider = ((ApplicationClass)BaseApplication.getInstance()).getRider();
+            Rider rider = ((ApplicationClass) BaseApplication.getInstance()).getRider();
 
-            if(rider.getAreaCode().equals(jobOrder.getAreaCode())){
+            if (rider.getAreaCode().equals(jobOrder.getAreaCode())) {
 
                 showNewStatusDialog();
-            }
-            else {
+            } else {
 
                 requestUpdate(JobOrderConstant.JO_CURRENT_DROPOFF);
             }
 
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
 
             requestUpdate(JobOrderConstant.JO_COMPLETE);
 //            requestSubmitRating();
 //            requestSubmitSignature();
 //            requestUploadImages();
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)) {
 
 
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+        } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)) {
 
 
         }
 
     }
 
-    private void requestSubmitSignature(){
+    private void requestSubmitSignature() {
 
         rlProgress.setVisibility(View.VISIBLE);
 
@@ -660,7 +642,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     }
 
 
-    private void requestSubmitRating(){
+    private void requestSubmitRating() {
 
         Request request = JobOrderAPI.addRating(REQUEST_SUBMIT_RATING, jobOrder.getJobOrderNo(), rating, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
@@ -688,7 +670,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 //
 //    }
 
-    private void requestUpdate(String newStatus){
+    private void requestUpdate(String newStatus) {
 
         rlProgress.setVisibility(View.VISIBLE);
 
@@ -701,7 +683,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void handleFailedRequestUpdate(){
+    private void handleFailedRequestUpdate() {
 
         SyncDBObject request = new SyncDBObject();
         request.setRequestType(REQUEST_UPDATE);
@@ -713,8 +695,10 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         syncTransaction.add(request);
 
         //start service even update failed
-        if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+        if (jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
             startChecklistService();
+        } else if (jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)) {
+            startPickupService();
         }
 
         goToHome();
@@ -758,10 +742,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         Intent i = new Intent(this, ServicePickupChecklist.class);
 
 
-
     }
 
-    private String convertSignatureToString(){
+    private String convertSignatureToString() {
 
         String result = null;
         File file = new File(signatureImage);
@@ -784,7 +767,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void goToCompleteScreen(){
+    private void goToCompleteScreen() {
 
         Intent intent = new Intent(ActivityChecklist.this, ActivityComplete.class);
         intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
@@ -792,7 +775,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         startActivity(intent);
     }
 
-    private void showNewStatusDialog(){
+    private void showNewStatusDialog() {
 
         FragmentDialogUpdateStatus dialog = FragmentDialogUpdateStatus.createInstance(REQUEST_DIALOG_UPDATE);
         dialog.show(getFragmentManager(), null);
@@ -802,14 +785,14 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     @Override
     public void onDialogDismiss(int requestCode, Bundle bundle) {
 
-        if(bundle != null) {
+        if (bundle != null) {
 
             String newStatus = bundle.getString(FragmentDialogUpdateStatus.ARG_NEW_STATUS);
             requestUpdate(newStatus);
         }
     }
 
-    private void goToHome(){
+    private void goToHome() {
 
         Intent intent = new Intent(ActivityChecklist.this, ActivityJobOrderList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -817,7 +800,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void launchCamera(int requestCode){
+    private void launchCamera(int requestCode) {
 
         String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
         File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
@@ -830,7 +813,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void handleSignature(Intent data){
+    private void handleSignature(Intent data) {
 
         signatureImage = data.getStringExtra(ActivitySignature.ARG_IMAGE_FILE);
         rating = data.getIntExtra(ActivitySignature.ARG_RATING, 0);
@@ -844,13 +827,13 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void handleConfirmPackage(Intent data){
+    private void handleConfirmPackage(Intent data) {
 
         packageFee = data.getParcelableExtra(ActivityConfirmPackage.ARG_PACKAGE_FEE);
 
         int position;
 
-        if(items.size() == 5) {
+        if (items.size() == 5) {
             position = CHECKLIST_PACKAGE_CONFIRMED;
         } else {
             position = 0;
@@ -864,7 +847,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void showImageGallery(ArrayList<String> images, int requestCode){
+    private void showImageGallery(ArrayList<String> images, int requestCode) {
 
         Intent intent = new Intent(ActivityChecklist.this, ActivityImageGallery.class);
         intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, images);
@@ -874,7 +857,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void updateValidIDChecklist(){
+    private void updateValidIDChecklist() {
 
         String validIdImage = photoUri.toString();
 
@@ -892,7 +875,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
-    private void updateRecipientPictureChecklist(){
+    private void updateRecipientPictureChecklist() {
 
 //        int position = CHECKLIST_RECIPIENT_PICTURE;
 //        items.get(position).setIsChecked(true);
@@ -912,14 +895,15 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         setConfirmButton(isComplete());
 
     }
-    private int getChecklistItem(String name){
+
+    private int getChecklistItem(String name) {
 
         int position = -1;
-        for(int i = 0; i < items.size(); i++){
+        for (int i = 0; i < items.size(); i++) {
 
             ChecklistItem item = items.get(i);
 
-            if(item.getTitle().equalsIgnoreCase(name)){
+            if (item.getTitle().equalsIgnoreCase(name)) {
                 position = i;
                 break;
             }

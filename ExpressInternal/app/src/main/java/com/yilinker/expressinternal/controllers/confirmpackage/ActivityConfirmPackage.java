@@ -389,6 +389,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         packageFee.setWeight(etWeight.getText().toString());
         packageFee.setWidth(etWidth.getText().toString());
         packageFee.setShippingFee(tvShippingFee.getText().toString());
+        packageFee.setId(sizeId);
 
         data.putExtra(ARG_PACKAGE_FEE, packageFee);
 
@@ -409,10 +410,10 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
             packageId = packageList.get(position).getId();
             etType.setText(packageList.get(position).getName());
 
-            if (!etType.getText().toString().equals("Custom")) {
+            if (!etType.getText().toString().equals(PACKAGE_CUSTOM)) {
 
                 rlSize.setVisibility(View.VISIBLE);
-                llCustomFields.setVisibility(View.VISIBLE);
+                llCustomFields.setVisibility(View.GONE);
 //                rlHeight.setVisibility(View.GONE);
 //                rlLength.setVisibility(View.GONE);
 //                rlWidth.setVisibility(View.GONE);
@@ -423,7 +424,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
             } else {
 
                 rlSize.setVisibility(View.GONE);
-                llCustomFields.setVisibility(View.GONE);
+                llCustomFields.setVisibility(View.VISIBLE);
 //                rlHeight.setVisibility(View.VISIBLE);
 //                rlLength.setVisibility(View.VISIBLE);
 //                rlWidth.setVisibility(View.VISIBLE);
