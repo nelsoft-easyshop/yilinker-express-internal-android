@@ -126,7 +126,7 @@ public class ActivityLogout extends BaseActivity implements ResponseHandler{
 
                 ApplicationClass appClass = (ApplicationClass)BaseApplication.getInstance();
 
-                appClass.deleteTokens();
+                appClass.logoutRider();
 
                 //Stop location service
                 appClass.stopLocationService();

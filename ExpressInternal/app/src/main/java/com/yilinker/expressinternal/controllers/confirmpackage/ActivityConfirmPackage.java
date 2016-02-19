@@ -218,12 +218,17 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
     private void checkConditions() {
 
+
+        //must fill up all fields
+        //and weight should not be 0
+
         if (!etType.getText().toString().isEmpty()) {
             if (etType.getText().toString().equals(PACKAGE_CUSTOM)) {
                 if (etHeight.getText().toString().isEmpty()
                         || etLength.getText().toString().isEmpty()
                         || etWidth.getText().toString().isEmpty()
-                        || etWeight.getText().toString().isEmpty()) {
+                        || etWeight.getText().toString().isEmpty()
+                        || Integer.valueOf(etWeight.getText().toString()) < 1) {
                 btnSave.setEnabled(false);
                 } else {
                     calculateShippingFee();
@@ -305,8 +310,10 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         }
 
         setPackageList(packageList);
-        etType.setText(R.string.package_select);
-        etSize.setText(R.string.package_select);
+        if(!isEdit) {
+            etType.setText(R.string.package_select);
+            etSize.setText(R.string.package_select);
+        }
 
 
     }
