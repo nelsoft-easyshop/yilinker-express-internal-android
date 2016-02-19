@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -45,6 +46,7 @@ import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderD
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
+import com.yilinker.expressinternal.controllers.qrscanner.ActivitySingleScanner;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.interfaces.DialogDismissListener;
@@ -66,6 +68,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     //For passing Open JOs from DashBoard
     public static final String ARG_OPEN_JO = "openJO";
+    public static final String ARG_CURRENT_LIST = "currentJO";
     private static final String SERVER_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
     //For API requests
@@ -74,6 +77,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private static final int REQUEST_GET_COMPLETE = 1002;
     private static final int REQUEST_GET_PROBLEMATIC = 1003;
     private static final int REQUEST_GET_WAREHOUSES = 1004;
+
+    //
+
+    public static final int REQUEST_SEARCH_QR_CODE = 8000;
 
 
     //For Tabs
@@ -223,7 +230,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                 break;
 
             case R.id.iv_scanTrackingCode:
-                showScanner();
+                showSingleScanner();
                 break;
 
             case R.id.rlReload:
@@ -392,6 +399,20 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_SEARCH_QR_CODE && resultCode == RESULT_OK) {
+
+//            rvJobOrder.findViewHolderForAdapterPosition
+//                    (Integer.valueOf(data.getStringExtra(ARG_OPEN_JO))).itemView.performClick();
+
+            etSearchField.setText(data.getStringExtra(ARG_OPEN_JO));
+
+        }
+    }
+
+    @Override
     public void onTabItemClick(int position) {
 
         rlReload.setVisibility(View.GONE);
@@ -544,36 +565,52 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
-
-//        if (requestCode == REQUEST_GET_CURRENT) {
-//
-////            loadLocalJobOrderList();
-//            List<com.yilinker.core.model.express.internal.JobOrder> listLocal = ApplicationClass.getLocalData(this);
-//            createList(listLocal, AdapterJobOrderList.TYPE_CURRENT);
-//
-//        } else if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
-//
-////            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-//            rlReload.setVisibility(View.VISIBLE);
-//
-//        }
-
-
         if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
 
-            if (requestCode == REQUEST_GET_CURRENT) {
 
-                List<com.yilinker.core.model.express.internal.JobOrder> listLocal = ApplicationClass.getLocalData(this);
-                createList(listLocal, AdapterJobOrderList.TYPE_CURRENT);
+            switch (requestCode) {
+
+                case REQUEST_GET_OPEN:
+
+                    //TODO: Local list for offline viewing
+//                loadLocalJobOrderList(AdapterJobOrderList.TYPE_OPEN);
+                    rlReload.setVisibility(View.VISIBLE);
+
+                    break;
+
+                case REQUEST_GET_CURRENT:
+
+                    List<com.yilinker.core.model.express.internal.JobOrder> listLocal = ApplicationClass.getLocalData(this);
+                    createList(listLocal, AdapterJobOrderList.TYPE_CURRENT);
+
+                    break;
+
+                case REQUEST_GET_COMPLETE:
+
+                    //TODO: Local list for offline viewing
+//                loadLocalJobOrderList(AdapterJobOrderList.TYPE_COMPLETE);
+                    rlReload.setVisibility(View.VISIBLE);
+
+                    break;
+
+                case REQUEST_GET_PROBLEMATIC:
+
+                    //TODO: Local list for offline viewing
+//                loadLocalJobOrderList(AdapterJobOrderList.TYPE_PROBLEMATIC);
+                    rlReload.setVisibility(View.VISIBLE);
+
+                    break;
+
+                default:
+                    //TODO Load a view showing no Entries Found message
+                    rlReload.setVisibility(View.VISIBLE);
+                    break;
             }
-            else {
-                rlReload.setVisibility(View.VISIBLE);
-            }
+        } else {
+            rlProgress.setVisibility(View.GONE);
+            isReloading = false;
         }
-        //TODO Load a view showing no Entries Found message
 
-        rlProgress.setVisibility(View.GONE);
-        isReloading = false;
     }
 
     //Request data from the server
@@ -729,6 +766,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             jobOrderList = tempOrigJobOrderList;
         }
 
+        if(!etSearchField.getText().toString().equals("") && !isFiltered) {
+
+            filterJobOrderList(etSearchField.getText().toString());
+
+        }
 
         rlProgress.setVisibility(View.GONE);
     }
@@ -855,10 +897,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             case 5:
 
-                showScanner();
+                showSingleScanner();
                 break;
 
             case 6:
+
+                showBulkScanner();
+                break;
+
+            case 7:
 
                 goToAcknowledgeScreen();
                 break;
@@ -893,7 +940,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         viewSwitcher.showNext();
     }
 
-    private void showScanner() {
+    private void showSingleScanner() {
+
+        Intent intent = new Intent(this, ActivitySingleScanner.class);
+        intent.putParcelableArrayListExtra(ARG_CURRENT_LIST, (ArrayList<? extends Parcelable>) jobOrderList);
+        startActivityForResult(intent, REQUEST_SEARCH_QR_CODE);
+
+    }
+
+    private void showBulkScanner() {
 
         Intent intent = new Intent(this, ActivityScanner.class);
         startActivity(intent);
@@ -1032,6 +1087,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             intent = new Intent(ActivityJobOrderList.this, ActivityComplete.class);
             intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
             intent.putExtra(ActivityComplete.ARG_FROM_HOME, true);
+
         } else {
 
             intent = new Intent(ActivityJobOrderList.this, ActivityJobOderDetail.class);
@@ -1270,6 +1326,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
 
             JobOrder jo = new JobOrder(item);
+
 
             if(searchDictionary != null) {
                 //check jo if it's for syncing

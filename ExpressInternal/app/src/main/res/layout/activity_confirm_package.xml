@@ -10,22 +10,22 @@
         android:layout_above="@+id/btnSave">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_marginStart="15dp"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvTitlePackageType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textSize="16sp"
+                android:text="@string/package_title_type"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                android:text="@string/package_title_type"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
             <RelativeLayout
@@ -35,49 +35,50 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
+                    android:id="@+id/etPackageType"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@drawable/bg_input"
-                    android:inputType="textCapWords"
-                    android:textColor="@color/greyish_brown"
-                    android:id="@+id/etPackageType"
-                    android:enabled="true"
-                    android:focusable="false"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:paddingRight="30dp"
-                    android:textSize="14sp"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/ivDropdown"
-                    android:layout_alignParentEnd="true" />
+                    android:background="@drawable/bg_input"
+                    android:ellipsize="end"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:inputType="textCapWords"
+                    android:paddingRight="30dp"
+                    android:singleLine="true"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="14sp"
+                    android:text="@string/package_retrieving_list" />
 
                 <ImageView
+                    android:id="@+id/ivDropdown"
                     android:layout_width="30dp"
                     android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:id="@+id/ivDropdown"
-                    android:src="@drawable/ic_drop_down"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_drop_down" />
 
             </RelativeLayout>
 
             <ListView
+                android:id="@+id/lvTypes"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:id="@+id/lvTypes"
-                android:visibility="gone"
-                android:background="@color/white"/>
+                android:background="@color/white"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvTitlePackageSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textSize="16sp"
+                android:text="@string/package_title_size"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                android:text="@string/package_title_size" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
             <RelativeLayout
@@ -88,133 +89,146 @@
                 android:visibility="visible">
 
                 <EditText
+                    android:id="@+id/etPackageSize"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@drawable/bg_input"
-                    android:inputType="textCapWords"
-                    android:textColor="@color/greyish_brown"
-                    android:id="@+id/etPackageSize"
-                    android:enabled="true"
-                    android:focusable="false"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:paddingRight="30dp"
-                    android:textSize="14sp"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/ivDropdown2"
-                    android:layout_alignParentEnd="true" />
+                    android:background="@drawable/bg_input"
+                    android:ellipsize="end"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:inputType="textCapWords"
+                    android:paddingRight="30dp"
+                    android:singleLine="true"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="14sp"
+                    android:text="@string/package_retrieving_list" />
 
                 <ImageView
+                    android:id="@+id/ivDropdown2"
                     android:layout_width="30dp"
                     android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:id="@+id/ivDropdown2"
-                    android:src="@drawable/ic_drop_down"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_drop_down" />
 
             </RelativeLayout>
 
             <ListView
+                android:id="@+id/lvSizes"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
-                android:id="@+id/lvSizes"
+                android:background="@color/white"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/llCustomFields"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:background="@color/white"/>
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/rlLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/etLength"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/bg_input"
-                    android:inputType="number"
-                    android:textColor="@color/greyish_brown"
-                    android:textSize="14sp"
-                    android:paddingLeft="10dp" />
-
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/rlLength"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="cm"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:id="@+id/textView3"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible">
 
-            </RelativeLayout>
+                    <EditText
+                        android:id="@+id/etLength"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_input"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/greyish_brown"
+                        android:textSize="14sp"
+                        android:hint="@string/package_enter_length" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="cm"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
 
 
-            <RelativeLayout
-                android:id="@+id/rlWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/etWidth"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/bg_input"
-                    android:inputType="number"
-                    android:textColor="@color/greyish_brown"
-                    android:textSize="14sp"
-                    android:paddingLeft="10dp" />
-
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/rlWidth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="cm"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:id="@+id/textView2"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible">
 
-            </RelativeLayout>
+                    <EditText
+                        android:id="@+id/etWidth"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_input"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/greyish_brown"
+                        android:textSize="14sp"
+                        android:hint="@string/package_enter_width" />
 
-            <RelativeLayout
-                android:id="@+id/rlHeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="cm"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/etHeight"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/bg_input"
-                    android:inputType="number"
-                    android:textColor="@color/greyish_brown"
-                    android:textSize="14sp"
-                    android:paddingLeft="10dp" />
+                </RelativeLayout>
 
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/rlHeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="cm"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:id="@+id/textView"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible">
 
-            </RelativeLayout>
+                    <EditText
+                        android:id="@+id/etHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_input"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/greyish_brown"
+                        android:textSize="14sp"
+                        android:hint="@string/package_enter_height" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="cm"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
 
             <TextView
@@ -222,10 +236,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="16sp"
+                android:text="@string/package_title_weight"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                android:text="@string/package_title_weight" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
             <RelativeLayout
@@ -240,20 +254,20 @@
                     android:layout_height="40dp"
                     android:background="@drawable/bg_input"
                     android:inputType="number"
+                    android:paddingLeft="10dp"
                     android:textColor="@color/greyish_brown"
-                    android:textSize="14sp"
-                    android:paddingLeft="10dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="kg"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    android:paddingRight="10dp" />
+                    android:layout_centerVertical="true"
+                    android:paddingRight="10dp"
+                    android:text="kg"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -262,11 +276,11 @@
                 android:id="@+id/tvShippingFeeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="25dp"
-                android:textSize="22sp"
-                android:textColor="@color/orange_yellow"
                 android:text="@string/package_shipping_fee"
-                android:layout_gravity="center"/>
+                android:textColor="@color/orange_yellow"
+                android:textSize="22sp" />
 
 
             <TextView
@@ -274,13 +288,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
-
 
 
     </ScrollView>
@@ -291,14 +304,19 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_button_height"
         android:layout_alignParentBottom="true"
-        android:textAllCaps="true"
-        android:text="@string/package_button_save"
         android:background="@color/orange_yellow"
-        android:textColor="@color/white"
         android:enabled="false"
+        android:text="@string/package_button_save"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
         android:visibility="visible" />
 
-    <include android:layout_height="match_parent" android:layout_width="match_parent" layout="@layout/layout_progress" android:id="@+id/rlProgress" android:layout_below="@+id/rvTab"/>
+    <include
+        android:id="@+id/rlProgress"
+        layout="@layout/layout_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rvTab" />
 
 
 </RelativeLayout>
