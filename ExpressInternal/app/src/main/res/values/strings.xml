@@ -230,7 +230,11 @@
     <string name="package_title_size">Package Size</string>
     <string name="package_shipping_fee">Shipping Fee</string>
     <string name="package_button_save">Save</string>
-
+    <string name="package_enter_length">Enter Length</string>
+    <string name="package_enter_width">Enter Width</string>
+    <string name="package_enter_height">Enter Height</string>
+    <string name="package_retrieving_list">Loading list…</string>
+    <string name="package_select">--- Select ---</string>
 
     <!--Checklist-->
     <string name="checklist_job_completed">Job order is completed!</string>

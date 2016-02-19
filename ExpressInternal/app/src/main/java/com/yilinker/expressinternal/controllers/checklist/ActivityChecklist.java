@@ -386,6 +386,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
                     Toast.makeText(getApplicationContext(), getString(R.string.checklist_job_updated), Toast.LENGTH_LONG).show();
                     goToHome();
+                    startPickupService();
+
                 }
                 else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
@@ -748,6 +750,14 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         i.putExtra(ARG_IMAGES, images);
 
         this.startService(i);
+
+    }
+
+    private void startPickupService() {
+
+        Intent i = new Intent(this, ServicePickupChecklist.class);
+
+
 
     }
 
