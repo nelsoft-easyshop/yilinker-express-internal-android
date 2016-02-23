@@ -153,7 +153,9 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
             case R.id.btnJobOrders:
 
-                goToJobOrderList();
+                if (((ApplicationClass) BaseApplication.getInstance()).getRider() != null) {
+                    goToJobOrderList();
+                }
                 break;
 
         }
@@ -163,7 +165,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        switch (requestCode) {
 
             case ActivitySync.REQUEST_SYNC:
 
@@ -362,7 +364,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void syncDataToServer(){
+    private void syncDataToServer() {
 
         Intent intent = new Intent(this, ActivitySync.class);
         startActivityForResult(intent, ActivitySync.REQUEST_SYNC);
@@ -624,13 +626,12 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void handleSyncResult(int resultCode){
+    private void handleSyncResult(int resultCode) {
 
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             //TODO Show success message
             Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             //TODO Show error message
             Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
         }

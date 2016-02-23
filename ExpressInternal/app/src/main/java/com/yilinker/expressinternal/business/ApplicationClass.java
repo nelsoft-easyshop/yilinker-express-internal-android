@@ -44,6 +44,7 @@ public class ApplicationClass extends BaseApplication {
     public static final String REQUEST_TAG = "requestTag";
     public static final String CURRENT_LIST = "currentList.txt";
     public static final String SYNC_ITEMS = "hasSyncItems";
+    private static final String CURRENT_RIDER = "rider";
 
     private Intent intentServiceLocation;
 
@@ -123,13 +124,43 @@ public class ApplicationClass extends BaseApplication {
 
     public Rider getRider() {
 
-        return this.rider;
+//        return this.rider;
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        Gson gson = new Gson();
+        String json = pref.getString(CURRENT_RIDER, "");
+
+        return gson.fromJson(json, Rider.class);
 
     }
 
     public void setRider(Rider rider) {
 
-        this.rider = rider;
+//        this.rider = rider;
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(rider);
+        editor.putString(CURRENT_RIDER, json);
+        editor.apply();
+
+    }
+
+    public void logoutRider() {
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.remove(CURRENT_RIDER);
+        deleteTokens();
+
     }
 
     public static void saveLocalCurrentListData(Context context, Object object) {

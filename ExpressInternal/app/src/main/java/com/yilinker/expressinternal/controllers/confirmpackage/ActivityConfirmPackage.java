@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
     public static final String ARG_PACKAGE_FEE = "packageFee";
     private static final String PACKAGES_LIST = "packageList.txt";
+    private static final String PACKAGE_CUSTOM = "Custom";
+    private static final String PACKAGE_IS_UPDATE = "1";
 
     private RequestQueue requestQueue;
     private SyncDBTransaction syncTransaction;
@@ -55,6 +58,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
     private PackageType packageFee;
 
     private RelativeLayout rlLength, rlWidth, rlHeight, rlWeight, rlSize, rlType, rlProgressBar;
+    private LinearLayout llCustomFields;
     private ListView lvType, lvSizes;
     private EditText etLength, etWidth, etHeight, etWeight, etType, etSize;
     private TextView tvShippingFee;
@@ -136,6 +140,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         etType = (EditText) findViewById(R.id.etPackageType);
         etSize = (EditText) findViewById(R.id.etPackageSize);
 
+        llCustomFields = (LinearLayout) findViewById(R.id.llCustomFields);
         rlLength = (RelativeLayout) findViewById(R.id.rlLength);
         rlWidth = (RelativeLayout) findViewById(R.id.rlWidth);
         rlHeight = (RelativeLayout) findViewById(R.id.rlHeight);
@@ -203,7 +208,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
     private void getPackageTypes() {
 
-        rlProgressBar.setVisibility(View.VISIBLE);
+//        rlProgressBar.setVisibility(View.VISIBLE);
 
         Request request = JobOrderAPI.getPackages(REQUEST_CODE_GET_PACKAGE_TYPES, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
@@ -213,12 +218,17 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
     private void checkConditions() {
 
+
+        //must fill up all fields
+        //and weight should not be 0
+
         if (!etType.getText().toString().isEmpty()) {
-            if (etType.getText().toString().equals("Custom")) {
+            if (etType.getText().toString().equals(PACKAGE_CUSTOM)) {
                 if (etHeight.getText().toString().isEmpty()
                         || etLength.getText().toString().isEmpty()
                         || etWidth.getText().toString().isEmpty()
-                        || etWeight.getText().toString().isEmpty()) {
+                        || etWeight.getText().toString().isEmpty()
+                        || Integer.valueOf(etWeight.getText().toString()) < 1) {
                 btnSave.setEnabled(false);
                 } else {
                     calculateShippingFee();
@@ -275,16 +285,16 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
         btnSave.setEnabled(true);
 
-        /**
-         * Closes window when isUpdate = 1
-         * or if button save is pressed.
-         */
+//        /**
+//         * Closes window when isUpdate = 1
+//         * or if button save is pressed.
+//         */
 
-        if(isUpdate.equals("1")) {
+//        if (isUpdate.equals(PACKAGE_IS_UPDATE)) {
 
-            savePackageFee();
+//            savePackageFee();
 
-        }
+//        }
 
     }
 
@@ -300,6 +310,10 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         }
 
         setPackageList(packageList);
+        if(!isEdit) {
+            etType.setText(R.string.package_select);
+            etSize.setText(R.string.package_select);
+        }
 
 
     }
@@ -337,8 +351,9 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
             case R.id.btnSave:
 
-                isUpdate = "1";
-                calculateShippingFee();
+//                isUpdate = "1";
+//                calculateShippingFee();
+                savePackageFee();
 
                 break;
 
@@ -381,6 +396,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         packageFee.setWeight(etWeight.getText().toString());
         packageFee.setWidth(etWidth.getText().toString());
         packageFee.setShippingFee(tvShippingFee.getText().toString());
+        packageFee.setId(sizeId);
 
         data.putExtra(ARG_PACKAGE_FEE, packageFee);
 
@@ -401,12 +417,13 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
             packageId = packageList.get(position).getId();
             etType.setText(packageList.get(position).getName());
 
-            if (!etType.getText().toString().equals("Custom")) {
+            if (!etType.getText().toString().equals(PACKAGE_CUSTOM)) {
 
                 rlSize.setVisibility(View.VISIBLE);
-                rlHeight.setVisibility(View.GONE);
-                rlLength.setVisibility(View.GONE);
-                rlWidth.setVisibility(View.GONE);
+                llCustomFields.setVisibility(View.GONE);
+//                rlHeight.setVisibility(View.GONE);
+//                rlLength.setVisibility(View.GONE);
+//                rlWidth.setVisibility(View.GONE);
 
                 setSizeList();
                 lvSizes.performItemClick(lvSizes, sizePosition, lvSizes.getItemIdAtPosition(sizePosition));
@@ -414,9 +431,10 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
             } else {
 
                 rlSize.setVisibility(View.GONE);
-                rlHeight.setVisibility(View.VISIBLE);
-                rlLength.setVisibility(View.VISIBLE);
-                rlWidth.setVisibility(View.VISIBLE);
+                llCustomFields.setVisibility(View.VISIBLE);
+//                rlHeight.setVisibility(View.VISIBLE);
+//                rlLength.setVisibility(View.VISIBLE);
+//                rlWidth.setVisibility(View.VISIBLE);
 
                 sizeId = packageId;
                 lvSizes.setVisibility(View.GONE);
@@ -493,35 +511,35 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         tvShippingFee.setText("-");
         btnSave.setEnabled(true);
 
-        /**
-         * Save for syncing if Save button is pressed
-         */
+//        /**
+//         * Save for syncing if Save button is pressed
+//         */
 
-        if(isUpdate.equals("1")) {
+//        if (isUpdate.equals("1")) {
 
-            List<String> packageData = new ArrayList<>();
+//            List<String> packageData = new ArrayList<>();
+//
+//            packageData.add(String.valueOf(sizeId));
+//            packageData.add(etLength.getText().toString());
+//            packageData.add(etWidth.getText().toString());
+//            packageData.add(etHeight.getText().toString());
+//            packageData.add(etWeight.getText().toString());
+//
+//            SyncDBObject request = new SyncDBObject();
+//            request.setRequestType(REQUEST_CODE_CALCULATE_SHIPPING_FEE);
+//            request.setKey(String.format("%s%s", jobOrderNo, String.valueOf(REQUEST_CODE_CALCULATE_SHIPPING_FEE)));
+//            request.setId(jobOrderNo);
+//            request.setData(packageData.toString());
+//            request.setSync(false);
+//
+//            syncTransaction.add(request);
 
-            packageData.add(String.valueOf(sizeId));
-            packageData.add(etLength.getText().toString());
-            packageData.add(etWidth.getText().toString());
-            packageData.add(etHeight.getText().toString());
-            packageData.add(etWeight.getText().toString());
-
-            SyncDBObject request = new SyncDBObject();
-            request.setRequestType(REQUEST_CODE_CALCULATE_SHIPPING_FEE);
-            request.setKey(String.format("%s%s", jobOrderNo, String.valueOf(REQUEST_CODE_CALCULATE_SHIPPING_FEE)));
-            request.setId(jobOrderNo);
-            request.setData(packageData.toString());
-            request.setSync(false);
-
-            syncTransaction.add(request);
-
-            isUpdate = "0";
+//            isUpdate = "0";
 
             //close even if it fails after pressing Save Button
-            savePackageFee();
+//            savePackageFee();
 
-        }
+//        }
 
     }
 

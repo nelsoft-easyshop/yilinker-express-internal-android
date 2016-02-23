@@ -152,6 +152,11 @@
             android:theme="@style/ActivityTheme" >
         </activity>
 
+        <activity android:name=".controllers.qrscanner.ActivitySingleScanner"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" >
+        </activity>
+
         <service
             android:name=".gcm.RiderGcmListenerService"
             android:exported="false" >
@@ -173,6 +178,9 @@
 
         <service android:name=".controllers.checklist.ServiceDeliveryChecklist"
             android:label="@string/app_name" android:enabled="true" android:process=":serviceChecklist"/>
+
+        <service android:name=".controllers.checklist.ServicePickupChecklist"
+            android:label="@string/app_name" android:enabled="true" android:process=":serviceChecklistPickup"/>
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

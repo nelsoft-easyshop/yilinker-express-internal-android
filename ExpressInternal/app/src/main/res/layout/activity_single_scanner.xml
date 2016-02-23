@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+        android:layout_width="@dimen/qr_code_size"
+        android:layout_height="@dimen/qr_code_size" android:id="@+id/qrreader"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:layout_above="@+id/btnFlash" />
+
+    <ImageButton android:id="@+id/btnFlash"
+        android:layout_width="50dp"
+        android:layout_height="50dp" android:background="@drawable/bg_btn_circle_orangered" android:src="@drawable/ic_flash_off" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"  android:layout_margin="20dp"/>
+
+</RelativeLayout>
