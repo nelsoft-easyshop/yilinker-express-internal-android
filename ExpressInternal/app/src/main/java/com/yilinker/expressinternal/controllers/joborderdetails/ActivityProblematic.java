@@ -4,9 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
@@ -18,8 +20,10 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
 public class ActivityProblematic extends BaseActivity {
 
     public static final String ARG_JOB_ORDER = "jobOrder";
+    private static final String FRAGMENT_STATE = "fragment";
 
     private String jobOrderNo;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,24 @@ public class ActivityProblematic extends BaseActivity {
 
         initViews();
 
-        showOptions();
+        if(savedInstanceState != null) {
+            fragment = getFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
+//            replaceFragment(fragment, true);
+        } else {
+            showOptions();
+        }
+
+
+
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        getFragmentManager().putFragment(outState, FRAGMENT_STATE, fragment);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -63,6 +83,12 @@ public class ActivityProblematic extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+    }
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack){
 
@@ -92,7 +118,9 @@ public class ActivityProblematic extends BaseActivity {
         bundle.putInt(FragmentReportForm.ARG_TYPE, type);
         bundle.putString(FragmentReportForm.ARG_JONUMBER, jobOrderNo);
 
-        FragmentReportForm fragment = FragmentReportForm.createInstance(bundle);
+//        FragmentReportForm fragment = FragmentReportForm.createInstance(bundle);
+
+        fragment = FragmentReportForm.createInstance(bundle);
 
         replaceFragment(fragment, true);
     }
