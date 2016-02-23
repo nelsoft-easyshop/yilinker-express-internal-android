@@ -46,6 +46,10 @@ android {
 }
 
 dependencies {
+
+    testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:1.+"
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':core')
     compile 'com.android.support:appcompat-v7:22.2.1'
@@ -53,4 +57,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.3.0'
     compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'io.realm:realm-android:0.87.2'
+    compile 'com.google.guava:guava:18.0'
 }
