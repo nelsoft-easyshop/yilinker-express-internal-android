@@ -69,6 +69,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private final static String KEY_PHOTO_URI = "photoUri";
     private final static String KEY_CLICKED_POSITION = "clickedPosition";
     private final static String KEY_LIST = "list";
+    private final static String KEY_JOB_ORDER = "job-order";
 
     private static int CHECKLIST_PACKAGE_CONFIRMED = 1;
     //    private static  int CHECKLIST_VALID_ID = 2;
@@ -144,6 +145,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
             outState.putString(KEY_PHOTO_URI, photoUri.toString());
 
         }
+        outState.putParcelable(KEY_JOB_ORDER, jobOrder);
         outState.putInt(KEY_CLICKED_POSITION, clickedPosition);
         outState.putParcelableArrayList(KEY_LIST, (ArrayList) items);
 
@@ -156,6 +158,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
             photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
             clickedPosition = savedInstanceState.getInt(KEY_CLICKED_POSITION);
+            jobOrder = savedInstanceState.getParcelable(KEY_JOB_ORDER);
 
             items.clear();
             items.addAll((List) savedInstanceState.getParcelableArrayList(KEY_LIST));
