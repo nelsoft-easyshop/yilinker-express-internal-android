@@ -309,11 +309,14 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
             packageList.add(packageTypeLocal);
         }
 
-        setPackageList(packageList);
         if(!isEdit) {
             etType.setText(R.string.package_select);
             etSize.setText(R.string.package_select);
         }
+
+        setPackageList(packageList);
+
+
 
 
     }
