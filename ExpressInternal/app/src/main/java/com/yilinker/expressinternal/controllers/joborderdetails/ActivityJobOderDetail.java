@@ -42,6 +42,7 @@ import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -456,7 +457,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 //        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
         tvJobOrderNo.setText(jobOrder.getWaybillNo());
         tvRecipient.setText(jobOrder.getRecipient());
-        tvAmountToCollect.setText(String.format("P%.02f", jobOrder.getAmountToCollect()));
+        tvAmountToCollect.setText(PriceFormatHelper.formatPrice(jobOrder.getAmountToCollect()));
 
         if (jobOrder.getContactNo() != null)         //temp
             tvContactNo.setText(jobOrder.getContactNo());

@@ -40,7 +40,9 @@ import com.yilinker.expressinternal.gcm.RegistrationIntentService;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.service.LocationService;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -339,7 +341,6 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
         mNavigationDrawerFragment = (FragmentNavigationDrawer) getSupportFragmentManager().findFragmentById(R.id.fragNavDrawer);
         mNavigationDrawerFragment.setUp(R.id.fragNavDrawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-
         btnJobOrders.setOnClickListener(this);
     }
 
@@ -533,7 +534,7 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 //        tvDropoff.setText(String.format("₱%.02f", rider.getTotalEarning()));
         tvDropoff.setText(String.valueOf(rider.getCurrentDropoff()));
         tvTotal.setText(String.valueOf(rider.getCompletedJO()));
-        tvOnHand.setText(String.format("₱%.02f", rider.getCashOnHand()));
+        tvOnHand.setText(PriceFormatHelper.formatPrice(rider.getCashOnHand()));
 
 //        int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() + rider.getCurrentDropoff() - rider.getCompletedJO();
         int remainingJO = rider.getCurrentDeliveryJO() + rider.getCurrentPickupJO() + rider.getCurrentDropoff();
