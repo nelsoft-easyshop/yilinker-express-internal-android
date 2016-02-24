@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,6 +35,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
     private int rating;
 //    private List<String> images;
     private String[] images;
+    private boolean isSubmitSignatureDone = false, isSubmitImagesDone = false;
 
     @Nullable
     @Override
@@ -45,6 +48,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        Log.i("RESULT", "Start Service");
         getData(intent);
 
         requestSubmitSignature();
@@ -111,6 +115,27 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
     public void onSuccess(int requestCode, Object object) {
 
         //do nothing
+        switch(requestCode) {
+
+            case ActivityChecklist.REQUEST_SUBMIT_SIGNATURE:
+                Log.i("RESULT", "Signature done.");
+                isSubmitSignatureDone = true;
+                isToStopService();
+                break;
+
+            case ActivityChecklist.REQUEST_SUBMIT_RATING:
+
+                Log.i("RESULT", "Rating done.");
+                break;
+
+            case ActivityChecklist.REQUEST_UPLOAD_IMAGES:
+
+                Log.i("RESULT", "Images done.");
+                isSubmitImagesDone = true;
+                isToStopService();
+                break;
+
+        }
 
 
     }
@@ -125,23 +150,37 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
             case ActivityChecklist.REQUEST_SUBMIT_SIGNATURE:
 
                 handleFailedSubmitSignature();
-
+                Log.i("RESULT", "Signature done.");
+                isSubmitSignatureDone = true;
+                isToStopService();
                 break;
 
             case ActivityChecklist.REQUEST_SUBMIT_RATING:
 
                 handleFailedSubmitRating();
+                Log.i("RESULT", "Rating done.");
 
                 break;
 
             case ActivityChecklist.REQUEST_UPLOAD_IMAGES:
 
                 handleFailedUploadImages();
-
+                isSubmitImagesDone = true;
+                Log.i("RESULT", "Images done.");
+                isToStopService();
                 break;
 
         }
 
+
+    }
+
+    private void isToStopService(){
+        if (isSubmitSignatureDone && isSubmitImagesDone){
+
+            Log.i("RESULT", "Stop Service");
+            stopSelf();
+        }
 
     }
 
