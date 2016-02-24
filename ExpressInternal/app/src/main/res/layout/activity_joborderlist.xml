@@ -1,61 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="match_parent" android:layout_width="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvTab" android:background="@color/white"
+        android:id="@+id/rvTab"
         android:layout_width="match_parent"
-        android:layout_height="60dp" android:layout_alignParentTop="true"></android.support.v7.widget.RecyclerView
-        >
-
-<LinearLayout android:id="@+id/llContainer"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:layout_below="@+id/rvTab">
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp" android:background="@color/orange_yellow"/>
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"></android.support.v7.widget.RecyclerView>
 
     <LinearLayout
+        android:id="@+id/llContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@color/gray">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rvTab"
+        android:orientation="vertical">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/orange_yellow" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_rounded_white">
+            android:background="@color/gray"
+            android:padding="10dp">
 
-            <!-- Search Field -->
-            <!--changed inputType from number to text-->
-            <EditText
-                android:id="@+id/et_searchField"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:textColor="@color/greyish_brown"
-                android:inputType="text"
-                android:hint="Search Job Order"
-                android:singleLine="true"
-                android:background="@null"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_white"
+                android:orientation="horizontal">
 
-            <!-- Camera Icon -->
-            <ImageView
-                android:id="@+id/iv_scanTrackingCode"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/ic_camera" />
+                <!-- Search Field -->
+                <!--changed inputType from number to text-->
+                <EditText
+                    android:id="@+id/et_searchField"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="Search Job Order"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="14sp" />
+
+                <!-- Camera Icon -->
+                <ImageView
+                    android:id="@+id/iv_scanTrackingCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_camera" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <!-- Search Result Label -->
+        <!-- Search Result Label -->
 
-    <!--<EditText-->
+        <!--<EditText-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_margin="10dp"-->
@@ -65,27 +72,49 @@
         <!--android:background="@drawable/bg_rounded_divider"-->
         <!--android:textColor="@color/greyish_brown"/>-->
 
-    <ViewSwitcher android:id="@+id/viewSwitcher"
+        <ViewSwitcher
+            android:id="@+id/viewSwitcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvJobOrder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </ViewSwitcher>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/rlProgress"
+        layout="@layout/layout_progress"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rvTab" />
 
-        <android.support.v7.widget.RecyclerView android:id="@+id/rvJobOrder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" ></android.support.v7.widget.RecyclerView>
+    <include
+        android:id="@+id/rlReload"
+        layout="@layout/layout_taptoreload"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rvTab" />
 
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
-
-
-    </ViewSwitcher>
-
-</LinearLayout>
-
-<include android:layout_height="match_parent" android:layout_width="match_parent" layout="@layout/layout_progress" android:id="@+id/rlProgress" android:layout_below="@+id/rvTab"/>
-
-    <include layout="@layout/layout_taptoreload" android:id="@+id/rlReload" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/rvTab"/>
+    <TextView
+        android:id="@+id/tvNoResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/joborder_list_no_results_found"
+        android:layout_below="@+id/rvTab"/>
 
 </RelativeLayout>

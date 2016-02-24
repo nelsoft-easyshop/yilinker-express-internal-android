@@ -137,7 +137,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private TextView tvDelivery;
     private TextView tvPickup;
     private ImageView ivScanQr;
+
+
     private EditText etSearchField;
+    private TextView tvNoResults;
 
     private boolean shouldReload;
     private int filter;
@@ -252,6 +255,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         rvTab = (RecyclerView) findViewById(R.id.rvTab);
         ivScanQr = (ImageView) findViewById(R.id.iv_scanTrackingCode);
         etSearchField = (EditText) findViewById(R.id.et_searchField);
+        tvNoResults = (TextView) findViewById(R.id.tvNoResults);
 
 
         rlReload.setVisibility(View.GONE);
@@ -416,8 +420,6 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onTabItemClick(int position) {
 
-        rlReload.setVisibility(View.GONE);
-
         //Stop previous request
         requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
 
@@ -428,8 +430,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         completeList.clear();
         clearFilter();
 
-
         adapterJobOrderList.notifyDataSetChanged();
+
+        rlReload.setVisibility(View.GONE);
+        tvNoResults.setVisibility(View.GONE);
 
         requestGetJobOrders();
     }
@@ -570,6 +574,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
+
         if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
 
 
@@ -771,9 +776,18 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             reloadMap();
         }
 
+        // show no results found text when waybill number does not exist on list
+        if(jobOrderList.size() < 1) {
+            tvNoResults.setVisibility(View.VISIBLE);
+        } else {
+            tvNoResults.setVisibility(View.GONE);
+        }
+
         if (isFiltered) {
+
             adapterJobOrderList.notifyDataSetChanged();
             jobOrderList = tempOrigJobOrderList;
+
         }
 
         if(!etSearchField.getText().toString().equals("") && !isFiltered) {
@@ -1245,6 +1259,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         etSearchField.setText("");
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
 
     }
 
