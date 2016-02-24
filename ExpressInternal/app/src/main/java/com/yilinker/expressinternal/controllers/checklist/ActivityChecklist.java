@@ -3,6 +3,7 @@ package com.yilinker.expressinternal.controllers.checklist;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -388,10 +389,23 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
                 } else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
 
                     Toast.makeText(getApplicationContext(), getString(R.string.checklist_job_completed), Toast.LENGTH_LONG).show();
-                    goToCompleteScreen();
                     startChecklistService();
 
+                    goToCompleteScreen();
+
                     finish();
+
+//                    final Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            goToCompleteScreen();
+//
+//                            finish();
+//                        }
+//                    }, 2000);
+
 
 
                 }
