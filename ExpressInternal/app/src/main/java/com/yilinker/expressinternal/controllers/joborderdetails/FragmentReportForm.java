@@ -45,6 +45,8 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
     public static final String ARG_TYPE = "type";
     public static final String ARG_JONUMBER = "jobOrderNo";
+    private final static String KEY_PHOTO_URI = "photoUri";
+    private final static String KEY_IMAGES_LIST = "images";
 
     private static final int REQUEST_LAUNCH_CAMERA = 1000;
     private static final int REQUEST_SHOW_GALLERY  = 1001;
@@ -102,6 +104,56 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
         super.onPause();
 
         requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        if (photoUri != null) {
+
+            outState.putString(KEY_PHOTO_URI, photoUri.toString());
+            outState.putStringArrayList(KEY_IMAGES_LIST, (ArrayList) images);
+        }
+
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null) {
+
+            photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
+            images.clear();
+            images.addAll(savedInstanceState.getStringArrayList(KEY_IMAGES_LIST));
+
+        }
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if(savedInstanceState != null) {
+
+            photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
+
+        }
+
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if(savedInstanceState != null) {
+
+            photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
+
+        }
     }
 
     @Override
@@ -212,6 +264,8 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     }
 
 
+
+
     @Override
     public void onSuccess(int requestCode, Object object) {
 
@@ -241,29 +295,42 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
     }
 
-    private void launchCamera(){
+    private void launchCamera() {
 
-        File outputDir = getActivity().getExternalCacheDir();
-        File outputFile = null;
+        String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
+        File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
 
-        try {
-            outputFile = File.createTempFile("image", ".jpg", outputDir);
+        photoUri = Uri.fromFile(outputFile);
 
-
-//            String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
-//            File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
-
-            photoUri = Uri.fromFile(outputFile);
-
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            startActivityForResult(intent, REQUEST_LAUNCH_CAMERA);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+        startActivityForResult(intent, REQUEST_LAUNCH_CAMERA);
 
     }
+
+//    private void launchCamera(){
+//
+//        File outputDir = getActivity().getExternalCacheDir();
+//        File outputFile = null;
+//
+//        try {
+//            outputFile = File.createTempFile("image", ".jpg", outputDir);
+//
+//
+////            String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
+////            File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
+//
+//            photoUri = Uri.fromFile(outputFile);
+//
+//            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+//            startActivityForResult(intent, REQUEST_LAUNCH_CAMERA);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     private void showImageGallery(){
 
