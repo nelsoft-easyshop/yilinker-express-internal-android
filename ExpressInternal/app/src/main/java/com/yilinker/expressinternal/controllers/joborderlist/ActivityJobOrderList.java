@@ -418,6 +418,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         rlReload.setVisibility(View.GONE);
 
+        //Stop previous request
+        requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
+
         //Set visibility of Switch Filter Button
         showSwitchButton(position == TAB_OPEN);
 
@@ -977,6 +980,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     public void onItemClick(int position, JobOrder object) {
 
         int currentTab = adapterTab.getCurrentTab();
+
         goToDetail(object, currentTab);
     }
 
