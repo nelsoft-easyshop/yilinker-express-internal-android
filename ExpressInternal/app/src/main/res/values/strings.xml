@@ -18,8 +18,8 @@
         <item name="menu_delivery">View For Delivery</item>
         <!--<item name="menu_claiming">View For Claiming</item>-->
         <item name="menu_dropoff">View For Dropoff</item>
-        <item name="menu_scanner">QR Code Single Scanner</item>
-        <item name="menu_scanner">QR Code Bulk Scanner</item>
+        <item name="menu_scanner">QR Code Scanner</item>
+        <!--<item name="menu_scanner">QR Code Bulk Scanner</item>-->
         <item name="menu_acknowledge">Direct Acknowledge</item>
     </string-array>
 
@@ -235,6 +235,7 @@
     <string name="package_enter_height">Enter Height</string>
     <string name="package_retrieving_list">Loading list…</string>
     <string name="package_select">--- Select ---</string>
+    <string name="package_weight_error">Weight input should be greater than 0</string>
 
     <!--Checklist-->
     <string name="checklist_job_completed">Job order is completed!</string>

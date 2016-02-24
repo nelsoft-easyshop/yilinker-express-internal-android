@@ -902,15 +902,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             case 5:
 
-                showSingleScanner();
+                showScanner();
                 break;
 
             case 6:
-
-                showBulkScanner();
-                break;
-
-            case 7:
 
                 goToAcknowledgeScreen();
                 break;
@@ -953,7 +948,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void showBulkScanner() {
+    private void showScanner() {
 
         Intent intent = new Intent(this, ActivityScanner.class);
         startActivity(intent);

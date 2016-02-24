@@ -20,6 +20,7 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 /**
  * Created by J.Bautista
@@ -154,7 +155,7 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
         tvRecipient.setText(jobOrder.getRecipient());
         tvContactNo.setText(jobOrder.getContactNo());
         tvItem.setText(jobOrder.getPackageDescription());
-        tvAmountCollected.setText(String.format("₱%.02f", jobOrder.getAmountToCollect()));
+        tvAmountCollected.setText(PriceFormatHelper.formatPrice(jobOrder.getAmountToCollect()));
 
         long timeUsed = Math.abs((jobOrder.getTimeDelivered().getTime() - jobOrder.getEstimatedTimeOfArrival().getTime())/(3600 * 1000));
         int timeInHours = (int) timeUsed;

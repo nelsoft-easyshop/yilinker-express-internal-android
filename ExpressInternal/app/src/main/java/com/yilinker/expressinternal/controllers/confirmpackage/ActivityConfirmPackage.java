@@ -30,6 +30,7 @@ import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.PackageType;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -227,17 +228,20 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
                 if (etHeight.getText().toString().isEmpty()
                         || etLength.getText().toString().isEmpty()
                         || etWidth.getText().toString().isEmpty()
-                        || etWeight.getText().toString().isEmpty()
-                        || Integer.valueOf(etWeight.getText().toString()) < 1) {
-                btnSave.setEnabled(false);
+                        || etWeight.getText().toString().isEmpty()) {
+                    btnSave.setEnabled(false);
+                } else if (Integer.valueOf(etWeight.getText().toString()) < 1) {
+                    Toast.makeText(this, R.string.package_weight_error, Toast.LENGTH_SHORT).show();
+                    btnSave.setEnabled(false);
                 } else {
                     calculateShippingFee();
                 }
             } else {
                 if (etSize.getText().toString().isEmpty() || etWeight.getText().toString().isEmpty()) {
                     btnSave.setEnabled(false);
-//                    onBackPressed();
-
+                } else if (Integer.valueOf(etWeight.getText().toString()) < 1) {
+                    Toast.makeText(this, R.string.package_weight_error, Toast.LENGTH_SHORT).show();
+                    btnSave.setEnabled(false);
                 } else {
                     calculateShippingFee();
                 }
@@ -277,10 +281,10 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
         //temp To format the shipping fee to 2 decimal places
         float totalFee = Float.parseFloat(shippingFee.getTotalShippingFee());
-        String fee = String.format("%.2f", totalFee);
+        String fee = PriceFormatHelper.formatPrice(totalFee);
 
 //        tvShippingFee.setText(shippingFee.getTotalShippingFee());
-        tvShippingFee.setText(String.format("P%s", fee));
+        tvShippingFee.setText(fee);
 
 
         btnSave.setEnabled(true);
@@ -309,14 +313,8 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
             packageList.add(packageTypeLocal);
         }
 
-        if(!isEdit) {
-            etType.setText(R.string.package_select);
-            etSize.setText(R.string.package_select);
-        }
 
         setPackageList(packageList);
-
-
 
 
     }
@@ -328,7 +326,6 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
         adapterPackageSizes.notifyDataSetChanged();
 
         if (isEdit) {
-
             lvSizes.performItemClick(lvSizes, tempSizeId, lvSizes.getItemIdAtPosition(tempSizeId));
             isEdit = false;
         }
@@ -342,6 +339,9 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
         if (isEdit) {
             lvType.performItemClick(lvType, tempPackageId, lvType.getItemIdAtPosition(tempPackageId));
+        } else {
+            etType.setText(R.string.package_select);
+            etSize.setText(R.string.package_select);
         }
     }
 
@@ -418,10 +418,10 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
             lvType.setVisibility(View.GONE);
             packagePosition = position;
             packageId = packageList.get(position).getId();
-            etType.setText(packageList.get(position).getName());
+//            etType.setText(packageList.get(position).getName());
 
-            if (!etType.getText().toString().equals(PACKAGE_CUSTOM)) {
-
+//            if (!etType.getText().toString().equals(PACKAGE_CUSTOM)) {
+            if (packageId != 99) {
                 rlSize.setVisibility(View.VISIBLE);
                 llCustomFields.setVisibility(View.GONE);
 //                rlHeight.setVisibility(View.GONE);
@@ -445,6 +445,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
             }
 
+            etType.setText(packageList.get(position).getName());
 
         }
 
@@ -539,7 +540,7 @@ public class ActivityConfirmPackage extends BaseActivity implements ResponseHand
 
 //            isUpdate = "0";
 
-            //close even if it fails after pressing Save Button
+        //close even if it fails after pressing Save Button
 //            savePackageFee();
 
 //        }
