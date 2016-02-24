@@ -579,7 +579,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_OPEN);
-                    rlReload.setVisibility(View.VISIBLE);
+//                    rlReload.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -594,7 +594,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_COMPLETE);
-                    rlReload.setVisibility(View.VISIBLE);
+//                    rlReload.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -602,15 +602,20 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_PROBLEMATIC);
-                    rlReload.setVisibility(View.VISIBLE);
+//                    rlReload.setVisibility(View.VISIBLE);
 
                     break;
 
                 default:
                     //TODO Load a view showing no Entries Found message
-                    rlReload.setVisibility(View.VISIBLE);
+//                    rlReload.setVisibility(View.VISIBLE);
                     break;
+
             }
+
+            rlReload.setVisibility(View.VISIBLE);
+            rlProgress.setVisibility(View.GONE);
+
         } else {
             rlProgress.setVisibility(View.GONE);
             isReloading = false;
@@ -1224,14 +1229,16 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         filterByBranch = !filterByBranch;
         int resId = R.string.filter_area;
+        int resColor = R.drawable.bg_btn_marigold_rounded;
 
         if (filterByBranch) {
             resId = R.string.filter_branch;
+            resColor = R.drawable.bg_btn_orangeyellow_rounded;
         }
 
         Button ivSwitch = (Button) actionBar.findViewById(R.id.ivSwitch);
 
-        ivSwitch.setBackgroundResource(R.drawable.bg_btn_orangeyellow_rounded);
+        ivSwitch.setBackgroundResource(resColor);
         ivSwitch.setText(getString(resId));
 
         requestGetJobOrders();
