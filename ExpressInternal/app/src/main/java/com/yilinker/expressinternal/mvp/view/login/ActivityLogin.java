@@ -34,7 +34,7 @@ public class ActivityLogin extends Activity implements ILoginView, View.OnClickL
         //Reuse previous presenter if available
         if(savedInstanceState == null){
 
-            presenter = new LoginPresenter();
+            presenter = new LoginPresenter(this, this);
         }
         else{
 
@@ -43,6 +43,20 @@ public class ActivityLogin extends Activity implements ILoginView, View.OnClickL
 
 
         initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        presenter.bindView(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        presenter.unbindView();
     }
 
     @Override
@@ -123,5 +137,6 @@ public class ActivityLogin extends Activity implements ILoginView, View.OnClickL
     public void hideLoader() {
 
         rlProgress.setVisibility(View.GONE);
+
     }
 }
