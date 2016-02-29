@@ -11,6 +11,7 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseViewHolder;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.CashHistory;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +90,7 @@ public class AdapterCashHistory extends RecyclerView.Adapter<AdapterCashHistory.
 
 //            tvAction.setText(object.getAction());
             tvAction.setText(DateUtility.convertDateToString(object.getDate(), DATE_FORMAT));
-            tvAmount.setText(String.format("%.02f PHP", object.getAmount()));
+            tvAmount.setText(String.format(PriceFormatHelper.formatPrice(object.getAmount())));
             tvType.setText(object.getType());
 //            tvJobOrderNo.setText(object.getJobOrderNo());
 
