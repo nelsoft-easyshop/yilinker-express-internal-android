@@ -19,6 +19,7 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.CashDetail;
 import com.yilinker.expressinternal.model.CashHistory;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,8 +125,8 @@ public class ActivityCashManagement extends BaseActivity implements ResponseHand
 
     private void resetDetails(){
 
-        tvCashLimit.setText(String.format("%.02f PHP",cashDetail.getCashLimit()));
-        tvCashOnHand.setText(String.format("%.02f PHP",cashDetail.getCashOnHand()));
+        tvCashLimit.setText(PriceFormatHelper.formatPrice(cashDetail.getCashLimit()));
+        tvCashOnHand.setText(PriceFormatHelper.formatPrice(cashDetail.getCashOnHand()));
 
         historyList.clear();
         historyList.addAll(cashDetail.getCashHistory());
