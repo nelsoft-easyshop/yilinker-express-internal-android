@@ -1,2 +1,2 @@
-include ':app', ':core'
-project(':core').projectDir = new File(settingsDir, '../../yilinker-core-android/Core/core')
+include ':app',':core'
+project(':core').projectDir = new File('../../yilinker-core-android/Core/core')
