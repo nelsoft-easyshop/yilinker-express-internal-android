@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/llSideMenu"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@color/gray2"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/SideMenuButtonStyle"
+            android:src="@drawable/ic_joborder_back"
+            android:background="@color/warm_gray"/>
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/warm_gray"/>
+
+        <ImageButton
+            android:id="@+id/btnQRCode"
+            style="@style/SideMenuButtonStyle"
+            android:src="@drawable/ic_joborder_qrcode" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/warm_gray"/>
+
+        <ImageButton
+            android:id="@+id/btnMap"
+            style="@style/SideMenuButtonStyle"
+            android:src="@drawable/ic_joborder_location" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/warm_gray"/>
+
+        <ImageButton
+            android:id="@+id/btnContact"
+            style="@style/SideMenuButtonStyle"
+            android:src="@drawable/ic_joborder_phone" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/warm_gray"/>
+
+        <ImageButton
+            android:id="@+id/btnImage"
+            style="@style/SideMenuButtonStyle"
+            android:src="@drawable/ic_joborder_images" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/warm_gray"/>
+
+        <ImageButton
+            android:id="@+id/btnCaution"
+            style="@style/SideMenuButtonStyle"
+            android:src="@drawable/ic_caution"
+            android:visibility="gone" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/warm_gray"/>
+
+        <ImageButton
+            android:id="@+id/btnPrint"
+            style="@style/SideMenuButtonStyle"
+            android:src="@drawable/ic_joborder_print" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/warm_gray"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/llButtons"
+        android:layout_toRightOf="@+id/llSideMenu">
+
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnPositive"
+            style="@style/JobOrderDetailFooterButtonStyle"
+            android:background="@drawable/bg_btn_bluegreen" />
+
+        <Button
+            android:id="@+id/btnNegative"
+            style="@style/JobOrderDetailFooterButtonStyle"
+            android:background="@drawable/bg_btn_warmgray" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/rlProgress"
+        layout="@layout/layout_progress" />
+
+</RelativeLayout>

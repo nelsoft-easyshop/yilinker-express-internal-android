@@ -73,19 +73,25 @@
     <string name="filter_branch">Branch</string>
 
     <!--Job Order Detail-->
+    <string name="job_order_waybill_number">Waybill Number</string>
     <string name="job_order_number">Job Order Number</string>
     <string name="eta">ETA</string>
     <string name="pickup_address">Pickup Address</string>
     <string name="dropoff_address">Dropoff Address</string>
     <string name="delivery_address">Delivery Address</string>
+    <string name="drop_to">Drop to</string>
+    <string name="deliver_to">Deliver to</string>
     <!--<string name="recipient">Recipient</string>-->
     <string name="recipient">Shipper</string>
+    <string name="shipper_name">Shipper Name</string>
     <string name="consignee">Consignee</string>
+    <string name="consignee_name">Consignee Name</string>
     <string name="contact_number">Contact Number</string>
     <string name="item">Item</string>
     <string name="type">Type</string>
     <string name="rating">Rating</string>
     <string name="time_used">Time Used</string>
+    <string name="time_elapsed">Time Elapsed</string>
     <string name="earned">Earned</string>
     <string name="status">Status</string>
     <string name="amount_collected">Amount Collected</string>
@@ -104,6 +110,9 @@
     <string name="joborderdetail_report_out_of_stock">Report this as out of stock?</string>
     <string name="joborderdetail_job_order_accepted">Job order accepted!</string>
     <string name="joborderdetail_job_order_successfully_problem_reporting">Successfully reported the problem!</string>
+    <string name="joborderdetail_date_created">Date Created</string>
+    <string name="joborderdetail_date_accepted">Date Accepted</string>
+    <string name="joborderdetail_amount_to_collect">Amount to collect</string>
     <string name="cancel">Cancel</string>
     <string name="gps_network_not_enabled">You need to turn on location services to use this feature.</string>
     <string name="open_location_settings">Go to Settings</string>
