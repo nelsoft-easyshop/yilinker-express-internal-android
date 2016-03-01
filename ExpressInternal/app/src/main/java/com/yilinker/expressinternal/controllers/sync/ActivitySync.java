@@ -6,6 +6,7 @@ import android.view.View;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
@@ -278,18 +279,15 @@ public class ActivitySync extends BaseActivity{
 
     private void purgeData(){
 
-//        RealmResults<SyncDBObject> query = realm.where(SyncDBObject.class).equalTo("isSync", true).findAll();
-//
-//        realm.beginTransaction();
-//
-//        query.clear();
-//
-//        realm.commitTransaction();
 
         HashMap<String, Object> mapQuery = new HashMap<>();
         mapQuery.put("isSync", true);
 
         dbTransaction.deleteAll(SyncDBObject.class, mapQuery);
+
+        //Clean cache. Remove images
+        if(!appClass.hasItemsForSyncing())
+            ImageUtility.clearCachedImages(this);
 
     }
 }

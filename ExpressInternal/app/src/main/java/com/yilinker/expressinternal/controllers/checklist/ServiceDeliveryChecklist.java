@@ -71,21 +71,13 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
         wayBillNo = intent.getStringExtra(ActivityChecklist.ARG_WAYBILL_NO);
         jobOrderNo = intent.getStringExtra(ActivityChecklist.ARG_JOBORDER_NO);
-//        imageIds = intent.getStringExtra(ActivityChecklist.ARG_IMAGES);
         signature = intent.getStringExtra(ActivityChecklist.ARG_SIGNATURE);
         rating = Integer.valueOf(intent.getStringExtra(ActivityChecklist.ARG_RATING));
-
-//        imageIds = imageIds.replace("[","");
-//        imageIds = imageIds.replace("]","");
-
-
-//        images = new ArrayList<String>(Arrays.asList(imageIds.split(",")));
         images = intent.getStringArrayExtra(ActivityChecklist.ARG_IMAGES);
     }
 
     private void requestSubmitImages() {
 
-//        Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, images, this);
         Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, Arrays.asList(images), this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
@@ -226,6 +218,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
 
     }
+
 
 
 }
