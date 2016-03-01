@@ -1,5 +1,8 @@
 package com.yilinker.expressinternal;
 
+import android.content.Context;
+
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.mvp.model.Login;
 import com.yilinker.expressinternal.mvp.presenter.login.LoginPresenter;
 import com.yilinker.expressinternal.mvp.view.login.ActivityLogin;
@@ -21,9 +24,9 @@ public class LoginPresenterTest {
     @Before
     public void setup(){
 
-        presenter = new LoginPresenter();
+        Context context = mock(ApplicationClass.class);
         view = mock(ActivityLogin.class);
-
+        presenter = new LoginPresenter(context, view);
 
     }
 
@@ -31,6 +34,13 @@ public class LoginPresenterTest {
     public void testNoUserName(){
 
         presenter.attemptLogin("", "123455");
+
+    }
+
+    @Test
+    public void testNoUserPassword(){
+
+        presenter.attemptLogin("Name", "");
 
     }
 

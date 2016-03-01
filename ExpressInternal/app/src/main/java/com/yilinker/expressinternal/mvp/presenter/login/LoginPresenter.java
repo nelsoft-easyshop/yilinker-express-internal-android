@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.login;
 
+import android.content.Context;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.RiderAPI;
@@ -28,10 +30,11 @@ public class LoginPresenter extends BasePresenter<Object, ActivityLogin> impleme
 
     private Login login;
 
-    public LoginPresenter(){
+    public LoginPresenter(Context context){
 
-        this.applicationClass = (ApplicationClass)ApplicationClass.getInstance();
+        this.applicationClass = (ApplicationClass)context;
         this.requestQueue = applicationClass.getRequestQueue();
+        this.view = view();
 
     }
 
