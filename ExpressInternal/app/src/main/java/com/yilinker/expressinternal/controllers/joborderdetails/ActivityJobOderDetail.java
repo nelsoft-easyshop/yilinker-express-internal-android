@@ -230,21 +230,23 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
             case REQUEST_UPDATE:
 
-                Toast.makeText(getApplicationContext(), "Job order accepted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.joborderdetail_job_order_accepted), Toast.LENGTH_LONG).show();
                 goToMainScreen();
 
                 break;
 
             case REQUEST_ACCEPT_JOB:
 
-                Toast.makeText(getApplicationContext(), "Job order accepted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.joborderdetail_job_order_accepted), Toast.LENGTH_LONG).show();
                 goToMainScreen();
 
                 break;
 
             case REQUEST_OUT_OF_STOCK:
 
-                Toast.makeText(getApplicationContext(), "Successfully reported the problem!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.joborderdetail_job_order_successfully_problem_reporting),
+                        Toast.LENGTH_LONG).show();
                 finish();
                 break;
 
@@ -926,9 +928,9 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     private void showOutOfStockDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityJobOderDetail.this);
-        builder.setMessage("Report this as out of stock?");
+        builder.setMessage(getString(R.string.joborderdetail_report_out_of_stock));
 
-        builder.setPositiveButton("Yes",
+        builder.setPositiveButton(getString(R.string.dialog_yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -936,7 +938,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
                     }
                 });
 
-        builder.setNegativeButton("No",
+        builder.setNegativeButton(getString(R.string.dialog_no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -1036,12 +1038,12 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         if(resultCode == RESULT_OK){
 
-            Toast.makeText(getApplicationContext(), "Data sync successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.request_sync_success), Toast.LENGTH_SHORT).show();
             goToMainScreen();
         }
         else{
 
-            Toast.makeText(getApplicationContext(), "Data sync failed. Try again later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.request_data_sync_failed), Toast.LENGTH_SHORT).show();
         }
 
     }

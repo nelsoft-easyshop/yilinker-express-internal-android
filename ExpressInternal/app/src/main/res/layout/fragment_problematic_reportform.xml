@@ -5,7 +5,7 @@
     <EditText android:background="@drawable/bg_problematic_remarks"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/etRemarks" android:hint="Remarks" android:gravity="top" android:padding="15dp"
+        android:id="@+id/etRemarks" android:hint="@string/problematic_remarks_hint" android:gravity="top" android:padding="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_below="@+id/tvTitle"

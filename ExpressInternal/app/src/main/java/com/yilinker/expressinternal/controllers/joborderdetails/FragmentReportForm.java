@@ -341,7 +341,7 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryIntent.setType("image/*");
-        startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"),
+        startActivityForResult(Intent.createChooser(galleryIntent, getString(R.string.image_select_picture)),
                 REQUEST_SHOW_GALLERY);
     }
 
@@ -357,9 +357,9 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     private void uploadPhoto(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Upload Pictures Option");
+        builder.setTitle(getString(R.string.image_upload_options));
 
-        builder.setPositiveButton("Show Gallery",
+        builder.setPositiveButton(getString(R.string.image_show_gallery),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -367,7 +367,7 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
                     }
                 });
 
-        builder.setNegativeButton("Launch Camera",
+        builder.setNegativeButton(getString(R.string.image_launch_camera),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
