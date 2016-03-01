@@ -43,18 +43,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"  android:name=".business.ApplicationClass">
-        <activity android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:name=".controllers.login.ActivityLogin"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
         <!--<activity android:theme="@android:style/Theme.Light.NoTitleBar"-->
-            <!--android:name=".mvp.view.login.ActivityLogin"-->
+            <!--android:name=".controllers.login.ActivityLogin"-->
             <!--android:label="@string/app_name" >-->
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
@@ -62,6 +52,16 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         <!--</activity>-->
+
+        <activity android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:name=".mvp.view.login.ActivityLogin"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".controllers.dashboard.ActivityDashboard"
