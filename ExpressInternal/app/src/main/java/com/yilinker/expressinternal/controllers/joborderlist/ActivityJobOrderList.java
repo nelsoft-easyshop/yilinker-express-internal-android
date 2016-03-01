@@ -444,6 +444,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         rlReload.setVisibility(View.GONE);
         tvNoResults.setVisibility(View.GONE);
 
+        //Reset Text of tvNoResults
+        tvNoResults.setText(getString(R.string.joborder_list_no_results_found));
+
         requestGetJobOrders();
     }
 
@@ -556,7 +559,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_OPEN);
-                    rlReload.setVisibility(View.VISIBLE);
+
+                    if(message.equalsIgnoreCase(APIConstant.ERR_NO_SEGREGATION_AREA)){
+
+                        tvNoResults.setText(APIConstant.ERR_NO_SEGREGATION_AREA);
+                        tvNoResults.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        rlReload.setVisibility(View.VISIBLE);
+                    }
 
                     break;
 
@@ -939,6 +950,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             menuItems.set(0, getString(R.string.menu_mapview));
             currentView = VIEW_LIST;
+
+            tvNoResults.setVisibility(View.GONE);
+            rlReload.setVisibility(View.GONE);
         }
 
         adapterJobOrderMenu.notifyItemChanged(0);
