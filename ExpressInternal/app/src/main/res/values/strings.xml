@@ -252,5 +252,20 @@
     <!--Others-->
     <string name="error_problem_connecting">Problem connecting to the server. Tap to reload.</string>
 
+    <!--Main Screen-->
+    <string-array name="main_tab_items">
+        <item name="tab_jobs">JOBS</item>
+        <item name="tab_tools">TOOLS</item>
+        <item name="tab_empty"></item>
+        <item name="tab_profile">PROFILE</item>
+    </string-array>
+
+    <string-array name="main_tab_icons">
+        <item>@drawable/ic_back_arrow</item>
+        <item>@drawable/ic_back_arrow</item>
+        <item>@drawable/ic_back_arrow</item>
+        <item>@drawable/ic_back_arrow</item>
+    </string-array>
+
 </resources>
 
