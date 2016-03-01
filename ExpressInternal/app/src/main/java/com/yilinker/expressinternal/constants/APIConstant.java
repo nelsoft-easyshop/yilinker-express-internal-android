@@ -12,5 +12,6 @@ public class APIConstant {
 
     public static final String ERR_NO_ENTRIES_FOUND = "No entries found";
     public static final String ERR_EXCEEDS_CASH_LIMIT = "Cash Limit Reached";
+    public static final String ERR_NO_SEGREGATION_AREA = "Rider has no segregation area";
 
 }

@@ -2,7 +2,7 @@
     <string name="app_name">ExpressInternal</string>
 
     <!-- Login -->
-    <string name="login_quote">to hold this so-called \n dragon no other than the great \n Leviathan himself.</string>
+    <string name="login_quote">We are committed in providing highest standard services,\nreliable and on-time delivery.</string>
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
@@ -18,8 +18,8 @@
         <item name="menu_delivery">View For Delivery</item>
         <!--<item name="menu_claiming">View For Claiming</item>-->
         <item name="menu_dropoff">View For Dropoff</item>
-        <item name="menu_scanner">QR Code Single Scanner</item>
-        <item name="menu_scanner">QR Code Bulk Scanner</item>
+        <item name="menu_scanner">QR Code Scanner</item>
+        <!--<item name="menu_scanner">QR Code Bulk Scanner</item>-->
         <item name="menu_acknowledge">Direct Acknowledge</item>
     </string-array>
 
@@ -105,6 +105,7 @@
     <string name="gps_network_not_enabled">You need to turn on location services to use this feature.</string>
     <string name="open_location_settings">Go to Settings</string>
     <string name="generating_qr">Generating QR Code...</string>
+    <string name="joborder_list_no_results_found">No results found</string>
 
     
     <!--Update Status (Pickup)-->
@@ -235,6 +236,7 @@
     <string name="package_enter_height">Enter Height</string>
     <string name="package_retrieving_list">Loading list…</string>
     <string name="package_select">--- Select ---</string>
+    <string name="package_weight_error">Weight input should be greater than 0</string>
 
     <!--Checklist-->
     <string name="checklist_job_completed">Job order is completed!</string>

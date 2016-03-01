@@ -42,6 +42,7 @@ import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,8 +138,6 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         setContentView(R.layout.activity_joborderdetail);
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
-//        realm = Realm.getInstance(this);
-//        dbTransaction = new SyncDBTransaction(this);
 
         //Get data passed by the previous activity
         getData();
@@ -247,13 +246,6 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
                 finish();
                 break;
 
-//            //for syncing requests
-//            default:
-//
-//                handleSyncSuccess(requestCode);
-//
-//                break;
-
         }
 
         rlProgress.setVisibility(View.GONE);
@@ -281,13 +273,6 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
                 break;
 
-//            //for syncing
-//
-//            default:
-//
-//                handleFailedSync();
-//
-//                break;
         }
 
     }
@@ -405,32 +390,6 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     private void bindViewData() {
 
-//        String type = jobOrder.getType();
-//        String status = jobOrder.getStatus();
-//
-//        if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
-//            setOpenDeliveryViews();
-//        }
-//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_OPEN) && type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
-//            setOpenPickupViews();
-//        }
-//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
-//            setCurrentPickupViews();
-//        }
-//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
-//            setCurrentDeliveryViews();
-//        }
-//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
-//            setClaimingViews();
-//        }
-//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
-//            setDropOffViews();
-//        }
-//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
-//            setProblematicViews();
-//            return;
-//        }
-
         String status = jobOrder.getStatus();
         String type = jobOrder.getType();
 
@@ -456,7 +415,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 //        tvJobOrderNo.setText(jobOrder.getJobOrderNo());
         tvJobOrderNo.setText(jobOrder.getWaybillNo());
         tvRecipient.setText(jobOrder.getRecipient());
-        tvAmountToCollect.setText(String.format("P%.02f", jobOrder.getAmountToCollect()));
+        tvAmountToCollect.setText(PriceFormatHelper.formatPrice(jobOrder.getAmountToCollect()));
 
         if (jobOrder.getContactNo() != null)         //temp
             tvContactNo.setText(jobOrder.getContactNo());
@@ -744,87 +703,6 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
     }
 
-//    private void handleSync() {
-//
-//        sync = dbTransaction.getAll(SyncDBObject.class);
-//
-//        requestCounter = 0;
-//        totalRequest = sync.size();
-//
-//        for (int i = 0; i < sync.size(); i++) {
-//
-//            SyncDBObject syncItem = sync.get(i);
-//
-//            if (!syncItem.isSync()) {
-//
-//                if (syncItem.getRequestType() == ActivityChecklist.REQUEST_SIGNATURE) {
-//
-//                    requestSubmitSignature(i, syncItem.getId(), syncItem.getData());
-//
-//                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_RATING) {
-//
-//                    requestSubmitRating(i, syncItem.getId(), Integer.valueOf(syncItem.getData()));
-//
-//                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_UPLOAD_IMAGES) {
-//
-//                    requestSubmitImages(i, syncItem.getId(), syncItem.getData());
-//
-//                } else if (syncItem.getRequestType() == ActivityChecklist.REQUEST_UPDATE) {
-//
-//                    requestUpdate(i, syncItem.getId(), syncItem.getData());
-//
-//                } else if (syncItem.getRequestType() == ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE) {
-//
-//                    requestCalculateShippingFee(i, syncItem.getId(), syncItem.getData());
-//
-//                }
-//
-//            }
-//
-//        }
-//
-//    }
-//
-//    private void handleSyncSuccess(int position) {
-//
-//        requestCounter++;
-//
-//        RealmQuery<SyncDBObject> query = realm.where(SyncDBObject.class);
-//
-//        query.equalTo("key", sync.get(position).getKey());
-//
-//        SyncDBObject result = query.findFirst();
-//
-//        realm.beginTransaction();
-//        result.setSync(true);
-//        realm.commitTransaction();
-//
-//        dbTransaction.update(result);
-//
-//        if (requestCounter >= totalRequest) {
-//
-//            rlProgress.setVisibility(View.GONE);
-//            goToMainScreen();
-//
-//        }
-//
-//
-//
-//    }
-//
-//    private void handleFailedSync() {
-//
-//        requestCounter++;
-//
-//        if (requestCounter >= totalRequest){
-//
-//                rlProgress.setVisibility(View.GONE);
-//                goToMainScreen();
-//
-//        }
-//
-//    }
-
     private void requestUpdateStatus(String newStatus) {
 
         rlProgress.setVisibility(View.VISIBLE);
@@ -838,80 +716,6 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         requestQueue.add(request);
 
     }
-
-//    private void requestSubmitImages(int position, String wayBillNo, String images) {
-//
-//        rlProgress.setVisibility(View.VISIBLE);
-//
-//        images = images.replace("[", "");
-//        images = images.replace("]", "");
-//
-//
-//        List<String> imageList = new ArrayList<String>(Arrays.asList(images.split(",")));
-//        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, imageList, this);
-//        request.setTag(ApplicationClass.REQUEST_TAG);
-//
-//        requestQueue.add(request);
-//
-//    }
-//
-//    private void requestUpdate(int position, String jobOrderNo, String newStatus) {
-//
-//        rlProgress.setVisibility(View.VISIBLE);
-//
-//        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, this);
-//        request.setTag(ApplicationClass.REQUEST_TAG);
-//
-//        requestQueue.add(request);
-//
-//    }
-//
-//    private void requestSubmitRating(int position, String jobOrderNo, Integer rating) {
-//
-//        rlProgress.setVisibility(View.VISIBLE);
-//
-//        Request request = JobOrderAPI.addRating(position, jobOrderNo, rating, this);
-//        request.setTag(ApplicationClass.REQUEST_TAG);
-//
-//        requestQueue.add(request);
-//
-//    }
-//
-//    private void requestSubmitSignature(int position, String jobOrderNo, String signature) {
-//
-//        rlProgress.setVisibility(View.VISIBLE);
-//
-//        Request request = JobOrderAPI.uploadSignature(position, jobOrderNo, signature, this);
-//        request.setTag(ApplicationClass.REQUEST_TAG);
-//
-//        requestQueue.add(request);
-//
-//    }
-//
-//    private void requestCalculateShippingFee(int position, String jobOrderNo, String packageData) {
-//
-//        packageData = packageData.replace("[", "");
-//        packageData = packageData.replace("]", "");
-//
-//
-//        List<String> packageFee = new ArrayList<String>(Arrays.asList(packageData.split(",")));
-//
-//        String sizeId, length, width, height, weight;
-//
-//        sizeId = packageFee.get(0);
-//        length = packageFee.get(1);
-//        width  = packageFee.get(2);
-//        height = packageFee.get(3);
-//        weight = packageFee.get(4);
-//
-//        Request request = JobOrderAPI.calculateShippingFee(position,
-//                Integer.valueOf(sizeId), length, width, height, weight, jobOrderNo, "1", this);
-//
-//        request.setTag(ApplicationClass.REQUEST_TAG);
-//
-//        requestQueue.add(request);
-//
-//    }
 
     private void goToMainScreen() {
 

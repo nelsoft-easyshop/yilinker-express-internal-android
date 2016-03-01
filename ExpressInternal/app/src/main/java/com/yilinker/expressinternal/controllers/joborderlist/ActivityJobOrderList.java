@@ -137,7 +137,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private TextView tvDelivery;
     private TextView tvPickup;
     private ImageView ivScanQr;
+
+
     private EditText etSearchField;
+    private TextView tvNoResults;
 
     private boolean shouldReload;
     private int filter;
@@ -184,9 +187,17 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             //Data from Dashboard
             getData();
 
-            resetTabCount();
+            if(jobOrderList.size() > 1) {
 
-            reloadList(AdapterJobOrderList.TYPE_OPEN, false);
+                resetTabCount();
+                reloadList(AdapterJobOrderList.TYPE_OPEN, false);
+
+            }
+            else{
+
+                rlReload.setVisibility(View.VISIBLE);
+            }
+
             shouldReload = true;
         }
     }
@@ -252,8 +263,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         rvTab = (RecyclerView) findViewById(R.id.rvTab);
         ivScanQr = (ImageView) findViewById(R.id.iv_scanTrackingCode);
         etSearchField = (EditText) findViewById(R.id.et_searchField);
+        tvNoResults = (TextView) findViewById(R.id.tvNoResults);
 
 
+        rlProgress.setVisibility(View.GONE);
         rlReload.setVisibility(View.GONE);
         rlReload.setOnClickListener(this);
 
@@ -299,11 +312,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
+     * <p>
      * If it isn't installed {@link SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
      * install/update the Google Play services APK on their device.
-     * <p/>
+     * <p>
      * A user can return to this FragmentActivity after following the prompt and correctly
      * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
      * have been completely destroyed during this process (it is likely that it would only be
@@ -330,7 +343,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
-     * <p/>
+     * <p>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
@@ -403,7 +416,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_SEARCH_QR_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_SEARCH_QR_CODE && resultCode == RESULT_OK) {
 
 //            rvJobOrder.findViewHolderForAdapterPosition
 //                    (Integer.valueOf(data.getStringExtra(ARG_OPEN_JO))).itemView.performClick();
@@ -416,8 +429,6 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onTabItemClick(int position) {
 
-        rlReload.setVisibility(View.GONE);
-
         //Stop previous request
         requestQueue.cancelAll(ApplicationClass.REQUEST_TAG);
 
@@ -428,8 +439,13 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
         completeList.clear();
         clearFilter();
 
-
         adapterJobOrderList.notifyDataSetChanged();
+
+        rlReload.setVisibility(View.GONE);
+        tvNoResults.setVisibility(View.GONE);
+
+        //Reset Text of tvNoResults
+        tvNoResults.setText(getString(R.string.joborder_list_no_results_found));
 
         requestGetJobOrders();
     }
@@ -495,49 +511,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             completeList.clear();
 
 
-
-
-//            List<JobOrder> list = new ArrayList<>();
-//            List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
-//
-//            for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
-//
-//                JobOrder jo = new JobOrder(item);
-//
-//                //check jo if it's for syncing
-//
-//                if (requestCode == REQUEST_GET_CURRENT) {
-//                    for (int i = 0; i < requestsList.size(); i++) {
-//                        if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
-//                                || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
-//                            if (!requestsList.get(i).isSync())                 //check sync status
-//                                jo.setForSyncing(true);
-//                        }
-//                    }
-//
-//                }
-//
-//
-//                list.add(jo);
-//
-//            }
-//
-//            jobOrderList.addAll(list);
-//            completeList.addAll(list);
-//
-//            //For Tab Count
-//            int count = listServer.size();
-//            tabItems.get(adapterTab.getCurrentTab()).setCount(count);
-//            resetTabCount();
-//
-//            reloadList(type, false);
-
             List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
             createList(listServer, type);
 
 
             //Save current JO data to local storage for offline function
-            if (requestCode == REQUEST_GET_CURRENT){
+            if (requestCode == REQUEST_GET_CURRENT) {
                 ApplicationClass.saveLocalCurrentListData(this, listServer); //save to text
             }
 
@@ -570,6 +549,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     @Override
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
+
         if (!message.equalsIgnoreCase(APIConstant.ERR_NO_ENTRIES_FOUND)) {
 
 
@@ -579,7 +559,15 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_OPEN);
-//                    rlReload.setVisibility(View.VISIBLE);
+
+                    if(message.equalsIgnoreCase(APIConstant.ERR_NO_SEGREGATION_AREA)){
+
+                        tvNoResults.setText(APIConstant.ERR_NO_SEGREGATION_AREA);
+                        tvNoResults.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        rlReload.setVisibility(View.VISIBLE);
+                    }
 
                     break;
 
@@ -587,6 +575,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     List<com.yilinker.core.model.express.internal.JobOrder> listLocal = ApplicationClass.getLocalData(this);
                     createList(listLocal, AdapterJobOrderList.TYPE_CURRENT);
+                    rlReload.setVisibility(View.GONE);
 
                     break;
 
@@ -594,7 +583,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_COMPLETE);
-//                    rlReload.setVisibility(View.VISIBLE);
+                    rlReload.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -602,7 +591,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                     //TODO: Local list for offline viewing
 //                loadLocalJobOrderList(AdapterJobOrderList.TYPE_PROBLEMATIC);
-//                    rlReload.setVisibility(View.VISIBLE);
+                    rlReload.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -612,12 +601,17 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                     break;
 
             }
-
-            rlReload.setVisibility(View.VISIBLE);
+//            tvNoResults.setVisibility(View.GONE);
             rlProgress.setVisibility(View.GONE);
 
         } else {
+
             rlProgress.setVisibility(View.GONE);
+
+            if (currentView == VIEW_LIST) {
+                tvNoResults.setVisibility(View.VISIBLE);
+            }
+
             isReloading = false;
         }
 
@@ -770,19 +764,33 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             reloadMap();
         }
+        //For List View
+        else {
 
-        if (isFiltered) {
-            adapterJobOrderList.notifyDataSetChanged();
-            jobOrderList = tempOrigJobOrderList;
+            // show no results found text when waybill number does not exist on list
+            if (jobOrderList.size() < 1) {
+                tvNoResults.setVisibility(View.VISIBLE);
+            } else {
+                tvNoResults.setVisibility(View.GONE);
+            }
         }
 
-        if(!etSearchField.getText().toString().equals("") && !isFiltered) {
+
+        if (isFiltered) {
+
+            adapterJobOrderList.notifyDataSetChanged();
+            jobOrderList = tempOrigJobOrderList;
+
+        }
+
+        if (!etSearchField.getText().toString().equals("") && !isFiltered) {
 
             filterJobOrderList(etSearchField.getText().toString());
 
         }
 
         rlProgress.setVisibility(View.GONE);
+        rlReload.setVisibility(View.GONE);
     }
 
     //Reload the map
@@ -907,15 +915,10 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             case 5:
 
-                showSingleScanner();
+                showScanner();
                 break;
 
             case 6:
-
-                showBulkScanner();
-                break;
-
-            case 7:
 
                 goToAcknowledgeScreen();
                 break;
@@ -938,12 +941,18 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             menuItems.set(0, getString(R.string.menu_listview));
             currentView = VIEW_MAP;
 
+            tvNoResults.setVisibility(View.GONE);
+            rlReload.setVisibility(View.GONE);
+
             reloadMap();
 
         } else {
 
             menuItems.set(0, getString(R.string.menu_mapview));
             currentView = VIEW_LIST;
+
+            tvNoResults.setVisibility(View.GONE);
+            rlReload.setVisibility(View.GONE);
         }
 
         adapterJobOrderMenu.notifyItemChanged(0);
@@ -958,7 +967,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private void showBulkScanner() {
+    private void showScanner() {
 
         Intent intent = new Intent(this, ActivityScanner.class);
         startActivity(intent);
@@ -1130,10 +1139,12 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             jobOrderList.addAll(list);
             completeList.addAll(list);
             adapterJobOrderList.notifyDataSetChanged();
-        } else {
-
-            requestGetJobOrders();
         }
+//        } else {
+//
+//            tvNoResults.setVisibility(View.GONE);
+//            requestGetJobOrders();
+//        }
 
     }
 
@@ -1248,8 +1259,9 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
     private void clearFilter() {
 
         etSearchField.setText("");
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
 
     }
 
@@ -1280,64 +1292,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-//    private void loadLocalJobOrderList() {
-//
-////        List<JobOrder> list = new ArrayList<>();
-////        requestsList = dbTransaction.getAll(SyncDBObject.class);
-////        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
-////
-////        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
-////
-////            JobOrder jo = new JobOrder(item);
-////
-////            //check jo if it's for syncing
-////                for (int i = 0; i < requestsList.size(); i++) {
-////                    if (requestsList.get(i).getId().equals(jo.getJobOrderNo())
-////                            || requestsList.get(i).getId().equals(jo.getWaybillNo())) {
-////                        if (!requestsList.get(i).isSync())                 //check sync status
-////                            jo.setForSyncing(true);
-////                    }
-////                }
-////
-////            list.add(jo);
-////
-////        }
-//
-//
-//        List<JobOrder> list = new ArrayList<>();
-//        List<com.yilinker.core.model.express.internal.JobOrder> listServer = ApplicationClass.getLocalData(this);
-//
-//        //Create search dictionary
-//        String searchDictionary = getSearchDictionary();
-//
-//        for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
-//
-//            JobOrder jo = new JobOrder(item);
-//
-//            //check jo if it's for syncing
-//            String waybillNo = jo.getWaybillNo();
-//            String joNumber = jo.getJobOrderNo();
-//
-//            if(searchDictionary.contains(waybillNo) || searchDictionary.contains(joNumber)){
-//                jo.setForSyncing(true);
-//            }
-//
-//            list.add(jo);
-//
-//        }
-//
-//        jobOrderList.addAll(list);
-//
-//        //For Tab Count
-//        int count = listServer.size();
-//        tabItems.get(adapterTab.getCurrentTab()).setCount(count);
-//        resetTabCount();
-//
-//        reloadList(AdapterJobOrderList.TYPE_CURRENT, false);
-//
-//    }
 
-    private void createList(List<com.yilinker.core.model.express.internal.JobOrder> listServer, int type){
+    private void createList(List<com.yilinker.core.model.express.internal.JobOrder> listServer, int type) {
 
         List<JobOrder> list = new ArrayList<>();
 
@@ -1349,7 +1305,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             JobOrder jo = new JobOrder(item);
 
 
-            if(searchDictionary != null) {
+            if (searchDictionary != null) {
                 //check jo if it's for syncing
                 String waybillNo = String.format("|%s|", jo.getWaybillNo());
                 String joNumber = String.format("|%s|", jo.getJobOrderNo());
@@ -1375,20 +1331,20 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     }
 
-    private String getSearchDictionary(){
+    private String getSearchDictionary() {
 
         String dictionary = null;
 
         requestsList = dbTransaction.getAll(SyncDBObject.class);
 
-        if(requestsList.size() > 0){
+        if (requestsList.size() > 0) {
 
             StringBuilder syncBuilder = new StringBuilder();
             syncBuilder.append("|");
 
-            for(SyncDBObject object: requestsList){
+            for (SyncDBObject object : requestsList) {
 
-                if(!object.isSync()){
+                if (!object.isSync()) {
 
                     syncBuilder.append(object.getId());
                     syncBuilder.append("|");
@@ -1399,7 +1355,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
         }
 
-        return  dictionary;
+        return dictionary;
 
     }
 
