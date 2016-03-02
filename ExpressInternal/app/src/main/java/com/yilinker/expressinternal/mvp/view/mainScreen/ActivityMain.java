@@ -74,7 +74,7 @@ public class ActivityMain extends Activity implements IMainView, TabItemClickLis
         //TODO setUp adapter here
 
         String[] tabTitles = getResources().getStringArray(R.array.main_tab_items);
-        TypedArray tabIcons = getResources().obtainTypedArray(R.array.main_tab_icons);
+        TypedArray tabIcons = getResources().obtainTypedArray(R.array.main_tab_icons_unselected);
         presenter.setUpMainTabs(tabTitles, tabIcons);
     }
 
