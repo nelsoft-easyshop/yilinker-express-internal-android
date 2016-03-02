@@ -3,6 +3,7 @@
     <color name="white">#ffffff</color>
     <color name="white_gray">#eeeeee</color>
     <color name="gray">#dedede</color>
+    <color name="light_gray">#afafaf</color>
     <color name="warm_gray">#9b9b9b</color>
     <color name="gray_brown">#4a4a4a</color>
     <color name="marigold">#ffc107</color>
