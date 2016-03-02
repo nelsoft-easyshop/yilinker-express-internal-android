@@ -3,21 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:id="@+id/llContainer">
+    android:id="@+id/llContainer"
+    android:background="@drawable/bg_btn_white">
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:id="@+id/ivTabIcon"
-        android:background="@drawable/ic_camera"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvTabTitle"
-        android:text="JOBS"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:textColor="@drawable/textcolor_white_warmgray"/>
 
 </LinearLayout>

@@ -14,27 +14,41 @@ import java.util.List;
 /**
  * Created by Patrick on 3/1/2016.
  */
-public class MainScreenPresenter extends BasePresenter<Object, ActivityMain> implements IMainScreenPresenter{
+public class MainScreenPresenter extends BasePresenter<List<MainTab>, IMainView> implements IMainScreenPresenter{
 
-    private IMainView view;
     private List<MainTab> tabs;
 
     @Override
     protected void updateView() {
 
+
     }
 
-
     @Override
-    public void setUpMainTabs(String[] tabItems, TypedArray icons) {
-        //TODO add the tab items and icons to model
+    public void onInitializeTabs(String[] tabTitles, int[] tabIcons, int[] selectedTabIcons) {
+
         tabs = new ArrayList<>();
-        view.loadTabs(tabs);
+        MainTab tab = null;
+
+        for(int i =0; i < tabTitles.length; i ++){
+
+            tab = new MainTab();
+            tab.setId(i);
+            tab.setResourceIcon(tabIcons[i]);
+            tab.setSelected(i == 0);
+            tab.setTitle(tabTitles[i]);
+            tab.setSelectedIcon(selectedTabIcons[i]);
+
+            tabs.add(tab);
+        }
+
+        view().loadTabs(tabs);
+
     }
 
     @Override
-    public void setSelectedTab(int position) {
-        //TODO update the value of previous and current tab
-        view.loadTabs(tabs);
+    public void onTabSelected(int position) {
+
+
     }
 }

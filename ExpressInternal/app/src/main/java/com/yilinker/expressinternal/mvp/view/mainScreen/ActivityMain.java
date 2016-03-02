@@ -3,6 +3,7 @@ package com.yilinker.expressinternal.mvp.view.mainScreen;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import com.yilinker.expressinternal.mvp.model.MainTab;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.login.LoginPresenter;
 import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainScreenPresenter;
+import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,27 +25,28 @@ import java.util.List;
 /**
  * Created by Patrick on 3/1/2016.
  */
-public class ActivityMain extends Activity implements IMainView, TabItemClickListener{
+public class ActivityMain extends BaseFragmentActivity implements IMainView{
 
-    private RecyclerView rvMainTab;
-
-    private List<MainTab> mainTabs;
     private MainScreenPresenter presenter;
+    private MainTabAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_screen);
 
         if(savedInstanceState == null){
+
             presenter = new MainScreenPresenter();
         }
         else{
+
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
 
         }
 
-        initViews();
+
+        setContentView(R.layout.activity_main_screen);
+        initializeViews();
 
     }
 
@@ -55,43 +59,62 @@ public class ActivityMain extends Activity implements IMainView, TabItemClickLis
 
 
     @Override
-    public void initViews() {
+    protected void onResume() {
+        super.onResume();
 
-        rvMainTab = (RecyclerView) findViewById(R.id.rvMainTab);
-        setUpTabs();
+        presenter.bindView(this);
+
+        setupTab();
     }
 
     @Override
-    public void replaceFragment(Fragment fragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.flContainer, fragment);
-        transaction.commit();
+    protected void onPause() {
+        super.onPause();
+
+        presenter.unbindView();
 
     }
 
-    @Override
-    public void setUpTabs() {
-        //TODO setUp adapter here
 
-        String[] tabTitles = getResources().getStringArray(R.array.main_tab_items);
-        TypedArray tabIcons = getResources().obtainTypedArray(R.array.main_tab_icons);
-        presenter.setUpMainTabs(tabTitles, tabIcons);
+    @Override
+    public void initializeViews() {
+
+        RecyclerView rvTabs = (RecyclerView) findViewById(R.id.rvMainTab);
+        rvTabs.setHasFixedSize(true);
+        rvTabs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        adapter = new MainTabAdapter(R.layout.layout_main_tab_item);
+        adapter.setEqualWidth(getWindowManager(), 4);
+
+        rvTabs.setAdapter(adapter);
+
     }
 
     @Override
     public void loadTabs(List<MainTab> tabs) {
-        //TODO call update tabs from  tabPresenter
+
+        adapter.addAll(tabs);
+    }
+
+    @Override
+    public void changeSelectedTab(MainTab previousTab, MainTab currentTab) {
 
     }
 
     @Override
-    public void updateTabs() {
-        //TODO notify the adapter
-        //TODO call replaceFragment
+    public void replaceFragment(int selectedTab) {
+
+
     }
 
-    @Override
-    public void onTabItemClick(int position) {
-        presenter.setSelectedTab(position);
+    private void setupTab(){
+
+        Resources resources = getResources();
+        String[] tabTitles = resources.getStringArray(R.array.main_tab_items);
+        int[] tabIcons = {R.drawable.ic_back_arrow, R.drawable.ic_back_arrow, R.drawable.ic_back_arrow, R.drawable.ic_back_arrow};
+        int[] selectedIcons = {R.drawable.ic_back_arrow, R.drawable.ic_back_arrow, R.drawable.ic_back_arrow, R.drawable.ic_back_arrow};
+
+        presenter.onInitializeTabs(tabTitles, tabIcons, selectedIcons);
+
     }
 }

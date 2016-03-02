@@ -1,31 +1,27 @@
 package com.yilinker.expressinternal.mvp.presenter.mainScreen;
 
-import com.yilinker.expressinternal.mvp.model.MainTab;
-import com.yilinker.expressinternal.mvp.view.mainScreen.IMainView;
+import android.view.View;
 
-import java.util.List;
+import com.yilinker.expressinternal.mvp.model.MainTab;
+import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.view.mainScreen.MainTabViewHolder;
 
 /**
  * Created by Patrick on 3/1/2016.
  */
-
-//TODO add parameter for the object and view
-public class MainTabPresenter extends BasePresenter<> implements IMainTabPresenter {
-
-    IMainView view;
-
+public class MainTabPresenter extends BasePresenter<MainTab, MainTabViewHolder> implements View.OnClickListener {
 
     @Override
     protected void updateView() {
 
-        //TODO notify the adapter
-        view.updateTabs();
+        view().setIcon(model.getResourceIcon());
+        view().setTitle(model.getTitle());
+        view().setSelected(model.isSelected());
     }
 
     @Override
-    public void updateTabs(List<MainTab> tabs) {
-        //TODO set/update the content/status of the tabs here
-        updateView();
-    }
+    public void onClick(View v) {
 
+
+    }
 }

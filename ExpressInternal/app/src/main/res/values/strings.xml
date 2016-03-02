@@ -260,12 +260,12 @@
         <item name="tab_profile">PROFILE</item>
     </string-array>
 
-    <string-array name="main_tab_icons">
+    <array name="main_tab_icons">
         <item>@drawable/ic_back_arrow</item>
         <item>@drawable/ic_back_arrow</item>
         <item>@drawable/ic_back_arrow</item>
         <item>@drawable/ic_back_arrow</item>
-    </string-array>
+    </array>
 
 </resources>
 

@@ -34,7 +34,7 @@ public class ActivityLogin extends Activity implements ILoginView, View.OnClickL
         //Reuse previous presenter if available
         if(savedInstanceState == null){
 
-            presenter = new LoginPresenter(this, this);
+            presenter = new LoginPresenter(this);
         }
         else{
 
