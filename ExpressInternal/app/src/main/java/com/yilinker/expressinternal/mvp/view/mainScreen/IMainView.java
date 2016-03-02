@@ -16,5 +16,6 @@ public interface IMainView {
     public void replaceFragment(Fragment fragment);
     public void setUpTabs();
     public void loadTabs(List<MainTab> tabs);
+    public void updateTabs();
 
 }

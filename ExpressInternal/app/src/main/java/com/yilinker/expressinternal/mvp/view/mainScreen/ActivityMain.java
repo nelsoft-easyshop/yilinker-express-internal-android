@@ -59,7 +59,6 @@ public class ActivityMain extends Activity implements IMainView, TabItemClickLis
 
         rvMainTab = (RecyclerView) findViewById(R.id.rvMainTab);
         setUpTabs();
-        //TODO call replaceFragment as initial content of the fragment
     }
 
     @Override
@@ -81,9 +80,14 @@ public class ActivityMain extends Activity implements IMainView, TabItemClickLis
 
     @Override
     public void loadTabs(List<MainTab> tabs) {
-        //TODO call update tabs from adapter
-        //TODO call replaceFragment
+        //TODO call update tabs from  tabPresenter
 
+    }
+
+    @Override
+    public void updateTabs() {
+        //TODO notify the adapter
+        //TODO call replaceFragment
     }
 
     @Override
