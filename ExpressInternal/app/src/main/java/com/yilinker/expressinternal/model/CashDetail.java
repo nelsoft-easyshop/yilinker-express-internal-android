@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.InstanceCreator;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,9 +26,11 @@ public class CashDetail implements Parcelable{
 
         List<com.yilinker.core.model.express.internal.CashHistory> list = object.getCashHistory();
         cashHistory = new ArrayList<>();
+        int id = 1;
         for(com.yilinker.core.model.express.internal.CashHistory item : list){
 
-            cashHistory.add(new CashHistory(item));
+            cashHistory.add(new CashHistory(item,id));
+            id++;
         }
 
     }
@@ -73,7 +76,6 @@ public class CashDetail implements Parcelable{
     public void setCashHistory(List<CashHistory> cashHistory) {
         this.cashHistory = cashHistory;
     }
-
 
     @Override
     public int describeContents() {

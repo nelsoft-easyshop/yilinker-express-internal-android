@@ -1,11 +1,13 @@
 package com.yilinker.expressinternal.mvp.view.cashManagement;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.cashmanagement.AdapterCashHistory;
@@ -26,11 +28,10 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
     private TextView tvCashOnHand;
     private TextView tvCashLimit;
     private RelativeLayout rlProgress;
-
-    private List<CashHistory> historyList;
-    private CashDetail cashDetail;
+    SwipeRefreshLayout refreshLayout;
 
     private CashManagementPresenter presenter;
+    private CashHistoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,8 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
         super.onResume();
 
         presenter.bindView(this);
+        presenter.requestCashDetails();
+        showLoader();
 
     }
 
@@ -81,26 +84,63 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
 
         RecyclerView rvHistory = (RecyclerView) findViewById(R.id.rvHistory);
         rvHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-        //TODO set adapter here
+        adapter = new CashHistoryAdapter();
+        rvHistory.setAdapter(adapter);
+
+        /***set-up pull to refresh*/
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+
+            @Override
+            public void onRefresh() {
+                presenter.requestCashDetails();
+            }
+        });
     }
 
     @Override
-    public void handleCashDetails(CashDetail cashDetail) {
-        tvCashLimit.setText(PriceFormatHelper.formatPrice(cashDetail.getCashLimit()));
-        tvCashOnHand.setText(PriceFormatHelper.formatPrice(cashDetail.getCashOnHand()));
+    public void handleCashDetails(List<CashHistory> cashHistories) {
+        adapter.clearAndAddAll(cashHistories);
+    }
 
-        //TODO notify changes for the adapter here
+    @Override
+    public void clearCashHistory(CashDetail cashDetail) {
+        adapter.clearAndAddAll(cashDetail.getCashHistory());
+    }
+
+    @Override
+    public void setCashLimit(String cashLimit) {
+        tvCashLimit.setText(cashLimit);
+
+    }
+
+    @Override
+    public void setCashOnHand(String cashOnHand) {
+        tvCashOnHand.setText(cashOnHand);
 
     }
 
     @Override
     public void showLoader(boolean isVisible) {
-        rlProgress.setVisibility(isVisible? View.VISIBLE: View.GONE);
+        refreshLayout.setRefreshing(isVisible);
+
+    }
+
+    /***to show the loader at first load of the page*/
+    private void showLoader(){
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override
     public void showErrorMessage(boolean isVisible, String errorMessage) {
-        //TODO add error message
+        TextView tvErrorMessage = (TextView) findViewById(R.id.tvErrorMessage);
+        tvErrorMessage.setVisibility(isVisible? View.VISIBLE:View.GONE);
+        tvErrorMessage.setText(errorMessage);
     }
 
 }

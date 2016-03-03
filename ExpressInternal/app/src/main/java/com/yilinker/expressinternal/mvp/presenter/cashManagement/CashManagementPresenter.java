@@ -10,6 +10,9 @@ import com.yilinker.expressinternal.model.CashHistory;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.cashManagement.ICashManagementView;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
+
+import java.util.List;
 
 /**
  * Created by Patrick on 3/3/2016.
@@ -22,6 +25,7 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
     private ApplicationClass applicationClass;
     private RequestQueue requestQueue;
 
+    private CashDetail cashDetail;
 
     public CashManagementPresenter(){
         applicationClass = (ApplicationClass) ApplicationClass.getInstance();
@@ -30,17 +34,39 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
 
     @Override
     protected void updateView() {
-
+        view().handleCashDetails(cashDetail.getCashHistory());
+        view().setCashLimit(getFormattedCashLimit());
+        view().setCashOnHand(getFormattedCashOnHand());
     }
+
+
+    public String getFormattedCashOnHand(){
+        return PriceFormatHelper.formatPrice(cashDetail.getCashOnHand());
+    }
+
+
+    public String getFormattedCashLimit(){
+        return PriceFormatHelper.formatPrice(cashDetail.getCashLimit());
+    }
+
 
     @Override
     public void requestCashDetails() {
-        view().showLoader(true);
+//        view().showLoader(true);
         view().showErrorMessage(false,"");
 
         Request request = RiderAPI.getCashDetails(REQUEST_GET_CASH_DETAIL, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
         requestQueue.add(request);
+
+        /***clear list of cash history every request*/
+        if (cashDetail!=null){
+            if (cashDetail.getCashHistory().size()!=0){
+
+                cashDetail.getCashHistory().clear();
+                view().clearCashHistory(cashDetail);
+            }
+        }
     }
 
     @Override
@@ -63,12 +89,12 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
 
     @Override
     public void onFailed(int requestCode, String message) {
+        view().showLoader(false);
         view().showErrorMessage(true, message);
     }
 
     private void handleCashDetails(Object object){
-        CashDetail cashDetail = new CashDetail((com.yilinker.core.model.express.internal.CashDetail) object);
-        view().handleCashDetails(cashDetail);
-
+        cashDetail = new CashDetail((com.yilinker.core.model.express.internal.CashDetail) object);
+        updateView();
     }
 }

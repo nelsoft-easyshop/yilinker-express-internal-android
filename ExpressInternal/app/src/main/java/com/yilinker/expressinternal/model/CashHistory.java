@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.InstanceCreator;
 import com.yilinker.core.utility.DateUtility;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -23,8 +24,9 @@ public class CashHistory implements Parcelable {
     private String type;
     private String waybillNo;
     private double runningTotal;
+    private int id;
 
-    public CashHistory(com.yilinker.core.model.express.internal.CashHistory object){
+    public CashHistory(com.yilinker.core.model.express.internal.CashHistory object, int id){
 
 //        this.action = object.getAction();
         this.amount = object.getAmount();
@@ -33,9 +35,18 @@ public class CashHistory implements Parcelable {
         this.type = object.getType();
         this.waybillNo = object.getWaybillNo();
         this.runningTotal = object.getRunningTotal();
+        this.id = id;
         //temp
 //        this.jobOrderNo = String.valueOf(object.getJobOrderNo());
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getRunningTotal() {
@@ -109,6 +120,7 @@ public class CashHistory implements Parcelable {
         dest.writeString(this.type);
         dest.writeString(this.waybillNo);
         dest.writeDouble(this.runningTotal);
+        dest.writeInt(this.id);
     }
 
     protected CashHistory(Parcel in) {
@@ -120,6 +132,7 @@ public class CashHistory implements Parcelable {
         this.type = in.readString();
         this.waybillNo = in.readString();
         this.runningTotal = in.readDouble();
+        this.id = in.readInt();
     }
 
     public static final Creator<CashHistory> CREATOR = new Creator<CashHistory>() {
