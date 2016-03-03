@@ -285,6 +285,12 @@
     <string name="pick_up">PICK UP</string>
     <string name="deliver">DELIVER</string>
     <string name="drop_off">DROP OFF</string>
+    <!--search-->
+    <string name="filter">Filter</string>
+    <string name="select_job_types">SELECT JOB TYPES TO DISPLAY</string>
+    <string name="search_type_for_pick_up">FOR PICK UP</string>
+    <string name="search_for_drop_off">FOR DROP-OFF</string>
+    <string name="search_for_delivery">FOR DELIVERY</string>
 
 </resources>
 
