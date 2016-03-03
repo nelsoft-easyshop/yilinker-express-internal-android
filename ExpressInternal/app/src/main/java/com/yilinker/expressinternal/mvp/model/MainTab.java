@@ -5,12 +5,16 @@ import android.os.Parcelable;
 
 /**
  * Created by Patrick on 3/1/2016.
+ *
+ * Modified by J.Bautista on 3/2/2016
  */
-public class MainTab implements Parcelable {
+public class MainTab {
 
     private int id;
     private String title;
     private boolean isSelected;
+    private int resourceIcon;
+    private int selectedIcon;
 
     public int getId() {
         return id;
@@ -36,34 +40,20 @@ public class MainTab implements Parcelable {
         isSelected = selected;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public int getResourceIcon() {
+        return resourceIcon;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeString(this.title);
-        dest.writeByte(isSelected ? (byte) 1 : (byte) 0);
+    public void setResourceIcon(int resourceIcon) {
+        this.resourceIcon = resourceIcon;
+
     }
 
-    public MainTab() {
+    public int getSelectedIcon() {
+        return selectedIcon;
     }
 
-    protected MainTab(Parcel in) {
-        this.id = in.readInt();
-        this.title = in.readString();
-        this.isSelected = in.readByte() != 0;
+    public void setSelectedIcon(int selectedIcon) {
+        this.selectedIcon = selectedIcon;
     }
-
-    public static final Parcelable.Creator<MainTab> CREATOR = new Parcelable.Creator<MainTab>() {
-        public MainTab createFromParcel(Parcel source) {
-            return new MainTab(source);
-        }
-
-        public MainTab[] newArray(int size) {
-            return new MainTab[size];
-        }
-    };
 }
