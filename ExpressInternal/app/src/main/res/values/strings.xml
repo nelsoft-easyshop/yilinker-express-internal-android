@@ -260,12 +260,14 @@
         <item name="tab_profile">PROFILE</item>
     </string-array>
 
+
     <string-array name="main_tab_icons_unselected">
         <item>@drawable/ic_jobs</item>
         <item>@drawable/ic_tools</item>
         <item>@drawable/ic_tools</item>
         <item>@drawable/ic_profile</item>
     </string-array>
+
 
     <string-array name="main_tab_icons_selected">
         <item>@drawable/ic_jobs_selected</item>
