@@ -21,7 +21,7 @@ import java.util.List;
  *
  * Use this as the base class of presenters which require method for refreshing token
  */
-public class RequestPresenter extends BasePresenter implements ResponseHandler{
+public abstract class RequestPresenter <M, V>  extends BasePresenter <M, V>  implements ResponseHandler{
 
     private final static int REQUEST_REFRESH_TOKEN = 9000;
 
