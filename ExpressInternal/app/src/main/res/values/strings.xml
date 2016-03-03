@@ -302,5 +302,21 @@
     <string name="tools_bulk_checkin">Bulk Check In</string>
     <string name="tools_direct_acknowledge">Direct Acknowledge</string>
     <string name="tools_cash_turnover">Cash Turnover</string>
+
+    <string-array name="array_tool_items">
+        <item name="tool_search_qr">@string/tools_search_qr</item>
+        <item name="tool_bulk_checkin">@string/tools_bulk_checkin</item>
+        <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
+        <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
+    </string-array>
+
+    <string-array name="array_tool_images">
+        <item name="tool_image_search_qr">@drawable/ic_qrcodescanner</item>
+        <item name="tool_image_bulk_checkin">@drawable/ic_bulk_checkin</item>
+        <item name="tool_image_direct_acknowledge">@drawable/ic_direct_acknowledge</item>
+        <item name="tool_image_cash_turnover">@drawable/ic_cash_turnover</item>
+    </string-array>
+
+
 </resources>
 
