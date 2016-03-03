@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.adapter.ListRecyclerViewAdapter;
 import com.yilinker.expressinternal.mvp.adapter.TabRecyclerViewAdapter;
 import com.yilinker.expressinternal.mvp.model.MainTab;
@@ -17,10 +18,12 @@ import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainTabPresenter;
  */
 public class MainTabAdapter extends TabRecyclerViewAdapter<MainTab, MainTabPresenter, MainTabViewHolder> {
 
+    private TabItemClickListener clickListener;
 
-    public MainTabAdapter(int resourceId) {
+    public MainTabAdapter(int resourceId, TabItemClickListener clickListener) {
         super(resourceId);
 
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -46,6 +49,6 @@ public class MainTabAdapter extends TabRecyclerViewAdapter<MainTab, MainTabPrese
         View view = LayoutInflater.from(parent.getContext()).inflate(getResourceId(), parent, false);
         view.setLayoutParams(new LinearLayout.LayoutParams(getWidth(), ViewGroup.LayoutParams.MATCH_PARENT, 1));
 
-        return new MainTabViewHolder(view);
+        return new MainTabViewHolder(view, clickListener);
     }
 }

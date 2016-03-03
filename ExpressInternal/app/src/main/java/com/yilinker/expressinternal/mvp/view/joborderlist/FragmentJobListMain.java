@@ -1,12 +1,15 @@
 package com.yilinker.expressinternal.mvp.view.joborderlist;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobListMainPresenter;
@@ -25,9 +28,9 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-//        View view =
+        View view = inflater.inflate(R.layout.fragment_jobs, container, false);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
 
     }
 
@@ -57,6 +60,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         super.onResume();
 
         presenter.bindView(this);
+
     }
 
     @Override
@@ -68,6 +72,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
     @Override
     public void initializeViews() {
+
 
 
     }
@@ -88,6 +93,16 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     public void showLoader(boolean isVisible) {
 
 
+    }
+
+    private void replaceFragment(Fragment fragment){
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.flContainer, fragment);
+
+        transaction.commit();
     }
 
 }

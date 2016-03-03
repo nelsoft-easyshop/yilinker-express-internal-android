@@ -6,7 +6,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
+import com.yilinker.expressinternal.mvp.model.MainTab;
 import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainTabPresenter;
 
 /**
@@ -14,14 +16,16 @@ import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainTabPresenter;
  */
 public class MainTabViewHolder extends BaseViewHolder<MainTabPresenter> implements View.OnClickListener, IMainTabView{
 
+    private TabItemClickListener listener;
     private ImageView ivTabIcon;
     private TextView tvTabTitle;
 
-    public MainTabViewHolder(View itemView) {
+    public MainTabViewHolder(View itemView, TabItemClickListener listener) {
         super(itemView);
 
-        ivTabIcon = (ImageView) itemView.findViewById(R.id.ivTabIcon);
-        tvTabTitle = (TextView) itemView.findViewById(R.id.tvTabTitle);
+        this.ivTabIcon = (ImageView) itemView.findViewById(R.id.ivTabIcon);
+        this.tvTabTitle = (TextView) itemView.findViewById(R.id.tvTabTitle);
+        this.listener = listener;
 
         itemView.setOnClickListener(this);
     }
@@ -29,7 +33,7 @@ public class MainTabViewHolder extends BaseViewHolder<MainTabPresenter> implemen
     @Override
     public void onClick(View view) {
 
-        presenter.onClick(view);
+        presenter.onClick();
 
     }
 
@@ -55,5 +59,11 @@ public class MainTabViewHolder extends BaseViewHolder<MainTabPresenter> implemen
         //Set the background of the tab item depending on state
         itemView.setSelected(isSelected);
 
+    }
+
+    @Override
+    public void showSelected(MainTab tab) {
+
+        listener.onTabItemClick(tab.getId());
     }
 }

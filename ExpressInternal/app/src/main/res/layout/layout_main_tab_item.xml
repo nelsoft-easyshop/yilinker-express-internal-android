@@ -7,8 +7,8 @@
     android:background="@drawable/bg_btn_white">
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/ivTabIcon"
         android:layout_gravity="center_horizontal"/>
 

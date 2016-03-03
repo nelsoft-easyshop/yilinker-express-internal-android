@@ -260,12 +260,33 @@
         <item name="tab_profile">PROFILE</item>
     </string-array>
 
-    <array name="main_tab_icons">
-        <item>@drawable/ic_back_arrow</item>
-        <item>@drawable/ic_back_arrow</item>
-        <item>@drawable/ic_back_arrow</item>
-        <item>@drawable/ic_back_arrow</item>
-    </array>
+
+    <string-array name="main_tab_icons_unselected">
+        <item>@drawable/ic_jobs</item>
+        <item>@drawable/ic_tools</item>
+        <item>@drawable/ic_tools</item>
+        <item>@drawable/ic_profile</item>
+    </string-array>
+
+
+    <string-array name="main_tab_icons_selected">
+        <item>@drawable/ic_jobs_selected</item>
+        <item>@drawable/ic_tools_selected</item>
+        <item>@drawable/ic_tools_selected</item>
+        <item>@drawable/ic_profile_selected</item>
+    </string-array>
+
+    <!--New Job Order List Layout-->
+    <!--OPEN-->
+    <string name="job_order_list_from_label">FROM</string>
+    <string name="job_order_list_to_label">TO</string>
+    <string name="job_order_list_distance_label">Distance</string>
+    <!--CURRENT-->
+    <string name="job_order_list_pick_up_at">PICK UP AT</string>
+    <string name="job_order_list_deliver_to">DELIVER TO</string>
+    <string name="pick_up">PICK UP</string>
+    <string name="deliver">DELIVER</string>
+    <string name="drop_off">DROP OFF</string>
 
 </resources>
 

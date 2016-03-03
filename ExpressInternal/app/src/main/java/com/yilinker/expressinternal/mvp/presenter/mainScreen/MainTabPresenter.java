@@ -9,19 +9,21 @@ import com.yilinker.expressinternal.mvp.view.mainScreen.MainTabViewHolder;
 /**
  * Created by Patrick on 3/1/2016.
  */
-public class MainTabPresenter extends BasePresenter<MainTab, MainTabViewHolder> implements View.OnClickListener {
+public class MainTabPresenter extends BasePresenter<MainTab, MainTabViewHolder> {
+
+
 
     @Override
     protected void updateView() {
 
-        view().setIcon(model.getResourceIcon());
+        view().setIcon(model.isSelected() ? model.getSelectedIcon() : model.getResourceIcon());
         view().setTitle(model.getTitle());
         view().setSelected(model.isSelected());
     }
 
-    @Override
-    public void onClick(View v) {
+    public void onClick(){
 
-
+        view().showSelected(model);
     }
+
 }

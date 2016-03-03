@@ -17,10 +17,12 @@ import java.util.List;
 public class MainScreenPresenter extends BasePresenter<List<MainTab>, IMainView> implements IMainScreenPresenter{
 
     private List<MainTab> tabs;
+    private int previousTab = 0;
 
     @Override
     protected void updateView() {
 
+        view().replaceFragment(previousTab);
 
     }
 
@@ -43,12 +45,25 @@ public class MainScreenPresenter extends BasePresenter<List<MainTab>, IMainView>
         }
 
         view().loadTabs(tabs);
+        updateView();
 
     }
 
     @Override
     public void onTabSelected(int position) {
 
+        //Unselect previous tab
+        MainTab previous = tabs.get(previousTab);
+        previous.setSelected(false);
 
+        //Select current tab
+        MainTab current = tabs.get(position);
+        current.setSelected(true);
+
+        previousTab = position;
+
+        view().changeSelectedTab(previous, current);
+
+        updateView();
     }
 }
