@@ -45,7 +45,7 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
 
         }
 
-        setContentView(R.layout.activity_cash_management);
+        setContentView(R.layout.activity_cash_management_2);
 
         initializeViews();
     }

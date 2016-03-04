@@ -148,7 +148,9 @@
     <string name="cashmanagement_onhand">Cash on hand</string>
     <string name="cashmanagement_limit">Cash on hand limit</string>
     <string name="cashmanagement_history">Cash History</string>
-    
+    <string name="cashmanagement_balance">Balance</string>
+    <string name="cashmanagement_amount">Amount</string>
+
     <string name="title_activity_activity_job_order_list">Map</string>
     <string name="title_activity_activity_dashboard">ActivityDashboard</string>
 

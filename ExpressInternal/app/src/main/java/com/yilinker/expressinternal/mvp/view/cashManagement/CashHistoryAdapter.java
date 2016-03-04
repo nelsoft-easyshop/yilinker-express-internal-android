@@ -36,7 +36,7 @@ public class CashHistoryAdapter extends ListRecyclerViewAdapter<CashHistory, Cas
 
     @Override
     public CashHistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cashhistory_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cashhistory_item_2, parent, false);
 
         return new CashHistoryViewHolder(view);
     }

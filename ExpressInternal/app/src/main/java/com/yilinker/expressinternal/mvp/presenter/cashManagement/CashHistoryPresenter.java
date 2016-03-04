@@ -19,6 +19,7 @@ public class CashHistoryPresenter extends BasePresenter<CashHistory, CashHistory
         view().setViews(model);
         view().setFormattedAmount(getFormattedAmount());
         view().setFormattedDate(getFormattedDate());
+        view().setFormatterRunningTotal(getFormattedRunningTotal());
     }
 
 
@@ -28,6 +29,10 @@ public class CashHistoryPresenter extends BasePresenter<CashHistory, CashHistory
 
     public String getFormattedAmount(){
         return PriceFormatHelper.formatPrice(model.getAmount());
+    }
+
+    public String getFormattedRunningTotal(){
+        return PriceFormatHelper.formatPrice(model.getRunningTotal());
     }
 
 }

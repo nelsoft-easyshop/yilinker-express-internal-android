@@ -33,14 +33,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:textAllCaps="true" android:text="@string/cashmanagement_history" android:gravity="center" android:paddingBottom="10dp" />
 
-        <android.support.v7.widget.RecyclerView android:id="@+id/rvHistory"
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" ></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView android:id="@+id/rvHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" ></android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
 
     </LinearLayout>
 
     <View android:layout_height="1dp" android:layout_width="match_parent" android:background="@color/gray3" android:layout_alignParentTop="true"/>
 
-    <include android:layout_height="match_parent" android:layout_width="match_parent" layout="@layout/layout_progress" android:id="@+id/rlProgress"/>
+    <!--<include android:layout_height="match_parent" android:layout_width="match_parent" layout="@layout/layout_progress" android:id="@+id/rlProgress"/>-->
+    <TextView
+        android:id="@+id/tvErrorMessage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llHeader"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

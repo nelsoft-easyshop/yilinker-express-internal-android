@@ -10,4 +10,5 @@ public interface ICashHistoryView {
     public void setViews(CashHistory cashHistory);
     public void setFormattedDate(String date);
     public void setFormattedAmount(String amount);
+    public void setFormatterRunningTotal(String runningTotal);
 }

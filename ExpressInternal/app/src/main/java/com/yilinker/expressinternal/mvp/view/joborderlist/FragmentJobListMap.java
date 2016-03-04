@@ -22,9 +22,10 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_jobs_map, container, false);
-
-        return view;
+//        View view = inflater.inflate(R.layout.fragment_jobs_map, container, false);
+//
+//        return view;
+        return null;
     }
 
     @Override
