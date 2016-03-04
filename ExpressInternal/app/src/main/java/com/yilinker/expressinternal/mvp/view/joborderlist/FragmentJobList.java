@@ -21,10 +21,9 @@ public class FragmentJobList extends Fragment implements IJobListView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-//        View view = inflater.inflate(R.layout.fragment_jobs_list, container, false);
-//
-//        return view;
-        return null;
+        View view = inflater.inflate(R.layout.fragment_jobs_list, container, false);
+
+        return view;
     }
 
     @Override
