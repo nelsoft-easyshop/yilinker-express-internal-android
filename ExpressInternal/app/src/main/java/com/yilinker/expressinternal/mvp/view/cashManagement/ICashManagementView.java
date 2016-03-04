@@ -1,5 +1,6 @@
 package com.yilinker.expressinternal.mvp.view.cashManagement;
 
+import com.android.volley.Request;
 import com.yilinker.expressinternal.model.CashDetail;
 import com.yilinker.expressinternal.model.CashHistory;
 
@@ -16,4 +17,6 @@ public interface ICashManagementView {
     public void setCashOnHand(String cashOnHand);
     public void showLoader(boolean isVisible);
     public void showErrorMessage(boolean isVisible, String errorMessage);
+    public void addRequest(Request request);
+    public void cancelAllRequest(List<String> requestTags);
 }

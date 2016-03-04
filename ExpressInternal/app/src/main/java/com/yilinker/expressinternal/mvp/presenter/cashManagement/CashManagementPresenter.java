@@ -12,6 +12,9 @@ import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.cashManagement.ICashManagementView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,16 +24,10 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
         implements ICashManagementPresenter{
 
     private final static int REQUEST_GET_CASH_DETAIL = 2000;
-
-    private ApplicationClass applicationClass;
-    private RequestQueue requestQueue;
+    private final static String GET_CASH_DETAILS_REQUEST_TAG = "request-tag";
 
     private CashDetail cashDetail;
-
-    public CashManagementPresenter(){
-        applicationClass = (ApplicationClass) ApplicationClass.getInstance();
-        requestQueue = applicationClass.getRequestQueue();
-    }
+    private String[] requests = {GET_CASH_DETAILS_REQUEST_TAG};
 
     @Override
     protected void updateView() {
@@ -56,8 +53,8 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
         view().showErrorMessage(false,"");
 
         Request request = RiderAPI.getCashDetails(REQUEST_GET_CASH_DETAIL, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
-        requestQueue.add(request);
+        request.setTag(GET_CASH_DETAILS_REQUEST_TAG);
+        view().addRequest(request);
 
 //        /***clear list of cash history every request*/
 //        if (cashDetail!=null){
@@ -70,8 +67,17 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
     }
 
     @Override
-    public void onPause() {
-     requestQueue.cancelAll(applicationClass.REQUEST_TAG);
+    public void onPause()
+    {
+     view().cancelAllRequest(getRequestTags());
+    }
+
+    private List<String> getRequestTags(){
+        List<String> lists = new ArrayList<>();
+        for (String item : requests){
+            lists.add(item);
+        }
+        return lists;
     }
 
     @Override

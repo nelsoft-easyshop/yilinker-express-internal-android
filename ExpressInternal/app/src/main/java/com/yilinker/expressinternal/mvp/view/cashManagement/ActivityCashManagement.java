@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.cashmanagement.AdapterCashHistory;
 import com.yilinker.expressinternal.model.CashDetail;
@@ -141,6 +142,16 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
         TextView tvErrorMessage = (TextView) findViewById(R.id.tvErrorMessage);
         tvErrorMessage.setVisibility(isVisible? View.VISIBLE:View.GONE);
         tvErrorMessage.setText(errorMessage);
+    }
+
+    @Override
+    public void addRequest(Request request) {
+        addRequestToQueue(request);
+    }
+
+    @Override
+    public void cancelAllRequest(List<String> requestTags) {
+        cancelRequests(requestTags);
     }
 
 }
