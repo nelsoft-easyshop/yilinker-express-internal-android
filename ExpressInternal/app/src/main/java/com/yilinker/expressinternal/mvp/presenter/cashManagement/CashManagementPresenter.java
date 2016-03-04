@@ -59,14 +59,14 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
         request.setTag(ApplicationClass.REQUEST_TAG);
         requestQueue.add(request);
 
-        /***clear list of cash history every request*/
-        if (cashDetail!=null){
-            if (cashDetail.getCashHistory().size()!=0){
-
-                cashDetail.getCashHistory().clear();
-                view().clearCashHistory(cashDetail);
-            }
-        }
+//        /***clear list of cash history every request*/
+//        if (cashDetail!=null){
+//            if (cashDetail.getCashHistory().size()!=0){
+//
+//                cashDetail.getCashHistory().clear();
+//                view().clearCashHistory(cashDetail);
+//            }
+//        }
     }
 
     @Override

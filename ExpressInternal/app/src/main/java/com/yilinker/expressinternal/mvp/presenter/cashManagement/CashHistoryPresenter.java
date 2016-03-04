@@ -16,10 +16,11 @@ public class CashHistoryPresenter extends BasePresenter<CashHistory, CashHistory
 
     @Override
     protected void updateView() {
-        view().setViews(model);
         view().setFormattedAmount(getFormattedAmount());
         view().setFormattedDate(getFormattedDate());
         view().setFormatterRunningTotal(getFormattedRunningTotal());
+        view().setType(model.getType());
+        view().setWaybillNumber(getWaybillNumber());
     }
 
 
@@ -33,6 +34,15 @@ public class CashHistoryPresenter extends BasePresenter<CashHistory, CashHistory
 
     public String getFormattedRunningTotal(){
         return PriceFormatHelper.formatPrice(model.getRunningTotal());
+    }
+
+    public String getWaybillNumber(){
+        String waybill = model.getWaybillNo();
+        if (waybill.isEmpty()){
+            waybill = "-";
+        }
+
+        return waybill;
     }
 
 }

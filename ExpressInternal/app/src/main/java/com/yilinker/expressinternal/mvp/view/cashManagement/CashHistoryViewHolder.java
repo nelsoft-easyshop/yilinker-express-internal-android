@@ -33,23 +33,6 @@ public class CashHistoryViewHolder extends BaseViewHolder<CashHistoryPresenter> 
     }
 
     @Override
-    public void setViews(CashHistory cashHistory) {
-
-        tvType.setText(cashHistory.getType());
-
-        String waybillNo = cashHistory.getWaybillNo();
-        if(waybillNo.isEmpty()){
-            tvWaybillNo.setVisibility(View.GONE);
-        }
-        else {
-
-            tvWaybillNo.setText(waybillNo);
-            tvWaybillNo.setVisibility(View.VISIBLE);
-        }
-
-    }
-
-    @Override
     public void setFormattedDate(String date) {
 //        tvAction.setText(date);
 
@@ -58,11 +41,21 @@ public class CashHistoryViewHolder extends BaseViewHolder<CashHistoryPresenter> 
     @Override
     public void setFormattedAmount(String amount) {
         ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
-        tvAmount.setText(String.format("%s %s", applicationClass.getString(R.string.cashmanagement_amount),amount));
+        tvAmount.setText(String.format("%s  %s", applicationClass.getString(R.string.cashmanagement_amount),amount));
     }
 
     @Override
     public void setFormatterRunningTotal(String runningTotal) {
         tvRunningTotal.setText(runningTotal);
+    }
+
+    @Override
+    public void setWaybillNumber(String waybillNumber) {
+        tvWaybillNo.setText(waybillNumber);
+    }
+
+    @Override
+    public void setType(String type) {
+        tvType.setText(type);
     }
 }
