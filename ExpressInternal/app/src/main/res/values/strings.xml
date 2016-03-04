@@ -342,6 +342,16 @@
         <item>@drawable/ic_profile_selected</item>
     </string-array>
 
+    <string-array name="profile_languages">
+        <item name="lang_en">English</item>
+        <item name="lang_cn">Chinese</item>
+    </string-array>
+
+    <string-array name="profile_languages_locale">
+        <item name="lang_en">en</item>
+        <item name="lang_cn">ch</item>
+    </string-array>
+
     <!--New Job Order List Layout-->
     <!--OPEN-->
     <string name="job_order_list_from_label">FROM</string>
