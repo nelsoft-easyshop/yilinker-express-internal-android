@@ -1,6 +1,5 @@
 package com.yilinker.expressinternal.mvp.view.mainScreen;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,21 +8,18 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
-import com.yilinker.expressinternal.mvp.model.MainTab;
+import com.yilinker.expressinternal.mvp.model.TabItem;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
-import com.yilinker.expressinternal.mvp.presenter.login.LoginPresenter;
 import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainScreenPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
-import com.yilinker.expressinternal.mvp.view.joborderlist.FragmentJobList;
 import com.yilinker.expressinternal.mvp.view.joborderlist.FragmentJobListMain;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +48,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
 
         setContentView(R.layout.activity_main_screen);
-        initializeViews();
+        initializeViews(null);
 
     }
 
@@ -83,7 +79,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
 
     @Override
-    public void initializeViews() {
+    public void initializeViews(View view) {
 
         flContainer = (FrameLayout) findViewById(R.id.flContainer);
 
@@ -99,13 +95,13 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
     }
 
     @Override
-    public void loadTabs(List<MainTab> tabs) {
+    public void loadTabs(List<TabItem> tabs) {
 
         adapter.addAll(tabs);
     }
 
     @Override
-    public void changeSelectedTab(MainTab previousTab, MainTab currentTab) {
+    public void changeSelectedTab(TabItem previousTab, TabItem currentTab) {
 
         adapter.updateItem(previousTab);
         adapter.updateItem(currentTab);

@@ -7,27 +7,15 @@ import com.yilinker.expressinternal.mvp.view.joborderlist.list.IJobListView;
 import java.util.List;
 
 /**
- * Created by J.Bautista on 3/1/16.
+ * Created by J.Bautista on 3/3/16.
  */
-public class JobOrderListMapPresenter extends BasePresenter<List<JobOrder>, IJobListView> {
-
+public class JobListPresenter extends BasePresenter<List<JobOrder>, IJobListView> {
 
     @Override
     protected void updateView() {
 
-
-
+        view().loadJobOrderList(model);
     }
 
-    public void onMarkerClicked(String id){
-
-
-    }
-
-    public void onResume(String[] query){
-
-
-
-    }
 
 }

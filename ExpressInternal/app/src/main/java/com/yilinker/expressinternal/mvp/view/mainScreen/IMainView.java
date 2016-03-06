@@ -1,10 +1,8 @@
 package com.yilinker.expressinternal.mvp.view.mainScreen;
 
 
-import android.app.Fragment;
-import android.os.Bundle;
-
-import com.yilinker.expressinternal.mvp.model.MainTab;
+import com.android.volley.Request;
+import com.yilinker.expressinternal.mvp.model.TabItem;
 
 import java.util.List;
 
@@ -15,8 +13,8 @@ import java.util.List;
  */
 public interface IMainView {
 
-    public void loadTabs(List<MainTab> tabs);
-    public void changeSelectedTab(MainTab previousTab, MainTab currentTab);
+    public void loadTabs(List<TabItem> tabs);
+    public void changeSelectedTab(TabItem previousTab, TabItem currentTab);
     public void replaceFragment(int selectedTab);
 
 }

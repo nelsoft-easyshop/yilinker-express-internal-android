@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view.mainScreen;
+package com.yilinker.expressinternal.mvp.view.joborderlist;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -9,16 +9,17 @@ import android.widget.LinearLayout;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.adapter.TabRecyclerViewAdapter;
 import com.yilinker.expressinternal.mvp.model.TabItem;
+import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobsTabPresenter;
 import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainTabPresenter;
 
 /**
- * Created by J.Bautista on 3/2/16.
+ * Created by J.Bautista on 3/3/16.
  */
-public class MainTabAdapter extends TabRecyclerViewAdapter<TabItem, MainTabPresenter, MainTabViewHolder> {
+public class JobsTabAdapter extends TabRecyclerViewAdapter<TabItem, JobsTabPresenter, JobsTabViewHolder> {
 
     private TabItemClickListener clickListener;
 
-    public MainTabAdapter(int resourceId, TabItemClickListener clickListener) {
+    public JobsTabAdapter(int resourceId, TabItemClickListener clickListener) {
         super(resourceId);
 
         this.clickListener = clickListener;
@@ -26,9 +27,9 @@ public class MainTabAdapter extends TabRecyclerViewAdapter<TabItem, MainTabPrese
 
     @NonNull
     @Override
-    protected MainTabPresenter createPresenter(@NonNull TabItem model) {
+    protected JobsTabPresenter createPresenter(@NonNull TabItem model) {
 
-        MainTabPresenter presenter = new MainTabPresenter();
+        JobsTabPresenter presenter = new JobsTabPresenter();
         presenter.setModel(model);
 
         return presenter;
@@ -42,11 +43,11 @@ public class MainTabAdapter extends TabRecyclerViewAdapter<TabItem, MainTabPrese
     }
 
     @Override
-    public MainTabViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public JobsTabViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(getResourceId(), parent, false);
         view.setLayoutParams(new LinearLayout.LayoutParams(getWidth(), ViewGroup.LayoutParams.MATCH_PARENT, 1));
 
-        return new MainTabViewHolder(view, clickListener);
+        return new JobsTabViewHolder(view, clickListener);
     }
 }
