@@ -15,4 +15,7 @@
     <color name="gray3">#dddddd</color>
     <color name="black">#000000</color>
     <color name="error">#FFE81313</color>
+    <color name="gray_dark">#bcc2c6</color>
+    <color name="gray_darker">#a6b1b8</color>
+    <color name="green">#7dd221</color>
 </resources>
