@@ -73,19 +73,25 @@
     <string name="filter_branch">Branch</string>
 
     <!--Job Order Detail-->
+    <string name="job_order_waybill_number">Waybill Number</string>
     <string name="job_order_number">Job Order Number</string>
     <string name="eta">ETA</string>
     <string name="pickup_address">Pickup Address</string>
     <string name="dropoff_address">Dropoff Address</string>
     <string name="delivery_address">Delivery Address</string>
+    <string name="drop_to">Drop to</string>
+    <string name="deliver_to">Deliver to</string>
     <!--<string name="recipient">Recipient</string>-->
     <string name="recipient">Shipper</string>
+    <string name="shipper_name">Shipper Name</string>
     <string name="consignee">Consignee</string>
+    <string name="consignee_name">Consignee Name</string>
     <string name="contact_number">Contact Number</string>
     <string name="item">Item</string>
     <string name="type">Type</string>
     <string name="rating">Rating</string>
     <string name="time_used">Time Used</string>
+    <string name="time_elapsed">Time Elapsed</string>
     <string name="earned">Earned</string>
     <string name="status">Status</string>
     <string name="amount_collected">Amount Collected</string>
@@ -101,11 +107,28 @@
     <string name="joborderdetail_type">Type</string>
     <string name="joborderdetail_remarks">Remarks</string>
     <string name="joborderdetail_error_no_image">No image available</string>
+    <string name="joborderdetail_report_out_of_stock">Report this as out of stock?</string>
+    <string name="joborderdetail_job_order_accepted">Job order accepted!</string>
+    <string name="joborderdetail_job_order_successfully_problem_reporting">Successfully reported the problem!</string>
+    <string name="joborderdetail_date_created">Date Created</string>
+    <string name="joborderdetail_date_accepted">Date Accepted</string>
+    <string name="joborderdetail_amount_to_collect">Amount to collect</string>
     <string name="cancel">Cancel</string>
     <string name="gps_network_not_enabled">You need to turn on location services to use this feature.</string>
     <string name="open_location_settings">Go to Settings</string>
     <string name="generating_qr">Generating QR Code...</string>
+
+
+    <!--Job Order List-->
+
+    <string name="job_order_list_open">Open</string>
+    <string name="job_order_list_current">Current</string>
+    <string name="job_order_list_completed">Completed</string>
+    <string name="job_order_list_problematic">Problematic</string>
     <string name="joborder_list_no_results_found">No results found</string>
+    <string name="joborder_list_search_job_order">Search Job Order</string>
+    <string name="joborder_list_delivery">delivery</string>
+    <string name="joborder_list_eta">ETA</string>
 
     
     <!--Update Status (Pickup)-->
@@ -132,6 +155,7 @@
         <item name="single_scanner">Single Scanning</item>
         <item name="bulk_scanner">Bulk Check-in</item>
     </string-array>
+    <string name="scanner_job_order_accepted">Job accepted!</string>
     
     <!--Problematic-->
     <string name="problematic_recipient_not_found">Recipient Not Found</string>
@@ -140,6 +164,7 @@
     <string name="problematic_unable_to_pay">Recipient is unable to pay</string>
     <string name="problematic_out_of_stock">Out of Stock</string>
     <string name="confirm_problematic">Confirm Problematic Delivery</string>
+    <string name="problematic_remarks_hint">Remarks</string>
 
     <!--Complete-->
     <string name="ok">Ok</string>
@@ -164,6 +189,7 @@
 
     <!--Navigation-->
     <string name="navigation_distance">Distance:</string>
+    <string name="navigation_route_not_available">Route Not Available</string>
 
     <!--Contact-->
     <string name="contact_error_no_number">No contact number!</string>
@@ -176,6 +202,7 @@
     <string name="actionbar_title_navigation">navigation</string>
     <string name="title_activity_activity_navigation">Map</string>
     <string name="actionbar_title_acknowledge">Direct Acknowledge</string>
+    <string name="actionbar_title_contact_details">Contact Details</string>
 
     <!--Logout-->
     <string name="logout_username">Username</string>
@@ -225,6 +252,9 @@
     <string name="printing_bluetooth_enable_cancelled">Please enable bluetooth to proceed with printing.</string>
     <string name="printing_select">Select a Printer</string>
     <string name="printing_search_again">Search Again</string>
+    <string name="printing_bluetooth_not_supported">Bluetooth not supported!</string>
+    <string name="printing_package_description">Package Description:</string>
+    <string name="printing_package_amount_to_collect">Amount to Collect:</string>
 
     <!--Confirm PackageRequest-->
 
@@ -250,9 +280,45 @@
     <!--Syncing-->
 
     <string name="request_sync_success">Job Orders successfully synced!</string>
+    <string name="request_data_sync">Data sync successful</string>
+    <string name="request_data_sync_failed">Data sync failed. Try again later.</string>
 
     <!--Others-->
     <string name="error_problem_connecting">Problem connecting to the server. Tap to reload.</string>
+    <string name="message_success">Success</string>
+    <string name="message_failed">Failed</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+
+    <!--Gallery/Image Capture-->
+
+    <string name="image_select_picture">Select Picture</string>
+    <string name="image_upload_options">Upload Pictures Option</string>
+    <string name="image_show_gallery">Show Gallery</string>
+    <string name="image_launch_camera">Launch Camera</string>
+
+
+    <!--Tools-->
+
+    <string name="tools_search_qr">Search by QR Code</string>
+    <string name="tools_bulk_checkin">Bulk Check In</string>
+    <string name="tools_direct_acknowledge">Direct Acknowledge</string>
+    <string name="tools_cash_turnover">Cash Turnover</string>
+
+    <string-array name="array_tool_items">
+        <item name="tool_search_qr">@string/tools_search_qr</item>
+        <item name="tool_bulk_checkin">@string/tools_bulk_checkin</item>
+        <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
+        <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
+    </string-array>
+
+    <string-array name="array_tool_images">
+        <item name="tool_image_search_qr">@drawable/ic_qrcodescanner</item>
+        <item name="tool_image_bulk_checkin">@drawable/ic_bulk_checkin</item>
+        <item name="tool_image_direct_acknowledge">@drawable/ic_direct_acknowledge</item>
+        <item name="tool_image_cash_turnover">@drawable/ic_cash_turnover</item>
+    </string-array>
+
 
     <!--Main Screen-->
     <string-array name="main_tab_items">
@@ -276,6 +342,16 @@
         <item>@drawable/ic_tools_selected</item>
         <item>@drawable/ic_tools_selected</item>
         <item>@drawable/ic_profile_selected</item>
+    </string-array>
+
+    <string-array name="profile_languages">
+        <item name="lang_en">English</item>
+        <item name="lang_cn">Chinese</item>
+    </string-array>
+
+    <string-array name="profile_languages_locale">
+        <item name="lang_en">en</item>
+        <item name="lang_cn">ch</item>
     </string-array>
 
     <!--New Job Order List Layout-->

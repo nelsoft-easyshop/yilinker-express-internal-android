@@ -189,7 +189,7 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
             case REQUEST_ACCEPT_JOB:
 
-                Toast.makeText(getApplicationContext(), "Job accepted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.scanner_job_order_accepted), Toast.LENGTH_SHORT).show();
 
                 break;
 

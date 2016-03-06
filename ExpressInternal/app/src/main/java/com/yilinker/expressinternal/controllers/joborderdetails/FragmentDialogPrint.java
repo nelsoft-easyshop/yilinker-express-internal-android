@@ -215,7 +215,7 @@ public class FragmentDialogPrint extends DialogFragment implements View.OnClickL
         if (mBluetoothAdapter == null) {
 
             Toast.makeText(getActivity(),
-                    "Bluetooth not supported!!", Toast.LENGTH_LONG).show();
+                    getString(R.string.printing_bluetooth_not_supported), Toast.LENGTH_LONG).show();
 
             dismiss();
             return -1;

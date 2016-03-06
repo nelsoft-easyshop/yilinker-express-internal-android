@@ -144,10 +144,28 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="JobOrderDetailLabelOrangeStyle">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/orange_yellow</item>
+    </style>
+
     <style name="JobOrderDetailTextStyle">
         <item name="android:layout_marginBottom">15dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="JobOrderDetailTextRedStyle">
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/orange_red</item>
+        <item name="android:textSize">25sp</item>
     </style>
 
     <style name="SideMenuButtonStyle">

@@ -28,6 +28,7 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.model.CashDetail;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 /**
  * Created by J.bautista
@@ -247,8 +248,8 @@ public class FragmentDialogCashLimitWarning extends DialogFragment implements Vi
 
     private void handleCashInfoRequest(CashDetail cashDetail){
 
-        tvCashOnHand.setText(String.format("%.02f PHP", cashDetail.getCashOnHand()));
-        tvCashLimit.setText(String.format("%.02f PHP", cashDetail.getCashLimit()));
+        tvCashOnHand.setText(PriceFormatHelper.formatPrice(cashDetail.getCashOnHand()));
+        tvCashLimit.setText(PriceFormatHelper.formatPrice(cashDetail.getCashLimit()));
 
         rlProgress.setVisibility(View.GONE);
     }

@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainScreenPresenter
 import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
 import com.yilinker.expressinternal.mvp.view.joborderlist.FragmentJobList;
 import com.yilinker.expressinternal.mvp.view.joborderlist.FragmentJobListMain;
+import com.yilinker.expressinternal.mvp.view.profile.FragmentProfile;
+import com.yilinker.expressinternal.mvp.view.tools.FragmentTools;
 
 
 import java.util.ArrayList;
@@ -82,7 +85,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
     }
 
 
-    @Override
+
     public void initializeViews() {
 
         flContainer = (FrameLayout) findViewById(R.id.flContainer);
@@ -126,7 +129,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
             case 1:
 
-                fragment = new Fragment();
+                fragment = new FragmentTools();
                 break;
 
             case 2:
@@ -136,7 +139,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
             case 3:
 
-                fragment = new Fragment();
+                fragment = new FragmentProfile();
                 break;
 
         }
@@ -193,5 +196,10 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
     public void onTabItemClick(int position) {
 
         presenter.onTabSelected(position);
+    }
+
+    @Override
+    public void initializeViews(View parent) {
+
     }
 }
