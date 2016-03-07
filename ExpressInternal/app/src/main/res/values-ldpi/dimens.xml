@@ -12,4 +12,7 @@
     <!-- Job Order Details-->
     <dimen name="joborderlist_waybillno_textsize">8sp</dimen>
 
+    <!--login-->
+    <dimen name="yilinker_express_name_textsize">14sp</dimen>
+
 </resources>

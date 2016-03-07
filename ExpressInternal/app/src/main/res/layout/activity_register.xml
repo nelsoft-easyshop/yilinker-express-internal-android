@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/ic_map_background"
+                android:id="@+id/ivBackground" />
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/ic_rider_circle"
+                android:layout_below="@+id/ivBackground"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-50dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/ivLogo"
+                android:padding="10dp"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/etMobileNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_rounded_white_no_padding"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="15dp"
+                    android:singleLine="true"/>
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_rounded_white_no_padding"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/login_password"
+                    android:paddingStart="15dp"
+                    android:singleLine="true"/>
+
+                <EditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_rounded_white_no_padding"
+                    android:layout_below="@+id/etPassword"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/login_confirm_password"
+                    android:paddingStart="15dp"
+                    android:singleLine="true"/>
+
+                <Button
+                    android:id="@+id/btnSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="@string/login_button_2"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_btn_orangeyellow_rounded"
+                    android:layout_below="@+id/etConfirmPassword"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/terms_and_condition_label"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/terms_and_conditions_ours"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/tvTermsAndConditions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/terms_and_conditions"
+                        android:textColor="@color/orange_yellow"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -8,6 +8,22 @@
     <string name="login_button">Login</string>
     <string name="login_error_incomplete_fields">Missing username/password</string>
 
+    <!--Get Started-->
+    <string name="login_get_started">GET STARTED</string>
+
+    <!--login and registration-->
+    <string name="login_yilinker_express">YILINKER EXPRESS</string>
+    <string name="login_partner">"P   A   R   T   N   E   R"</string>
+    <string name="login_username_mobile">Username / Mobile</string>
+    <string name="login_button_2">Log In</string>
+    <string name="login_dont_have_account_yet">"Don't have an account yet?"</string>
+    <string name="login_signup">Sign Up here</string>
+    <string name="login_confirm_password">Confirm Password</string>
+    <string name="login_complete_sign_up">Complete Sign Up</string>
+    <string name="terms_and_condition_label">By Signing Up you have accepted</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="terms_and_conditions_ours">"ours "</string>
+
     <!-- Menu-->
     <string name="menu_mapview">Map View</string>
     <string name="menu_listview">List View</string>
