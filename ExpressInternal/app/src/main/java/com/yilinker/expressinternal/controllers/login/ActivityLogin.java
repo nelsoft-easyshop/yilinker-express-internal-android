@@ -44,7 +44,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_2);
 
         ApplicationClass app = (ApplicationClass)ApplicationClass.getInstance();
 
