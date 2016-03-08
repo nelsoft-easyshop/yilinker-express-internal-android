@@ -10,7 +10,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="150dp"
             android:background="@drawable/ic_map_background"
             android:id="@+id/ivBackground" />
 
@@ -31,66 +31,80 @@
             android:padding="10dp"
             android:layout_marginTop="20dp">
 
-            <LinearLayout
+
+            <EditText
+                android:id="@+id/etMobileNumber"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_rounded_corner_dark_gray"
                 android:layout_marginTop="10dp"
+                android:paddingStart="15dp"
+                android:singleLine="true"
+                android:enabled="false"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_ph_flag"
+                android:textColor="@color/gray_brown"/>
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:background="@drawable/bg_rounded_white_no_padding"
-                android:padding="5dp">
+                android:layout_marginTop="10dp"
+                android:hint="@string/login_password"
+                android:paddingStart="15dp"
+                android:singleLine="true"/>
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_roundedcorner_gray"
-                    android:padding="5dp"
-                    android:text="+63"
-                    android:enabled="false"
-                    android:drawableLeft="@drawable/ic_ph_flag"/>
-
-                <EditText
-                    android:id="@+id/etMobileNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/bg_rounded_white_no_padding"
-                    android:paddingStart="15dp"
-                    android:singleLine="true"
-                    android:inputType="number"/>
-
-            </LinearLayout>
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_rounded_white_no_padding"
+                android:layout_below="@+id/etPassword"
+                android:layout_marginTop="10dp"
+                android:hint="@string/login_confirm_password"
+                android:paddingStart="15dp"
+                android:singleLine="true"/>
 
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="@string/login_sign_up"
+                android:text="@string/login_complete_sign_up"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_btn_orangeyellow_rounded"
                 android:layout_below="@+id/etConfirmPassword"
                 android:layout_marginTop="10dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_and_condition_label"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/gray_brown"
+                android:layout_marginTop="20dp"
+                android:gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:layout_marginTop="20dp">
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/registration_already_have_an_account"
+                    android:text="@string/terms_and_conditions_ours"
                     android:textColor="@color/gray_brown"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"/>
 
                 <TextView
-                    android:id="@+id/tvSignIn"
+                    android:id="@+id/tvTermsAndConditions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/registration_here"
+                    android:text="@string/terms_and_conditions"
                     android:textColor="@color/orange_yellow"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"/>
