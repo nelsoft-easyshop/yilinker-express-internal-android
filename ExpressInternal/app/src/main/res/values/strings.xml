@@ -31,6 +31,9 @@
     <string name="registration_enter_code">Enter Code</string>
     <string name="registration_resend_verification">Resent Verification Code</string>
 
+    <!--terms and conditions-->
+    <string name="yilinker_express_rider">YILINKER EXPRESS RIDER</string>
+
     <!-- Menu-->
     <string name="menu_mapview">Map View</string>
     <string name="menu_listview">List View</string>
