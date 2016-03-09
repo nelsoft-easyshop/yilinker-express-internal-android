@@ -16,6 +16,7 @@ import com.yilinker.expressinternal.model.CashDetail;
 import com.yilinker.expressinternal.model.CashHistory;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.cashManagement.CashManagementPresenter;
+import com.yilinker.expressinternal.mvp.view.BaseActivity;
 import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Created by Patrick on 3/3/2016.
  */
-public class ActivityCashManagement extends BaseFragmentActivity implements ICashManagementView {
+public class ActivityCashManagement extends BaseActivity implements ICashManagementView {
 
     private TextView tvCashOnHand;
     private TextView tvCashLimit;
@@ -36,6 +37,7 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setActionBarLayout(R.layout.layout_toolbar_registration);
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null){
@@ -97,6 +99,9 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
                 presenter.requestCashDetails();
             }
         });
+
+        /***set action bar*/
+        setActionBarTitle(getString(R.string.cash_management));
     }
 
     @Override

@@ -211,6 +211,7 @@
     <string name="cashmanagement_history">Cash History</string>
     <string name="cashmanagement_balance">Balance</string>
     <string name="cashmanagement_amount">Amount</string>
+    <string name="cash_management">CASH MANAGEMENT</string>
 
     <string name="title_activity_activity_job_order_list">Map</string>
     <string name="title_activity_activity_dashboard">ActivityDashboard</string>

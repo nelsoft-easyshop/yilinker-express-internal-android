@@ -14,11 +14,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_toEndOf="@id/ivBack"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
         android:text="@string/registration_create_account"
         android:textColor="@color/white"
         android:id="@+id/tvTitle"
-        android:textSize="18sp"  android:textAllCaps="true" android:layout_centerInParent="true" />
+        android:textSize="18sp"  android:textAllCaps="true" />
 
     <ImageButton android:id="@+id/ivSync" android:clickable="true"
         android:layout_width="@dimen/actionbar_button_width"
