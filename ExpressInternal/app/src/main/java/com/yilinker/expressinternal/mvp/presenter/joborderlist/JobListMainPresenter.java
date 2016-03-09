@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -16,6 +18,8 @@ import java.util.List;
  * Created by J.Bautista on 3/2/16.
  */
 public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobListMainView> {
+
+    private static final String TAG_REQUEST = "request";
 
     private static final int REQUEST_GET_OPEN = 1000;
     private static final int REQUEST_GET_CURRENT = 1001;
@@ -36,19 +40,22 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         this.tabs = new ArrayList<>();
         this.types = new ArrayList<>();
         this.selectedFilter = new ArrayList<>();
+        model = new ArrayList<>();
     }
 
     @Override
     protected void updateView() {
 
-        view().reloadList(model);
-        view().setResultCountText(String.valueOf(model.size()));
+        if(view() != null) {
+            view().reloadList(model);
+            view().setResultCountText(String.valueOf(model.size()));
+        }
 
     }
 
     public void onViewCreated(){
 
-        view().showListView(new ArrayList<JobOrder>());
+        view().showListView(model);
     }
 
     public void onResume(){
@@ -59,8 +66,19 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
     }
 
+    public void onPause(){
+
+        //Cancel all request
+        ArrayList<String> request = new ArrayList<>();
+        request.add(TAG_REQUEST);
+
+        view().cancelRequests(request);
+    }
+
     public void onTabItemClicked(int jobType){
 
+        //Clear list
+        setModel(new ArrayList<JobOrder>());
 
         changeSelectedTab(jobType);
 
@@ -143,6 +161,8 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         }
         else{
 
+            //Search then filter
+
             result.addAll(search(waybillNo));
         }
 
@@ -164,17 +184,19 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
             case REQUEST_GET_OPEN:
 
-                handleGetJobOrders(object, 0);
+                handleGetJobOrders(object);
                 break;
 
             case REQUEST_GET_CURRENT:
 
-                handleGetJobOrders(object, 0);
+                handleGetJobOrders(object);
                 break;
 
         }
 
-        view().showLoader(false);
+        if(view() != null) {
+            view().showLoader(false);
+        }
 
     }
 
@@ -182,7 +204,9 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     public void onFailed(int requestCode, String message) {
         super.onFailed(requestCode, message);
 
-
+        if(view() != null) {
+            view().showLoader(false);
+        }
     }
 
     private void changeSelectedTab(int position){
@@ -204,8 +228,8 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         view().showLoader(true);
 
-        int requestCode = 0;
 
+        int requestCode = 0;
         if(type.equals(TYPE_OPEN)){
             requestCode = REQUEST_GET_OPEN;
         }
@@ -214,12 +238,13 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         }
 
         Request request = JobOrderAPI.getJobOrders(requestCode, type, true, this);
+        request.setTag(TAG_REQUEST);
 
         view().addRequest(request);
 
     }
 
-    private void handleGetJobOrders(Object object, int type){
+    private void handleGetJobOrders(Object object){
 
         List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
         completeList = createList(listServer, 0);
@@ -241,8 +266,11 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
             jobOrder = new JobOrder(item);
             jobOrder.setId(i);
+
+            //temp
             jobOrder.setLatitude(14.123234 + (1.0 * i));
             jobOrder.setLongitude(121.123232 + (1.0 * i));
+
             list.add(jobOrder);
 
             i++;
@@ -272,8 +300,20 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     private List<JobOrder> filter(){
 
         List<JobOrder> result = new ArrayList<>();
+        List<JobOrder> searchResult = new ArrayList<>();
 
-        for(JobOrder item : completeList){
+        //Perform search filter
+        if(searchString != null){
+
+            searchResult.addAll(search(searchString));
+
+        }
+        else{
+
+            searchResult.addAll(completeList);
+        }
+
+        for(JobOrder item : searchResult){
 
             String status = item.getStatus();
 

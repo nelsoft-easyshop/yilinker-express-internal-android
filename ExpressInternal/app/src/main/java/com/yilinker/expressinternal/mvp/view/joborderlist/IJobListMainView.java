@@ -4,13 +4,14 @@ import com.android.volley.Request;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
+import com.yilinker.expressinternal.mvp.view.RequestBaseView;
 
 import java.util.List;
 
 /**
  * Created by J.Bautista on 3/2/16.
  */
-public interface IJobListMainView {
+public interface IJobListMainView extends RequestBaseView {
 
     public void reloadList(List<JobOrder> jobOrders);
     public void setResultCountText(String text);
@@ -22,5 +23,6 @@ public interface IJobListMainView {
     public void changeSelectedTab(TabItem previousTab, TabItem currentTab);
     public void switchView(List<JobOrder> jobOrders);
     public void addRequest(Request request);
+    public void showErrorMessage(String message);
 
 }

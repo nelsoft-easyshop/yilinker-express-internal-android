@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:background="@drawable/ic_close_light_gray"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/yilinker_express_rider"
+        android:textColor="@color/gray_brown"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_and_conditions"
+        android:textColor="@color/gray_brown"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Lorem ipsum keme keme keme 48 years pamin na ang warla oblation ganders juts nang effem at bakit waz fayatollah kumenis kirara ano ma-kyonget , bokot na na klapeypey-klapeypey katol nang ganders shonga-shonga katagalugan bakit biway quality control klapeypey-klapeypey urky intonses Mike mashumers at ang doonek at jutay shontis sa emena gushung ugmas at nang na keme keme ugmas pranella pinkalou na shonget nakakalurky bakit sa jowa tamalis buya shonga biway ang at nang nakakalurky at nang shala waz dites shontis otoko cheapangga shonget chuckie dites nang makyonget intonses at ang fayatollah kumenis \n\n tungril at bakit bella na dites ang na daki ang ng na ang shonga-shonga\n\n paminta at ang shonget buya ano valaj shonga sa 48 years chopopo at bakit at thunder nang at ng kasi shonga-shonga ano at ang at at bakit wiz katagalugan kabog neuro jowa nang bakit sa tungril kasi pamenthol at nang conalei kirara keme bongga at bakit ano bakit ng bakit bokot Mike at bakit lorem ipsum keme keme conalei na krung-krung at chuckie tungril chuckie pamin at bakit at ang krang-krang chopopo makyonget nang na ang at bakit kasi wasok conalei thunder sangkatuts pinkalou ng bigalou ng pamin emena gushung bakit ang kasi na ang bonggakea na jowabella keme na warla kemerloo bakit valaj at ang ugmas chuckie pamenthol mahogany klapeypey-klapeypey shogal majubis Cholo nakakalurky at ang na shontis ano majubis at nang effem jowabella mabaho tungril cheapangga ano jowa na ang ganda lang bella at nang chopopo jutay shonga-shonga shonget balaj tungril shongaers at bakit keme guash keme keme jongoloids ang conalei ang at nang bokot ang nang at nang."
+        android:textColor="@color/gray_brown"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>

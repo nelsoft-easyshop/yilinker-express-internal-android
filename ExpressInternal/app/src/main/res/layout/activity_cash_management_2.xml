@@ -120,6 +120,8 @@
         android:layout_below="@id/llHeader"
         android:visibility="gone"
         android:gravity="center"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/gray_brown"
+        android:background="@color/white"/>
 
 </RelativeLayout>

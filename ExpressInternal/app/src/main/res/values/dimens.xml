@@ -43,6 +43,14 @@
     <dimen name="joborderlist_waybillno_textsize">10sp</dimen>
     <dimen name="joborderlist_waybillno_paddingleft">10sp</dimen>
 
+    <!--login-->
+    <dimen name="yilinker_express_name_textsize">18sp</dimen>
+
+    <!--register-->
+    <dimen name="verification_code_margin_top">40dp</dimen>
+    <dimen name="verification_form_margin_top">20dp</dimen>
+    <dimen name="phone_icon_margin_top">20dp</dimen>
+
     <!--For New Design-->
     <dimen name="joborderlsit_filterbar_height">40dp</dimen>
     <dimen name="joborder_status_height">30dp</dimen>

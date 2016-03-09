@@ -60,6 +60,17 @@
         <item name="android:background">@drawable/bg_login_edittext</item>
     </style>
 
+    <!-- Login Styles -->
+    <style name="LoginEditTextStyle2">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:background">@drawable/bg_rounded_white_no_padding</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+
+
     <!-- Profile Styles -->
     <style name="ProfileLabelStyle">
         <item name="android:layout_width">fill_parent</item>
