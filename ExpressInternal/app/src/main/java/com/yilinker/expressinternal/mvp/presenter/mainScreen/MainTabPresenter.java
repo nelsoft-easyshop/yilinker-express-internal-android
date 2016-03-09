@@ -1,15 +1,13 @@
 package com.yilinker.expressinternal.mvp.presenter.mainScreen;
 
-import android.view.View;
-
-import com.yilinker.expressinternal.mvp.model.MainTab;
+import com.yilinker.expressinternal.mvp.model.TabItem;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.mainScreen.MainTabViewHolder;
 
 /**
  * Created by Patrick on 3/1/2016.
  */
-public class MainTabPresenter extends BasePresenter<MainTab, MainTabViewHolder> {
+public class MainTabPresenter extends BasePresenter<TabItem, MainTabViewHolder> {
 
 
 

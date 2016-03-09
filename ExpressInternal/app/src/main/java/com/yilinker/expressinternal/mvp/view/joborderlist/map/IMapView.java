@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view.joborderlist;
+package com.yilinker.expressinternal.mvp.view.joborderlist.map;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import java.util.List;
  *
  * Interface for views using maps
  */
-public interface IMapView<M> {
+public interface IMapView {
 
     public void initializeMap();
-    public void addCurrentLocationMarker(M marker);
-    public void addMarkers(List<M> markers);
-    public void removeMarkers(List<M> markers);
+    public void addCurrentLocationMarker(Object marker);
+    public void addMarkers(List markers, int type);
+    public void removeMarkers(List markers, int type);
     public void centerMap(double latitude, double longitude);
     public void zoomMap(double scale, double centerLatitude, double centerLongitude);
 }

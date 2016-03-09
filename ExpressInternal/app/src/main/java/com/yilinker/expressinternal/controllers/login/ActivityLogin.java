@@ -26,6 +26,7 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
+import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 import java.io.IOException;
 
@@ -153,7 +154,11 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
     private void goToDashboard(){
 
-        Intent goToDashBoard = new Intent(ActivityLogin.this, ActivityDashboard.class);
+//        Intent goToDashBoard = new Intent(ActivityLogin.this, ActivityDashboard.class);
+//        startActivity(goToDashBoard);
+//        finish();
+
+        Intent goToDashBoard = new Intent(ActivityLogin.this, ActivityMain.class);
         startActivity(goToDashBoard);
         finish();
     }

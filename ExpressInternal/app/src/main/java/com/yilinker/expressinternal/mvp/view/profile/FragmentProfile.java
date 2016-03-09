@@ -91,6 +91,12 @@ public class FragmentProfile extends BaseFragment implements IMainProfileView, R
         rvLanguages.setAdapter(adapter);
     }
 
+    @Override
+    public void showLoader(boolean isShown) {
+
+
+    }
+
     private void initializeLanguages() {
 
         Resources resources = getResources();

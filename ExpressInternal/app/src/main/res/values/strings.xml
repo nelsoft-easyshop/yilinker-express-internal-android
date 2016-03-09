@@ -344,6 +344,18 @@
         <item>@drawable/ic_profile_selected</item>
     </string-array>
 
+    <string-array name="jobs_tab_items">
+        <item>Open</item>
+        <item>Current</item>
+    </string-array>
+
+    <string-array name="jobs_type_items">
+        <item>For Pick-up</item>
+        <item>For Drop Off</item>
+        <item>For Delivery</item>
+        <item>Problematic</item>
+    </string-array>
+
     <string-array name="profile_languages">
         <item name="lang_en">English</item>
         <item name="lang_cn">Chinese</item>

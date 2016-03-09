@@ -43,4 +43,11 @@
     <dimen name="joborderlist_waybillno_textsize">10sp</dimen>
     <dimen name="joborderlist_waybillno_paddingleft">10sp</dimen>
 
+    <!--For New Design-->
+    <dimen name="joborderlsit_filterbar_height">40dp</dimen>
+    <dimen name="joborder_status_height">30dp</dimen>
+    <dimen name="joborder_status_width">150dp</dimen>
+    <dimen name="joborderdetails_earning_textsize">20sp</dimen>
+
+
 </resources>

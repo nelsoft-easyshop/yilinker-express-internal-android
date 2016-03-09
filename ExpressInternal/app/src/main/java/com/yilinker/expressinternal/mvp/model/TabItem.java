@@ -8,7 +8,7 @@ import android.os.Parcelable;
  *
  * Modified by J.Bautista on 3/2/2016
  */
-public class MainTab {
+public class TabItem {
 
     private int id;
     private String title;

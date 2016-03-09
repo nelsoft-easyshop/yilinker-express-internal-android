@@ -21,7 +21,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://sprint.api.express.api.easydeal.ph/v1"'
+            buildConfigField "String", "SERVER_URL", '"http://sprint.api.express.api.easydeal.ph/v1/en"'
         }
         release {
             buildConfigField "String", "SERVER_URL", '"http://api.express.yilinker.com/v1"'

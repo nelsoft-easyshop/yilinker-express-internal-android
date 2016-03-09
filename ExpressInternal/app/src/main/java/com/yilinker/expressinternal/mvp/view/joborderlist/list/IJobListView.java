@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view.joborderlist;
+package com.yilinker.expressinternal.mvp.view.joborderlist.list;
 
 import com.yilinker.expressinternal.model.JobOrder;
 

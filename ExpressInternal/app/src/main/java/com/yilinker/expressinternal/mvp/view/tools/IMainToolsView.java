@@ -1,6 +1,5 @@
 package com.yilinker.expressinternal.mvp.view.tools;
 
-import com.yilinker.expressinternal.mvp.model.MainTab;
 import com.yilinker.expressinternal.mvp.model.Tools;
 
 import java.util.List;
