@@ -29,28 +29,38 @@ import java.util.List;
  */
 public class ActivityMain extends BaseFragmentActivity implements IMainView, TabItemClickListener{
 
+    private static final String KEY_CONTENT = "content";
+
     private FrameLayout flContainer;
 
     private MainScreenPresenter presenter;
     private MainTabAdapter adapter;
 
+    private Fragment content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_screen);
 
         if(savedInstanceState == null){
 
             presenter = new MainScreenPresenter();
+            presenter.bindView(this);
+
+            initializeViews(null);
+            setupTab();
         }
         else{
 
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+            presenter.bindView(this);
+
+            //Restore content fragment here
+            content = getFragmentManager().getFragment(savedInstanceState, KEY_CONTENT);
+            replaceFragment(content);
 
         }
-
-
-        setContentView(R.layout.activity_main_screen);
-        initializeViews(null);
 
     }
 
@@ -59,16 +69,19 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
         super.onSaveInstanceState(outState);
 
         PresenterManager.getInstance().savePresenter(presenter, outState);
+
+        //Saving current fragment instance
+        getFragmentManager().putFragment(outState, KEY_CONTENT, content);
     }
 
 
     @Override
     protected void onResume() {
-        super.onResume();
 
         presenter.bindView(this);
 
-        setupTab();
+        super.onResume();
+
     }
 
     @Override
@@ -117,33 +130,33 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
     @Override
     public void replaceFragment(int selectedTab) {
 
-        Fragment fragment = null;
+//        Fragment fragment = null;
 
         switch (selectedTab){
 
             case 0:
 
-                fragment = new FragmentJobListMain();
+                content = new FragmentJobListMain();
                 break;
 
             case 1:
 
-                fragment = new FragmentTools();
+                content = new FragmentTools();
                 break;
 
             case 2:
 
-                fragment = new Fragment();
+                content = new Fragment();
                 break;
 
             case 3:
 
-                fragment = new FragmentProfile();
+                content = new FragmentProfile();
                 break;
 
         }
 
-        replaceFragment(fragment);
+        replaceFragment(content);
 
     }
 
