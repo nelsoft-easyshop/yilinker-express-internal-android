@@ -1,6 +1,5 @@
 package com.yilinker.expressinternal.mvp.presenter.tools;
 
-import com.yilinker.expressinternal.mvp.model.MainTab;
 import com.yilinker.expressinternal.mvp.model.Tools;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.mainScreen.MainTabViewHolder;

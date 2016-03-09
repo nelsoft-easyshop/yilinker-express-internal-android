@@ -40,6 +40,8 @@ import java.util.List;
  */
 public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderView.OnQRCodeReadListener{
 
+    public static final String ARG_TEXT = "text";
+
     private List<JobOrder> jobOrderList = new ArrayList<>();
 
     private static final int TYPE_SINGLE = 0;
@@ -67,7 +69,7 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
 
         initViews();
-        getJobOrders();
+//        getJobOrders();
 
         setSound();
 
@@ -176,7 +178,8 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
 
 //            if ((jobOrderList.get(i).getWaybillNo().toLowerCase()).contains(waybillNo.toLowerCase())) {
                 Intent result = new Intent();
-                result.putExtra(ActivityJobOrderList.ARG_OPEN_JO, waybillNo);
+//                result.putExtra(ActivityJobOrderList.ARG_OPEN_JO, waybillNo);
+                result.putExtra(ARG_TEXT, waybillNo);
                 setResult(RESULT_OK, result);
                 finish();
 //            }

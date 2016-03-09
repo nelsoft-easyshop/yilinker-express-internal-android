@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.InstanceCreator;
 import com.yilinker.core.utility.DateUtility;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -22,8 +23,10 @@ public class CashHistory implements Parcelable {
     private Date date;
     private String type;
     private String waybillNo;
+    private double runningTotal;
+    private int id;
 
-    public CashHistory(com.yilinker.core.model.express.internal.CashHistory object){
+    public CashHistory(com.yilinker.core.model.express.internal.CashHistory object, int id){
 
 //        this.action = object.getAction();
         this.amount = object.getAmount();
@@ -31,31 +34,28 @@ public class CashHistory implements Parcelable {
         this.date = DateUtility.convertStringToDate(object.getDate(), SERVER_DATE_FORMAT);
         this.type = object.getType();
         this.waybillNo = object.getWaybillNo();
-
+        this.runningTotal = object.getRunningTotal();
+        this.id = id;
         //temp
 //        this.jobOrderNo = String.valueOf(object.getJobOrderNo());
 
     }
 
-    protected CashHistory(Parcel in) {
-        action = in.readString();
-        jobOrderNo = in.readString();
-        amount = in.readDouble();
-        type = in.readString();
-        waybillNo = in.readString();
+    public int getId() {
+        return id;
     }
 
-    public static final Creator<CashHistory> CREATOR = new Creator<CashHistory>() {
-        @Override
-        public CashHistory createFromParcel(Parcel in) {
-            return new CashHistory(in);
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        @Override
-        public CashHistory[] newArray(int size) {
-            return new CashHistory[size];
-        }
-    };
+    public double getRunningTotal() {
+        return runningTotal;
+    }
+
+    public void setRunningTotal(double runningTotal) {
+        this.runningTotal = runningTotal;
+    }
 
     public String getAction() {
         return action;
@@ -105,6 +105,7 @@ public class CashHistory implements Parcelable {
         this.waybillNo = waybillNo;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -112,13 +113,35 @@ public class CashHistory implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(action);
-        dest.writeString(jobOrderNo);
-        dest.writeDouble(amount);
-        dest.writeString(type);
-        dest.writeString(waybillNo);
+        dest.writeString(this.action);
+        dest.writeString(this.jobOrderNo);
+        dest.writeDouble(this.amount);
+        dest.writeLong(date != null ? date.getTime() : -1);
+        dest.writeString(this.type);
+        dest.writeString(this.waybillNo);
+        dest.writeDouble(this.runningTotal);
+        dest.writeInt(this.id);
     }
 
+    protected CashHistory(Parcel in) {
+        this.action = in.readString();
+        this.jobOrderNo = in.readString();
+        this.amount = in.readDouble();
+        long tmpDate = in.readLong();
+        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.type = in.readString();
+        this.waybillNo = in.readString();
+        this.runningTotal = in.readDouble();
+        this.id = in.readInt();
+    }
 
+    public static final Creator<CashHistory> CREATOR = new Creator<CashHistory>() {
+        public CashHistory createFromParcel(Parcel source) {
+            return new CashHistory(source);
+        }
 
+        public CashHistory[] newArray(int size) {
+            return new CashHistory[size];
+        }
+    };
 }

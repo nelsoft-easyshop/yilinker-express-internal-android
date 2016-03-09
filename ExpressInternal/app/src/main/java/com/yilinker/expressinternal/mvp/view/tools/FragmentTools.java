@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.controllers.cashmanagement.ActivityCashManagement;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivitySingleScanner;
@@ -23,6 +22,7 @@ import com.yilinker.expressinternal.mvp.model.Tools;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.tools.MainToolsPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.cashManagement.ActivityCashManagement;
 
 import java.util.List;
 
@@ -92,6 +92,11 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
         adapter = new ToolsAdapter(this);
         rvTools.setAdapter(adapter);
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
+
     }
 
     private void initializeTools() {

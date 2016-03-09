@@ -173,7 +173,9 @@
     <string name="cashmanagement_onhand">Cash on hand</string>
     <string name="cashmanagement_limit">Cash on hand limit</string>
     <string name="cashmanagement_history">Cash History</string>
-    
+    <string name="cashmanagement_balance">Balance</string>
+    <string name="cashmanagement_amount">Amount</string>
+
     <string name="title_activity_activity_job_order_list">Map</string>
     <string name="title_activity_activity_dashboard">ActivityDashboard</string>
 
@@ -340,6 +342,18 @@
         <item>@drawable/ic_tools_selected</item>
         <item>@drawable/ic_tools_selected</item>
         <item>@drawable/ic_profile_selected</item>
+    </string-array>
+
+    <string-array name="jobs_tab_items">
+        <item>Open</item>
+        <item>Current</item>
+    </string-array>
+
+    <string-array name="jobs_type_items">
+        <item>For Pick-up</item>
+        <item>For Drop Off</item>
+        <item>For Delivery</item>
+        <item>Problematic</item>
     </string-array>
 
     <string-array name="profile_languages">

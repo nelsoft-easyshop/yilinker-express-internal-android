@@ -62,16 +62,6 @@
             android:layout_width="match_parent"
             android:background="@color/warm_gray"/>
 
-        <ImageButton
-            android:id="@+id/btnCaution"
-            style="@style/SideMenuButtonStyle"
-            android:src="@drawable/ic_caution"
-            android:visibility="gone" />
-
-        <View
-            android:layout_height="1dp"
-            android:layout_width="match_parent"
-            android:background="@color/warm_gray"/>
 
         <ImageButton
             android:id="@+id/btnPrint"
@@ -83,47 +73,64 @@
             android:layout_width="match_parent"
             android:background="@color/warm_gray"/>
 
+        <!--<ImageButton-->
+            <!--android:id="@+id/btnCaution"-->
+            <!--style="@style/SideMenuButtonStyle"-->
+            <!--android:src="@drawable/ic_caution"-->
+            <!--android:visibility="gone" />-->
+
+        <!--<View-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:background="@color/warm_gray"/>-->
+
     </LinearLayout>
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/flContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/llButtons"
-        android:layout_toRightOf="@+id/llSideMenu">
+        android:layout_toRightOf="@id/llSideMenu"/>
 
-        <LinearLayout
-            android:id="@+id/llContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="20dp">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_above="@id/llButtons"-->
+        <!--android:layout_toRightOf="@+id/llSideMenu">-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/llContainer"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="20dp">-->
 
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-    </ScrollView>
+    <!--</ScrollView>-->
 
-    <LinearLayout
-        android:id="@+id/llButtons"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/llButtons"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:orientation="horizontal">-->
 
-        <Button
-            android:id="@+id/btnPositive"
-            style="@style/JobOrderDetailFooterButtonStyle"
-            android:background="@drawable/bg_btn_bluegreen" />
+        <!--<Button-->
+            <!--android:id="@+id/btnPositive"-->
+            <!--style="@style/JobOrderDetailFooterButtonStyle"-->
+            <!--android:background="@drawable/bg_btn_bluegreen" />-->
 
-        <Button
-            android:id="@+id/btnNegative"
-            style="@style/JobOrderDetailFooterButtonStyle"
-            android:background="@drawable/bg_btn_warmgray" />
+        <!--<Button-->
+            <!--android:id="@+id/btnNegative"-->
+            <!--style="@style/JobOrderDetailFooterButtonStyle"-->
+            <!--android:background="@drawable/bg_btn_warmgray" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-    <include
-        android:id="@+id/rlProgress"
-        layout="@layout/layout_progress" />
+    <!--<include-->
+        <!--android:id="@+id/rlProgress"-->
+        <!--layout="@layout/layout_progress" />-->
 
 </RelativeLayout>

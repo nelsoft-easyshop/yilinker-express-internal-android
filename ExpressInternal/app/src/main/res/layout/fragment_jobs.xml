@@ -9,7 +9,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvJobOrderTabs"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:background="@color/white"/>
 
 
@@ -24,11 +24,25 @@
         <!--android:visibility="invisible"-->
         <!--android:layout_centerInParent="true"/>-->
 
-    <FrameLayout
-        android:id="@+id/flContainer"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/llFilterContainer"/>
+        android:layout_below="@+id/rvJobOrderTabs"
+        android:layout_marginTop="@dimen/joborderlsit_filterbar_height">
+
+        <FrameLayout
+            android:id="@+id/flContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/flContainer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/rvJobOrderTabs"-->
+        <!--android:layout_marginTop="@dimen/joborderlsit_filterbar_height"/>-->
 
     <ImageView
         android:id="@+id/ivToggleView"
@@ -51,7 +65,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:layout_above="@id/ivToggleView"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:clickable="true"/>
 
 
     <LinearLayout
@@ -60,7 +75,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/rvJobOrderTabs"
-        android:background="@color/warm_gray">
+        android:background="@color/warm_gray"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/etSearch"
@@ -69,14 +85,13 @@
             android:hint="Enter Waybill Number"
             android:layout_margin="10dp"
             android:background="@drawable/bg_rounded_white"
-            android:visibility="gone"/>
+            android:clickable="true"/>
 
         <LinearLayout
             android:id="@+id/llJobTypesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -88,95 +103,111 @@
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:padding="10dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/gray_dark"/>
 
-            <RadioGroup
-                android:id="@+id/rgJobTypes"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:layout_marginBottom="30dp">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvJobOrderTypes"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_marginBottom="30dp"/>
 
-                <RadioButton android:id="@+id/rbForPickUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_type_for_pick_up"
-                    android:button="@null"
-                    android:drawableRight="@drawable/radio_button_selector"
-                    android:textColor="@color/white"
-                    android:checked="true"
-                    android:layout_marginBottom="5dp"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white"/>
+            <!--<RadioGroup-->
+                <!--android:id="@+id/rgJobTypes"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical"-->
+                <!--android:padding="10dp"-->
+                <!--android:layout_marginBottom="30dp">-->
 
-                <RadioButton android:id="@+id/rbForDropOff"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_for_drop_off"
-                    android:button="@null"
-                    android:drawableRight="@drawable/radio_button_selector"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white"/>
+                <!--<RadioButton android:id="@+id/rbForPickUp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/search_type_for_pick_up"-->
+                    <!--android:button="@null"-->
+                    <!--android:drawableRight="@drawable/radio_button_selector"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:checked="true"-->
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--/>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/white"/>-->
 
-                <RadioButton android:id="@+id/rbForDelivery"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_for_delivery"
-                    android:button="@null"
-                    android:drawableRight="@drawable/radio_button_selector"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white"/>
+                <!--<RadioButton android:id="@+id/rbForDropOff"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/search_for_drop_off"-->
+                    <!--android:button="@null"-->
+                    <!--android:drawableRight="@drawable/radio_button_selector"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--/>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/white"/>-->
 
-            </RadioGroup>
+                <!--<RadioButton android:id="@+id/rbForDelivery"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/search_for_delivery"-->
+                    <!--android:button="@null"-->
+                    <!--android:drawableRight="@drawable/radio_button_selector"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--/>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/white"/>-->
 
+            <!--</RadioGroup>-->
 
         </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlFilterContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/warm_gray"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
-
-            <TextView
-                android:id="@+id/tvItemCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="23 Found"
-                android:textColor="@color/white"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/tvFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:layout_alignParentEnd="true"
-                android:drawableStart="@drawable/ic_filter_icon"/>
-
-        </RelativeLayout>
-
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlFilterContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/joborderlsit_filterbar_height"
+        android:background="@color/warm_gray"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_below="@id/llFilterContainer">
+
+        <TextView
+            android:id="@+id/tvItemCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:id="@+id/tvLabelItemCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Found"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tvItemCount" />
+
+        <TextView
+            android:id="@+id/tvFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:drawableStart="@drawable/ic_filter_icon"
+            android:clickable="true"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
