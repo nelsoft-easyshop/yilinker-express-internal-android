@@ -86,7 +86,7 @@ public class LoginPresenter extends BasePresenter<Object, ActivityLogin> impleme
         oAuth.setPassword(password);
         oAuth.setUsername(username);
 
-        Request request = RiderAPI.loginByUsername(REQUEST_LOGIN, oAuth, this);
+        Request request = RiderAPI.loginByUsername(REQUEST_LOGIN, oAuth, applicationClass.getCurrentLocale(), this);
         requestQueue.add(request);
 
     }

@@ -2,13 +2,14 @@ package com.yilinker.expressinternal.mvp.presenter.joborderdetails;
 
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDeliveryJobView;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDropoffJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 /**
  * Created by J.Bautista on 3/8/16.
  */
-public class CurrentDropoffJobPresenter extends BasePresenter<JobOrder, ICurrentDropoffJobView> {
+public class CurrentDeliveryJobPresenter extends BasePresenter<JobOrder, ICurrentDeliveryJobView> {
 
 
     @Override
@@ -16,11 +17,13 @@ public class CurrentDropoffJobPresenter extends BasePresenter<JobOrder, ICurrent
 
         view().setStatusText(model.getStatus());
         view().setWaybillNoText(model.getWaybillNo());
+        view().setDeliveryAddressText(model.getDeliveryAddress());
+        view().setAmountToCollectText(PriceFormatHelper.formatPrice(model.getAmountToCollect()));
+        view().setContactNumber(model.getContactNo());
+        view().setShipperName(model.getRecipient());
         view().setDateCreatedText("date");
-        view().setDateAcceptedText("date");
-        view().setDropoffAddress(model.getDropoffAddress());
         view().setItemText("items");
-        view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
+        view().setEarningText(String.format("P%.2f", model.getEarning()));
 
     }
 

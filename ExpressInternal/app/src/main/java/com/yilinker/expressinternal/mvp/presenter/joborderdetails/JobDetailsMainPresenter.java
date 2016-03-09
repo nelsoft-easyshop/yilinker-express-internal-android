@@ -16,39 +16,41 @@ public class JobDetailsMainPresenter extends BasePresenter<JobOrder, IJobDetails
     protected void updateView() {
 
         String status = model.getStatus();
-        if(model.isOpen()){
+        if (model.isOpen()) {
             view().showOpenDetails(model);
-        }
-        else if(!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+        } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)) {
             view().showCurrentPickupDetails(model);
-        }
-        else if(!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+        } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)) {
             view().showDropoffDetails(model);
+        } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)) {
+            view().showProblematicDeliveryDetails(model);
+        } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+            view().showCurrentDeliveryDetails(model);
         }
 
     }
 
-    public void onQrButtonClick(){
+    public void onQrButtonClick() {
 
         view().showQRCodeScreen(model);
     }
 
-    public void onMapButtonClick(){
+    public void onMapButtonClick() {
 
         view().showNavigationMapScreen(model);
     }
 
-    public void onContactButtonClick(){
+    public void onContactButtonClick() {
 
         view().showContactScreen(model);
     }
 
-    public void onImageButtonClick(){
+    public void onImageButtonClick() {
 
         view().showImages(model.getImages());
     }
 
-    public void onPrintButtonClick(){
+    public void onPrintButtonClick() {
 
         view().showPrintScreen(model);
     }

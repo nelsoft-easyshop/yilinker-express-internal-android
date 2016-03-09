@@ -11,36 +11,30 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
-import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDeliveryJobPresenter;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDropoffJobPresenter;
+import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentProblematicJobPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by J.Bautista on 3/8/16.
  */
-public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDeliveryJobView {
+public class FragmentCurrentProblematic extends BaseFragment implements ICurrentProblematicJobView {
 
     private static final String ARG_JOB = "job";
 
-    private CurrentDeliveryJobPresenter presenter;
+    private CurrentProblematicJobPresenter presenter;
 
     private TextView tvStatus;
     private TextView tvWaybillNo;
     private TextView tvDateCreated;
     private TextView tvDateAccepted;
-    private TextView tvDeliveryAddress;
-    private TextView tvTimeElapsed;
+    private TextView tvAddress;
     private TextView tvEarning;
     private TextView tvItem;
-    private TextView tvShipperName;
-    private TextView tvContactNo;
-    private TextView tvAmountToCollect;
 
-    public static FragmentCurrentDelivery createInstance(JobOrder jobOrder){
+    public static FragmentCurrentProblematic createInstance(JobOrder jobOrder){
 
-        FragmentCurrentDelivery fragment = new FragmentCurrentDelivery();
+        FragmentCurrentProblematic fragment = new FragmentCurrentProblematic();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(ARG_JOB, jobOrder);
@@ -54,7 +48,7 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_jobdetails_delivery, container, false);
+        View view = inflater.inflate(R.layout.fragment_jobdetails_problematic, container, false);
 
         return view;
     }
@@ -65,7 +59,7 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
 
         if(savedInstanceState == null){
 
-            presenter = new CurrentDeliveryJobPresenter();
+            presenter = new CurrentProblematicJobPresenter();
         }
         else{
 
@@ -95,54 +89,27 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
         tvDateCreated = (TextView) parent.findViewById(R.id.tvDateCreated);
         tvEarning = (TextView) parent.findViewById(R.id.tvEarning);
         tvItem = (TextView) parent.findViewById(R.id.tvItem);
-        tvDeliveryAddress = (TextView) parent.findViewById(R.id.tvDeliveryAddress);
-        tvTimeElapsed = (TextView) parent.findViewById(R.id.tvTimeElapsed);
+        tvAddress = (TextView) parent.findViewById(R.id.tvAddress);
         tvWaybillNo = (TextView) parent.findViewById(R.id.tvWaybillNo);
-        tvShipperName = (TextView) parent.findViewById(R.id.tvShipperName);
-        tvContactNo = (TextView) parent.findViewById(R.id.tvContactNo);
-        tvAmountToCollect = (TextView) parent.findViewById(R.id.tvAmountToCollect);
 
     }
 
     @Override
-    public void setTimeElapsedText(String timeElapsed) {
+    public void setDateAcceptedText(String dateAccepted) {
 
-        tvTimeElapsed.setText(timeElapsed);
+        tvDateAccepted.setText(dateAccepted);
     }
 
     @Override
-    public void setDeliveryAddressText(String deliveryAddress) {
+    public void setDeliveryAddress(String deliveryAddress) {
 
-        tvDeliveryAddress.setText(deliveryAddress);
-
+        tvAddress.setText(deliveryAddress);
     }
-
-    @Override
-    public void setShipperName(String deliveryName) {
-
-        tvShipperName.setText(deliveryName);
-
-    }
-
-    @Override
-    public void setContactNumber(String shipperNo) {
-
-        tvContactNo.setText(shipperNo);
-
-    }
-
 
     @Override
     public void setItemText(String items) {
 
         tvItem.setText(items);
-    }
-
-    @Override
-    public void setAmountToCollectText(String amountToCollect) {
-
-        tvAmountToCollect.setText(amountToCollect);
-
     }
 
     @Override
