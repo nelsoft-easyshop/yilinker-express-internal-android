@@ -55,7 +55,8 @@
                     android:background="@drawable/bg_rounded_white_no_padding"
                     android:paddingStart="15dp"
                     android:singleLine="true"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:maxLength="10"/>
 
             </LinearLayout>
 

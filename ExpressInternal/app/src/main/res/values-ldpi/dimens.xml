@@ -14,6 +14,6 @@
 
     <!--login-->
     <dimen name="yilinker_express_name_textsize">14sp</dimen>
-    <dimen name="verification_code_margin_top">50dp</dimen>
+    <dimen name="verification_code_margin_top">40dp</dimen>
 
 </resources>

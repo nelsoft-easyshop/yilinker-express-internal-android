@@ -1,77 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_map_full_background">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/registration_sit_back_and_relax"
-        android:textColor="@color/gray_brown"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/verification_code_margin_top"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/registration_sit_back_and_relax_2"
-        android:textColor="@color/gray_brown"
-        android:layout_gravity="center"/>
-    
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_mobile_phone"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/phone_icon_margin_top"/>
+    android:animateLayoutChanges="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="30dp"
-        android:layout_marginTop="@dimen/verification_form_margin_top"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/bg_btn_marigold_rounded">
+        android:background="@drawable/ic_map_full_background">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/registration_sit_back_and_relax"
             android:textColor="@color/gray_brown"
-            android:text="@string/registration_verification_code_sent"
-            android:gravity="center"/>
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/verification_code_margin_top"/>
 
         <TextView
-            android:id="@+id/MobileNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_sit_back_and_relax_2"
+            android:textSize="18sp"
+            android:textColor="@color/gray_brown"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mobile_phone"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/phone_icon_margin_top"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="+63900 000 0000"
-            android:textColor="@color/gray_brown"
-            android:gravity="center"/>
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:layout_marginTop="@dimen/verification_form_margin_top"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_btn_marigold_rounded">
 
-        <EditText
-            android:id="@+id/etCode"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_brown"
+                android:textStyle="bold"
+                android:text="@string/registration_verification_code_sent"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tvMobileNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="@color/gray_brown"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/etCode"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_rounded_white_no_padding"
+                android:hint="@string/registration_enter_code"
+                android:singleLine="true"
+                android:gravity="center"
+                />
+
+            <Button
+                android:id="@+id/btnVerify"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/registration_verify"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_btn_orangeyellow_rounded"
+                android:layout_below="@+id/etConfirmPassword"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tvErrorMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Code is Invalid or Expired"
+                android:textColor="@color/orange_red"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tvResendVerification"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_rounded_white_no_padding"
-            android:hint="@string/registration_enter_code"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_resend_verification"
+            android:textSize="18sp"
             android:gravity="center"
-            />
+            android:textColor="@color/orange_red"
+            android:layout_marginTop="@dimen/verification_code_margin_top"/>
+
 
     </LinearLayout>
 
+    <include layout="@layout/layout_progress" android:id="@+id/rlProgress" />
 
-    <TextView
-        android:id="@+id/ResendVerification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/registration_resend_verification"
-        android:gravity="center"
-        android:textColor="@color/orange_red"
-        android:layout_marginTop="@dimen/verification_code_margin_top"/>
-
-
-</LinearLayout>
+</RelativeLayout>

@@ -34,6 +34,7 @@
     <string name="registration_mobile_number_start">+63</string>
     <string name="registration_already_have_an_account">Already have an account? Sign in</string>
     <string name="registration_here">" here"</string>
+    <string name="registration_verify">Verify</string>
 
     <!--terms and conditions-->
     <string name="yilinker_express_rider">YILINKER EXPRESS RIDER</string>
