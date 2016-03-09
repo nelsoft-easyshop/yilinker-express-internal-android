@@ -8,6 +8,37 @@
     <string name="login_button">Login</string>
     <string name="login_error_incomplete_fields">Missing username/password</string>
 
+    <!--Get Started-->
+    <string name="login_get_started">GET STARTED</string>
+
+    <!--login and registration-->
+    <string name="login_yilinker_express">YILINKER EXPRESS</string>
+    <string name="login_partner">"P   A   R   T   N   E   R"</string>
+    <string name="login_username_mobile">Username / Mobile</string>
+    <string name="login_button_2">Log In</string>
+    <string name="login_dont_have_account_yet">"Don't have an account yet?"</string>
+    <string name="login_signup">Sign Up here</string>
+    <string name="login_confirm_password">Confirm Password</string>
+    <string name="login_complete_sign_up">Complete Sign Up</string>
+    <string name="terms_and_condition_label">By Signing Up you have accepted</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="terms_and_conditions_ours">"ours "</string>
+    <string name="login_sign_up">Sign Up</string>
+
+    <!--registration-->
+    <string name="registration_sit_back_and_relax">Sit back and relax while we verify</string>
+    <string name="registration_sit_back_and_relax_2">your mobile number</string>
+    <string name="registration_verification_code_sent">VERIFICATION CODE HAS BEEN SENT TO</string>
+    <string name="registration_enter_code">Enter Code</string>
+    <string name="registration_resend_verification">Resent Verification Code</string>
+    <string name="registration_mobile_number_start">+63</string>
+    <string name="registration_already_have_an_account">Already have an account? Sign in</string>
+    <string name="registration_here">" here"</string>
+    <string name="registration_verify">Verify</string>
+
+    <!--terms and conditions-->
+    <string name="yilinker_express_rider">YILINKER EXPRESS RIDER</string>
+
     <!-- Menu-->
     <string name="menu_mapview">Map View</string>
     <string name="menu_listview">List View</string>

@@ -82,6 +82,8 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
 
     @Override
     public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
+
         switch (requestCode){
 
             case REQUEST_GET_CASH_DETAIL:
@@ -95,6 +97,8 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
 
     @Override
     public void onFailed(int requestCode, String message) {
+        super.onSuccess(requestCode, message);
+
         view().showLoader(false);
         view().showErrorMessage(true, message);
     }
