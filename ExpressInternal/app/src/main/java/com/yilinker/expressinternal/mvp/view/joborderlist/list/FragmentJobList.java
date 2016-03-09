@@ -1,7 +1,9 @@
 package com.yilinker.expressinternal.mvp.view.joborderlist.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobListPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityJobDetailsMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +24,7 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/2/16.
  */
-public class FragmentJobList extends BaseFragment implements IJobListView {
+public class FragmentJobList extends BaseFragment implements IJobListView, RecyclerViewClickListener<JobOrder>{
 
     public static final String ARG_JOBS = "jobs";
 
@@ -72,6 +76,8 @@ public class FragmentJobList extends BaseFragment implements IJobListView {
     @Override
     public void showJobOrderDetails(JobOrder joborder) {
 
+        showJobDetails(joborder);
+
     }
 
 
@@ -81,9 +87,30 @@ public class FragmentJobList extends BaseFragment implements IJobListView {
         //For jobs
         RecyclerView rvJobOrders = (RecyclerView) parent.findViewById(R.id.rvJobOrder);
         rvJobOrders.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new JobsAdapter(R.layout.layout_job_order_list_open_2);
+        adapter = new JobsAdapter(R.layout.layout_job_order_list_open_2, this);
         rvJobOrders.setAdapter(adapter);
 
 
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
+
+    }
+
+    private void showJobDetails(JobOrder jobOrder){
+
+        Intent intent = new Intent(getActivity(), ActivityJobDetailsMain.class);
+        intent.putExtra(ActivityJobDetailsMain.ARG_JOB, jobOrder);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onItemClick(int position, JobOrder object) {
+
+        showJobOrderDetails(object);
     }
 }

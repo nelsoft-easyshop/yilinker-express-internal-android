@@ -11,4 +11,5 @@ public interface IJobView {
     public void setWaybillNo(String waybillNo);
     public void setEarning(String earning);
     public void setSize(String size);
+    public void showDetails(JobOrder jobOrder);
 }

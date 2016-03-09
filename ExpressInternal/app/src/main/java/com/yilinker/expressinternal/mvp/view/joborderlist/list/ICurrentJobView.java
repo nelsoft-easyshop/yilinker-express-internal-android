@@ -5,4 +5,7 @@ package com.yilinker.expressinternal.mvp.view.joborderlist.list;
  */
 public interface ICurrentJobView extends IJobView {
 
+    public void setTimeElapsed(String timeElapsed);
+    public void setAddressText(String address);
+    public void setDistanceText(String distance);
 }

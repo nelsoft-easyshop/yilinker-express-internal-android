@@ -290,7 +290,7 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
             }
             else{
 
-                text = "Route Not Available";
+                text = getString(R.string.navigation_route_not_available);
             }
 
             tvDistance.setText(text);

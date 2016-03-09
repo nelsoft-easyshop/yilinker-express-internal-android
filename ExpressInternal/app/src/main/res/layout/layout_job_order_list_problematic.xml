@@ -8,20 +8,19 @@
 
     <TextView
         android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/joborder_status_width"
+        android:layout_height="@dimen/joborder_status_height"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:background="@color/orange_yellow"
-        android:text="Pick Up"
+        android:background="@color/blue_green"
+        android:text="Deliver"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:textAllCaps="true"
         android:textSize="14sp"
         android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/tvWaybillNo"
@@ -47,7 +46,7 @@
         android:layout_marginEnd="10dp"
         android:text="P 1000"
         android:textStyle="bold"
-        android:textColor="@android:color/holo_green_dark"/>
+        android:textColor="@color/green"/>
 
 
     <!--Pick up or Delivery Address Container-->
@@ -69,7 +68,7 @@
             android:textColor="@color/marigold"/>
 
         <TextView
-            android:id="@+id/tvDestination"
+            android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sample Address here, Sample Test Address - Test Address"
@@ -100,7 +99,7 @@
 
 
         <TextView
-            android:id="@+id/tvDistance"
+            android:id="@+id/tvRemarks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delivery Rejected by Recipient"

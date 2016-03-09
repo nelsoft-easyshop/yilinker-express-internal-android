@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
 import com.yilinker.expressinternal.mvp.adapter.ListRecyclerViewAdapter;
@@ -18,11 +19,14 @@ import com.yilinker.expressinternal.mvp.presenter.joborderlist.OpenJobItemPresen
  */
 public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresenter, JobsViewHolder<JobItemPresenter>>{
 
+    private RecyclerViewClickListener listener;
     private int resourceId;
 
-    public JobsAdapter(int resourceId){
+    public JobsAdapter(int resourceId , RecyclerViewClickListener listener){
 
         this.resourceId = resourceId;
+        this.listener = listener;
+
     }
 
     @NonNull
@@ -66,19 +70,19 @@ public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresen
 
             case R.layout.layout_job_order_list_open_2:
 
-                return new OpenJobsViewHolder(view);
+                return new OpenJobsViewHolder(view, listener);
 
             case R.layout.layout_job_order_list_current_2:
 
-                return new CurrentJobsViewHolder(view);
+                return new CurrentJobsViewHolder(view, listener);
 
             case R.layout.layout_job_order_list_problematic:
 
-                return new CurrentJobsViewHolder(view);
+                return new CurrentJobsViewHolder(view, listener);
 
             default:
 
-                return new OpenJobsViewHolder(view);
+                return new OpenJobsViewHolder(view, listener);
         }
 
 

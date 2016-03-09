@@ -14,5 +14,13 @@ public class JobTypePresenter extends BasePresenter<JobType, JobTypeViewHolder> 
     @Override
     protected void updateView() {
 
+        view().setLabel(model.getLabel());
+        view().setIsChecked(model.isChecked());
+    }
+
+    public void onClick(){
+
+        model.setIsChecked(!model.isChecked());
+        view().resetViewModel(model);
     }
 }

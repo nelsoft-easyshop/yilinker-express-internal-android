@@ -1,9 +1,13 @@
 package com.yilinker.expressinternal.mvp.view;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.yilinker.expressinternal.R;
 
 import java.util.List;
 
@@ -27,6 +31,15 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
 
     }
 
+    protected void replaceFragment(int containerId, Fragment fragment){
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(containerId, fragment);
+
+        transaction.commit();
+    }
 
 
 }

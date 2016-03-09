@@ -16,4 +16,5 @@ public interface RequestBaseView {
     public void initializeViews(View parent);
     public void addRequestToQueue(Request request);
     public void cancelRequests(List<String> tags);
+    public void showLoader(boolean isShown);
 }

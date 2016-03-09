@@ -18,6 +18,8 @@ import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainScreenPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
 import com.yilinker.expressinternal.mvp.view.joborderlist.FragmentJobListMain;
+import com.yilinker.expressinternal.mvp.view.profile.FragmentProfile;
+import com.yilinker.expressinternal.mvp.view.tools.FragmentTools;
 
 
 import java.util.List;
@@ -77,7 +79,6 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
     }
 
-
     @Override
     public void initializeViews(View view) {
 
@@ -91,6 +92,11 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
         adapter.setEqualWidth(getWindowManager(), 4);
 
         rvTabs.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
 
     }
 
@@ -122,7 +128,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
             case 1:
 
-                fragment = new Fragment();
+                fragment = new FragmentTools();
                 break;
 
             case 2:
@@ -132,7 +138,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
             case 3:
 
-                fragment = new Fragment();
+                fragment = new FragmentProfile();
                 break;
 
         }
@@ -190,4 +196,5 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
         presenter.onTabSelected(position);
     }
+
 }

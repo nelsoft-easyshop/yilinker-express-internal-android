@@ -23,6 +23,7 @@ public class OpenJobItemPresenter extends JobItemPresenter<OpenJobsViewHolder> {
         view().setDateCreated(formatDateCreated(Calendar.getInstance().getTime()));
     }
 
+    //TODO Move this method so this can be reuse
     private String formatEarning(double earning){
 
         return String.format("P%.2f", earning);
@@ -35,6 +36,11 @@ public class OpenJobItemPresenter extends JobItemPresenter<OpenJobsViewHolder> {
         String stringDate = DateUtility.convertDateToString(date, format);
 
         return stringDate;
+    }
+
+    public void onClick(){
+
+        view().showDetails(model);
     }
 
 }

@@ -52,7 +52,7 @@ public class ActivityContact extends BaseActivity {
 
 
         //For Action Bar
-        setActionBarTitle("Contact Details");
+        setActionBarTitle(getString(R.string.actionbar_title_contact_details));
         setActionBarBackgroundColor(R.color.marigold);
 
         btnCall.setOnClickListener(this);
