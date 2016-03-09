@@ -189,6 +189,15 @@ public class ApplicationClass extends BaseApplication {
         return pref.getInt(CURRENT_LOCALE_ID, 0);
     }
 
+    public String getCurrentLocale() {
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        return pref.getString(CURRENT_LOCALE, "en");
+    }
+
+
     public void setLanguage(Object lang) {
 
         Languages locale = (Languages) lang;

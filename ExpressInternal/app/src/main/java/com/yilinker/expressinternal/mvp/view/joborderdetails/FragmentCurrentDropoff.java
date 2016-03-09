@@ -12,7 +12,6 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDropoffJobPresenter;
-import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentPickupJobPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
 
 /**

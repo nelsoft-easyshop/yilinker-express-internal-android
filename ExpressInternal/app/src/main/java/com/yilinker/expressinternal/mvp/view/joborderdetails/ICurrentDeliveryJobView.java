@@ -8,11 +8,11 @@ import com.yilinker.expressinternal.mvp.view.RequestBaseView;
  */
 public interface ICurrentDeliveryJobView extends IJobDetailsView {
 
-    public void setTimeElapsedText(String time);
-    public void setDeliveryAddressText(String deliveryAddress);
-    public void setDeliveryNameText(String deliveryName);
-    public void setShipperNoText(String shipperNo);
-    public void setItemText(String items);
-    public void setAmountToCollectText(String amountToCollect);
+    void setTimeElapsedText(String time);
+    void setDeliveryAddressText(String deliveryAddress);
+    void setShipperName(String deliveryName);
+    void setContactNumber(String shipperNo);
+    void setItemText(String items);
+    void setAmountToCollectText(String amountToCollect);
 
 }

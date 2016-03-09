@@ -178,11 +178,16 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
     @Override
     public void showCurrentDeliveryDetails(JobOrder jobOrder) {
 
+        Fragment fragment = FragmentCurrentDelivery.createInstance(jobOrder);
+        replaceFragment(R.id.flContainer,fragment);
+
     }
 
     @Override
     public void showProblematicDeliveryDetails(JobOrder jobOrder) {
 
+        Fragment fragment = FragmentCurrentProblematic.createInstance(jobOrder);
+        replaceFragment(R.id.flContainer, fragment);
     }
 
 
