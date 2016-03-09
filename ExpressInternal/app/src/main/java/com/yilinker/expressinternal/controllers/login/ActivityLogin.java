@@ -40,7 +40,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     private Button btnLogin;
     private EditText etUsername;
     private EditText etPassword;
-    private RelativeLayout rlProgress;
+    private View viewLoader;
 
     private RequestQueue requestQueue;
 
@@ -102,7 +102,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         }
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        rlProgress.setVisibility(View.GONE);
+        showLoader(false, getString(R.string.login_button_2));
     }
 
     @Override
@@ -138,20 +138,25 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         btnLogin = (Button) findViewById(R.id.btnLogin);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etUsername = (EditText) findViewById(R.id.etUsername);
-        rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        viewLoader = findViewById(R.id.viewLoader);
 
         btnLogin.setOnClickListener(this);
 
         TextView tvSignUp = (TextView) findViewById(R.id.tvSignUp);
         tvSignUp.setOnClickListener(this);
 
-        rlProgress.setVisibility(View.GONE);
 
+    }
+
+    private void showLoader(boolean isToShow, String label){
+        viewLoader.setVisibility(isToShow? View.VISIBLE:View.GONE);
+        btnLogin.setText(label);
     }
 
     private void requestLogin(){
 
-        rlProgress.setVisibility(View.VISIBLE);
+//        rlProgress.setVisibility(View.VISIBLE);
+        showLoader(true, getString(R.string.logging_in));
 
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
@@ -191,7 +196,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
     private void requestVerifyRider(){
 
-        rlProgress.setVisibility(View.VISIBLE);
+        showLoader(true, getString(R.string.logging_in));
 
         Request request = RiderAPI.verifyRider(REQUEST_VERIFY_RIDER, this);
         requestQueue.add(request);

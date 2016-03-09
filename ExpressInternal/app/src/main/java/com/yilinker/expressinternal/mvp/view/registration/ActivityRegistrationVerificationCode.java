@@ -25,7 +25,9 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     private String mobileNumber;
     private TextView tvErrorMessage;
     private EditText etCode;
-    private RelativeLayout rlProgress;
+
+    private View viewLoader;
+    private Button btnVerify;
 
     private RegistrationVerificationCodePresenter presenter;
 
@@ -85,17 +87,15 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         TextView tvMobileNumber = (TextView) findViewById(R.id.tvMobileNumber);
         tvMobileNumber.setText(getFormatterMobileNumber());
 
-        Button btnVerify =(Button) findViewById(R.id.btnVerify);
+        btnVerify =(Button) findViewById(R.id.btnVerify);
         btnVerify.setOnClickListener(this);
 
         TextView tvResendVerification = (TextView) findViewById(R.id.tvResendVerification);
         tvResendVerification.setOnClickListener(this);
 
+        viewLoader = findViewById(R.id.viewLoader);
         etCode = (EditText) findViewById(R.id.etCode);
         tvErrorMessage = (TextView) findViewById(R.id.tvErrorMessage);
-        rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
-
-        rlProgress.setVisibility(View.GONE);
     }
 
     private String getFormatterMobileNumber(){
@@ -111,7 +111,13 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
 
     @Override
     public void showLoader(boolean isToShow) {
-        rlProgress.setVisibility(isToShow? View.VISIBLE:View.GONE);
+        viewLoader.setVisibility(isToShow? View.VISIBLE:View.GONE);
+        if (isToShow){
+            btnVerify.setText(getString(R.string.registration_verifying));
+        }else {
+            btnVerify.setText(getString(R.string.registration_verify));
+        }
+
     }
 
     @Override

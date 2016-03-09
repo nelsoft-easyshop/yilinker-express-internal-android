@@ -28,6 +28,8 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
     private EditText etPassword;
     private EditText etConfirmPassword;
     private RelativeLayout rlProgress;
+    private View viewLoader;
+    private Button btnSignUp;
 
     private RegistrationCompleteSignUpPresenter presenter;
 
@@ -88,9 +90,9 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
 
         etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
         etPassword = (EditText) findViewById(R.id.etPassword);
-        rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        viewLoader = findViewById(R.id.viewLoader);
 
-        Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        btnSignUp = (Button) findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(this);
 
         TextView tvTermsAndConditions = (TextView) findViewById(R.id.tvTermsAndConditions);
@@ -98,8 +100,6 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
 
         EditText etMobileNumber = (EditText) findViewById(R.id.etMobileNumber);
         etMobileNumber.setText(getFormatterMobileNumber());
-
-        rlProgress.setVisibility(View.GONE);
 
     }
 
@@ -122,7 +122,13 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
 
     @Override
     public void showLoader(boolean isToShow) {
-        rlProgress.setVisibility(isToShow? View.VISIBLE: View.GONE);
+        viewLoader.setVisibility(isToShow? View.VISIBLE: View.GONE);
+        if (isToShow){
+            btnSignUp.setText(getString(R.string.login_completing_sign_up));
+        }else{
+            btnSignUp.setText(getString(R.string.login_complete_sign_up));
+        }
+
     }
 
     @Override

@@ -16,10 +16,12 @@
     <string name="login_partner">"P   A   R   T   N   E   R"</string>
     <string name="login_username_mobile">Username / Mobile</string>
     <string name="login_button_2">Log In</string>
+    <string name="logging_in">"Logging In..."</string>
     <string name="login_dont_have_account_yet">"Don't have an account yet?"</string>
     <string name="login_signup">Sign Up here</string>
     <string name="login_confirm_password">Confirm Password</string>
     <string name="login_complete_sign_up">Complete Sign Up</string>
+    <string name="login_completing_sign_up">"Completing Sign Up..."</string>
     <string name="terms_and_condition_label">By Signing Up you have accepted</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="terms_and_conditions_ours">"ours "</string>
@@ -36,6 +38,7 @@
     <string name="registration_already_have_an_account">Already have an account? Sign in</string>
     <string name="registration_here">" here"</string>
     <string name="registration_verify">Verify</string>
+    <string name="registration_verifying">"Verifying..."</string>
     <string name="registration_create_account">Create Account</string>
 
     <!--terms and conditions-->
