@@ -23,6 +23,7 @@ public class JobOrder implements Parcelable{
 
     private static final String SERVER_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
+    private int id;
     private String jobOrderNo;
     private String recipient;
     private String contactNo;
@@ -60,6 +61,7 @@ public class JobOrder implements Parcelable{
     private double amountToCollect;
 
     private boolean forSyncing;
+
 
     static {
 
@@ -119,6 +121,14 @@ public class JobOrder implements Parcelable{
             problematicImages = problemDetail.getImages();
         }
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getJobOrderNo() {
@@ -368,6 +378,7 @@ public class JobOrder implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
         dest.writeString(this.jobOrderNo);
         dest.writeString(this.recipient);
         dest.writeString(this.contactNo);
@@ -401,6 +412,7 @@ public class JobOrder implements Parcelable{
     }
 
     protected JobOrder(Parcel in) {
+        this.id = in.readInt();
         this.jobOrderNo = in.readString();
         this.recipient = in.readString();
         this.contactNo = in.readString();

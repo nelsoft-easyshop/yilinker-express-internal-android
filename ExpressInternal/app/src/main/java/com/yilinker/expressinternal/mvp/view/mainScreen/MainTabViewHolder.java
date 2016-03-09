@@ -1,6 +1,5 @@
 package com.yilinker.expressinternal.mvp.view.mainScreen;
 
-import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,7 +7,7 @@ import android.widget.TextView;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
-import com.yilinker.expressinternal.mvp.model.MainTab;
+import com.yilinker.expressinternal.mvp.model.TabItem;
 import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainTabPresenter;
 
 /**
@@ -62,7 +61,7 @@ public class MainTabViewHolder extends BaseViewHolder<MainTabPresenter> implemen
     }
 
     @Override
-    public void showSelected(MainTab tab) {
+    public void showSelected(TabItem tab) {
 
         listener.onTabItemClick(tab.getId());
     }

@@ -2,16 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_white_no_padding">
+    android:background="@drawable/bg_rounded_white_no_padding"
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/joborder_status_width"
+        android:layout_height="@dimen/joborder_status_height"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
         android:background="@color/blue_green"
         android:text="Deliver"
         android:textStyle="bold"
@@ -19,7 +18,8 @@
         android:textAllCaps="true"
         android:textSize="14sp"
         android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/tvWaybillNo"
@@ -86,7 +86,7 @@
             android:textColor="@color/marigold"/>
 
         <TextView
-            android:id="@+id/tvDestination"
+            android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sample Address here, Sample Test Address - Test Address"
@@ -100,7 +100,7 @@
             android:id="@+id/ivFromIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_branch"
+            android:background="@drawable/ic_shipper"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"/>
 

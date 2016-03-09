@@ -51,4 +51,11 @@
     <dimen name="verification_form_margin_top">20dp</dimen>
     <dimen name="phone_icon_margin_top">20dp</dimen>
 
+    <!--For New Design-->
+    <dimen name="joborderlsit_filterbar_height">40dp</dimen>
+    <dimen name="joborder_status_height">30dp</dimen>
+    <dimen name="joborder_status_width">150dp</dimen>
+    <dimen name="joborderdetails_earning_textsize">20sp</dimen>
+
+
 </resources>

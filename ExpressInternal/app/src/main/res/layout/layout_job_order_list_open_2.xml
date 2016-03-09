@@ -2,24 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_white_no_padding">
+    android:background="@drawable/bg_rounded_white_no_padding"
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/joborder_status_width"
+        android:layout_height="@dimen/joborder_status_height"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:background="@color/orange_yellow"
+        android:background="@drawable/bg_image_marigold"
         android:text="pick up"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:textAllCaps="true"
         android:textSize="14sp"
         android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/tvWaybillNo"
@@ -35,13 +35,22 @@
         android:layout_alignParentStart="true"/>
 
     <TextView
+        android:id="@+id/tvLabelDateCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created "
+        android:layout_below="@+id/tvWaybillNo"
+        android:textSize="12sp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
         android:id="@+id/tvDateCreated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Created 23 MAR - 02:15 AM"
         android:layout_below="@+id/tvWaybillNo"
-        android:textSize="12sp"
-        android:layout_marginStart="10dp"/>
+        android:layout_toRightOf="@+id/tvLabelDateCreated"
+        android:textSize="12sp"/>
 
     <TextView
         android:id="@+id/tvEarning"
@@ -89,7 +98,7 @@
             android:id="@+id/ivFromIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_branch"
+            android:background="@drawable/ic_shipper"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"/>
 

@@ -416,10 +416,10 @@ public class ActivityDashboard extends AppCompatActivity implements View.OnClick
 
         if (resultCode == RESULT_OK) {
             //TODO Show success message
-            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.message_success), Toast.LENGTH_SHORT).show();
         } else {
             //TODO Show error message
-            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.message_failed), Toast.LENGTH_SHORT).show();
         }
 
     }

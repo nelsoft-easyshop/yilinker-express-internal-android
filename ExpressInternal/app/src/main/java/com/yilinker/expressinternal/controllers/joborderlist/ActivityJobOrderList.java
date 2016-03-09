@@ -365,7 +365,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
                 marker = mMap.addMarker(markerOptions);
 
                 int markerResId = R.drawable.pin_joborder_pickup;
-                if (item.getType().equalsIgnoreCase("delivery")) {
+                if (item.getType().equalsIgnoreCase(getString(R.string.joborder_list_delivery))) {
                     markerResId = R.drawable.pin_joborder_delivery;
                 }
 
@@ -631,25 +631,25 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
             case TAB_OPEN:
 
-                type = "Open";
+                type = getString(R.string.job_order_list_open);
                 requestCode = REQUEST_GET_OPEN;
                 break;
 
             case TAB_CURRENT:
 
-                type = "Current";
+                type = getString(R.string.job_order_list_current);
                 requestCode = REQUEST_GET_CURRENT;
                 break;
 
             case TAB_COMPLETED:
 
-                type = "Completed";
+                type = getString(R.string.job_order_list_completed);
                 requestCode = REQUEST_GET_COMPLETE;
                 break;
 
             case TAB_PROBLEMATIC:
 
-                type = "Problematic";
+                type = getString(R.string.job_order_list_problematic);
                 requestCode = REQUEST_GET_PROBLEMATIC;
                 break;
 

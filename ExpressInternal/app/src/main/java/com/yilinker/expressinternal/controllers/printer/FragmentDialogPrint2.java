@@ -280,12 +280,12 @@ public class FragmentDialogPrint2 extends DialogFragment implements View.OnClick
 
         if(lineNo == 0) {
 
-            msg = String.format("Package Description:\n%s", jobOrder.getPackageDescription());
+            msg = String.format("%s\n%s", getString(R.string.printing_package_description), jobOrder.getPackageDescription());
             btoutputstream.write(msg.getBytes());
 
             btoutputstream.write(FEED_LINE);
 
-            msg = String.format("Amount to Collect: P%.2f", jobOrder.getAmountToCollect());
+            msg = String.format("%s %s", getString(R.string.printing_package_amount_to_collect), jobOrder.getAmountToCollect());
             btoutputstream.write(msg.getBytes());
 
 //            LINE_SPACING[2] = 100;

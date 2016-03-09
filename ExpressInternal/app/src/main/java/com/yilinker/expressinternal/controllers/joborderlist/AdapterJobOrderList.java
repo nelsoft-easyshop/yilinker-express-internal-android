@@ -13,6 +13,7 @@ import com.yilinker.expressinternal.base.BaseViewHolder;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -229,7 +230,7 @@ public class AdapterJobOrderList<T extends JobOrder> extends RecyclerView.Adapte
             tvBranchName.setText(object.getBranchName());
             tvDistance.setText(String.format("%.02f KM", object.getDistance() / 1000f));
             tvSize.setText(object.getSize());
-            tvEarning.setText(String.format("₱%.02f", object.getEarning()));
+            tvEarning.setText(PriceFormatHelper.formatPrice(object.getEarning()));
             tvType.setText(object.getType());
 
             if (object.getEstimatedTimeOfArrival() != null) {

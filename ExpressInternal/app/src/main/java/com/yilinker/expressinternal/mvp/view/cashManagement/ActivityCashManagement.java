@@ -48,7 +48,7 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
 
         setContentView(R.layout.activity_cash_management_2);
 
-        initializeViews();
+        initializeViews(null);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ActivityCashManagement extends BaseFragmentActivity implements ICas
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews(View parent) {
 
         tvCashLimit = (TextView) findViewById(R.id.tvCashLimit);
         tvCashOnHand = (TextView) findViewById(R.id.tvCashOnHand);
