@@ -50,10 +50,16 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
 
         initializeViews(null);
 
-        presenter.bindView(this);
 
         getData();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        presenter.bindView(this);
     }
 
     @Override

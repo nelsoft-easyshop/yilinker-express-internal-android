@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
@@ -41,7 +42,9 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/2/16.
  */
-public class FragmentJobListMain extends BaseFragment implements IJobListMainView, View.OnClickListener, TabItemClickListener{
+public class FragmentJobListMain extends BaseFragment implements IJobListMainView, View.OnClickListener, TabItemClickListener, View.OnFocusChangeListener{
+
+    private static final String KEY_CONTENT = "content";
 
     private static final int REQUEST_QR_CODE = 100;
 
@@ -64,6 +67,9 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     private static IJobListView currentFragmentView;
     private int currentView = VIEW_LIST;
 
+    private Fragment content;
+
+    private String searchString;
 
     private TextWatcher searchTextWatcher = new TextWatcher() {
 
@@ -76,6 +82,13 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             presenter.onSearchWaybill(s.toString());
+
+            if(s.length() > 0){
+
+                llJobTypeContainer.setVisibility(View.VISIBLE);
+            }
+
+            searchString = null;
 
         }
 
@@ -94,22 +107,6 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         }
     };
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if(savedInstanceState == null){
-
-            presenter = new JobListMainPresenter();
-
-        }
-        else{
-
-            presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
-
-        }
-
-    }
 
     @Nullable
     @Override
@@ -127,15 +124,34 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter.bindView(this);
+        if(savedInstanceState == null){
 
-        initializeViews(view);
+            presenter = new JobListMainPresenter();
 
-        setupTab();
+            initializeViews(view);
 
-        setUpTypeFilter();
+            presenter.bindView(this);
 
-        presenter.onViewCreated();
+            setupTab();
+
+            setUpTypeFilter();
+
+            presenter.onViewCreated();
+
+        }
+
+        else{
+
+            presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+
+            presenter.bindView(this);
+
+            content = getChildFragmentManager().getFragment(savedInstanceState, KEY_CONTENT);
+
+            replaceFragment(content);
+
+        }
+
 
     }
 
@@ -144,21 +160,34 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         super.onSaveInstanceState(outState);
 
         PresenterManager.getInstance().savePresenter(presenter, outState);
+        getChildFragmentManager().putFragment(outState, KEY_CONTENT, content);
     }
 
     @Override
     public void onResume() {
+
+        presenter.bindView(this);
+
         super.onResume();
 
-        presenter.onResume();
+        if(searchString != null){
+
+            etSearch.setText(searchString);
+        }
+        {
+            presenter.onResume();
+        }
     }
 
     @Override
     public void onPause() {
-        super.onPause();
+
+        presenter.onPause();
 
         presenter.unbindView();
+        super.onPause();
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -192,7 +221,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
             case R.id.etSearch:
 
-                llJobTypeContainer.setVisibility(View.GONE);
+//                llJobTypeContainer.setVisibility(View.GONE);
                 break;
 
             case R.id.ivScanner:
@@ -243,15 +272,18 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         ivToggle.setOnClickListener(this);
         ivScanner.setOnClickListener(this);
         tvFilter.setOnClickListener(this);
-        etSearch.setOnClickListener(this);
+//        etSearch.setOnClickListener(this);
 
         etSearch.addTextChangedListener(searchTextWatcher);
+        etSearch.setOnFocusChangeListener(this);
     }
 
     @Override
     public void reloadList(List<JobOrder> jobOrders) {
 
-        currentFragmentView.loadJobOrderList(jobOrders);
+        if(currentFragmentView != null) {
+            currentFragmentView.loadJobOrderList(jobOrders);
+        }
 
     }
 
@@ -265,7 +297,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     @Override
     public void showLoader(boolean isVisible) {
 
-        refreshLayout.setRefreshing(isVisible);
+//        refreshLayout.setRefreshing(isVisible);
     }
 
     @Override
@@ -330,12 +362,12 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         Bundle args = new Bundle();
         args.putParcelableArrayList(FragmentJobListMap.ARG_JOBS, (ArrayList<JobOrder>)jobOrders);
 
-        Fragment fragment = new FragmentJobListMap();
-        fragment.setArguments(args);
+        content = new FragmentJobListMap();
+        content.setArguments(args);
 
-        currentFragmentView = (IJobListView) fragment;
+        currentFragmentView = (IJobListView) content;
 
-        replaceFragment(fragment);
+        replaceFragment(content);
 
 
     }
@@ -346,12 +378,12 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         Bundle args = new Bundle();
         args.putParcelableArrayList(FragmentJobList.ARG_JOBS, (ArrayList<JobOrder>)jobOrders);
 
-        Fragment fragment = new FragmentJobList();
-        fragment.setArguments(args);
+        content = new FragmentJobList();
+        content.setArguments(args);
 
-        currentFragmentView = (IJobListView) fragment;
+        currentFragmentView = (IJobListView) content;
 
-        replaceFragment(fragment);
+        replaceFragment(content);
 
     }
 
@@ -359,6 +391,26 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     public void onTabItemClick(int position) {
 
         presenter.onTabItemClicked(position);
+    }
+
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+
+        if(hasFocus){
+
+            llJobTypeContainer.setVisibility(View.GONE);
+        }
+        else{
+
+            llJobTypeContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     private void setupTab(){
@@ -408,11 +460,11 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
         if(data != null){
 
-            String result = data.getStringExtra(ActivitySingleScanner.ARG_TEXT);
+            searchString = data.getStringExtra(ActivitySingleScanner.ARG_TEXT);
 
-            //TODO get result and set the text of the search field
         }
 
     }
+
 
 }
