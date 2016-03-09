@@ -42,7 +42,7 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
         setContentView(R.layout.activity_registration_sign_up);
 
-        initializeViews();
+        initializeViews(null);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
 
     @Override
-    public void initializeViews() {
+    public void initializeViews(View parent) {
 
         etMobileNumber = (EditText) findViewById(R.id.etMobileNumber);
         Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
@@ -78,6 +78,11 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
         btnSignUp.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
+
     }
 
     @Override

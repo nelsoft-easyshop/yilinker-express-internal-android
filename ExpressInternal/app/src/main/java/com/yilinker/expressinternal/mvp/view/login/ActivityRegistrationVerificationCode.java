@@ -46,7 +46,7 @@ public class ActivityRegistrationVerificationCode extends BaseFragmentActivity i
 
         setContentView(R.layout.activity_registration_verification_code);
         initData();
-        initializeViews();
+        initializeViews(null);
     }
 
 
@@ -80,7 +80,7 @@ public class ActivityRegistrationVerificationCode extends BaseFragmentActivity i
 
 
     @Override
-    public void initializeViews() {
+    public void initializeViews(View parent) {
         TextView tvMobileNumber = (TextView) findViewById(R.id.tvMobileNumber);
         tvMobileNumber.setText(mobileNumber);
 

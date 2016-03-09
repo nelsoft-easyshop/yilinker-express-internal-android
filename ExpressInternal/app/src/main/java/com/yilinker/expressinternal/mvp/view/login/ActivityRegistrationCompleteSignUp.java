@@ -45,7 +45,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseFragmentActivity
         }
 
         setContentView(R.layout.activity_registration_complete_sign_up);
-        initializeViews();
+        initializeViews(null);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseFragmentActivity
     }
 
     @Override
-    public void initializeViews() {
+    public void initializeViews(View parent) {
 
         etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
         etPassword = (EditText) findViewById(R.id.etPassword);
