@@ -14,4 +14,6 @@ public interface IOpenJobDetailsView extends IJobDetailsView,RequestBaseView {
     public void setConsigneeNameText(String consigneeName);
     public void setConsigneeContactNo(String contactNo);
     public void goBackToList();
+    void showErrorMessage(String errorMessage);
+    void showSuccessMessage();
 }
