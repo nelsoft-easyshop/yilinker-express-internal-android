@@ -28,6 +28,8 @@ public class JobDetailsMainPresenter extends BasePresenter<JobOrder, IJobDetails
             view().showCurrentDeliveryDetails(model);
         }
 
+        view().updateViewForJobOrder(model.getStatus());
+
     }
 
     public void onQrButtonClick() {

@@ -19,4 +19,5 @@ public interface IJobDetailsMainView {
     public void showDropoffDetails(JobOrder jobOrder);
     public void showCurrentDeliveryDetails(JobOrder jobOrder);
     public void showProblematicDeliveryDetails(JobOrder jobOrder);
+    void updateViewForJobOrder(String status);
 }

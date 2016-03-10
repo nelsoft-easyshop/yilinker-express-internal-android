@@ -209,28 +209,5 @@
         </RelativeLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/llButtons"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_button_height"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnPositive"
-            style="@style/JobOrderDetailFooterButtonStyle"
-            android:background="@drawable/bg_btn_bluegreen"
-            android:text="@string/joborderdetail_open_accept"
-            android:textColor="@color/white"/>
-
-        <Button
-            android:id="@+id/btnNegative"
-            style="@style/JobOrderDetailFooterButtonStyle"
-            android:background="@drawable/bg_btn_warmgray"
-            android:text="@string/joborderdetail_open_decline"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>
-
 
 </RelativeLayout>

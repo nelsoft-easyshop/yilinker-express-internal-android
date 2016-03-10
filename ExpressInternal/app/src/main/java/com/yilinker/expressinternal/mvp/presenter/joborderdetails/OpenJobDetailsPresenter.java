@@ -8,6 +8,8 @@ import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.IOpenJobDetailsView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by J.Bautista on 3/7/16.
  */
@@ -31,12 +33,23 @@ public class OpenJobDetailsPresenter extends RequestPresenter<JobOrder, IOpenJob
         view().setWaybillNoText(model.getWaybillNo());
     }
 
+    public void onPause(){
+
+        //Cancel all request
+        ArrayList<String> request = new ArrayList<>();
+        request.add(TAG_REQUEST);
+
+        view().cancelRequests(request);
+
+    }
+
     public void requestAcceptJob() {
 
         Request request = RiderAPI.acceptJobOrder(REQUEST_ACCEPT_JOB, model.getJobOrderNo(), this);
         request.setTag(TAG_REQUEST);
 
         view().addRequestToQueue(request);
+        view().showLoader(true);
     }
 
     public void handleNegativeButtonClick() {
@@ -56,6 +69,8 @@ public class OpenJobDetailsPresenter extends RequestPresenter<JobOrder, IOpenJob
                 view().goBackToList();
                 break;
         }
+
+        view().showLoader(false);
     }
 
     @Override
@@ -63,6 +78,7 @@ public class OpenJobDetailsPresenter extends RequestPresenter<JobOrder, IOpenJob
         super.onFailed(requestCode, message);
 
         view().showErrorMessage(message);
+        view().showLoader(false);
 
     }
 }

@@ -201,6 +201,7 @@
     <string name="problematic_out_of_stock">Out of Stock</string>
     <string name="confirm_problematic">Confirm Problematic Delivery</string>
     <string name="problematic_remarks_hint">Remarks</string>
+    <string name="problematic_notes">"Item(s) out of stock"</string>
 
     <!--Complete-->
     <string name="ok">Ok</string>

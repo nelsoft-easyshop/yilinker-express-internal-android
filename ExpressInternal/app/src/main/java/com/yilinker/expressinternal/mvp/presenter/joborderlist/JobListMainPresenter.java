@@ -155,8 +155,9 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
             selectedFilter.remove(type.getLabel());
         }
 
+        //Filter and Search
         List<JobOrder> result = new ArrayList<>();
-        result.addAll(filter());
+        result.addAll(filterAndSearch(completeList));
 
         setModel(result);
     }
@@ -167,16 +168,7 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         searchString = waybillNo;
 
-        if(searchString.length() == 0){
-
-            result.addAll(completeList);
-        }
-        else{
-
-            //Search then filter
-
-            result.addAll(search(waybillNo));
-        }
+        result.addAll(filterAndSearch(completeList));
 
         setModel(result);
 
@@ -266,10 +258,9 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         completeList = createList(listServer, 0);
 
-
-        //Filter result
+        //Search and filter
         List<JobOrder> result = new ArrayList<>();
-        result.addAll(filter());
+        result.addAll(filterAndSearch(completeList));
 
         setModel(result);
     }
@@ -298,40 +289,44 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
     }
 
-    private List<JobOrder> search(String query){
+    private List<JobOrder> search(List<JobOrder> list,  String query){
 
         List<JobOrder> result = new ArrayList<>();
 
-        for(JobOrder item : completeList){
+        //For null query string
+        if(query == null){
 
-            String waybillNo = item.getWaybillNo();
+            result.addAll(list);
+            return result;
+        }
 
-            if(waybillNo.contains(query)){
+        if(query.isEmpty()) {
 
-                result.add(item);
+            result.addAll(list);
+        }
+        else
+        {
+
+            for (JobOrder item : list) {
+
+                String waybillNo = item.getWaybillNo();
+
+                if (waybillNo.contains(query)) {
+
+                    result.add(item);
+                }
             }
         }
+
 
         return result;
     }
 
-    private List<JobOrder> filter(){
+    private List<JobOrder> filter(List<JobOrder> list){
 
         List<JobOrder> result = new ArrayList<>();
-        List<JobOrder> searchResult = new ArrayList<>();
 
-        //Perform search filter
-        if(searchString != null){
-
-            searchResult.addAll(search(searchString));
-
-        }
-        else{
-
-            searchResult.addAll(completeList);
-        }
-
-        for(JobOrder item : searchResult){
+        for(JobOrder item : list){
 
             String status = item.getStatus();
 
@@ -352,6 +347,19 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         view().cancelRequests(request);
 
+    }
+
+    private List<JobOrder> filterAndSearch(List<JobOrder> list){
+
+        //Filter result
+        List<JobOrder> filteredResult = new ArrayList<>();
+        filteredResult.addAll(filter(list));
+
+        //Search result
+        List<JobOrder> searchResult = new ArrayList<>();
+        searchResult.addAll(search(filteredResult, searchString));
+
+        return searchResult;
     }
 
 //    private String getSearchDictionary() {

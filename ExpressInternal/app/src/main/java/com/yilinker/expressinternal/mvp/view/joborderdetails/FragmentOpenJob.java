@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
     private TextView tvEarning;
     private Button btnPositive;
     private Button btnNegative;
+    private RelativeLayout rlProgressBar;
 
 
     public static FragmentOpenJob createInstance(JobOrder jobOrder){
@@ -85,6 +87,8 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
         super.onPause();
 
         presenter.unbindView();
+        presenter.onPause();
+
     }
 
     @Override
@@ -183,6 +187,7 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
         tvConsigneeContactNo = (TextView) parent.findViewById(R.id.tvConsigneeContactNo);
         btnPositive = (Button) parent.findViewById(R.id.btnPositive);
         btnNegative = (Button) parent.findViewById(R.id.btnNegative);
+        rlProgressBar = (RelativeLayout) parent.findViewById(R.id.rlProgress);
 
         btnPositive.setOnClickListener(this);
         btnNegative.setOnClickListener(this);
@@ -191,7 +196,11 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
 
     @Override
     public void showLoader(boolean isShown) {
-
+        if(isShown) {
+            rlProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            rlProgressBar.setVisibility(View.GONE);
+        }
     }
 
     private void getData(){

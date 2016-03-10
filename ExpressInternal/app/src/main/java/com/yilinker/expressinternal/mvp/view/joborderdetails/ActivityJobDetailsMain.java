@@ -34,6 +34,9 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
 
     private JobDetailsMainPresenter presenter;
 
+    private ImageButton btnContact;
+    private ImageButton btnPrint;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +85,9 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
         ImageButton btnBack = (ImageButton) findViewById(R.id.btnBack);
         ImageButton btnQrCode = (ImageButton) findViewById(R.id.btnQRCode);
         ImageButton btnMap = (ImageButton) findViewById(R.id.btnMap);
-        ImageButton btnContact = (ImageButton) findViewById(R.id.btnContact);
+        btnContact = (ImageButton) findViewById(R.id.btnContact);
         ImageButton btnImage = (ImageButton) findViewById(R.id.btnImage);
-        ImageButton btnPrint = (ImageButton) findViewById(R.id.btnPrint);
+        btnPrint = (ImageButton) findViewById(R.id.btnPrint);
 
 
         btnBack.setOnClickListener(this);
@@ -181,6 +184,8 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
         Fragment fragment = FragmentCurrentDelivery.createInstance(jobOrder);
         replaceFragment(R.id.flContainer,fragment);
 
+
+
     }
 
     @Override
@@ -188,6 +193,21 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
 
         Fragment fragment = FragmentCurrentProblematic.createInstance(jobOrder);
         replaceFragment(R.id.flContainer, fragment);
+    }
+
+    /**
+     * Do all layout changes here for main activity on certain job order statuses
+     * @param status
+     */
+    @Override
+    public void updateViewForJobOrder(String status) {
+
+        if(status.equalsIgnoreCase(getString(R.string.update_for_dropoff))) {
+            btnContact.setVisibility(View.GONE);
+        } else if (status.equalsIgnoreCase(getString(R.string.joborderdetail_problematic))) {
+            btnPrint.setVisibility(View.GONE);
+        }
+
     }
 
 

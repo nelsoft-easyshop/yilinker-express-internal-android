@@ -51,19 +51,19 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
     public void bindView(CurrentJobsViewHolder view) {
         super.bindView(view);
 
-        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
-        {
-            startTimer();
-        }
+//        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
+//        {
+//            startTimer();
+//        }
     }
 
     @Override
     public void unbindView() {
 
-        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
-        {
-            stopTimer();
-        }
+//        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
+//        {
+//            stopTimer();
+//        }
 
         super.unbindView();
     }
@@ -134,7 +134,7 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
     }
 
     //For Timer
-    private final Runnable mRunnable = new Runnable() {
+    private  Runnable mRunnable = new Runnable() {
 
         public void run() {
 
@@ -148,7 +148,7 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
                     Calendar newDate = Calendar.getInstance();
                     newDate.setTimeInMillis(difference);
 
-                    view().setTimeElapsed(String.format("%d:%d:%d", newDate.get(Calendar.HOUR), newDate.get(Calendar.MINUTE), newDate.get(Calendar.SECOND)));
+                    view().setTimeElapsed(String.format("%d:%02d:%02d", newDate.get(Calendar.HOUR), newDate.get(Calendar.MINUTE), newDate.get(Calendar.SECOND)));
 
                 }
             }
