@@ -1,14 +1,19 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDeliveryJobPresenter;
@@ -20,7 +25,7 @@ import org.w3c.dom.Text;
 /**
  * Created by J.Bautista on 3/8/16.
  */
-public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDeliveryJobView {
+public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDeliveryJobView, View.OnClickListener {
 
     private static final String ARG_JOB = "job";
 
@@ -37,6 +42,8 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
     private TextView tvShipperName;
     private TextView tvContactNo;
     private TextView tvAmountToCollect;
+    private Button btnPositive;
+    private Button btnNegative;
 
     public static FragmentCurrentDelivery createInstance(JobOrder jobOrder){
 
@@ -101,7 +108,11 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
         tvShipperName = (TextView) parent.findViewById(R.id.tvShipperName);
         tvContactNo = (TextView) parent.findViewById(R.id.tvContactNo);
         tvAmountToCollect = (TextView) parent.findViewById(R.id.tvAmountToCollect);
+        btnPositive = (Button) parent.findViewById(R.id.btnPositive);
+        btnNegative = (Button) parent.findViewById(R.id.btnNegative);
 
+        btnPositive.setOnClickListener(this);
+        btnNegative.setOnClickListener(this);
     }
 
     @Override
@@ -142,6 +153,23 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
     public void setAmountToCollectText(String amountToCollect) {
 
         tvAmountToCollect.setText(amountToCollect);
+
+    }
+
+    @Override
+    public void openChecklistDelivery(JobOrder jobOrder) {
+
+        Intent intent = new Intent(getActivity(), ActivityChecklist.class);
+        intent.putExtra(ActivityChecklist.ARG_JOB_ORDER, jobOrder);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openProblematicOptions(String jobOrderNo) {
+
+        Intent intent = new Intent(getActivity(), ActivityProblematic.class);
+        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrderNo);
+        startActivity(intent);
 
     }
 
@@ -207,5 +235,20 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
 
         tvStatus.setBackgroundResource(background);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+
+            case R.id.btnPositive:
+                presenter.openDeliveryChecklist();
+                break;
+
+            case R.id.btnNegative:
+                presenter.openProblematicOptions();
+                break;
+
+        }
     }
 }

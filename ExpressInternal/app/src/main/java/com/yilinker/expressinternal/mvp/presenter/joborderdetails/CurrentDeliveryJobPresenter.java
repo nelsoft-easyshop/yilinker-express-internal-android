@@ -23,8 +23,16 @@ public class CurrentDeliveryJobPresenter extends BasePresenter<JobOrder, ICurren
         view().setShipperName(model.getRecipient());
         view().setDateCreatedText("date");
         view().setItemText("items");
-        view().setEarningText(String.format("P%.2f", model.getEarning()));
+        view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
 
+    }
+
+    public void openDeliveryChecklist() {
+        view().openChecklistDelivery(model);
+    }
+
+    public void openProblematicOptions() {
+        view().openProblematicOptions(model.getJobOrderNo());
     }
 
 

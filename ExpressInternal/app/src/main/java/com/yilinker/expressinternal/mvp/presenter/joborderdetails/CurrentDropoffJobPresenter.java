@@ -24,5 +24,9 @@ public class CurrentDropoffJobPresenter extends BasePresenter<JobOrder, ICurrent
 
     }
 
+    public void buttonOkPressed() {
+        view().goBackToList();
+    }
+
 
 }
