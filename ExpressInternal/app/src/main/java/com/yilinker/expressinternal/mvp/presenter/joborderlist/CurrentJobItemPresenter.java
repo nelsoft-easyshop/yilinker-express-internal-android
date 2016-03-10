@@ -1,5 +1,8 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
+import android.os.Handler;
+import android.widget.TextView;
+
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -15,6 +18,15 @@ import java.util.Date;
  * Created by J.Bautista on 3/3/16.
  */
 public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHolder> {
+
+    protected Handler timerHandler;
+
+    public CurrentJobItemPresenter(){
+
+        timerHandler = new Handler();
+    }
+
+
 
     @Override
     protected void updateView() {
@@ -33,6 +45,27 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
         }
 
 
+    }
+
+    @Override
+    public void bindView(CurrentJobsViewHolder view) {
+        super.bindView(view);
+
+        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
+        {
+            startTimer();
+        }
+    }
+
+    @Override
+    public void unbindView() {
+
+        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
+        {
+            stopTimer();
+        }
+
+        super.unbindView();
     }
 
     public void onClick(){
@@ -88,6 +121,42 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
 
         return address;
     }
+
+    public void startTimer() {
+
+        timerHandler = new Handler();
+        timerHandler.postDelayed(mRunnable, 0);
+    }
+
+    public void stopTimer() {
+
+        timerHandler = null;
+    }
+
+    //For Timer
+    private final Runnable mRunnable = new Runnable() {
+
+        public void run() {
+
+            // if counters are active
+            if (!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)) {
+
+                if(model.getDateAccepted() != null) {
+                    Calendar calendar = Calendar.getInstance();
+
+                    long difference = calendar.getTimeInMillis() - model.getDateAccepted().getTime();
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.setTimeInMillis(difference);
+
+                    view().setTimeElapsed(String.format("%d:%d:%d", newDate.get(Calendar.HOUR), newDate.get(Calendar.MINUTE), newDate.get(Calendar.SECOND)));
+
+                }
+            }
+
+            // update every second
+            timerHandler.postDelayed(this, 1000);
+        }
+    };
 
 
 

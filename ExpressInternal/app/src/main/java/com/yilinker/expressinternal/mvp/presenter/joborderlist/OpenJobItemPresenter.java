@@ -23,10 +23,18 @@ public class OpenJobItemPresenter extends JobItemPresenter<OpenJobsViewHolder> {
         view().setStatus(model.getStatus());
         view().setEarning(formatEarning(model.getEarning()));
         view().setDateCreated(formatDateCreated(model.getDateCreated()));
-        view().setToAddress(getToAddress(model.getStatus()));
+
+        if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+            view().setToAddress(getToAddress(model.getStatus()));
+            view().setFromAddress(model.getBranchName());
+        }
+        else{
+            view().setToAddress(getToAddress(model.getBranchName()));
+            view().setFromAddress(getToAddress(model.getStatus()));
+        }
     }
 
-    //TODO Move this method so this can be reuse
+
     private String formatEarning(double earning){
 
         return PriceFormatHelper.formatPrice(earning);

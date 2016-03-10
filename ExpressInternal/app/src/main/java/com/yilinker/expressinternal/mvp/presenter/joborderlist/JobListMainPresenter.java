@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
@@ -351,5 +353,34 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         view().cancelRequests(request);
 
     }
+
+//    private String getSearchDictionary() {
+//
+//        String dictionary = null;
+//
+//        SyncDBTransaction dbTransaction = new SyncDBTransaction(this);;
+//        List<SyncDBObject> requestsList = dbTransaction.getAll(SyncDBObject.class);
+//
+//        if (requestsList.size() > 0) {
+//
+//            StringBuilder syncBuilder = new StringBuilder();
+//            syncBuilder.append("|");
+//
+//            for (SyncDBObject object : requestsList) {
+//
+//                if (!object.isSync()) {
+//
+//                    syncBuilder.append(object.getId());
+//                    syncBuilder.append("|");
+//                }
+//            }
+//
+//            dictionary = syncBuilder.toString();
+//
+//        }
+//
+//        return dictionary;
+//
+//    }
 
 }
