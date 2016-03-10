@@ -315,7 +315,7 @@
     <string name="acknowledge_message">Are sure you want to pickup this package?</string>
 
     <!--Syncing-->
-
+    <string name="item_for_sync">For Sync</string>
     <string name="request_sync_success">Job Orders successfully synced!</string>
     <string name="request_data_sync">Data sync successful</string>
     <string name="request_data_sync_failed">Data sync failed. Try again later.</string>
