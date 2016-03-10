@@ -103,6 +103,13 @@
 
     </LinearLayout>
 
-    <include layout="@layout/layout_progress" android:id="@+id/rlProgress" />
+    <View
+        android:id="@+id/viewLoader"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        />
 
 </RelativeLayout>

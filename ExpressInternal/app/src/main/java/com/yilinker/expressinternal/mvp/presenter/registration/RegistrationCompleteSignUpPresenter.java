@@ -1,16 +1,15 @@
-package com.yilinker.expressinternal.mvp.presenter.login;
+package com.yilinker.expressinternal.mvp.presenter.registration;
 
-import android.widget.Toast;
-
-import com.android.volley.Request;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationCompleteSignUpPresenter;
+import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationCompleteSignUpView;
 
 /**
  * Created by Patrick on 3/8/2016.
  */
 public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object, IActivityRegistrationCompleteSignUpView>
-        implements IRegistrationCompleteSignUpPresenter , ResponseHandler{
+        implements IRegistrationCompleteSignUpPresenter, ResponseHandler{
 
     private final static int SIGN_UP_REQUEST_CODE = 2001;
 

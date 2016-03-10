@@ -1,10 +1,9 @@
-package com.yilinker.expressinternal.mvp.presenter.login;
+package com.yilinker.expressinternal.mvp.presenter.registration;
 
-import com.android.volley.Request;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
-import com.yilinker.expressinternal.mvp.view.login.IActivityRegistrationSignUpView;
-import com.yilinker.expressinternal.mvp.view.login.IActivityRegistrationVerificationCodeView;
+import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationVerificationCodePresenter;
+import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationVerificationCodeView;
 
 import java.util.ArrayList;
 import java.util.List;

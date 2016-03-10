@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,6 +28,7 @@ import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
+import com.yilinker.expressinternal.mvp.view.registration.ActivityRegistrationSignUp;
 
 import java.io.IOException;
 
@@ -38,7 +40,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     private Button btnLogin;
     private EditText etUsername;
     private EditText etPassword;
-    private RelativeLayout rlProgress;
+    private View viewLoader;
 
     private RequestQueue requestQueue;
 
@@ -100,7 +102,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         }
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        rlProgress.setVisibility(View.GONE);
+        showLoader(false, getString(R.string.login_button_2));
     }
 
     @Override
@@ -118,7 +120,17 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
                 }
 
                 break;
+
+            case R.id.tvSignUp:
+                goToRegistration();
+                break;
         }
+    }
+
+    private void goToRegistration(){
+        Intent intent = new Intent(this, ActivityRegistrationSignUp.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initViews(){
@@ -126,17 +138,25 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         btnLogin = (Button) findViewById(R.id.btnLogin);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etUsername = (EditText) findViewById(R.id.etUsername);
-        rlProgress = (RelativeLayout) findViewById(R.id.rlProgress);
+        viewLoader = findViewById(R.id.viewLoader);
 
         btnLogin.setOnClickListener(this);
 
-        rlProgress.setVisibility(View.GONE);
+        TextView tvSignUp = (TextView) findViewById(R.id.tvSignUp);
+        tvSignUp.setOnClickListener(this);
 
+
+    }
+
+    private void showLoader(boolean isToShow, String label){
+        viewLoader.setVisibility(isToShow? View.VISIBLE:View.GONE);
+        btnLogin.setText(label);
     }
 
     private void requestLogin(){
 
-        rlProgress.setVisibility(View.VISIBLE);
+//        rlProgress.setVisibility(View.VISIBLE);
+        showLoader(true, getString(R.string.logging_in));
 
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
@@ -176,7 +196,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
     private void requestVerifyRider(){
 
-        rlProgress.setVisibility(View.VISIBLE);
+        showLoader(true, getString(R.string.logging_in));
 
         Request request = RiderAPI.verifyRider(REQUEST_VERIFY_RIDER, this);
         requestQueue.add(request);

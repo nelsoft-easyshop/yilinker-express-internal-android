@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view.login;
+package com.yilinker.expressinternal.mvp.view.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,16 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.controllers.login.*;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
-import com.yilinker.expressinternal.mvp.presenter.cashManagement.CashManagementPresenter;
-import com.yilinker.expressinternal.mvp.presenter.login.RegistrationSignUpPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.presenter.registration.RegistrationSignUpPresenter;
+import com.yilinker.expressinternal.mvp.view.BaseActivity;
 
 /**
  * Created by Patrick on 3/8/2016.
  */
-public class ActivityRegistrationSignUp extends BaseFragmentActivity implements IActivityRegistrationSignUpView, View.OnClickListener{
+public class ActivityRegistrationSignUp extends BaseActivity implements IActivityRegistrationSignUpView, View.OnClickListener{
 
     private final static int VERIFICATION_REQUEST_CODE = 2000;
     public final static String KEY_MOBILE_NUMBER = "mobile-number";
@@ -30,6 +28,10 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Set the layout of the actionbar
+        setActionBarLayout(R.layout.layout_toolbar_registration);
+
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null){
@@ -78,33 +80,28 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
         btnSignUp.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
-    }
 
-    @Override
-    public void showLoader(boolean isShown) {
 
+//        /***set action bar title and background color*/
+//        setActionBarTitle(getString(R.string.registration_create_account));
+//        setActionBarBackgroundColor(R.color.marigold);
     }
 
     @Override
     public void onSignUpClick() {
 
         Intent goToCodeVerification = new Intent(this,ActivityRegistrationVerificationCode.class);
-        goToCodeVerification.putExtra(KEY_MOBILE_NUMBER,getFormatterMobileNumber());
+        goToCodeVerification.putExtra(KEY_MOBILE_NUMBER,etMobileNumber.getText().toString());
         startActivityForResult(goToCodeVerification, VERIFICATION_REQUEST_CODE);
     }
 
-    private String getFormatterMobileNumber(){
-
-        String formatterNumber = String.format("%s%s",
-                getString(R.string.registration_mobile_number_start),etMobileNumber.getText().toString());
-
-        return formatterNumber;
-    }
 
     @Override
     public void onSignInClick() {
+
         Intent goToLogIn = new Intent(this, com.yilinker.expressinternal.controllers.login.ActivityLogin.class);
         startActivity(goToLogIn);
+        finish();
     }
 
     private void goToCompleteSignUp(String verificationCode){
@@ -123,6 +120,7 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
 
         switch (v.getId()){
 
@@ -150,6 +148,7 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
                 if (resultCode == RESULT_OK){
                     //TODO get verification code from data
                     String verificationCode = data.getStringExtra(KEY_VERIFICATION_CODE);
+                    etMobileNumber.setText(data.getStringExtra(KEY_MOBILE_NUMBER));
                     goToCompleteSignUp(verificationCode);
                 }
 
@@ -158,5 +157,10 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
             default:
                 break;
         }
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
+
     }
 }

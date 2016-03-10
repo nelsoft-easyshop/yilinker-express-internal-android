@@ -1,2 +1,3 @@
-include ':app',':core'
+include ':app', ':viewpagerindicator', ':core'
+project(':viewpagerindicator').projectDir = new File('app/viewpagerindicator')
 project(':core').projectDir = new File('../../yilinker-core-android/Core/core')

@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view.login;
+package com.yilinker.expressinternal.mvp.view.registration;
 
 import com.android.volley.Request;
 

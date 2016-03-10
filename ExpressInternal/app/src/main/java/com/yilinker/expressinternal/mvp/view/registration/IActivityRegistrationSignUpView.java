@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view.login;
+package com.yilinker.expressinternal.mvp.view.registration;
 
 /**
  * Created by Patrick on 3/8/2016.

@@ -1,7 +1,8 @@
-package com.yilinker.expressinternal.mvp.presenter.login;
+package com.yilinker.expressinternal.mvp.presenter.registration;
 
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.view.login.IActivityRegistrationSignUpView;
+import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationSignUpPresenter;
+import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationSignUpView;
 
 /**
  * Created by Patrick on 3/8/2016.
