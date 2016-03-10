@@ -31,6 +31,7 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
     private TextView tvAddress;
     private TextView tvEarning;
     private TextView tvItem;
+    private TextView tvProblemType;
 
     public static FragmentCurrentProblematic createInstance(JobOrder jobOrder){
 
@@ -91,6 +92,7 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
         tvItem = (TextView) parent.findViewById(R.id.tvItem);
         tvAddress = (TextView) parent.findViewById(R.id.tvAddress);
         tvWaybillNo = (TextView) parent.findViewById(R.id.tvWaybillNo);
+        tvProblemType = (TextView) parent.findViewById(R.id.tvProblemType);
 
     }
 
@@ -110,6 +112,11 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
     public void setItemText(String items) {
 
         tvItem.setText(items);
+    }
+
+    @Override
+    public void setProblemType(String problemType) {
+        tvProblemType.setText(problemType);
     }
 
     @Override
