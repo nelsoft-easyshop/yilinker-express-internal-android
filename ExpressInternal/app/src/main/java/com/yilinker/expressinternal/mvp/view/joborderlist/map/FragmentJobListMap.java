@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/1/16.
  */
-public class FragmentJobListMap extends Fragment implements IJobListMapView, OnMarkerClickListener{
+public class FragmentJobListMap extends Fragment implements IJobListMapView, OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     public static final String ARG_JOBS = "jobs";
 
@@ -51,6 +51,7 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
     private JobOrderMarkerAdapter mapAdapter;
 
+    private GoogleApiClient mGoogleApiClient;
     private MapView mapView;
     private GoogleMap map;
 
@@ -59,6 +60,7 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
         super.onCreate(savedInstanceState);
 
 
+        buildGoogleApiClient();
     }
 
     @Nullable
@@ -118,6 +120,23 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
     public void onPause() {
         super.onPause();
         mapView.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+
     }
 
     @Override
@@ -208,14 +227,15 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
     }
 
-//    protected synchronized void buildGoogleApiClient() {
-//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(LocationServices.API)
-//                .build();
-//    }
-//
+    protected synchronized void buildGoogleApiClient() {
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
 
 
     private void setUpMap(){
@@ -243,6 +263,27 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        mGoogleApiClient.connect();
+    }
+
+    private void setupMap(){
+
 
     }
 }

@@ -333,7 +333,7 @@ public class FragmentDialogPrint2 extends DialogFragment implements View.OnClick
             btoutputstream.write(defaultLineSpacing);
             btoutputstream.write(FEED_LINE);
 
-//            msg = jobOrder.getRecipient();
+//            msg = jobOrder.getRecipientName();
 //            btoutputstream.write(msg.getBytes());
         }
 

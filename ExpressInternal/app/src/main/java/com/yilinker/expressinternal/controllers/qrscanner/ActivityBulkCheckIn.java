@@ -26,30 +26,25 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
-import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.TabModel;
+import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityJobDetailsMain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Created by J.Bautista
+ * Created by J.Bautista on 3/10/16.
  */
-public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderView.OnQRCodeReadListener{
+public class ActivityBulkCheckIn extends BaseActivity implements QRCodeReaderView.OnQRCodeReadListener, ResponseHandler {
 
-    public static final String ARG_TEXT = "text";
+    private static final int REQUEST_ACCEPT_JOB = 1001;
 
-    private List<JobOrder> jobOrderList = new ArrayList<>();
-
-    private static final int TYPE_SINGLE = 0;
 
     private QRCodeReaderView qrReader;
+    private RecyclerView rvTab;
     private ImageButton btnFlash;
-
-    private int scannerType = TYPE_SINGLE;
 
     private RequestQueue requestQueue;
 
@@ -64,22 +59,15 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_scanner);
+        setContentView(R.layout.activity_scanner);
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
 
         initViews();
-//        getJobOrders();
 
         setSound();
 
 //        qrReader.getCameraManager().getCamera().setParameters();
-
-    }
-
-    private void getJobOrders() {
-
-        jobOrderList = getIntent().getParcelableArrayListExtra(ActivityJobOrderList.ARG_CURRENT_LIST);
 
     }
 
@@ -104,7 +92,7 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
         super.onClick(v);
 
         int id = v.getId();
-        switch (id){
+        switch (id) {
 
             case R.id.btnFlash:
 
@@ -115,30 +103,17 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
     }
 
     @Override
-    protected void handleRefreshToken() {
-
-    }
-
-    @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
 
         playSound();
 
-        //TODO Verify Code
-        boolean isValid = verifyCode();
-
-        if(!isValid){
-
-            //TODO Show message here
-            return;
-        }
-
         String waybillNo = s;
 
-//        qrReader.getCameraManager().stopPreview();
 
-        currentID = waybillNo;
-        findWayBillNo(waybillNo);
+        if (!currentID.equalsIgnoreCase(waybillNo)) {
+
+            requestAcceptJob(waybillNo);
+        }
 
     }
 
@@ -152,11 +127,61 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
 
     }
 
+    @Override
+    public void onSuccess(int requestCode, Object object) {
+        super.onSuccess(requestCode, object);
+
+        switch (requestCode) {
+
+            case REQUEST_ACCEPT_JOB:
+
+                Toast.makeText(getApplicationContext(), getString(R.string.scanner_job_order_accepted), Toast.LENGTH_SHORT).show();
+
+                break;
 
 
-    private void initViews(){
+        }
+
+
+    }
+
+    @Override
+    protected void handleRefreshToken() {
+
+        int currentRequest = getCurrentRequest();
+
+        switch (currentRequest) {
+
+            case REQUEST_ACCEPT_JOB:
+
+                requestAcceptJob(currentID);
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void onFailed(int requestCode, String message) {
+        super.onFailed(requestCode, message);
+
+        switch (requestCode) {
+
+            case REQUEST_ACCEPT_JOB:
+
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+
+
+        currentID = "";
+    }
+
+    private void initViews() {
 
         qrReader = (QRCodeReaderView) findViewById(R.id.qrreader);
+        rvTab = (RecyclerView) findViewById(R.id.rvTab);
         btnFlash = (ImageButton) findViewById(R.id.btnFlash);
 
         qrReader.setOnQRCodeReadListener(this);
@@ -164,7 +189,8 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
         hideMenuButton();
 
         //Set the title in the action bar
-        setActionBarTitle(getString(R.string.actionbar_title_qrcode_single_scanning));
+        setActionBarTitle(getString(R.string.tools_bulk_checkin));
+
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -172,58 +198,47 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
 
     }
 
-    private void findWayBillNo(String waybillNo) {
+    private void requestAcceptJob(String waybillNo) {
 
-//        for (int i = 0; i < jobOrderList.size(); i++) {
+        currentID = waybillNo;
 
-//            if ((jobOrderList.get(i).getWaybillNo().toLowerCase()).contains(waybillNo.toLowerCase())) {
-                Intent result = new Intent();
-//                result.putExtra(ActivityJobOrderList.ARG_OPEN_JO, waybillNo);
-                result.putExtra(ARG_TEXT, waybillNo);
-                setResult(RESULT_OK, result);
-                finish();
-//            }
-//        }
+        Request request = RiderAPI.acceptJobOrderByWaybillNo(REQUEST_ACCEPT_JOB, waybillNo, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
 
     }
 
-    private boolean verifyCode(){
-
-        //TODO Check if the QR code is valid
-        return true;
-    }
-
-    private void setSound(){
+    private void setSound() {
 
         int maxVolume = 50;
 
-        float log1=(float)(Math.log(maxVolume-maxVolume)/Math.log(maxVolume));
+        float log1 = (float) (Math.log(maxVolume - maxVolume) / Math.log(maxVolume));
 
         mp = MediaPlayer.create(this, R.raw.beep);
         mp.setVolume(1.0f, 1.0f);
 
     }
 
-    private void playSound(){
+    private void playSound() {
 
         mp.start();
     }
 
-    private void setFlash(){
+    private void setFlash() {
 
         isFlashOn = !isFlashOn;
 
         Camera camera = qrReader.getCameraManager().getCamera();
         Camera.Parameters p = camera.getParameters();
 
-        if(isFlashOn){
+        if (isFlashOn) {
 
             btnFlash.setImageResource(R.drawable.ic_flash_on);
             p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
 
-        }
-        else{
+        } else {
             btnFlash.setImageResource(R.drawable.ic_flash_off);
             p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 
@@ -231,6 +246,4 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
 
         qrReader.getCameraManager().getCamera().setParameters(p);
     }
-
-
 }

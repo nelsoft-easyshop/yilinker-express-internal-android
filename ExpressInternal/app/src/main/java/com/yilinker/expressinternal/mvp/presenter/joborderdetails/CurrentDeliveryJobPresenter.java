@@ -3,7 +3,6 @@ package com.yilinker.expressinternal.mvp.presenter.joborderdetails;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDeliveryJobView;
-import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDropoffJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 /**
@@ -19,8 +18,8 @@ public class CurrentDeliveryJobPresenter extends BasePresenter<JobOrder, ICurren
         view().setWaybillNoText(model.getWaybillNo());
         view().setDeliveryAddressText(model.getDeliveryAddress());
         view().setAmountToCollectText(PriceFormatHelper.formatPrice(model.getAmountToCollect()));
-        view().setContactNumber(model.getContactNo());
-        view().setShipperName(model.getRecipient());
+        view().setContactNumber(model.getRecipientContactNo());
+        view().setShipperName(model.getRecipientName());
         view().setDateCreatedText("date");
         view().setItemText("items");
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));

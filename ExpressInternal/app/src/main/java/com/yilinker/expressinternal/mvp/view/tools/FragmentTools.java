@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge;
+import com.yilinker.expressinternal.controllers.qrscanner.ActivityBulkCheckIn;
+import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanToDetails;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivitySingleScanner;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
@@ -146,11 +148,13 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
         switch (selectedActivity) {
             case 0:
-                intent = new Intent(getActivity(), ActivitySingleScanner.class);
+//                intent = new Intent(getActivity(), ActivitySingleScanner.class);
+                intent = new Intent(getActivity(), ActivityScanToDetails.class);
                 break;
 
             case 1:
-                intent = new Intent(getActivity(), ActivityScanner.class);
+//                intent = new Intent(getActivity(), ActivityScanner.class);
+                intent = new Intent(getActivity(), ActivityBulkCheckIn.class);
                 break;
 
             case 2:
