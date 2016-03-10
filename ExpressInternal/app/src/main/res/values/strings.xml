@@ -319,6 +319,7 @@
     <string name="request_sync_success">Job Orders successfully synced!</string>
     <string name="request_data_sync">Data sync successful</string>
     <string name="request_data_sync_failed">Data sync failed. Try again later.</string>
+    <string name="request_no_data_for_syncing">No data for syncing.</string>
 
     <!--Others-->
     <string name="error_problem_connecting">Problem connecting to the server. Tap to reload.</string>
