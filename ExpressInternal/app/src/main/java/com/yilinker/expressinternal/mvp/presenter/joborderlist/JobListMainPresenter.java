@@ -215,6 +215,7 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         super.onFailed(requestCode, message);
 
         if(view() != null) {
+            view().showErrorMessage(message);
             view().showLoader(false);
         }
     }

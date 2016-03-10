@@ -22,7 +22,7 @@ public class OpenJobItemPresenter extends JobItemPresenter<OpenJobsViewHolder> {
         view().setSize(model.getSize());
         view().setStatus(model.getStatus());
         view().setEarning(formatEarning(model.getEarning()));
-        view().setDateCreated(formatDateCreated(Calendar.getInstance().getTime()));
+        view().setDateCreated(formatDateCreated(model.getDateCreated()));
         view().setToAddress(getToAddress(model.getStatus()));
     }
 

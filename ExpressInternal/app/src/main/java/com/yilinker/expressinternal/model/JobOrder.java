@@ -62,6 +62,9 @@ public class JobOrder implements Parcelable{
 
     private boolean forSyncing;
 
+    private Date dateCreated;
+    private Date dateAccepted;
+
 
     static {
 
@@ -121,6 +124,8 @@ public class JobOrder implements Parcelable{
             problematicImages = problemDetail.getImages();
         }
 
+        dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
+        dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
     }
 
     public int getId() {
@@ -371,6 +376,22 @@ public class JobOrder implements Parcelable{
         this.forSyncing = forSyncing;
     }
 
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDateAccepted() {
+        return dateAccepted;
+    }
+
+    public void setDateAccepted(Date dateAccepted) {
+        this.dateAccepted = dateAccepted;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -417,8 +438,10 @@ public class JobOrder implements Parcelable{
         this.recipient = in.readString();
         this.contactNo = in.readString();
         this.status = in.readString();
+
         long tmpEstimatedTimeOfArrival = in.readLong();
         this.estimatedTimeOfArrival = tmpEstimatedTimeOfArrival == -1 ? null : new Date(tmpEstimatedTimeOfArrival);
+
         this.size = in.readString();
         this.earning = in.readDouble();
         this.type = in.readString();
@@ -445,6 +468,12 @@ public class JobOrder implements Parcelable{
         this.problematicImages = in.createStringArrayList();
         this.amountToCollect = in.readDouble();
         this.forSyncing = in.readByte() != 0;
+
+        long tmpDateCreated = in.readLong();
+        this.dateAccepted = tmpDateCreated == -1 ? null : new Date(tmpDateCreated);
+
+        long tmpDateAccepted = in.readLong();
+        this.dateCreated = tmpDateAccepted == -1 ? null : new Date(tmpDateAccepted);
     }
 
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {

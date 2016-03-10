@@ -90,4 +90,5 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
     }
 
 
+
 }
