@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -16,7 +18,7 @@ import com.yilinker.expressinternal.mvp.view.BaseFragment;
 /**
  * Created by J.Bautista on 3/7/16.
  */
-public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView{
+public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView, View.OnClickListener{
 
     private static final String ARG_JOB = "job";
 
@@ -32,6 +34,8 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
     private TextView tvConsigneeName;
     private TextView tvConsigneeContactNo;
     private TextView tvEarning;
+    private Button btnPositive;
+    private Button btnNegative;
 
 
     public static FragmentOpenJob createInstance(JobOrder jobOrder){
@@ -123,7 +127,21 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
     @Override
     public void goBackToList() {
 
+        getActivity().onBackPressed();
 
+    }
+
+    @Override
+    public void showErrorMessage(String errorMessage) {
+
+        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showSuccessMessage() {
+
+        Toast.makeText(getActivity(), getString(R.string.joborderdetail_job_order_accepted),
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -163,6 +181,11 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
         tvDeliveryAddress = (TextView) parent.findViewById(R.id.tvDeliveryAddress);
         tvConsigneeName = (TextView) parent.findViewById(R.id.tvConsigneeName);
         tvConsigneeContactNo = (TextView) parent.findViewById(R.id.tvConsigneeContactNo);
+        btnPositive = (Button) parent.findViewById(R.id.btnPositive);
+        btnNegative = (Button) parent.findViewById(R.id.btnNegative);
+
+        btnPositive.setOnClickListener(this);
+        btnNegative.setOnClickListener(this);
 
     }
 
@@ -178,5 +201,25 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
         JobOrder jobOrder = arguments.getParcelable(ARG_JOB);
 
         presenter.setModel(jobOrder);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.btnPositive:
+
+                presenter.requestAcceptJob();
+
+                break;
+
+            case R.id.btnNegative:
+
+                presenter.handleNegativeButtonClick();
+
+                break;
+        }
+
     }
 }
