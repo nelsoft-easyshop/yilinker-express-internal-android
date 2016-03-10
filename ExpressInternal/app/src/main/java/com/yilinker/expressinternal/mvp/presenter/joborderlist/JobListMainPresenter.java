@@ -242,7 +242,9 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
             requestCode = REQUEST_GET_CURRENT;
         }
 
-        Request request = JobOrderAPI.getJobOrders(requestCode, type, true, this);
+        boolean isFilterByArea = view().isFilterByArea();
+
+        Request request = JobOrderAPI.getJobOrders(requestCode, type, isFilterByArea, this);
         request.setTag(TAG_REQUEST);
 
         view().addRequest(request);
@@ -270,6 +272,8 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         List<JobOrder> list = new ArrayList<>();
         JobOrder jobOrder = null;
 
+        String syncDictionary = view().getSyncDictionary();
+
         int i = 0;
         for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
 
@@ -279,6 +283,17 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
             //temp
             jobOrder.setLatitude(14.123234 + (1.0 * i));
             jobOrder.setLongitude(121.123232 + (1.0 * i));
+
+            //For syncing
+            if (syncDictionary != null) {
+                //check jo if it's for syncing
+                String waybillNo = String.format("|%s|", jobOrder.getWaybillNo());
+                String joNumber = String.format("|%s|", jobOrder.getJobOrderNo());
+
+                if (syncDictionary.contains(waybillNo) || syncDictionary.contains(joNumber)) {
+                    jobOrder.setForSyncing(true);
+                }
+            }
 
             list.add(jobOrder);
 

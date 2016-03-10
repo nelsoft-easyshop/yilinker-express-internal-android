@@ -337,6 +337,7 @@
 
     <!--Tools-->
 
+    <string name="tools_title">Express Tools</string>
     <string name="tools_search_qr">Search by QR Code</string>
     <string name="tools_bulk_checkin">Bulk Check In</string>
     <string name="tools_direct_acknowledge">Direct Acknowledge</string>
@@ -420,6 +421,9 @@
     <string name="search_type_for_pick_up">FOR PICK UP</string>
     <string name="search_for_drop_off">FOR DROP-OFF</string>
     <string name="search_for_delivery">FOR DELIVERY</string>
+
+    <!-- Profile-->
+    <string name="profile_filter_by">Filter By: </string>
 
 </resources>
 

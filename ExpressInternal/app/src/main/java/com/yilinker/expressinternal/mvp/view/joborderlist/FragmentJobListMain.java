@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivitySingleScanner;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
@@ -507,6 +508,23 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
             imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
 //        }
 
+    }
+
+
+    @Override
+    public String getSyncDictionary() {
+
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+
+        return appClass.getSyncDictionary();
+    }
+
+    @Override
+    public boolean isFilterByArea() {
+
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+
+        return appClass.isFilterByArea();
     }
 
 }
