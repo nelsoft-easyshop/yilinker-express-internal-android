@@ -5,6 +5,8 @@ import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderlist.list.OpenJobsViewHolder;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,12 +23,17 @@ public class OpenJobItemPresenter extends JobItemPresenter<OpenJobsViewHolder> {
         view().setStatus(model.getStatus());
         view().setEarning(formatEarning(model.getEarning()));
         view().setDateCreated(formatDateCreated(Calendar.getInstance().getTime()));
+        view().setFromAddress(model.getPickupAddress());
+        view().setToAddress(model.getDeliveryAddress());
     }
 
     //TODO Move this method so this can be reuse
     private String formatEarning(double earning){
 
-        return String.format("P%.2f", earning);
+        NumberFormat formatter = new DecimalFormat("#,###.00");
+        String formattedEarning = formatter.format(earning);
+
+        return String.format("P %s", formattedEarning);
     }
 
     private String formatDateCreated(Date date){

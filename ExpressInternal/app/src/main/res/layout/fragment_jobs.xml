@@ -176,7 +176,8 @@
         android:background="@color/warm_gray"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:layout_below="@id/llFilterContainer">
+        android:layout_below="@id/llFilterContainer"
+        android:clickable="true">
 
         <TextView
             android:id="@+id/tvItemCount"
@@ -209,5 +210,13 @@
             android:clickable="true"/>
 
     </RelativeLayout>
+
+    <View
+        android:id="@+id/viewTransparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rlFilterContainer"
+        android:clickable="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>

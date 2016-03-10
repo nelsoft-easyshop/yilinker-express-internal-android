@@ -6,6 +6,9 @@ import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDeliveryJob
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDropoffJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Created by J.Bautista on 3/8/16.
  */
@@ -26,6 +29,5 @@ public class CurrentDeliveryJobPresenter extends BasePresenter<JobOrder, ICurren
         view().setEarningText(String.format("P%.2f", model.getEarning()));
 
     }
-
 
 }
