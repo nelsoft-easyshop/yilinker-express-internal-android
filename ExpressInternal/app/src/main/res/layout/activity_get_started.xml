@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
@@ -10,16 +12,38 @@
         android:layout_alignParentBottom="true"
         android:text="@string/login_get_started"
         android:textColor="@color/white"
+        android:textSize="18sp"
         android:textAllCaps="true"
+        android:textStyle="bold"
         android:background="@color/marigold"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPagerSlides"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/btnGetStarted"
-        android:layout_margin="10dp"/>
+        android:layout_above="@+id/btnGetStarted">
 
+
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/pagerIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:centered="true"
+            app:fillColor="@color/orange_red"
+            app:pageColor="@color/gray"
+            app:radius="4dp"
+            app:strokeWidth="1dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPagerSlides"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/pagerIndicator"
+            android:layout_margin="20dp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

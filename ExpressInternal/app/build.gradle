@@ -51,6 +51,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:1.+"
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':viewpagerindicator')
     compile project(':core')
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.github.jd-alexander:library:1.0.5'

@@ -10,18 +10,18 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:background="@drawable/ic_map_background"
             android:id="@+id/ivBackground" />
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:background="@drawable/ic_rider_circle"
             android:layout_below="@+id/ivBackground"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-50dp"/>
+            android:layout_marginTop="-40dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:orientation="vertical"
             android:layout_below="@+id/ivLogo"
             android:padding="10dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
 
             <EditText
@@ -72,6 +72,7 @@
                 android:layout_height="40dp"
                 android:text="@string/login_complete_sign_up"
                 android:textColor="@color/white"
+                android:textAllCaps="false"
                 android:background="@drawable/bg_btn_orangeyellow_rounded"
                 android:layout_below="@+id/etConfirmPassword"
                 android:layout_marginTop="10dp"/>
@@ -114,7 +115,14 @@
 
         </LinearLayout>
 
-        <include layout="@layout/layout_progress" android:id="@+id/rlProgress" />
+        <View
+            android:id="@+id/viewLoader"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            />
 
     </RelativeLayout>
 </LinearLayout>
