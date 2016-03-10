@@ -67,11 +67,8 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     private ImageView ivToggle;
     private LinearLayout llFilterContainer;
     private LinearLayout llJobTypeContainer;
-<<<<<<< HEAD
     private View viewTransaparent;
-=======
     private RelativeLayout rlFilter;
->>>>>>> d856ec09d1147d5a61dc8622d6b131dc2896d685
 
     private JobsTabAdapter tabAdapter;
     private JobTypeAdapter typeAdapter;
@@ -271,10 +268,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         llJobTypeContainer = (LinearLayout) parent.findViewById(R.id.llJobTypesContainer);
         rlFilter = (RelativeLayout) parent.findViewById(R.id.rlFilterContainer);
         etSearch = (EditText) parent.findViewById(R.id.etSearch);
-<<<<<<< HEAD
         viewTransaparent = parent.findViewById(R.id.viewTransparent);
-=======
->>>>>>> d856ec09d1147d5a61dc8622d6b131dc2896d685
 
         //For tabs
         rvTabs.setHasFixedSize(true);
@@ -474,13 +468,9 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         }
         else{
 
-<<<<<<< HEAD
-            llFilterContainer.setVisibility(View.VISIBLE);
-            viewTransaparent.setVisibility(View.VISIBLE);
-=======
 //            llFilterContainer.setVisibility(View.VISIBLE);
             showFilter();
->>>>>>> d856ec09d1147d5a61dc8622d6b131dc2896d685
+            viewTransaparent.setVisibility(View.VISIBLE);
 
         }
 

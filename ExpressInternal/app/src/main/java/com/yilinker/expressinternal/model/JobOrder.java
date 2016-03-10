@@ -49,6 +49,7 @@ public class JobOrder implements Parcelable{
     private List<String> items;
     private String waybillNo;
     private String packageDescription;
+    private int jobOrderTypeId;
 
     //For Problematic
     private String csrName;
@@ -105,6 +106,7 @@ public class JobOrder implements Parcelable{
         amountToCollect = jobOrder.getAmountToCollect();
         dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
         dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
+        jobOrderTypeId = jobOrder.getJobOrderTypeId();
 
         isOpen = jobOrder.isOpen();
         areaCode = jobOrder.getAreaCode();
@@ -158,6 +160,14 @@ public class JobOrder implements Parcelable{
 
     public void setRecipientContactNo(String recipientContactNo) {
         this.recipientContactNo = recipientContactNo;
+    }
+
+    public int getJobOrderTypeId() {
+        return jobOrderTypeId;
+    }
+
+    public void setJobOrderTypeId(int jobOrderTypeId) {
+        this.jobOrderTypeId = jobOrderTypeId;
     }
 
     public String getStatus() {
@@ -424,15 +434,15 @@ public class JobOrder implements Parcelable{
         dest.writeStringList(this.items);
         dest.writeString(this.waybillNo);
         dest.writeString(this.packageDescription);
+        dest.writeInt(this.jobOrderTypeId);
         dest.writeString(this.csrName);
         dest.writeString(this.problemType);
         dest.writeString(this.remarks);
         dest.writeStringList(this.problematicImages);
         dest.writeDouble(this.amountToCollect);
         dest.writeByte(forSyncing ? (byte) 1 : (byte) 0);
-
-        dest.writeLong(dateAccepted != null ? dateAccepted.getTime() : -1);
         dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1);
+        dest.writeLong(dateAccepted != null ? dateAccepted.getTime() : -1);
     }
 
     protected JobOrder(Parcel in) {
@@ -441,10 +451,8 @@ public class JobOrder implements Parcelable{
         this.recipientName = in.readString();
         this.recipientContactNo = in.readString();
         this.status = in.readString();
-
         long tmpEstimatedTimeOfArrival = in.readLong();
         this.estimatedTimeOfArrival = tmpEstimatedTimeOfArrival == -1 ? null : new Date(tmpEstimatedTimeOfArrival);
-
         this.size = in.readString();
         this.earning = in.readDouble();
         this.type = in.readString();
@@ -465,18 +473,17 @@ public class JobOrder implements Parcelable{
         this.items = in.createStringArrayList();
         this.waybillNo = in.readString();
         this.packageDescription = in.readString();
+        this.jobOrderTypeId = in.readInt();
         this.csrName = in.readString();
         this.problemType = in.readString();
         this.remarks = in.readString();
         this.problematicImages = in.createStringArrayList();
         this.amountToCollect = in.readDouble();
         this.forSyncing = in.readByte() != 0;
-
-        long tmpDateAccepted = in.readLong();
-        this.dateAccepted = tmpDateAccepted == -1 ? null : new Date(tmpDateAccepted);
-
         long tmpDateCreated = in.readLong();
         this.dateCreated = tmpDateCreated == -1 ? null : new Date(tmpDateCreated);
+        long tmpDateAccepted = in.readLong();
+        this.dateAccepted = tmpDateAccepted == -1 ? null : new Date(tmpDateAccepted);
     }
 
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {

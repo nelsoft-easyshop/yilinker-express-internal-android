@@ -166,12 +166,10 @@
         <!--start TO-->
         <LinearLayout
             android:id="@+id/llTo"
-            android:layout_marginTop="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/llFrom"
-            android:background="@color/white_gray"
             android:orientation="vertical"
             android:layout_marginTop="1dp"
             android:paddingLeft="10dp"

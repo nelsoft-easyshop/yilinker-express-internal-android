@@ -37,7 +37,6 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
         view().setSize(model.getSize());
         view().setStatus(model.getStatus());
         view().setEarning(formatEarning(model.getEarning()));
-        //TODO add address here
 
         view().setAddressLabelText(model.getStatus());
         view().setAddressText(getAddressByStatus(model.getStatus()));
@@ -49,11 +48,6 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
 
     }
 
-    private void getAddress(){
-        //TODO create condition to determine which address should be assign
-
-
-    }
 
     @Override
     public void bindView(CurrentJobsViewHolder view) {
@@ -113,9 +107,12 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
 
 
             address = model.getDropoffAddress();
-        }
-        else {
+        }else if (status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
 
+            address = model.getDropoffAddress();
+        }
+//        else {
+//
 //            //TEMP
 //            if(model.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
 //
@@ -125,8 +122,26 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
 //
 //                address = model.getPickupAddress();
 //            }
+//
+//        }
+
+        return address;
+    }
+
+
+    private String getAddressByStatusId(int typeId){
+
+        String address = null;
+
+        if(typeId==2){
+
 
         }
+        else if (typeId==1){
+
+            address = model.getDeliveryAddress();
+        }
+
 
         return address;
     }

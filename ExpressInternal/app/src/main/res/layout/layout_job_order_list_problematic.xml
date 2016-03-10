@@ -63,7 +63,7 @@
             android:id="@+id/tvAddressLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/job_order_list_pick_up_at"
+            android:text="@string/job_order_list_drop_off_to"
             android:textSize="12sp"
             android:textColor="@color/marigold"/>
 

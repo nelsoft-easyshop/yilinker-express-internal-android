@@ -147,10 +147,14 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
         if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
             resourceString = R.string.job_order_list_pick_up_at;
-        }
-        else {
+        }else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
 
             resourceString = R.string.job_order_list_deliver_to;
+
+        }else{
+
+            resourceString = R.string.job_order_list_drop_off_to;
+
         }
 
         return ApplicationClass.getInstance().getString(resourceString);
