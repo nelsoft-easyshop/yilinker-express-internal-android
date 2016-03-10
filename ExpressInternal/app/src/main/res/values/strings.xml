@@ -415,6 +415,7 @@
     <!--CURRENT-->
     <string name="job_order_list_pick_up_at">PICK UP AT</string>
     <string name="job_order_list_deliver_to">DELIVER TO</string>
+    <string name="job_order_list_drop_off_to">DROP-OFF TO</string>
     <string name="pick_up">PICK UP</string>
     <string name="deliver">DELIVER</string>
     <string name="drop_off">DROP OFF</string>

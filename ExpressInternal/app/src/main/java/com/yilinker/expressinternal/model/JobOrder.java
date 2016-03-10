@@ -51,6 +51,7 @@ public class JobOrder implements Parcelable{
     private List<String> items;
     private String waybillNo;
     private String packageDescription;
+    private int jobOrderTypeId;
 
     //For Problematic
     private String csrName;
@@ -107,6 +108,7 @@ public class JobOrder implements Parcelable{
         amountToCollect = jobOrder.getAmountToCollect();
         dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
         dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
+        jobOrderTypeId = jobOrder.getJobOrderTypeId();
         shipperContactNo = jobOrder.getShipperContactNo();
         shipperName = jobOrder.getShipperName();
 
@@ -162,6 +164,14 @@ public class JobOrder implements Parcelable{
 
     public void setRecipientContactNo(String recipientContactNo) {
         this.recipientContactNo = recipientContactNo;
+    }
+
+    public int getJobOrderTypeId() {
+        return jobOrderTypeId;
+    }
+
+    public void setJobOrderTypeId(int jobOrderTypeId) {
+        this.jobOrderTypeId = jobOrderTypeId;
     }
 
     public String getStatus() {
@@ -446,6 +456,7 @@ public class JobOrder implements Parcelable{
         dest.writeStringList(this.items);
         dest.writeString(this.waybillNo);
         dest.writeString(this.packageDescription);
+        dest.writeInt(this.jobOrderTypeId);
         dest.writeString(this.csrName);
         dest.writeString(this.problemType);
         dest.writeString(this.remarks);
@@ -486,6 +497,7 @@ public class JobOrder implements Parcelable{
         this.items = in.createStringArrayList();
         this.waybillNo = in.readString();
         this.packageDescription = in.readString();
+        this.jobOrderTypeId = in.readInt();
         this.csrName = in.readString();
         this.problemType = in.readString();
         this.remarks = in.readString();

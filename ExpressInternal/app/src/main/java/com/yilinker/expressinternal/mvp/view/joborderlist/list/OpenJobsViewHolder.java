@@ -50,13 +50,11 @@ public class OpenJobsViewHolder extends JobsViewHolder<OpenJobItemPresenter> imp
 
     @Override
     public void setFromAddress(String fromAddress) {
-
         tvFromAddress.setText(fromAddress);
     }
 
     @Override
     public void setToAddress(String toAddress) {
-
         tvToAddress.setText(toAddress);
     }
 
