@@ -16,6 +16,8 @@ import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.OpenJobDetailsPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
 
+import java.util.List;
+
 /**
  * Created by J.Bautista on 3/7/16.
  */
@@ -84,10 +86,11 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
 
     @Override
     public void onPause() {
-        super.onPause();
+
+        presenter.onPause();
 
         presenter.unbindView();
-        presenter.onPause();
+        super.onPause();
 
     }
 
@@ -230,5 +233,10 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
                 break;
         }
 
+    }
+
+    @Override
+    public void cancelRequests(List<String> tags) {
+        super.cancelRequests(tags);
     }
 }

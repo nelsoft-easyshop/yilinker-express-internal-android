@@ -152,8 +152,8 @@ public class ActivityComplete extends BaseActivity implements View.OnClickListen
         tvJobOrderNo.setText(jobOrder.getWaybillNo());
         tvETA.setText(DateUtility.convertDateToString(jobOrder.getTimeDelivered(), DATE_FORMAT));
         ratingJob.setRating((float) jobOrder.getRating());
-        tvRecipient.setText(jobOrder.getRecipient());
-        tvContactNo.setText(jobOrder.getContactNo());
+        tvRecipient.setText(jobOrder.getRecipientName());
+        tvContactNo.setText(jobOrder.getRecipientContactNo());
         tvItem.setText(jobOrder.getPackageDescription());
         tvAmountCollected.setText(PriceFormatHelper.formatPrice(jobOrder.getAmountToCollect()));
 
