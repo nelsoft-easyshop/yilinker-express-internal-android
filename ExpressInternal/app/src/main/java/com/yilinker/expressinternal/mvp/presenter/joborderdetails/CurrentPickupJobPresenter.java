@@ -18,8 +18,8 @@ public class CurrentPickupJobPresenter extends BasePresenter<JobOrder, ICurrentP
         view().setStatusText(model.getStatus());
         view().setDateCreatedText("Sample Date Created");
         view().setAmountToCollectText(String.format("P%.2f", model.getEarning()));
-        view().setConsigneeNameText(model.getRecipient());
-        view().setConsigneeNoText(model.getContactNo());
+        view().setConsigneeNameText(model.getRecipientName());
+        view().setConsigneeNoText(model.getRecipientContactNo());
         view().setPickupAddressText(model.getPickupAddress());
         view().setItemText("Items");
     }

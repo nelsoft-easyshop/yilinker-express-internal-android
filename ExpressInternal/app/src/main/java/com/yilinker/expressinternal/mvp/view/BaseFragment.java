@@ -24,6 +24,9 @@ public abstract class BaseFragment extends Fragment implements RequestBaseView {
     @Override
     public void cancelRequests(List<String> tags) {
 
+        ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
+        applicationClass.getRequestQueue().cancelAll(tags.get(0));
+
     }
 
 }

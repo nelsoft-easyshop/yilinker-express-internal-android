@@ -2,14 +2,12 @@ package com.yilinker.expressinternal.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.SparseArray;
 
 import com.yilinker.core.model.express.internal.ProblemDetail;
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +23,8 @@ public class JobOrder implements Parcelable{
 
     private int id;
     private String jobOrderNo;
-    private String recipient;
-    private String contactNo;
+    private String recipientName;
+    private String recipientContactNo;
     private String status;
     private Date estimatedTimeOfArrival;
     private String size;
@@ -51,6 +49,8 @@ public class JobOrder implements Parcelable{
     private List<String> items;
     private String waybillNo;
     private String packageDescription;
+    private Date dateCreated;
+    private Date dateAccepted;
 
     //For Problematic
     private String csrName;
@@ -80,8 +80,8 @@ public class JobOrder implements Parcelable{
     public JobOrder(com.yilinker.core.model.express.internal.JobOrder jobOrder){
 
         jobOrderNo = jobOrder.getJobOrderNo();
-        recipient = jobOrder.getRecipientName();
-        contactNo = jobOrder.getRecipientContactNo();
+        recipientName = jobOrder.getRecipientName();
+        recipientContactNo = jobOrder.getRecipientContactNo();
         size = jobOrder.getPackageSize();
         earning = jobOrder.getEarnings();
 //        latitude = Double.valueOf(jobOrder.getLocation().getLatitude());
@@ -102,6 +102,8 @@ public class JobOrder implements Parcelable{
         estimatedTimeOfArrival = DateUtility.convertStringToDate(jobOrder.getEta(), SERVER_DATE_FORMAT);
         packageDescription = jobOrder.getPackageDescription();
         amountToCollect = jobOrder.getAmountToCollect();
+        dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
+        dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
 
         isOpen = jobOrder.isOpen();
         areaCode = jobOrder.getAreaCode();
@@ -139,20 +141,20 @@ public class JobOrder implements Parcelable{
         this.jobOrderNo = jobOrderNo;
     }
 
-    public String getRecipient() {
-        return recipient;
+    public String getRecipientName() {
+        return recipientName;
     }
 
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
     }
 
-    public String getContactNo() {
-        return contactNo;
+    public String getRecipientContactNo() {
+        return recipientContactNo;
     }
 
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
+    public void setRecipientContactNo(String recipientContactNo) {
+        this.recipientContactNo = recipientContactNo;
     }
 
     public String getStatus() {
@@ -355,6 +357,22 @@ public class JobOrder implements Parcelable{
         this.problematicImages = problematicImages;
     }
 
+    public Date getDateAccepted() {
+        return dateAccepted;
+    }
+
+    public void setDateAccepted(Date dateAccepted) {
+        this.dateAccepted = dateAccepted;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
     public String getPackageDescription() {
         return packageDescription;
     }
@@ -380,8 +398,8 @@ public class JobOrder implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.jobOrderNo);
-        dest.writeString(this.recipient);
-        dest.writeString(this.contactNo);
+        dest.writeString(this.recipientName);
+        dest.writeString(this.recipientContactNo);
         dest.writeString(this.status);
         dest.writeLong(estimatedTimeOfArrival != null ? estimatedTimeOfArrival.getTime() : -1);
         dest.writeString(this.size);
@@ -403,6 +421,8 @@ public class JobOrder implements Parcelable{
         dest.writeStringList(this.items);
         dest.writeString(this.waybillNo);
         dest.writeString(this.packageDescription);
+        dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1);
+        dest.writeLong(dateAccepted != null ? dateAccepted.getTime() : -1);
         dest.writeString(this.csrName);
         dest.writeString(this.problemType);
         dest.writeString(this.remarks);
@@ -414,8 +434,8 @@ public class JobOrder implements Parcelable{
     protected JobOrder(Parcel in) {
         this.id = in.readInt();
         this.jobOrderNo = in.readString();
-        this.recipient = in.readString();
-        this.contactNo = in.readString();
+        this.recipientName = in.readString();
+        this.recipientContactNo = in.readString();
         this.status = in.readString();
         long tmpEstimatedTimeOfArrival = in.readLong();
         this.estimatedTimeOfArrival = tmpEstimatedTimeOfArrival == -1 ? null : new Date(tmpEstimatedTimeOfArrival);
@@ -439,6 +459,10 @@ public class JobOrder implements Parcelable{
         this.items = in.createStringArrayList();
         this.waybillNo = in.readString();
         this.packageDescription = in.readString();
+        long tmpDateCreated = in.readLong();
+        this.dateCreated = tmpDateCreated == -1 ? null : new Date(tmpDateCreated);
+        long tmpDateAccepted = in.readLong();
+        this.dateAccepted = tmpDateAccepted == -1 ? null : new Date(tmpDateAccepted);
         this.csrName = in.readString();
         this.problemType = in.readString();
         this.remarks = in.readString();

@@ -3,7 +3,6 @@ package com.yilinker.expressinternal.mvp.view.joborderdetails;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.contact.ActivityContact;
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
-import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.controllers.navigation.ActivityNavigation;
 import com.yilinker.expressinternal.controllers.printer.FragmentDialogPrinterList;
 import com.yilinker.expressinternal.controllers.qrcode.ActivityQRCode;
@@ -108,8 +106,8 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
     public void showContactScreen(JobOrder jobOrder) {
 
         Intent intent = new Intent(ActivityJobDetailsMain.this, ActivityContact.class);
-        intent.putExtra(ActivityContact.ARG_NAME, jobOrder.getRecipient());
-        intent.putExtra(ActivityContact.ARG_CONTACT_NO, jobOrder.getContactNo());
+        intent.putExtra(ActivityContact.ARG_NAME, jobOrder.getRecipientName());
+        intent.putExtra(ActivityContact.ARG_CONTACT_NO, jobOrder.getRecipientContactNo());
         startActivity(intent);
     }
 
