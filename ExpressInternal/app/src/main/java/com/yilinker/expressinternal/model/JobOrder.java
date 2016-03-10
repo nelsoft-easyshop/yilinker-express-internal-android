@@ -49,8 +49,6 @@ public class JobOrder implements Parcelable{
     private List<String> items;
     private String waybillNo;
     private String packageDescription;
-    private Date dateCreated;
-    private Date dateAccepted;
 
     //For Problematic
     private String csrName;
@@ -61,6 +59,9 @@ public class JobOrder implements Parcelable{
     private double amountToCollect;
 
     private boolean forSyncing;
+
+    private Date dateCreated;
+    private Date dateAccepted;
 
 
     static {
@@ -123,6 +124,8 @@ public class JobOrder implements Parcelable{
             problematicImages = problemDetail.getImages();
         }
 
+        dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
+        dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
     }
 
     public int getId() {
@@ -357,22 +360,6 @@ public class JobOrder implements Parcelable{
         this.problematicImages = problematicImages;
     }
 
-    public Date getDateAccepted() {
-        return dateAccepted;
-    }
-
-    public void setDateAccepted(Date dateAccepted) {
-        this.dateAccepted = dateAccepted;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
     public String getPackageDescription() {
         return packageDescription;
     }
@@ -387,6 +374,22 @@ public class JobOrder implements Parcelable{
 
     public void setForSyncing(boolean forSyncing) {
         this.forSyncing = forSyncing;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDateAccepted() {
+        return dateAccepted;
+    }
+
+    public void setDateAccepted(Date dateAccepted) {
+        this.dateAccepted = dateAccepted;
     }
 
     @Override
@@ -421,14 +424,15 @@ public class JobOrder implements Parcelable{
         dest.writeStringList(this.items);
         dest.writeString(this.waybillNo);
         dest.writeString(this.packageDescription);
-        dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1);
-        dest.writeLong(dateAccepted != null ? dateAccepted.getTime() : -1);
         dest.writeString(this.csrName);
         dest.writeString(this.problemType);
         dest.writeString(this.remarks);
         dest.writeStringList(this.problematicImages);
         dest.writeDouble(this.amountToCollect);
         dest.writeByte(forSyncing ? (byte) 1 : (byte) 0);
+
+        dest.writeLong(dateAccepted != null ? dateAccepted.getTime() : -1);
+        dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1);
     }
 
     protected JobOrder(Parcel in) {
@@ -437,8 +441,10 @@ public class JobOrder implements Parcelable{
         this.recipientName = in.readString();
         this.recipientContactNo = in.readString();
         this.status = in.readString();
+
         long tmpEstimatedTimeOfArrival = in.readLong();
         this.estimatedTimeOfArrival = tmpEstimatedTimeOfArrival == -1 ? null : new Date(tmpEstimatedTimeOfArrival);
+
         this.size = in.readString();
         this.earning = in.readDouble();
         this.type = in.readString();
@@ -459,16 +465,18 @@ public class JobOrder implements Parcelable{
         this.items = in.createStringArrayList();
         this.waybillNo = in.readString();
         this.packageDescription = in.readString();
-        long tmpDateCreated = in.readLong();
-        this.dateCreated = tmpDateCreated == -1 ? null : new Date(tmpDateCreated);
-        long tmpDateAccepted = in.readLong();
-        this.dateAccepted = tmpDateAccepted == -1 ? null : new Date(tmpDateAccepted);
         this.csrName = in.readString();
         this.problemType = in.readString();
         this.remarks = in.readString();
         this.problematicImages = in.createStringArrayList();
         this.amountToCollect = in.readDouble();
         this.forSyncing = in.readByte() != 0;
+
+        long tmpDateAccepted = in.readLong();
+        this.dateAccepted = tmpDateAccepted == -1 ? null : new Date(tmpDateAccepted);
+
+        long tmpDateCreated = in.readLong();
+        this.dateCreated = tmpDateCreated == -1 ? null : new Date(tmpDateCreated);
     }
 
     public static final Creator<JobOrder> CREATOR = new Creator<JobOrder>() {

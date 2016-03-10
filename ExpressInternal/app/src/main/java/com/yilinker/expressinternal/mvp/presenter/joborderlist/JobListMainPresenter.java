@@ -1,9 +1,13 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
@@ -35,6 +39,8 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     private List<String> selectedFilter;
     private String searchString;
 
+    private String currentTab = TYPE_OPEN;
+
     public JobListMainPresenter(){
 
         this.tabs = new ArrayList<>();
@@ -60,19 +66,20 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
     public void onResume(){
 
-        if(completeList == null) {
-            requestGetJobOrders(TYPE_OPEN);
-        }
+//        if(model == null) {
+            requestGetJobOrders(currentTab);
+//        }
 
     }
 
     public void onPause(){
 
-        //Cancel all request
-        ArrayList<String> request = new ArrayList<>();
-        request.add(TAG_REQUEST);
+        cancelRequests();
+    }
 
-        view().cancelRequests(request);
+    public void onRefresh(){
+
+        requestGetJobOrders(currentTab);
     }
 
     public void onTabItemClicked(int jobType){
@@ -80,17 +87,22 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         //Clear list
         setModel(new ArrayList<JobOrder>());
 
+        //Cancel previous request
+        cancelRequests();
+
         changeSelectedTab(jobType);
 
         if(jobType == 0){
 
-            requestGetJobOrders(TYPE_OPEN);
+            currentTab = TYPE_OPEN;
+
         }
         else {
 
-            requestGetJobOrders(TYPE_CURRENT);
+            currentTab = TYPE_CURRENT;
         }
 
+        requestGetJobOrders(currentTab);
 
     }
 
@@ -143,8 +155,9 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
             selectedFilter.remove(type.getLabel());
         }
 
+        //Filter and Search
         List<JobOrder> result = new ArrayList<>();
-        result.addAll(filter());
+        result.addAll(filterAndSearch(completeList));
 
         setModel(result);
     }
@@ -155,16 +168,7 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         searchString = waybillNo;
 
-        if(searchString.length() == 0){
-
-            result.addAll(completeList);
-        }
-        else{
-
-            //Search then filter
-
-            result.addAll(search(waybillNo));
-        }
+        result.addAll(filterAndSearch(completeList));
 
         setModel(result);
 
@@ -205,6 +209,7 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         super.onFailed(requestCode, message);
 
         if(view() != null) {
+            view().showErrorMessage(message);
             view().showLoader(false);
         }
     }
@@ -247,11 +252,15 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     private void handleGetJobOrders(Object object){
 
         List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
+
+        //Clear current
+        model.clear();
+
         completeList = createList(listServer, 0);
 
-        //Filter result
+        //Search and filter
         List<JobOrder> result = new ArrayList<>();
-        result.addAll(filter());
+        result.addAll(filterAndSearch(completeList));
 
         setModel(result);
     }
@@ -280,40 +289,44 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
     }
 
-    private List<JobOrder> search(String query){
+    private List<JobOrder> search(List<JobOrder> list,  String query){
 
         List<JobOrder> result = new ArrayList<>();
 
-        for(JobOrder item : completeList){
+        //For null query string
+        if(query == null){
 
-            String waybillNo = item.getWaybillNo();
+            result.addAll(list);
+            return result;
+        }
 
-            if(waybillNo.contains(query)){
+        if(query.isEmpty()) {
 
-                result.add(item);
+            result.addAll(list);
+        }
+        else
+        {
+
+            for (JobOrder item : list) {
+
+                String waybillNo = item.getWaybillNo();
+
+                if (waybillNo.contains(query)) {
+
+                    result.add(item);
+                }
             }
         }
+
 
         return result;
     }
 
-    private List<JobOrder> filter(){
+    private List<JobOrder> filter(List<JobOrder> list){
 
         List<JobOrder> result = new ArrayList<>();
-        List<JobOrder> searchResult = new ArrayList<>();
 
-        //Perform search filter
-        if(searchString != null){
-
-            searchResult.addAll(search(searchString));
-
-        }
-        else{
-
-            searchResult.addAll(completeList);
-        }
-
-        for(JobOrder item : searchResult){
+        for(JobOrder item : list){
 
             String status = item.getStatus();
 
@@ -325,5 +338,57 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         return result;
     }
+
+    private void cancelRequests(){
+
+        //Cancel all request
+        ArrayList<String> request = new ArrayList<>();
+        request.add(TAG_REQUEST);
+
+        view().cancelRequests(request);
+
+    }
+
+    private List<JobOrder> filterAndSearch(List<JobOrder> list){
+
+        //Filter result
+        List<JobOrder> filteredResult = new ArrayList<>();
+        filteredResult.addAll(filter(list));
+
+        //Search result
+        List<JobOrder> searchResult = new ArrayList<>();
+        searchResult.addAll(search(filteredResult, searchString));
+
+        return searchResult;
+    }
+
+//    private String getSearchDictionary() {
+//
+//        String dictionary = null;
+//
+//        SyncDBTransaction dbTransaction = new SyncDBTransaction(this);;
+//        List<SyncDBObject> requestsList = dbTransaction.getAll(SyncDBObject.class);
+//
+//        if (requestsList.size() > 0) {
+//
+//            StringBuilder syncBuilder = new StringBuilder();
+//            syncBuilder.append("|");
+//
+//            for (SyncDBObject object : requestsList) {
+//
+//                if (!object.isSync()) {
+//
+//                    syncBuilder.append(object.getId());
+//                    syncBuilder.append("|");
+//                }
+//            }
+//
+//            dictionary = syncBuilder.toString();
+//
+//        }
+//
+//        return dictionary;
+//
+//    }
 
 }

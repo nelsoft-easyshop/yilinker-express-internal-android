@@ -7,7 +7,7 @@ package com.yilinker.expressinternal.mvp.view.cashManagement;
 public interface ICashHistoryView {
 
     public void setFormattedDate(String date);
-    public void setFormattedAmount(String amount);
+    public void setFormattedAmount(String amount, boolean isPositive);
     public void setFormatterRunningTotal(String runningTotal);
     public void setWaybillNumber(String waybillNumber);
     public void setType(String type);

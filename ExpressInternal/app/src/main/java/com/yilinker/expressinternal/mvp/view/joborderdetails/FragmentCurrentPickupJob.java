@@ -1,23 +1,33 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentPickupJobPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
 
+import java.util.List;
+
 /**
  * Created by J.Bautista on 3/8/16.
  */
-public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPickupJobView{
+public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPickupJobView, View.OnClickListener{
 
     private static final String ARG_JOB = "job";
 
@@ -34,6 +44,9 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     private TextView tvItem;
     private TextView tvAmountToCollect;
     private TextView tvTimeElapsed;
+    private RelativeLayout rlProgress;
+
+    private JobOrder jobOrder;
 
     public static FragmentCurrentPickupJob createInstance(JobOrder jobOrder){
 
@@ -79,9 +92,12 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
 
     @Override
     public void onPause() {
+
+        presenter.onPause();
+        presenter.unbindView();
+
         super.onPause();
 
-        presenter.unbindView();
     }
 
 
@@ -99,7 +115,15 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
         tvWaybillNo = (TextView) parent.findViewById(R.id.tvWaybillNo);
         tvAmountToCollect = (TextView) parent.findViewById(R.id.tvAmountToCollect);
         tvTimeElapsed = (TextView) parent.findViewById(R.id.tvTimeElapsed);
+        rlProgress = (RelativeLayout) parent.findViewById(R.id.rlProgress);
 
+        Button btnPositive = (Button) parent.findViewById(R.id.btnPositive);
+        Button btnNegative = (Button) parent.findViewById(R.id.btnNegative);
+
+        rlProgress.setVisibility(View.GONE);
+
+        btnNegative.setOnClickListener(this);
+        btnPositive.setOnClickListener(this);
     }
 
     @Override
@@ -144,6 +168,62 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     }
 
     @Override
+    public void showOutOfStock() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_AppCompat_Light_Dialog);
+        builder.setMessage(getString(R.string.joborderdetail_report_out_of_stock));
+
+        builder.setPositiveButton(getString(R.string.dialog_yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        presenter.reportOutOfStock(getString(R.string.problematic_out_of_stock),
+                                getString(R.string.problematic_notes));
+                    }
+                });
+
+        builder.setNegativeButton(getString(R.string.dialog_no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+        builder.show();
+
+    }
+
+    @Override
+    public void goToChecklist() {
+
+        Intent intent = new Intent(getActivity(), ActivityChecklist.class);
+        intent.putExtra(ActivityChecklist.ARG_JOB_ORDER, jobOrder);
+        startActivity(intent);
+    }
+
+    @Override
+    public void addToRequestQueue(Request request) {
+        addRequestToQueue(request);
+    }
+
+    @Override
+    public void showErrorMessage(String errorMessage) {
+
+        Toast.makeText(getActivity(),errorMessage,
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void handleOutOfStockResponse() {
+
+        Toast.makeText(getActivity(),
+                getString(R.string.joborderdetail_job_order_successfully_problem_reporting),
+                Toast.LENGTH_LONG).show();
+        getActivity().finish();
+    }
+
+    @Override
     public void setWaybillNoText(String waybillNo) {
 
         tvWaybillNo.setText(waybillNo);
@@ -176,14 +256,14 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
 
     @Override
     public void showLoader(boolean isShown) {
-
+        rlProgress.setVisibility(isShown? View.VISIBLE: View.GONE);
     }
 
     private void getData(){
 
         Bundle arguments = getArguments();
 
-        JobOrder jobOrder = arguments.getParcelable(ARG_JOB);
+        jobOrder = arguments.getParcelable(ARG_JOB);
 
         presenter.setModel(jobOrder);
     }
@@ -212,5 +292,24 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
 
         tvStatus.setBackgroundResource(background);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+            case R.id.btnNegative:
+                showOutOfStock();
+                break;
+
+            case R.id.btnPositive:
+                goToChecklist();
+                break;
+
+            default:
+                break;
+
+        }
     }
 }

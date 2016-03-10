@@ -193,6 +193,12 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
         replaceFragment(R.id.flContainer, fragment);
     }
 
+    @Override
+    public void showCompletedDetails(JobOrder jobOrder) {
+
+
+    }
+
     /**
      * Do all layout changes here for main activity on certain job order statuses
      * @param status
