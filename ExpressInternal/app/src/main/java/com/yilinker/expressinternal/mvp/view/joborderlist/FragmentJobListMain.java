@@ -60,6 +60,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     private ImageView ivToggle;
     private LinearLayout llFilterContainer;
     private LinearLayout llJobTypeContainer;
+    private View viewTransaparent;
 
     private JobsTabAdapter tabAdapter;
     private JobTypeAdapter typeAdapter;
@@ -229,6 +230,10 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
                 showQRCodeScanner();
                 break;
 
+            case R.id.viewTransparent:
+                toggleFilter();
+                break;
+
         }
 
     }
@@ -245,7 +250,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         llFilterContainer = (LinearLayout) parent.findViewById(R.id.llFilterContainer);
         llJobTypeContainer = (LinearLayout) parent.findViewById(R.id.llJobTypesContainer);
         etSearch = (EditText) parent.findViewById(R.id.etSearch);
-
+        viewTransaparent = parent.findViewById(R.id.viewTransparent);
 
         //For tabs
         rvTabs.setHasFixedSize(true);
@@ -274,6 +279,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         tvFilter.setOnClickListener(this);
 //        etSearch.setOnClickListener(this);
 
+        viewTransaparent.setOnClickListener(this);
         etSearch.addTextChangedListener(searchTextWatcher);
         etSearch.setOnFocusChangeListener(this);
     }
@@ -433,10 +439,12 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         if(llFilterContainer.getVisibility() == View.VISIBLE){
 
             llFilterContainer.setVisibility(View.GONE);
+            viewTransaparent.setVisibility(View.GONE);
         }
         else{
 
             llFilterContainer.setVisibility(View.VISIBLE);
+            viewTransaparent.setVisibility(View.VISIBLE);
 
         }
 
