@@ -2,6 +2,7 @@ package com.yilinker.expressinternal.mvp.view.profile;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,8 +19,9 @@ public class LanguageViewHolder extends BaseViewHolder<LanguagePresenter> implem
 
     private RecyclerViewClickListener listener;
     private RelativeLayout rlLanguage;
-    private CheckBox cbLanguage;
+//    private CheckBox cbLanguage;
     private TextView tvLanguage;
+    private ImageView cbLanguage;
 
     public LanguageViewHolder(View itemView, RecyclerViewClickListener listener) {
         super(itemView);
@@ -28,7 +30,8 @@ public class LanguageViewHolder extends BaseViewHolder<LanguagePresenter> implem
 
         rlLanguage = (RelativeLayout) itemView.findViewById(R.id.rlLanguage);
         tvLanguage = (TextView) itemView.findViewById(R.id.tvLanguage);
-        cbLanguage = (CheckBox) itemView.findViewById(R.id.cbLanguage);
+//        cbLanguage = (CheckBox) itemView.findViewById(R.id.cbLanguage);
+        cbLanguage = (ImageView) itemView.findViewById(R.id.cbLanguage);
 
         rlLanguage.setOnClickListener(this);
     }
@@ -49,8 +52,27 @@ public class LanguageViewHolder extends BaseViewHolder<LanguagePresenter> implem
         listener.onItemClick(lang.getId(), lang);
     }
 
+//    @Override
+//    public void setSelected(boolean isSelected) {
+//        cbLanguage.setChecked(isSelected);
+//    }
+
     @Override
     public void setSelected(boolean isSelected) {
-        cbLanguage.setChecked(isSelected);
+
+        int resource = 0;
+
+        if(isSelected){
+
+            resource = R.drawable.ic_checked;
+        }
+
+        else{
+
+            resource = R.drawable.ic_unchecked;
+        }
+
+        cbLanguage.setImageResource(resource);
     }
+
 }

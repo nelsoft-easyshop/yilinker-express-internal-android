@@ -20,6 +20,7 @@ import com.yilinker.expressinternal.controllers.qrscanner.ActivityBulkCheckIn;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanToDetails;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanner;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivitySingleScanner;
+import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.model.Tools;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
@@ -165,6 +166,12 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
             case 3:
                 intent = new Intent(getActivity(), ActivityCashManagement.class);
+                break;
+
+            case 4:
+
+                intent = new Intent(getActivity(), ActivitySync.class);
+                startActivityForResult(intent, ActivitySync.REQUEST_SYNC);
                 break;
         }
 

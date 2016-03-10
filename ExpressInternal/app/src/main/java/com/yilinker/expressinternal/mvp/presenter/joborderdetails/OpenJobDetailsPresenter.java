@@ -26,8 +26,8 @@ public class OpenJobDetailsPresenter extends RequestPresenter<JobOrder, IOpenJob
         view().setConsigneeNameText(model.getRecipientName());
         view().setDeliveryAddressText(model.getDeliveryAddress());
         view().setPickupAddressText(model.getPickupAddress());
-        view().setShipperNameText("");
-        view().setShipperContactNo("");
+        view().setShipperNameText(model.getShipperName());
+        view().setShipperContactNo(model.getShipperContactNo());
         view().setDateCreatedText(DateUtility.convertDateToString(model.getDateCreated(), CURRENT_DATE_FORMAT));
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
         view().setStatusText(model.getStatus());

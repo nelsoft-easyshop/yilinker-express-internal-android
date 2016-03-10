@@ -6,6 +6,9 @@ import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDeliveryJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Created by J.Bautista on 3/8/16.
  */

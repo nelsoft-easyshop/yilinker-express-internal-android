@@ -1,24 +1,31 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
+import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDropoffJobPresenter;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentProblematicJobPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by J.Bautista on 3/8/16.
  */
-public class FragmentCurrentProblematic extends BaseFragment implements ICurrentProblematicJobView {
+public class FragmentCurrentProblematic extends BaseFragment implements ICurrentProblematicJobView, View.OnClickListener {
 
     private static final String ARG_JOB = "job";
 
@@ -31,6 +38,8 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
     private TextView tvAddress;
     private TextView tvEarning;
     private TextView tvItem;
+    private TextView tvProblemType;
+    private TextView tvViewImages;
 
     public static FragmentCurrentProblematic createInstance(JobOrder jobOrder){
 
@@ -91,6 +100,10 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
         tvItem = (TextView) parent.findViewById(R.id.tvItem);
         tvAddress = (TextView) parent.findViewById(R.id.tvAddress);
         tvWaybillNo = (TextView) parent.findViewById(R.id.tvWaybillNo);
+        tvProblemType = (TextView) parent.findViewById(R.id.tvProblemType);
+        tvViewImages = (TextView) parent.findViewById(R.id.tvViewImages);
+
+        tvViewImages.setOnClickListener(this);
 
     }
 
@@ -110,6 +123,11 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
     public void setItemText(String items) {
 
         tvItem.setText(items);
+    }
+
+    @Override
+    public void setProblemType(String problemType) {
+        tvProblemType.setText(problemType);
     }
 
     @Override
@@ -174,5 +192,29 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
 
         tvStatus.setBackgroundResource(background);
 
+    }
+
+    @Override
+    public void showReportedImages(List<String> imageUrls) {
+
+        Intent intent = new Intent(getActivity(), ActivityImageGallery.class);
+        intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, (ArrayList) imageUrls);
+        intent.putExtra(ActivityImageGallery.ARG_TYPE, ImagePagerAdapter.TYPE_URL);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void showNoImageError() {
+
+        Toast.makeText(getActivity(), R.string.joborderdetail_error_no_image, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == R.id.tvViewImages) {
+            presenter.onViewImageClick();
+        }
     }
 }

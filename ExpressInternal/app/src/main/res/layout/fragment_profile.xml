@@ -39,19 +39,21 @@
         android:layout_below="@+id/llFilter"
         android:background="@color/gray"/>
 
+    <TextView
+        android:id="@+id/tvLanguageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/profile_select_language"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="@color/gray4"
+        android:layout_below="@+id/line"
+        android:paddingLeft="10dp"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvLanguages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/line"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="223dp" />
+        android:layout_below="@+id/tvLanguageLabel"/>
 
 </RelativeLayout>

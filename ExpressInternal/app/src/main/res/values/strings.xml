@@ -342,12 +342,14 @@
     <string name="tools_bulk_checkin">Bulk Check In</string>
     <string name="tools_direct_acknowledge">Direct Acknowledge</string>
     <string name="tools_cash_turnover">Cash Turnover</string>
+    <string name="tools_sync">Sync</string>
 
     <string-array name="array_tool_items">
         <item name="tool_search_qr">@string/tools_search_qr</item>
         <item name="tool_bulk_checkin">@string/tools_bulk_checkin</item>
         <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
         <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
+        <item name="tool_sync">@string/tools_sync</item>
     </string-array>
 
     <string-array name="array_tool_images">
@@ -355,6 +357,7 @@
         <item name="tool_image_bulk_checkin">@drawable/ic_bulk_checkin</item>
         <item name="tool_image_direct_acknowledge">@drawable/ic_direct_acknowledge</item>
         <item name="tool_image_cash_turnover">@drawable/ic_cash_turnover</item>
+        <item name="tool_sync">@drawable/ic_sync</item>
     </string-array>
 
 
@@ -366,21 +369,6 @@
         <item name="tab_profile">PROFILE</item>
     </string-array>
 
-
-    <string-array name="main_tab_icons_unselected">
-        <item>@drawable/ic_jobs</item>
-        <item>@drawable/ic_tools</item>
-        <item>@drawable/ic_tools</item>
-        <item>@drawable/ic_profile</item>
-    </string-array>
-
-
-    <string-array name="main_tab_icons_selected">
-        <item>@drawable/ic_jobs_selected</item>
-        <item>@drawable/ic_tools_selected</item>
-        <item>@drawable/ic_tools_selected</item>
-        <item>@drawable/ic_profile_selected</item>
-    </string-array>
 
     <string-array name="jobs_tab_items">
         <item>Open</item>
@@ -412,6 +400,7 @@
     <!--CURRENT-->
     <string name="job_order_list_pick_up_at">PICK UP AT</string>
     <string name="job_order_list_deliver_to">DELIVER TO</string>
+    <string name="job_order_list_drop_off_to">DROP-OFF TO</string>
     <string name="pick_up">PICK UP</string>
     <string name="deliver">DELIVER</string>
     <string name="drop_off">DROP OFF</string>
@@ -424,6 +413,7 @@
 
     <!-- Profile-->
     <string name="profile_filter_by">Filter By: </string>
+    <string name="profile_select_language">Select Language: </string>
 
 </resources>
 
