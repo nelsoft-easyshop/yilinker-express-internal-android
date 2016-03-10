@@ -241,14 +241,14 @@
             android:id="@+id/btnPositive"
             style="@style/JobOrderDetailFooterButtonStyle"
             android:background="@drawable/bg_btn_bluegreen"
-            android:text="@string/joborderdetail_open_accept"
+            android:text="@string/joborderdetail_deliver"
             android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/btnNegative"
             style="@style/JobOrderDetailFooterButtonStyle"
             android:background="@drawable/bg_btn_warmgray"
-            android:text="@string/joborderdetail_open_decline"
+            android:text="@string/joborderdetail_problematic"
             android:textColor="@color/white"/>
 
     </LinearLayout>
