@@ -2,10 +2,7 @@ package com.yilinker.expressinternal.mvp.presenter.tools;
 
 import com.yilinker.expressinternal.mvp.model.Tools;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.view.mainScreen.MainTabViewHolder;
 import com.yilinker.expressinternal.mvp.view.tools.IMainToolsView;
-import com.yilinker.expressinternal.mvp.view.tools.IToolsView;
-import com.yilinker.expressinternal.mvp.view.tools.ToolsViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +49,25 @@ public class MainToolsPresenter extends BasePresenter<List<Tools>, IMainToolsVie
 
         activity = position;
         updateView();
+    }
+
+    @Override
+    public void hasItemsForSyncing(boolean hasForSyncing) {
+        if(hasForSyncing) {
+            view().enableSyncButton(true);
+        } else {
+            view().enableSyncButton(false);
+        }
+    }
+
+    @Override
+    public void openActivitySync(boolean hasForSyncing) {
+
+        if(hasForSyncing) {
+            view().openActivitySyncing();
+        } else {
+            view().showNoItemsForSyncingMessage();
+        }
     }
 
 }

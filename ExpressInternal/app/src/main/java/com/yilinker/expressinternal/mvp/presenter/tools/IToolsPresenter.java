@@ -7,4 +7,6 @@ public interface IToolsPresenter {
 
     void initializeToolsModel(String[] toolTitles, int[] toolIcons);
     void onToolSelected(int position);
+    void hasItemsForSyncing(boolean hasForSyncing);
+    void openActivitySync(boolean hasForSyncing);
 }
