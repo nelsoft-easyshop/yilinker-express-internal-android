@@ -129,6 +129,13 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
     }
 
     @Override
+    public void setDateAccepted(String dateAccepted) {
+
+        tvDateAccepted.setText(dateAccepted);
+
+    }
+
+    @Override
     public void setShipperName(String deliveryName) {
 
         tvShipperName.setText(deliveryName);

@@ -330,6 +330,7 @@
 
     <!--Tools-->
 
+    <string name="tools_title">Express Tools</string>
     <string name="tools_search_qr">Search by QR Code</string>
     <string name="tools_bulk_checkin">Bulk Check In</string>
     <string name="tools_direct_acknowledge">Direct Acknowledge</string>
