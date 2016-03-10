@@ -11,5 +11,6 @@ public interface IJobListView {
 
     public void loadJobOrderList(List<JobOrder> jobOrders);
     public void showJobOrderDetails(JobOrder joborder);
+    public void showLoader(boolean isVisible);
 
 }

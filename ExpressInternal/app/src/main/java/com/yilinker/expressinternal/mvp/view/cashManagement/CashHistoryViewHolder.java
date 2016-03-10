@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.cashManagement;
 
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,9 +41,11 @@ public class CashHistoryViewHolder extends BaseViewHolder<CashHistoryPresenter> 
     }
 
     @Override
-    public void setFormattedAmount(String amount) {
+    public void setFormattedAmount(String amount, boolean isPositive) {
         ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
         tvAmount.setText(String.format("%s  %s", applicationClass.getString(R.string.cashmanagement_amount),amount));
+
+        changeAmountColor(isPositive);
     }
 
     @Override
@@ -58,4 +62,24 @@ public class CashHistoryViewHolder extends BaseViewHolder<CashHistoryPresenter> 
     public void setType(String type) {
         tvType.setText(type);
     }
+
+    private void changeAmountColor(boolean isPositive){
+
+        int color = 0;
+
+        if(isPositive){
+
+            color = R.color.apple_green;
+        }
+        else{
+
+            color = R.color.orange_yellow;
+        }
+
+        Resources resources = ApplicationClass.getInstance().getResources();
+
+        tvAmount.setTextColor(resources.getColor(color));
+
+    }
+
 }

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -25,6 +26,8 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
     private TextView tvDistance;
     private TextView tvEarning;
     private TextView tvSize;
+    private TextView tvAddressLabel;
+    private TextView tvProblemType;
 
     public CurrentJobsViewHolder(View itemView, RecyclerViewClickListener listener) {
         super(itemView);
@@ -38,6 +41,8 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
         tvDistance = (TextView) itemView.findViewById(R.id.tvDistance);
         tvEarning = (TextView) itemView.findViewById(R.id.tvEarning);
         tvSize = (TextView) itemView.findViewById(R.id.tvSize);
+        tvAddressLabel = (TextView) itemView.findViewById(R.id.tvAddressLabel);
+        tvProblemType = (TextView) itemView.findViewById(R.id.tvProblemType);
 
         itemView.setOnClickListener(this);
     }
@@ -98,6 +103,18 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
         tvDistance.setText(distance);
     }
 
+    @Override
+    public void setAddressLabelText(String status) {
+
+        tvAddressLabel.setText(getAddressLabel(status));
+    }
+
+    @Override
+    public void setProblematicTypeText(String type) {
+
+        tvProblemType.setText(type);
+    }
+
     private void setstatusBackground(String status){
 
         int background = 0;
@@ -122,4 +139,21 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
         tvStatus.setBackgroundResource(background);
 
     }
+
+    private String getAddressLabel(String status){
+
+        int resourceString = 0;
+
+        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+
+            resourceString = R.string.job_order_list_pick_up_at;
+        }
+        else {
+
+            resourceString = R.string.job_order_list_deliver_to;
+        }
+
+        return ApplicationClass.getInstance().getString(resourceString);
+    }
+
 }

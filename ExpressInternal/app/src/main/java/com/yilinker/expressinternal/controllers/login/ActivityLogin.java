@@ -168,7 +168,9 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         oAuth.setPassword(password);
         oAuth.setUsername(username);
 
-        Request request = RiderAPI.loginByUsername(REQUEST_LOGIN, oAuth, this);
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+
+        Request request = RiderAPI.loginByUsername(REQUEST_LOGIN, oAuth, appClass.getCurrentLocale(), this);
         requestQueue.add(request);
     }
 

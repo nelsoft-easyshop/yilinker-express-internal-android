@@ -24,13 +24,15 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/2/16.
  */
-public class FragmentJobList extends BaseFragment implements IJobListView, RecyclerViewClickListener<JobOrder>{
+public class FragmentJobList extends BaseFragment implements IJobListView, RecyclerViewClickListener<JobOrder>, SwipeRefreshLayout.OnRefreshListener{
 
     public static final String ARG_JOBS = "jobs";
 
     private JobListPresenter presenter;
 
     private JobsAdapter adapter;
+
+    private SwipeRefreshLayout refreshLayout;
 
 
     @Nullable
@@ -84,6 +86,9 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
     @Override
     public void initializeViews(View parent) {
 
+        refreshLayout = (SwipeRefreshLayout) parent.findViewById(R.id.swipeRefresh);
+        refreshLayout.setOnRefreshListener(this);
+
         //For jobs
         RecyclerView rvJobOrders = (RecyclerView) parent.findViewById(R.id.rvJobOrder);
         rvJobOrders.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -96,6 +101,7 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
     @Override
     public void showLoader(boolean isShown) {
 
+        refreshLayout.setRefreshing(isShown);
     }
 
     private void showJobDetails(JobOrder jobOrder){
@@ -112,5 +118,13 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
     public void onItemClick(int position, JobOrder object) {
 
         showJobOrderDetails(object);
+    }
+
+    @Override
+    public void onRefresh() {
+
+        SwipeRefreshLayout.OnRefreshListener listener = (SwipeRefreshLayout.OnRefreshListener)getParentFragment();
+
+        listener.onRefresh();
     }
 }

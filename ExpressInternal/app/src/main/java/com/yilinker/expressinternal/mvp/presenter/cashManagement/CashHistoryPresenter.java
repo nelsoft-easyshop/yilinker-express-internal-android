@@ -16,7 +16,7 @@ public class CashHistoryPresenter extends BasePresenter<CashHistory, CashHistory
 
     @Override
     protected void updateView() {
-        view().setFormattedAmount(getFormattedAmount());
+        view().setFormattedAmount(getFormattedAmount(), model.getAmount() >= 0);
         view().setFormattedDate(getFormattedDate());
         view().setFormatterRunningTotal(getFormattedRunningTotal());
         view().setType(model.getType());
