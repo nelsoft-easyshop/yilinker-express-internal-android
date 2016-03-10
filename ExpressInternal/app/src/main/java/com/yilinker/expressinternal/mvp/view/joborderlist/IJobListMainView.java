@@ -24,5 +24,7 @@ public interface IJobListMainView extends RequestBaseView {
     public void switchView(List<JobOrder> jobOrders);
     public void addRequest(Request request);
     public void showErrorMessage(String message);
+    public String getSyncDictionary();
+    public boolean isFilterByArea();
 
 }

@@ -145,7 +145,12 @@
         <activity
             android:name=".controllers.qrscanner.ActivityScanner"
             android:screenOrientation="portrait"
-            android:theme="@style/ActivityTheme" >
+            android:theme="@style/ActivityTheme" />
+
+        <activity
+            android:name=".controllers.joborderdetails.ActivityComplete2"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" />
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -153,7 +158,6 @@
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
-        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

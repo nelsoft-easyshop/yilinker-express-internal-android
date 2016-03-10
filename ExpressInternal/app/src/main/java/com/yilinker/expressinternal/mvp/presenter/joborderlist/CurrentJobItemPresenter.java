@@ -41,9 +41,14 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
         view().setAddressLabelText(model.getStatus());
         view().setAddressText(getAddressByStatus(model.getStatus()));
 
+
         if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
 
             view().setProblematicTypeText(model.getProblemType());
+        }
+        else{
+
+            view().showForSyncLabel(model.isForSyncing());
         }
 
     }

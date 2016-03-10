@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
@@ -99,9 +100,14 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
     }
 
     @Override
-    public void showLoader(boolean isShown) {
+    public void showLoader(final boolean isShown) {
 
-        refreshLayout.setRefreshing(isShown);
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(isShown);
+            }
+        });
     }
 
     private void showJobDetails(JobOrder jobOrder){
@@ -127,4 +133,5 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
 
         listener.onRefresh();
     }
+
 }

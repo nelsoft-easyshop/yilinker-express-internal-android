@@ -13,12 +13,14 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.base.BaseApplication;
+import com.yilinker.core.imageloader.VolleyImageLoader;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.Login;
 import com.yilinker.core.model.OAuthentication;
@@ -27,8 +29,10 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
+import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 import com.yilinker.expressinternal.mvp.view.registration.ActivityRegistrationSignUp;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.io.IOException;
 
@@ -36,6 +40,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
     private static final int REQUEST_LOGIN = 1000;
     private static final int REQUEST_VERIFY_RIDER = 1002;
+    private static final int REQUEST_GET_DETAILS = 1003;
 
     private Button btnLogin;
     private EditText etUsername;
@@ -83,10 +88,18 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
             case REQUEST_VERIFY_RIDER:
 
+//                goToDashboard();
 
+                requestRiderInfo();
+                break;
+
+            case REQUEST_GET_DETAILS:
+
+
+                Rider rider = new Rider((com.yilinker.core.model.express.internal.Rider) object);
+                ((ApplicationClass) BaseApplication.getInstance()).setRider(rider);
 
                 goToDashboard();
-
                 break;
 
         }
@@ -96,7 +109,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     @Override
     public void onFailed(int requestCode, String message) {
 
-        if(requestCode == REQUEST_VERIFY_RIDER){
+        if(requestCode == REQUEST_VERIFY_RIDER || requestCode == REQUEST_GET_DETAILS){
 
             ApplicationClass.getInstance().deleteTokens();
         }
@@ -149,7 +162,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     }
 
     private void showLoader(boolean isToShow, String label){
-        viewLoader.setVisibility(isToShow? View.VISIBLE:View.GONE);
+        viewLoader.setVisibility(isToShow ? View.VISIBLE : View.GONE);
         btnLogin.setText(label);
     }
 
@@ -204,10 +217,20 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         requestQueue.add(request);
     }
 
+    private void requestRiderInfo() {
+
+        showLoader(true, getString(R.string.logging_in));
+
+        Request request = RiderAPI.getRiderInfo(REQUEST_GET_DETAILS, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+        requestQueue.add(request);
+    }
+
     private void saveTokens(Login login){
 
         BaseApplication app = ApplicationClass.getInstance();
         app.saveAccessToken(login.getAccess_token());
         app.saveRefreshToken(login.getRefresh_token());
     }
+
 }

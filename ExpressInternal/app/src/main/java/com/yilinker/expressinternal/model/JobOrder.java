@@ -109,8 +109,8 @@ public class JobOrder implements Parcelable{
         dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
         dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
         jobOrderTypeId = jobOrder.getJobOrderTypeId();
-        shipperContactNo = jobOrder.getShipperContactNo();
-        shipperName = jobOrder.getShipperName();
+//        shipperContactNo = jobOrder.getShipperContactNo();
+//        shipperName = jobOrder.getShipperName();
 
         isOpen = jobOrder.isOpen();
         areaCode = jobOrder.getAreaCode();

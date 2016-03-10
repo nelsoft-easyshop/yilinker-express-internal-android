@@ -8,6 +8,8 @@ import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDropoffJobV
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentProblematicJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
+import java.util.List;
+
 /**
  * Created by J.Bautista on 3/8/16.
  */
@@ -28,5 +30,19 @@ public class CurrentProblematicJobPresenter extends BasePresenter<JobOrder, ICur
 
     }
 
+    public void onViewImageClick(){
+
+        List<String> imageUrls = model.getProblematicImages();
+
+        if(imageUrls.size() > 0){
+
+            view().showReportedImages(imageUrls);
+
+        }
+        else{
+
+            view().showNoImageError();
+        }
+    }
 
 }

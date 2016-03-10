@@ -315,7 +315,7 @@
     <string name="acknowledge_message">Are sure you want to pickup this package?</string>
 
     <!--Syncing-->
-
+    <string name="item_for_sync">For Sync</string>
     <string name="request_sync_success">Job Orders successfully synced!</string>
     <string name="request_data_sync">Data sync successful</string>
     <string name="request_data_sync_failed">Data sync failed. Try again later.</string>
@@ -370,21 +370,6 @@
     </string-array>
 
 
-    <string-array name="main_tab_icons_unselected">
-        <item>@drawable/ic_jobs</item>
-        <item>@drawable/ic_tools</item>
-        <item>@drawable/ic_tools</item>
-        <item>@drawable/ic_profile</item>
-    </string-array>
-
-
-    <string-array name="main_tab_icons_selected">
-        <item>@drawable/ic_jobs_selected</item>
-        <item>@drawable/ic_tools_selected</item>
-        <item>@drawable/ic_tools_selected</item>
-        <item>@drawable/ic_profile_selected</item>
-    </string-array>
-
     <string-array name="jobs_tab_items">
         <item>Open</item>
         <item>Current</item>
@@ -425,6 +410,10 @@
     <string name="search_type_for_pick_up">FOR PICK UP</string>
     <string name="search_for_drop_off">FOR DROP-OFF</string>
     <string name="search_for_delivery">FOR DELIVERY</string>
+
+    <!-- Profile-->
+    <string name="profile_filter_by">Filter By: </string>
+    <string name="profile_select_language">Select Language: </string>
 
 </resources>
 

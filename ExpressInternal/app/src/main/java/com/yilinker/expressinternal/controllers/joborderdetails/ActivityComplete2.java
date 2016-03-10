@@ -21,6 +21,7 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityJobDetailsMain;
+import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 /**
@@ -174,7 +175,7 @@ public class ActivityComplete2 extends BaseActivity implements View.OnClickListe
 
     private void goBackToHome(){
 
-        Intent intent = new Intent(ActivityComplete2.this, ActivityJobDetailsMain.class);
+        Intent intent = new Intent(ActivityComplete2.this, ActivityMain.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
