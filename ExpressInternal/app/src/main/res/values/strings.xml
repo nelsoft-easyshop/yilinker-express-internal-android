@@ -112,7 +112,7 @@
     <string name="delivery_address">Delivery Address</string>
     <string name="drop_to">Drop to</string>
     <string name="deliver_to">Deliver to</string>
-    <string name="recipientName">Recipient</string>
+    <string name="recipient">Recipient</string>
     <string name="shipper_name">Shipper Name</string>
     <string name="consignee">Consignee</string>
     <string name="consignee_name">Consignee Name</string>
