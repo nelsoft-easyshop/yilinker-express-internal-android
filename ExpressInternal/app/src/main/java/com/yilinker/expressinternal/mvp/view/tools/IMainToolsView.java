@@ -11,5 +11,7 @@ public interface IMainToolsView {
 
     void loadTabs(List<Tools> tools);
     void openActivity(int selectedActivity);
-
+    void enableSyncButton(boolean b);
+    void openActivitySyncing();
+    void showNoItemsForSyncingMessage();
 }
