@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.yilinker.expressinternal.business.ApplicationClass;
 
 import java.util.List;
@@ -24,6 +25,13 @@ public abstract class BaseFragment extends Fragment implements RequestBaseView {
     @Override
     public void cancelRequests(List<String> tags) {
 
+        ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
+        RequestQueue queue = applicationClass.getRequestQueue();
+
+        for(String tag : tags){
+
+            queue.cancelAll(tag);
+        }
     }
 
 }

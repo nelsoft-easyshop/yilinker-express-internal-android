@@ -48,6 +48,12 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
         if (savedInstanceState == null) {
 
             presenter = new MainToolsPresenter();
+            initializeViews(view);
+
+            presenter.bindView(this);
+
+            initializeTools();
+
 
         } else {
 
@@ -55,7 +61,7 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
         }
 
-        initializeViews(view);
+
     }
 
     @Override
@@ -72,7 +78,6 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
         presenter.bindView(this);
 
-        initializeTools();
     }
 
     @Override

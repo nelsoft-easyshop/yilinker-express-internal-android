@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,6 +37,8 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     private List<String> selectedFilter;
     private String searchString;
 
+    private String currentTab = TYPE_OPEN;
+
     public JobListMainPresenter(){
 
         this.tabs = new ArrayList<>();
@@ -60,19 +64,20 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
     public void onResume(){
 
-        if(completeList == null) {
-            requestGetJobOrders(TYPE_OPEN);
-        }
+//        if(model == null) {
+            requestGetJobOrders(currentTab);
+//        }
 
     }
 
     public void onPause(){
 
-        //Cancel all request
-        ArrayList<String> request = new ArrayList<>();
-        request.add(TAG_REQUEST);
+        cancelRequests();
+    }
 
-        view().cancelRequests(request);
+    public void onRefresh(){
+
+        requestGetJobOrders(currentTab);
     }
 
     public void onTabItemClicked(int jobType){
@@ -80,17 +85,22 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         //Clear list
         setModel(new ArrayList<JobOrder>());
 
+        //Cancel previous request
+        cancelRequests();
+
         changeSelectedTab(jobType);
 
         if(jobType == 0){
 
-            requestGetJobOrders(TYPE_OPEN);
+            currentTab = TYPE_OPEN;
+
         }
         else {
 
-            requestGetJobOrders(TYPE_CURRENT);
+            currentTab = TYPE_CURRENT;
         }
 
+        requestGetJobOrders(currentTab);
 
     }
 
@@ -247,7 +257,12 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     private void handleGetJobOrders(Object object){
 
         List<com.yilinker.core.model.express.internal.JobOrder> listServer = (ArrayList<com.yilinker.core.model.express.internal.JobOrder>) object;
+
+        //Clear current
+        model.clear();
+
         completeList = createList(listServer, 0);
+
 
         //Filter result
         List<JobOrder> result = new ArrayList<>();
@@ -324,6 +339,16 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         }
 
         return result;
+    }
+
+    private void cancelRequests(){
+
+        //Cancel all request
+        ArrayList<String> request = new ArrayList<>();
+        request.add(TAG_REQUEST);
+
+        view().cancelRequests(request);
+
     }
 
 }

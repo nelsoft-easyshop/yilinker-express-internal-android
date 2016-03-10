@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
@@ -38,10 +39,6 @@ public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresen
         if(model.isOpen())
         {
             presenter = new OpenJobItemPresenter();
-        }
-        else if(!model.isOpen() && model.getStatus().equals("Problematic")) //TODO Change this
-        {
-            presenter = new CurrentJobItemPresenter();
         }
         else {
 
@@ -100,7 +97,7 @@ public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresen
             type = R.layout.layout_job_order_list_open_2;
 
         }
-        else if (!model.isOpen() && model.getStatus().equals("Problematic")){
+        else if (!model.isOpen() && model.getStatus().equals(JobOrderConstant.JO_PROBLEMATIC)){
 
             type = R.layout.layout_job_order_list_problematic;
         }

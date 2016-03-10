@@ -8,4 +8,6 @@ public interface ICurrentJobView extends IJobView {
     public void setTimeElapsed(String timeElapsed);
     public void setAddressText(String address);
     public void setDistanceText(String distance);
+    public void setAddressLabelText(String status);
+    public void setProblematicTypeText(String type);
 }

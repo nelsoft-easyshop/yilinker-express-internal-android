@@ -157,6 +157,11 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
     }
 
+    @Override
+    public void showLoader(boolean isVisible) {
+
+    }
+
 
     @Override
     public void initializeMap() {

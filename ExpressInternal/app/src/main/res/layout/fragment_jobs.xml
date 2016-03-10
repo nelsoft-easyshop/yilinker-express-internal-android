@@ -10,7 +10,8 @@
         android:id="@+id/rvJobOrderTabs"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:layout_alignParentTop="true"/>
 
 
     <!--buffer space-->
@@ -24,18 +25,14 @@
         <!--android:visibility="invisible"-->
         <!--android:layout_centerInParent="true"/>-->
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rvJobOrderTabs"
-        android:layout_marginTop="@dimen/joborderlsit_filterbar_height">
+
 
         <FrameLayout
             android:id="@+id/flContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rlFilterContainer"/>
+
 
     <!--<FrameLayout-->
         <!--android:id="@+id/flContainer"-->
@@ -49,7 +46,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_maps_selected"
-        android:background="@drawable/bg_btn_circle_orangered"
+        android:background="@drawable/bg_btn_circle_trans_orangered"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="10dp"
@@ -61,7 +58,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_scan_2"
-        android:background="@drawable/bg_btn_circle_orangered"
+        android:background="@drawable/bg_btn_circle_trans_orangered"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:layout_above="@id/ivToggleView"

@@ -1,10 +1,12 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
 import com.yilinker.core.utility.DateUtility;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderlist.list.CurrentJobsViewHolder;
 import com.yilinker.expressinternal.mvp.view.joborderlist.list.OpenJobsViewHolder;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +24,14 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
         view().setSize(model.getSize());
         view().setStatus(model.getStatus());
         view().setEarning(formatEarning(model.getEarning()));
+        view().setAddressLabelText(model.getStatus());
+        view().setAddressText(getAddressByStatus(model.getStatus()));
+
+        if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
+
+            view().setProblematicTypeText(model.getProblemType());
+        }
+
 
     }
 
@@ -33,7 +43,7 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
     //TODO Move this method so this can be reuse
     private String formatEarning(double earning){
 
-        return String.format("P%.2f", earning);
+        return PriceFormatHelper.formatPrice(earning);
     }
 
     private String formatDateCreated(Date date){
@@ -44,5 +54,40 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
 
         return stringDate;
     }
+
+    private String getAddressByStatus(String status){
+
+        String address = null;
+
+        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+
+            address = model.getPickupAddress();
+        }
+        else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+
+            address = model.getDeliveryAddress();
+        }
+        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+
+
+            address = model.getDropoffAddress();
+        }
+        else {
+
+//            //TEMP
+//            if(model.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+//
+//                address = model.getDeliveryAddress();
+//            }
+//            else {
+//
+//                address = model.getPickupAddress();
+//            }
+
+        }
+
+        return address;
+    }
+
 
 }

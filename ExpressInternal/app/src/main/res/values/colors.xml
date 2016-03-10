@@ -21,4 +21,9 @@
     <color name="gray_dark">#bcc2c6</color>
     <color name="gray_darker">#a6b1b8</color>
     <color name="green">#7dd221</color>
+
+    <!-- Semi-transparent colors-->
+    <color name="trans_orange_red">#CCff5722</color>
+    <color name="trans_orange_yellow">#CCffa000</color>
+
 </resources>

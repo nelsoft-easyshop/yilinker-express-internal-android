@@ -60,7 +60,7 @@
         android:layout_marginEnd="10dp">
 
         <TextView
-            android:id="@+id/tvDestinationLabel"
+            android:id="@+id/tvAddressLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/job_order_list_pick_up_at"
@@ -74,7 +74,7 @@
             android:text="Sample Address here, Sample Test Address - Test Address"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:layout_below="@+id/tvDestinationLabel"
+            android:layout_below="@+id/tvAddressLabel"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/ivFromIcon"/>
 
@@ -99,7 +99,7 @@
 
 
         <TextView
-            android:id="@+id/tvRemarks"
+            android:id="@+id/tvProblemType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delivery Rejected by Recipient"
