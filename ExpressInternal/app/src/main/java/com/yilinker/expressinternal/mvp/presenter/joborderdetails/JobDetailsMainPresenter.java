@@ -26,6 +26,8 @@ public class JobDetailsMainPresenter extends BasePresenter<JobOrder, IJobDetails
             view().showProblematicDeliveryDetails(model);
         } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
             view().showCurrentDeliveryDetails(model);
+        } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_COMPLETE)) {
+            view().showCurrentDeliveryDetails(model);
         }
 
         view().updateViewForJobOrder(model.getStatus());
