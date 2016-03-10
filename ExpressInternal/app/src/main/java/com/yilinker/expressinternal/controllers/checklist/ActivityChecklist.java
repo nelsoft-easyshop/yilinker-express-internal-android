@@ -30,6 +30,7 @@ import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPa
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete2;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.controllers.joborderlist.AdapterJobOrderList;
 import com.yilinker.expressinternal.controllers.signature.ActivitySignature;
@@ -41,6 +42,7 @@ import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.PackageType;
 import com.yilinker.expressinternal.model.Rider;
+import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -786,9 +788,19 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
     }
 
+    //Old version
+//    private void goToCompleteScreen() {
+//
+//        Intent intent = new Intent(ActivityChecklist.this, ActivityComplete.class);
+//        intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
+//        intent.putExtra(ActivityComplete.ARG_FROM_HOME, false);
+//        startActivity(intent);
+//    }
+
+    //New version
     private void goToCompleteScreen() {
 
-        Intent intent = new Intent(ActivityChecklist.this, ActivityComplete.class);
+        Intent intent = new Intent(ActivityChecklist.this, ActivityComplete2.class);
         intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
         intent.putExtra(ActivityComplete.ARG_FROM_HOME, false);
         startActivity(intent);
@@ -811,13 +823,23 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         }
     }
 
+    //Old version
+//    private void goToHome() {
+//
+//        Intent intent = new Intent(ActivityChecklist.this, ActivityJobOrderList.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//
+//    }
+
+    //New version
     private void goToHome() {
 
-        Intent intent = new Intent(ActivityChecklist.this, ActivityJobOrderList.class);
+        Intent intent = new Intent(ActivityChecklist.this, ActivityMain.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-
     }
+
 
     private void launchCamera(int requestCode) {
 

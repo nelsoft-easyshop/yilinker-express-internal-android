@@ -54,6 +54,8 @@ public class ApplicationClass extends BaseApplication {
     private static final String CURRENT_LOCALE = "locale";
     private static final String CURRENT_LOCALE_ID = "localeId";
 
+    private static final String KEY_FILTER_AREA = "filterBy";
+
     private Intent intentServiceLocation;
 
     private Rider rider;
@@ -316,5 +318,65 @@ public class ApplicationClass extends BaseApplication {
             setDomain(BuildConfig.SERVER_URL.replace(pref.getString(CURRENT_LOCALE,""),locale));
         }
 
+    }
+
+    public String getSyncDictionary() {
+
+        String dictionary = null;
+
+        SyncDBTransaction dbTransaction = new SyncDBTransaction(this);;
+        List<SyncDBObject> requestsList = dbTransaction.getAll(SyncDBObject.class);
+
+        if (requestsList.size() > 0) {
+
+            StringBuilder syncBuilder = new StringBuilder();
+            syncBuilder.append("|");
+
+            for (SyncDBObject object : requestsList) {
+
+                if (!object.isSync()) {
+
+                    syncBuilder.append(object.getId());
+                    syncBuilder.append("|");
+                }
+            }
+
+            dictionary = syncBuilder.toString();
+
+        }
+
+        return dictionary;
+
+    }
+
+    //For filter type
+    public void resetFilterType(){
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        setFilterType(!isFilterByArea());
+
+    }
+
+    public boolean isFilterByArea(){
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        return pref.getBoolean(KEY_FILTER_AREA, true);
+
+    }
+
+    private void setFilterType(boolean isFilteredByArea){
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putBoolean(KEY_FILTER_AREA, isFilteredByArea);
+
+        editor.commit();
     }
 }

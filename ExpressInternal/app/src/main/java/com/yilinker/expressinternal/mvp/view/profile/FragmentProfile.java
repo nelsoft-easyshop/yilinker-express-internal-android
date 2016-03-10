@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
@@ -22,13 +24,15 @@ import java.util.List;
 /**
  * Created by rlcoronado on 03/03/2016.
  */
-public class FragmentProfile extends BaseFragment implements IMainProfileView, RecyclerViewClickListener {
+public class FragmentProfile extends BaseFragment implements IMainProfileView, RecyclerViewClickListener, View.OnClickListener{
 
     private ApplicationClass appClass;
     private MainProfilePresenter presenter;
     private LanguageAdapter adapter;
 
     private RecyclerView rvLanguages;
+
+    private TextView tvFilter;
 
     @Nullable
     @Override
@@ -81,6 +85,8 @@ public class FragmentProfile extends BaseFragment implements IMainProfileView, R
     @Override
     public void initializeViews(View parent) {
 
+        LinearLayout llFilter = (LinearLayout) parent.findViewById(R.id.llFilter);
+        tvFilter = (TextView)parent.findViewById(R.id.tvFilterType);
         rvLanguages = (RecyclerView) parent.findViewById(R.id.rvLanguages);
 
         rvLanguages.setHasFixedSize(true);
@@ -89,6 +95,10 @@ public class FragmentProfile extends BaseFragment implements IMainProfileView, R
         adapter = new LanguageAdapter(this);
 
         rvLanguages.setAdapter(adapter);
+
+        llFilter.setOnClickListener(this);
+        tvFilter.setText(getFilterLabel(((ApplicationClass)ApplicationClass.getInstance()).isFilterByArea()));
+
     }
 
     @Override
@@ -128,4 +138,41 @@ public class FragmentProfile extends BaseFragment implements IMainProfileView, R
         adapter.updateItem(currentLang);
 
     }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == R.id.llFilter){
+
+            toggleFilterBy();
+        }
+
+    }
+
+    private void toggleFilterBy(){
+
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+
+        appClass.resetFilterType();
+
+        tvFilter.setText(getFilterLabel(appClass.isFilterByArea()));
+    }
+
+    private String getFilterLabel(boolean isFilterByArea){
+
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+
+        String label = null;
+        if(appClass.isFilterByArea()){
+
+            label = getString(R.string.filter_area);
+        }
+        else{
+
+            label = getString(R.string.filter_branch);
+        }
+
+        return label;
+    }
+
 }

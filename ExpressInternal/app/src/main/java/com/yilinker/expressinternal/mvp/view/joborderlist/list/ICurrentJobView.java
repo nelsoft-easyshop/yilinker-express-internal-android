@@ -10,4 +10,5 @@ public interface ICurrentJobView extends IJobView {
     public void setDistanceText(String distance);
     public void setAddressLabelText(String status);
     public void setProblematicTypeText(String type);
+    public void showForSyncLabel(boolean isForSync);
 }

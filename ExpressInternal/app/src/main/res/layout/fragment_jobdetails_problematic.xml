@@ -208,6 +208,17 @@
             </LinearLayout>
             <!--end Drop To-->
 
+            <TextView android:id="@+id/tvViewImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/view_images"
+                android:textColor="@drawable/selector_textcolor_orangered"
+                android:clickable="true"
+                android:layout_below="@+id/llFrom"
+                android:paddingStart="10dp"/>
+
+
 
         </RelativeLayout>
     </ScrollView>

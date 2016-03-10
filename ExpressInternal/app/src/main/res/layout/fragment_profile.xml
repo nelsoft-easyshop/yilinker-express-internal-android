@@ -3,9 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/llFilter"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:background="@drawable/bg_btn_white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/profile_filter_by"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:textColor="@color/gray4"/>
+
+        <TextView
+            android:id="@+id/tvFilterType"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/orange_red"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/llFilter"
+        android:background="@color/gray"/>
+
+    <TextView
+        android:id="@+id/tvLanguageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/profile_select_language"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="@color/gray4"
+        android:layout_below="@+id/line"
+        android:paddingLeft="10dp"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvLanguages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLanguageLabel"/>
 
 </RelativeLayout>

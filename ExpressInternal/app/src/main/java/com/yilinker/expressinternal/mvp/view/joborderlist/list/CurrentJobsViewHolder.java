@@ -1,6 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.joborderlist.list;
 
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
@@ -28,6 +29,7 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
     private TextView tvSize;
     private TextView tvAddressLabel;
     private TextView tvProblemType;
+    private RelativeLayout rlSyncLabel;
 
     public CurrentJobsViewHolder(View itemView, RecyclerViewClickListener listener) {
         super(itemView);
@@ -43,6 +45,7 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
         tvSize = (TextView) itemView.findViewById(R.id.tvSize);
         tvAddressLabel = (TextView) itemView.findViewById(R.id.tvAddressLabel);
         tvProblemType = (TextView) itemView.findViewById(R.id.tvProblemType);
+        rlSyncLabel = (RelativeLayout) itemView.findViewById(R.id.rlSyncContainer);
 
         itemView.setOnClickListener(this);
     }
@@ -113,6 +116,23 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
     public void setProblematicTypeText(String type) {
 
         tvProblemType.setText(type);
+    }
+
+    @Override
+    public void showForSyncLabel(boolean isForSync) {
+
+        int visibility = 0;
+
+        if(isForSync){
+
+            visibility = View.VISIBLE;
+        }
+        else{
+
+            visibility = View.GONE;
+        }
+
+        rlSyncLabel.setVisibility(visibility);
     }
 
     private void setstatusBackground(String status){
