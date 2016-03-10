@@ -25,6 +25,8 @@ public class JobOrder implements Parcelable{
     private String jobOrderNo;
     private String recipientName;
     private String recipientContactNo;
+    private String shipperName;
+    private String shipperContactNo;
     private String status;
     private Date estimatedTimeOfArrival;
     private String size;
@@ -107,6 +109,8 @@ public class JobOrder implements Parcelable{
         dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
         dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
         jobOrderTypeId = jobOrder.getJobOrderTypeId();
+        shipperContactNo = jobOrder.getShipperContactNo();
+        shipperName = jobOrder.getShipperName();
 
         isOpen = jobOrder.isOpen();
         areaCode = jobOrder.getAreaCode();
@@ -402,6 +406,22 @@ public class JobOrder implements Parcelable{
         this.dateAccepted = dateAccepted;
     }
 
+    public String getShipperContactNo() {
+        return shipperContactNo;
+    }
+
+    public void setShipperContactNo(String shipperContactNo) {
+        this.shipperContactNo = shipperContactNo;
+    }
+
+    public String getShipperName() {
+        return shipperName;
+    }
+
+    public void setShipperName(String shipperName) {
+        this.shipperName = shipperName;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -413,6 +433,8 @@ public class JobOrder implements Parcelable{
         dest.writeString(this.jobOrderNo);
         dest.writeString(this.recipientName);
         dest.writeString(this.recipientContactNo);
+        dest.writeString(this.shipperName);
+        dest.writeString(this.shipperContactNo);
         dest.writeString(this.status);
         dest.writeLong(estimatedTimeOfArrival != null ? estimatedTimeOfArrival.getTime() : -1);
         dest.writeString(this.size);
@@ -450,6 +472,8 @@ public class JobOrder implements Parcelable{
         this.jobOrderNo = in.readString();
         this.recipientName = in.readString();
         this.recipientContactNo = in.readString();
+        this.shipperName = in.readString();
+        this.shipperContactNo = in.readString();
         this.status = in.readString();
         long tmpEstimatedTimeOfArrival = in.readLong();
         this.estimatedTimeOfArrival = tmpEstimatedTimeOfArrival == -1 ? null : new Date(tmpEstimatedTimeOfArrival);
