@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/wagnavu/Documents/YiLinkerProjects/yilinker-online-buyer-android/OnlineBuyer/app/viewpagerindicator/build/intermediates/res/merged/release/color/vpi__dark_theme.xml",
+        "source": "/Users/wagnavu/Documents/YiLinkerProjects/yilinker-online-buyer-android/OnlineBuyer/app/viewpagerindicator/src/main/res/color/vpi__dark_theme.xml"
+    },
+    {
+        "merged": "/Users/wagnavu/Documents/YiLinkerProjects/yilinker-online-buyer-android/OnlineBuyer/app/viewpagerindicator/build/intermediates/res/merged/release/color/vpi__light_theme.xml",
+        "source": "/Users/wagnavu/Documents/YiLinkerProjects/yilinker-online-buyer-android/OnlineBuyer/app/viewpagerindicator/src/main/res/color/vpi__light_theme.xml"
+    }
+]

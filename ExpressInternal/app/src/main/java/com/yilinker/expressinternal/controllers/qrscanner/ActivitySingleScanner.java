@@ -187,7 +187,6 @@ public class ActivitySingleScanner extends BaseActivity implements QRCodeReaderV
 
     }
 
-
     private boolean verifyCode(){
 
         //TODO Check if the QR code is valid

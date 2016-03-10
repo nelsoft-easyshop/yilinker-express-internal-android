@@ -5,6 +5,17 @@
     android:orientation="vertical"
     android:background="@color/white_gray">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="@color/marigold"
+        android:textAlignment="center"
+        android:text="@string/tools_title"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textAllCaps="true"/>
+    
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvTools"
         android:layout_width="wrap_content"

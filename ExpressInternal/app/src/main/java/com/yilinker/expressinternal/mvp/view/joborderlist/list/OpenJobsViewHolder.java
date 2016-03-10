@@ -61,6 +61,7 @@ public class OpenJobsViewHolder extends JobsViewHolder<OpenJobItemPresenter> imp
     @Override
     public void setDistance(String distance) {
 
+        tvDistance.setText(distance);
     }
 
     @Override

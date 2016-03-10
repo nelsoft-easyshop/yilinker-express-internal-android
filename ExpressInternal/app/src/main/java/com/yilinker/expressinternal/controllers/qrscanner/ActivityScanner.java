@@ -34,6 +34,7 @@ import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderLis
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.TabModel;
+import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityJobDetailsMain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -311,6 +312,62 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
         rvTab.setAdapter(adapterTab);
     }
 
+//    private void goToDetails(JobOrder jobOrder){
+//
+//        Intent intent = null;
+//
+//        if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_COMPLETE)){
+//
+//            intent = new Intent(ActivityScanner.this, ActivityComplete.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+//
+//        }
+//
+//        else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)) {
+//
+//            intent = new Intent(ActivityScanner.this, ActivityProblematic.class);
+//            intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder);
+//            startActivity(intent);
+//
+//        } else {
+//
+//            intent = new Intent(ActivityScanner.this, ActivityJobOderDetail.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+//
+//            int status = 0;
+//
+////            if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_OPEN)){
+////
+////                status = STATUS_OPEN;
+////            }
+////            else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+////
+////                status = STATUS_CURRENT;
+////            }
+////            else{
+////
+////                status = STATUS_PROBLEMATIC;
+////
+////            }
+//
+//            if(jobOrder.isOpen()) {
+//
+//                status = STATUS_OPEN;
+//
+//            } else {
+//
+//                status = STATUS_CURRENT;
+//            }
+//
+//            intent.putExtra(ActivityJobOderDetail.ARG_CURRENT_STATUS, status);
+//        }
+//
+//        startActivity(intent);
+//
+//    }
+
     private void goToDetails(JobOrder jobOrder){
 
         Intent intent = null;
@@ -331,25 +388,11 @@ public class ActivityScanner extends BaseActivity implements QRCodeReaderView.On
 
         } else {
 
-            intent = new Intent(ActivityScanner.this, ActivityJobOderDetail.class);
+            intent = new Intent(ActivityScanner.this, ActivityJobDetailsMain.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra(ActivityJobOderDetail.ARG_JOB_ORDER, jobOrder);
+            intent.putExtra(ActivityJobDetailsMain.ARG_JOB, jobOrder);
 
             int status = 0;
-
-//            if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_OPEN)){
-//
-//                status = STATUS_OPEN;
-//            }
-//            else if(jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP) || jobOrder.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
-//
-//                status = STATUS_CURRENT;
-//            }
-//            else{
-//
-//                status = STATUS_PROBLEMATIC;
-//
-//            }
 
             if(jobOrder.isOpen()) {
 

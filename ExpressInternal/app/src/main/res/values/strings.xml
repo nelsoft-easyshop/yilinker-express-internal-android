@@ -117,8 +117,7 @@
     <string name="delivery_address">Delivery Address</string>
     <string name="drop_to">Drop to</string>
     <string name="deliver_to">Deliver to</string>
-    <!--<string name="recipient">Recipient</string>-->
-    <string name="recipient">Shipper</string>
+    <string name="recipient">Recipient</string>
     <string name="shipper_name">Shipper Name</string>
     <string name="consignee">Consignee</string>
     <string name="consignee_name">Consignee Name</string>
@@ -338,6 +337,7 @@
 
     <!--Tools-->
 
+    <string name="tools_title">Express Tools</string>
     <string name="tools_search_qr">Search by QR Code</string>
     <string name="tools_bulk_checkin">Bulk Check In</string>
     <string name="tools_direct_acknowledge">Direct Acknowledge</string>
@@ -401,7 +401,7 @@
 
     <string-array name="profile_languages_locale">
         <item name="lang_en">en</item>
-        <item name="lang_cn">ch</item>
+        <item name="lang_cn">cn</item>
     </string-array>
 
     <!--New Job Order List Layout-->

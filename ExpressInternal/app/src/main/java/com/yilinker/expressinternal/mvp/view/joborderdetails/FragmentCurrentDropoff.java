@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
@@ -17,7 +18,7 @@ import com.yilinker.expressinternal.mvp.view.BaseFragment;
 /**
  * Created by J.Bautista on 3/8/16.
  */
-public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDropoffJobView {
+public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDropoffJobView, View.OnClickListener {
 
     private static final String ARG_JOB = "job";
 
@@ -31,6 +32,7 @@ public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDrop
     private TextView tvTimeElapsed;
     private TextView tvEarning;
     private TextView tvItem;
+    private Button btnPositive;
 
     public static FragmentCurrentDropoff createInstance(JobOrder jobOrder){
 
@@ -92,6 +94,9 @@ public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDrop
         tvAddress = (TextView) parent.findViewById(R.id.tvAddress);
         tvTimeElapsed = (TextView) parent.findViewById(R.id.tvTimeElapsed);
         tvWaybillNo = (TextView) parent.findViewById(R.id.tvWaybillNo);
+        btnPositive = (Button) parent.findViewById(R.id.btnPositive);
+
+        btnPositive.setOnClickListener(this);
 
     }
 
@@ -118,6 +123,13 @@ public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDrop
     public void setItemText(String items) {
 
         tvItem.setText(items);
+    }
+
+    @Override
+    public void goBackToList() {
+
+        getActivity().onBackPressed();
+
     }
 
     @Override
@@ -182,5 +194,15 @@ public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDrop
 
         tvStatus.setBackgroundResource(background);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch(v.getId()) {
+            case R.id.btnPositive:
+                presenter.buttonOkPressed();
+                break;
+        }
     }
 }

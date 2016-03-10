@@ -3,7 +3,6 @@ package com.yilinker.expressinternal.mvp.view.joborderdetails;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.contact.ActivityContact;
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
-import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.controllers.navigation.ActivityNavigation;
 import com.yilinker.expressinternal.controllers.printer.FragmentDialogPrinterList;
 import com.yilinker.expressinternal.controllers.qrcode.ActivityQRCode;
@@ -33,6 +31,9 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
     private static final int REQUEST_DIALOG_PRINT = 2001;
 
     private JobDetailsMainPresenter presenter;
+
+    private ImageButton btnContact;
+    private ImageButton btnPrint;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,9 +83,9 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
         ImageButton btnBack = (ImageButton) findViewById(R.id.btnBack);
         ImageButton btnQrCode = (ImageButton) findViewById(R.id.btnQRCode);
         ImageButton btnMap = (ImageButton) findViewById(R.id.btnMap);
-        ImageButton btnContact = (ImageButton) findViewById(R.id.btnContact);
+        btnContact = (ImageButton) findViewById(R.id.btnContact);
         ImageButton btnImage = (ImageButton) findViewById(R.id.btnImage);
-        ImageButton btnPrint = (ImageButton) findViewById(R.id.btnPrint);
+        btnPrint = (ImageButton) findViewById(R.id.btnPrint);
 
 
         btnBack.setOnClickListener(this);
@@ -105,8 +106,8 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
     public void showContactScreen(JobOrder jobOrder) {
 
         Intent intent = new Intent(ActivityJobDetailsMain.this, ActivityContact.class);
-        intent.putExtra(ActivityContact.ARG_NAME, jobOrder.getRecipient());
-        intent.putExtra(ActivityContact.ARG_CONTACT_NO, jobOrder.getContactNo());
+        intent.putExtra(ActivityContact.ARG_NAME, jobOrder.getRecipientName());
+        intent.putExtra(ActivityContact.ARG_CONTACT_NO, jobOrder.getRecipientContactNo());
         startActivity(intent);
     }
 
@@ -181,6 +182,8 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
         Fragment fragment = FragmentCurrentDelivery.createInstance(jobOrder);
         replaceFragment(R.id.flContainer,fragment);
 
+
+
     }
 
     @Override
@@ -188,6 +191,27 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
 
         Fragment fragment = FragmentCurrentProblematic.createInstance(jobOrder);
         replaceFragment(R.id.flContainer, fragment);
+    }
+
+    @Override
+    public void showCompletedDetails(JobOrder jobOrder) {
+
+
+    }
+
+    /**
+     * Do all layout changes here for main activity on certain job order statuses
+     * @param status
+     */
+    @Override
+    public void updateViewForJobOrder(String status) {
+
+        if(status.equalsIgnoreCase(getString(R.string.update_for_dropoff))) {
+            btnContact.setVisibility(View.GONE);
+        } else if (status.equalsIgnoreCase(getString(R.string.joborderdetail_problematic))) {
+            btnPrint.setVisibility(View.GONE);
+        }
+
     }
 
 

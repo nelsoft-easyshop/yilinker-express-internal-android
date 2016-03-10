@@ -11,5 +11,6 @@ public interface ICurrentDropoffJobView extends IJobDetailsView {
     public void setTimeElapsedText(String timeElapsed);
     public void setDropoffAddress(String dropoffAddress);
     public void setItemText(String items);
+    void goBackToList();
 
 }

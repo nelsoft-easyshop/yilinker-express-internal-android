@@ -91,6 +91,22 @@
 
         </activity>
 
+        <activity
+            android:name=".controllers.qrscanner.ActivityScanToDetails"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" />
+
+
+        <activity
+            android:name=".controllers.qrscanner.ActivityBulkCheckIn"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" />
+
+        <activity
+            android:name=".controllers.qrscanner.ActivityAcknowledge2"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" />
+
 
         <!--<activity android:theme="@android:style/Theme.Light.NoTitleBar"-->
             <!--android:name=".mvp.view.mainScreen.ActivityMain"-->

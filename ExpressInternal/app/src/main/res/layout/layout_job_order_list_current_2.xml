@@ -12,7 +12,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:background="@color/blue_green"
-        android:text="Deliver"
+        android:text="-"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:textAllCaps="true"
@@ -25,7 +25,7 @@
         android:id="@+id/tvWaybillNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TESTWAYBILL00000000003222"
+        android:text="-"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
@@ -52,7 +52,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:text="P 1000"
+        android:text="-"
         android:textStyle="bold"
         android:textColor="@color/green"/>
 
@@ -60,7 +60,7 @@
         android:id="@+id/tvTimeElapsed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:05 m"
+        android:text=""
         android:textSize="25sp"
         android:textStyle="bold"
         android:textColor="@color/blue_green"
@@ -78,7 +78,7 @@
         android:layout_marginEnd="10dp">
 
         <TextView
-            android:id="@+id/tvDestinationLabel"
+            android:id="@+id/tvAddressLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/job_order_list_pick_up_at"
@@ -89,10 +89,10 @@
             android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Address here, Sample Test Address - Test Address"
+            android:text="-"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:layout_below="@+id/tvDestinationLabel"
+            android:layout_below="@+id/tvAddressLabel"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/ivFromIcon"/>
 
@@ -126,7 +126,7 @@
             android:id="@+id/tvDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2500 m"
+            android:text="-"
             android:textSize="12sp"
             android:layout_toEndOf="@+id/tvDistanceLabel"
             android:layout_toStartOf="@+id/tvSize"
@@ -136,7 +136,7 @@
             android:id="@+id/tvSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Small Pouch"
+            android:text="-"
             android:textSize="12sp"
             android:textColor="@color/marigold"
             android:layout_alignParentEnd="true"/>

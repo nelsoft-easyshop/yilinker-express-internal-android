@@ -71,7 +71,7 @@
         <TextView
             android:id="@+id/tvLabelRecipient"
             style="@style/JobOrderDetailLabelStyle"
-            android:text="@string/recipient" />
+            android:text="@string/recipientName" />
 
         <TextView
             android:id="@+id/tvRecipient"

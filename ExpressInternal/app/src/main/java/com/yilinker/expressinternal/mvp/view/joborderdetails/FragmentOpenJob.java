@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,8 @@ import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.OpenJobDetailsPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
+
+import java.util.List;
 
 /**
  * Created by J.Bautista on 3/7/16.
@@ -36,6 +39,7 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
     private TextView tvEarning;
     private Button btnPositive;
     private Button btnNegative;
+    private RelativeLayout rlProgressBar;
 
 
     public static FragmentOpenJob createInstance(JobOrder jobOrder){
@@ -82,9 +86,12 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
 
     @Override
     public void onPause() {
-        super.onPause();
+
+        presenter.onPause();
 
         presenter.unbindView();
+        super.onPause();
+
     }
 
     @Override
@@ -183,6 +190,7 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
         tvConsigneeContactNo = (TextView) parent.findViewById(R.id.tvConsigneeContactNo);
         btnPositive = (Button) parent.findViewById(R.id.btnPositive);
         btnNegative = (Button) parent.findViewById(R.id.btnNegative);
+        rlProgressBar = (RelativeLayout) parent.findViewById(R.id.rlProgress);
 
         btnPositive.setOnClickListener(this);
         btnNegative.setOnClickListener(this);
@@ -191,7 +199,11 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
 
     @Override
     public void showLoader(boolean isShown) {
-
+        if(isShown) {
+            rlProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            rlProgressBar.setVisibility(View.GONE);
+        }
     }
 
     private void getData(){
@@ -221,5 +233,10 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
                 break;
         }
 
+    }
+
+    @Override
+    public void cancelRequests(List<String> tags) {
+        super.cancelRequests(tags);
     }
 }

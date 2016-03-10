@@ -1,8 +1,10 @@
 package com.yilinker.expressinternal.mvp.view.joborderlist;
 
+import android.animation.Animator;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +15,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +49,7 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/2/16.
  */
-public class FragmentJobListMain extends BaseFragment implements IJobListMainView, View.OnClickListener, TabItemClickListener, View.OnFocusChangeListener{
+public class FragmentJobListMain extends BaseFragment implements IJobListMainView, View.OnClickListener, TabItemClickListener, View.OnFocusChangeListener, SwipeRefreshLayout.OnRefreshListener{
 
     private static final String KEY_CONTENT = "content";
 
@@ -53,17 +60,24 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
     private JobListMainPresenter presenter;
 
-    private SwipeRefreshLayout refreshLayout;
+//    private SwipeRefreshLayout refreshLayout;
     private TextView tvItemCount;
     private TextView tvFilter;
     private EditText etSearch;
     private ImageView ivToggle;
     private LinearLayout llFilterContainer;
     private LinearLayout llJobTypeContainer;
+<<<<<<< HEAD
     private View viewTransaparent;
+=======
+    private RelativeLayout rlFilter;
+>>>>>>> d856ec09d1147d5a61dc8622d6b131dc2896d685
 
     private JobsTabAdapter tabAdapter;
     private JobTypeAdapter typeAdapter;
+
+    private int _xDelta;
+    private int _yDelta;
 
     private static IJobListView currentFragmentView;
     private int currentView = VIEW_LIST;
@@ -86,7 +100,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
             if(s.length() > 0){
 
-                llJobTypeContainer.setVisibility(View.VISIBLE);
+                showFilter();
             }
 
             searchString = null;
@@ -98,6 +112,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
         }
     };
+
 
     private RecyclerViewClickListener<JobType> typeClickListener = new RecyclerViewClickListener<JobType>() {
         @Override
@@ -220,6 +235,11 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
                 toggleFilter();
                 break;
 
+            case R.id.rlFilterContainer:
+
+                toggleFilter();
+                break;
+
             case R.id.etSearch:
 
 //                llJobTypeContainer.setVisibility(View.GONE);
@@ -249,8 +269,12 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         tvItemCount = (TextView) parent.findViewById(R.id.tvItemCount);
         llFilterContainer = (LinearLayout) parent.findViewById(R.id.llFilterContainer);
         llJobTypeContainer = (LinearLayout) parent.findViewById(R.id.llJobTypesContainer);
+        rlFilter = (RelativeLayout) parent.findViewById(R.id.rlFilterContainer);
         etSearch = (EditText) parent.findViewById(R.id.etSearch);
+<<<<<<< HEAD
         viewTransaparent = parent.findViewById(R.id.viewTransparent);
+=======
+>>>>>>> d856ec09d1147d5a61dc8622d6b131dc2896d685
 
         //For tabs
         rvTabs.setHasFixedSize(true);
@@ -264,24 +288,20 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         typeAdapter = new JobTypeAdapter(typeClickListener);
         rvJobTypes.setAdapter(typeAdapter);
 
-        refreshLayout = (SwipeRefreshLayout) parent.findViewById(R.id.swipeRefresh);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//        refreshLayout = (SwipeRefreshLayout) parent.findViewById(R.id.swipeRefresh);
+//        refreshLayout.setOnRefreshListener(this);
 
-            @Override
-            public void onRefresh() {
-
-
-            }
-        });
 
         ivToggle.setOnClickListener(this);
         ivScanner.setOnClickListener(this);
         tvFilter.setOnClickListener(this);
+        rlFilter.setOnClickListener(this);
 //        etSearch.setOnClickListener(this);
 
         viewTransaparent.setOnClickListener(this);
         etSearch.addTextChangedListener(searchTextWatcher);
         etSearch.setOnFocusChangeListener(this);
+
     }
 
     @Override
@@ -304,6 +324,8 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     public void showLoader(boolean isVisible) {
 
 //        refreshLayout.setRefreshing(isVisible);
+
+        currentFragmentView.showLoader(isVisible);
     }
 
     @Override
@@ -396,6 +418,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     @Override
     public void onTabItemClick(int position) {
 
+
         presenter.onTabItemClicked(position);
     }
 
@@ -410,6 +433,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         else{
 
             llJobTypeContainer.setVisibility(View.VISIBLE);
+            hideKeyboard();
         }
     }
 
@@ -424,6 +448,13 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         String[] tabTitles = getResources().getStringArray(R.array.jobs_tab_items);
 
         presenter.initializeTabs(tabTitles);
+    }
+
+    @Override
+    public void onRefresh() {
+
+        presenter.onRefresh();
+
     }
 
     private void setUpTypeFilter(){
@@ -443,8 +474,13 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         }
         else{
 
+<<<<<<< HEAD
             llFilterContainer.setVisibility(View.VISIBLE);
             viewTransaparent.setVisibility(View.VISIBLE);
+=======
+//            llFilterContainer.setVisibility(View.VISIBLE);
+            showFilter();
+>>>>>>> d856ec09d1147d5a61dc8622d6b131dc2896d685
 
         }
 
@@ -474,5 +510,22 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
     }
 
+    private void showFilter(){
+
+        llFilterContainer.setVisibility(View.VISIBLE);
+
+    }
+
+    private void hideKeyboard(){
+
+//        if(llFilterContainer.getVisibility() == View.VISIBLE) {
+
+            Context context = getActivity();
+
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+//        }
+
+    }
 
 }
