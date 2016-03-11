@@ -131,7 +131,8 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     public void handleVerifyResponse(String message) {
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-        goBackToSignUp();
+//        goBackToSignUp();
+        goToCompleteSignUp();
     }
 
     private void goBackToSignUp(){
@@ -140,6 +141,15 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         intent.putExtra(ActivityRegistrationSignUp.KEY_MOBILE_NUMBER, mobileNumber);
         setResult(RESULT_OK,intent);
         finish();
+    }
+
+    private void goToCompleteSignUp(){
+        Intent intent = new Intent(this, ActivityRegistrationCompleteSignUp.class);
+        intent.putExtra(ActivityRegistrationSignUp.KEY_VERIFICATION_CODE, etCode.getText().toString());
+        intent.putExtra(ActivityRegistrationSignUp.KEY_MOBILE_NUMBER, mobileNumber);
+        startActivity(intent);
+        overridePendingTransition(R.anim.pull_in_right,R.anim.push_out_left);
+
     }
 
     @Override
@@ -165,6 +175,7 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
                 break;
 
             case R.id.tvResendVerification:
+                Toast.makeText(getApplicationContext(),"Resend Verification",Toast.LENGTH_SHORT).show();
 //                presenter.getVerificationCode();
                 break;
 

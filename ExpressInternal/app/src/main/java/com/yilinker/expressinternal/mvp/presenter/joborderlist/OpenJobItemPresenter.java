@@ -24,19 +24,19 @@ public class OpenJobItemPresenter extends JobItemPresenter<OpenJobsViewHolder> {
         view().setSize(model.getSize());
         view().setStatus(model.getStatus());
         view().setEarning(formatEarning(model.getEarning()));
-        view().setFromAddress(model.getPickupAddress());
-        view().setToAddress(model.getDeliveryAddress());
+//        view().setFromAddress(model.getPickupAddress());
+//        view().setToAddress(model.getDeliveryAddress());
         view().setDateCreated(formatDateCreated(model.getDateCreated()));
 
 
-//        if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
-//            view().setToAddress(getToAddress(model.getStatus()));
-//            view().setFromAddress(model.getBranchName());
-//        }
-//        else{
-//            view().setToAddress(getToAddress(model.getBranchName()));
-//            view().setFromAddress(getToAddress(model.getStatus()));
-//        }
+        if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+            view().setToAddress(model.getDeliveryAddress());
+            view().setFromAddress(model.getDropoffAddress());
+        }
+        else{
+            view().setToAddress(model.getDeliveryAddress());
+            view().setFromAddress(model.getPickupAddress());
+        }
     }
 
 
