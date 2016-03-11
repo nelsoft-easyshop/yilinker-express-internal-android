@@ -253,4 +253,13 @@ is 需要继续</string>
     <string name="search_type_for_pick_up">为捡起</string>
     <string name="search_for_drop_off">为上落客</string>
     <string name="search_for_delivery">交付</string>
+
+    <string-array name="array_tool_items">
+        <item name="tool_search_qr">@string/tools_search_qr</item>
+        <item name="tool_bulk_checkin">@string/tools_bulk_checkin</item>
+        <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
+        <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
+        <item name="tool_sync">@string/tools_sync</item>
+    </string-array>
+
 </resources>
