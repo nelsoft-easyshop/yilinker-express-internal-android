@@ -166,6 +166,7 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
             case R.id.ivBack:
 
                 onBackPressed();
+                overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
                 break;
 
             case R.id.ivMenu:

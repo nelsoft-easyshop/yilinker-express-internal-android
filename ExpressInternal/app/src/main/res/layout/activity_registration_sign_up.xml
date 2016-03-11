@@ -10,7 +10,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/registration_cover_height"
             android:background="@drawable/ic_map_background"
             android:id="@+id/ivBackground" />
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/registration_mobile_margin_top"
                 android:background="@drawable/bg_rounded_white_no_padding"
                 android:padding="5dp">
 
@@ -69,7 +69,7 @@
                 android:textAllCaps="false"
                 android:background="@drawable/bg_btn_orangeyellow_rounded"
                 android:layout_below="@+id/etConfirmPassword"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="@dimen/registration_sign_up_margin_top"/>
 
 
             <LinearLayout
@@ -78,7 +78,7 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="@dimen/registration_sign_in_margin_top">
 
                 <TextView
                     android:layout_width="wrap_content"
