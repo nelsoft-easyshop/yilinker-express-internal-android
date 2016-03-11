@@ -50,6 +50,10 @@
     <dimen name="verification_code_margin_top">20dp</dimen>
     <dimen name="verification_form_margin_top">20dp</dimen>
     <dimen name="phone_icon_margin_top">20dp</dimen>
+    <dimen name="registration_cover_height">250dp</dimen>
+    <dimen name="registration_mobile_margin_top">10dp</dimen>
+    <dimen name="registration_sign_up_margin_top">10dp</dimen>
+    <dimen name="registration_sign_in_margin_top">20dp</dimen>
 
     <!--For New Design-->
     <dimen name="joborderlsit_filterbar_height">40dp</dimen>
