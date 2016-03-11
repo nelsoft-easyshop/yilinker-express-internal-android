@@ -1,373 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ExpressInternal</string>
-
-    <!-- Login -->
-    <string name="login_quote">We are committed in providing highest standard services,\nreliable and on-time delivery.</string>
-    <string name="login_username">Username</string>
-    <string name="login_password">Password</string>
-    <string name="login_button">Login</string>
-    <string name="login_error_incomplete_fields">Missing username/password</string>
-
-    <!-- Menu-->
-    <string name="menu_mapview">Map View</string>
-    <string name="menu_listview">List View</string>
-    <string-array name="array_menu_items">
-        <item name="menu_switchview">@string/menu_mapview</item>
-        <item name="menu_current_job">View All Current Jobs</item>
-        <item name="menu_pickup">View For Pickup</item>
-        <item name="menu_delivery">View For Delivery</item>
-        <!--<item name="menu_claiming">View For Claiming</item>-->
-        <item name="menu_dropoff">View For Dropoff</item>
-        <item name="menu_scanner">QR Code Scanner</item>
-        <!--<item name="menu_scanner">QR Code Bulk Scanner</item>-->
-        <item name="menu_acknowledge">Direct Acknowledge</item>
-    </string-array>
-
-    <!-- Navigation Drawer -->
-    <string name="nd_list1">Dashboard</string>
-    <string name="nd_list2">Profile</string>
-    <string name="nd_list3">Map</string>
-    <string name="nd_logout">Logout</string>
-    <string-array name="navigation_item_array">
-        <item >Dashboard</item>
-        <item>Cash Management</item>
-        <item>Sync</item>
-    </string-array>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <!-- Profile -->
-    <string name="prof_delivery">Delivery</string>
-    <string name="prof_pickup">Pick Up</string>
-    <string name="prof_completed">Completed</string>
-    <string name="prof_earnings">Earnings</string>
-    <string name="prof_job_orders">Job Orders</string>
-    <string name="prof_pickups">Pick Ups</string>
-    <string name="prof_deliveries">Deliveries</string>
-    <string name="prof_today">Today</string>
-    <string name="prof_total">Completed</string>
-    <string name="prof_onhand">On Hand</string>
-    <string name="prof_dropff">Drop Off</string>
-
-    <!-- Alert Dialog -->
-    <string name="alert_accept">Accept</string>
-    <string name="alert_new_job_offer">New Job Offer Available</string>
-    <string name="alert_from">From</string>
-    <string name="alert_to">To</string>
-    <string name="alert_type">Type</string>
-    <string name="alert_item">Item</string>
-    <string name="alert_view_details">View Details</string>
-
-    <!-- Job Order List -->
-    <string name="job_order">Job Order</string>
-    <string name="job_order_list_for_claiming">For Claiming</string>
-    <string name="job_order_list_for_pickup">For Pick Up</string>
-    <string-array name="tab_items">
-        <item name="tab_open">Open</item>
-        <item name="tab_current">Current</item>
-        <item name="tab_completed">Completed</item>
-        <item name="tab_problematic">Problematic</item>
-    </string-array>
-    <string name="filter_area">Area</string>
-    <string name="filter_branch">Branch</string>
-
-    <!--Job Order Detail-->
-    <string name="job_order_waybill_number">Waybill Number</string>
-    <string name="job_order_number">Job Order Number</string>
-    <string name="eta">ETA</string>
-    <string name="pickup_address">Pickup Address</string>
-    <string name="dropoff_address">Dropoff Address</string>
-    <string name="delivery_address">Delivery Address</string>
-    <string name="drop_to">Drop to</string>
-    <string name="deliver_to">Deliver to</string>
-    <!--<string name="recipientName">Recipient</string>-->
-    <string name="recipientName">Shipper</string>
-    <string name="shipper_name">Shipper Name</string>
-    <string name="consignee">Consignee</string>
-    <string name="consignee_name">Consignee Name</string>
-    <string name="contact_number">Contact Number</string>
-    <string name="item">Item</string>
-    <string name="type">Type</string>
-    <string name="rating">Rating</string>
-    <string name="time_used">Time Used</string>
-    <string name="time_elapsed">Time Elapsed</string>
-    <string name="earned">Earned</string>
-    <string name="status">Status</string>
-    <string name="amount_collected">Amount Collected</string>
-    <string name="distance_from_me">Distance From Me</string>
-    <string name="joborderdetail_open_accept">Accept Job</string>
-    <string name="joborderdetail_open_decline">Decline</string>
-    <string name="joborderdetail_pickup">Pickup</string>
-    <string name="joborderdetail_outofstock">Out of Stock</string>
-    <string name="joborderdetail_deliver">Deliver</string>
-    <string name="joborderdetail_problematic">Problematic</string>
-    <string name="joborderdetail_claim">Claim</string>
-    <string name="joborderdetail_csrname">Reported By</string>
-    <string name="joborderdetail_type">Type</string>
-    <string name="joborderdetail_remarks">Remarks</string>
-    <string name="joborderdetail_error_no_image">No image available</string>
-    <string name="joborderdetail_report_out_of_stock">Report this as out of stock?</string>
-    <string name="joborderdetail_job_order_accepted">Job order accepted!</string>
-    <string name="joborderdetail_job_order_successfully_problem_reporting">Successfully reported the problem!</string>
-    <string name="joborderdetail_date_created">Date Created</string>
-    <string name="joborderdetail_date_accepted">Date Accepted</string>
-    <string name="joborderdetail_amount_to_collect">Amount to collect</string>
-    <string name="cancel">Cancel</string>
-    <string name="gps_network_not_enabled">You need to turn on location services to use this feature.</string>
-    <string name="open_location_settings">Go to Settings</string>
-    <string name="generating_qr">Generating QR Code...</string>
-
-
-    <!--Job Order List-->
-
-    <string name="job_order_list_open">Open</string>
-    <string name="job_order_list_current">Current</string>
-    <string name="job_order_list_completed">Completed</string>
-    <string name="job_order_list_problematic">Problematic</string>
-    <string name="joborder_list_no_results_found">No results found</string>
-    <string name="joborder_list_search_job_order">Search Job Order</string>
-    <string name="joborder_list_delivery">delivery</string>
-    <string name="joborder_list_eta">ETA</string>
-
-
-    <!--Update Status (Pickup)-->
-    <string name="update_pickup_completed">Pick Up Completed!</string>
-    <string name="update_select_new_status">Please select new status</string>
-    <string name="update_for_delivery">For Delivery</string>
-    <string name="update_for_dropoff">For Drop Off</string>
-
-    <!-- Signature -->
-    <string name="signature_good_condition">I received goods in good condition</string>
-    <string name="signature_submit">Submit</string>
-    <string name="signature_rating">Add Rating</string>
-    <string name="signature_rate_delivery">How will you rate this delivery?</string>
-    <string name="signature_error_no_rating">Please add your rating!</string>
-    <string name="signature_error_empty">Please sign on the screen to continue!</string>
-    <string name="signature_warning">You did not submit your signature!</string>
-    <string name="signature_exit">Exit Anyway</string>
-    <string name="signature_rating_added">Rating Added</string>
-    <string name="signature_clear_signature">Clear Signature</string>
-
-    <!--QR Code Scanner-->
+	<string name="login_quote">我们致力于提供最高标准的服务、
+reliable 和准时交货。</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="login_button">登录</string>
+    <string name="login_error_incomplete_fields">失踪的用户名密码</string>
+    <string name="login_get_started">入门</string>
+    <string name="login_yilinker_express">YILINKER 快递</string>
+    <string name="login_partner">"P R T N E R"</string>
+    <string name="login_username_mobile">用户名 / 手机</string>
+    <string name="login_button_2">登录</string>
+    <string name="logging_in">"登录。......"</string>
+    <string name="login_dont_have_account_yet">"帐户还没有吗？"</string>
+    <string name="login_signup">报名在这里</string>
+    <string name="login_confirm_password">确认密码</string>
+    <string name="login_complete_sign_up">完成注册过程</string>
+    <string name="login_completing_sign_up">"完成了的迹象。......"</string>
+    <string name="terms_and_condition_label">你已接受了通过签署了</string>
+    <string name="terms_and_conditions">条款和条件</string>
+    <string name="terms_and_conditions_ours">"我们"</string>
+    <string name="login_sign_up">登记</string>
+    <string name="registration_sit_back_and_relax">坐下来，放松而我们验证</string>
+    <string name="registration_sit_back_and_relax_2">您的手机号码</string>
+    <string name="registration_verification_code_sent">验证码已发送到</string>
+    <string name="registration_enter_code">输入代码</string>
+    <string name="registration_resend_verification">重新发送验证码</string>
+    <string name="registration_mobile_number_start">+ 63</string>
+    <string name="registration_already_have_an_account">已经有一个帐户吗？登录</string>
+    <string name="registration_here">"在这里"</string>
+    <string name="registration_verify">验证</string>
+    <string name="registration_verifying">"验证......"</string>
+    <string name="registration_create_account">创建帐户</string>
+    <string name="yilinker_express_rider">YILINKER 快递骑手</string>
+    <string name="menu_mapview">地图视图</string>
+    <string name="menu_listview">列表视图</string>
+    <string name="nd_list1">仪表板</string>
+    <string name="nd_list2">配置文件</string>
+    <string name="nd_list3">地图</string>
+    <string name="nd_logout">注销</string>
+    <string name="navigation_drawer_open">打开导航抽屉</string>
+    <string name="navigation_drawer_close">关闭导航抽屉</string>
+    <string name="prof_delivery">交付</string>
+    <string name="prof_pickup">捡起</string>
+    <string name="prof_completed">完成</string>
+    <string name="prof_earnings">收入</string>
+    <string name="prof_job_orders">工作订单</string>
+    <string name="prof_pickups">接机</string>
+    <string name="prof_deliveries">交付</string>
+    <string name="prof_today">今天</string>
+    <string name="prof_total">完成</string>
+    <string name="prof_onhand">在手上</string>
+    <string name="prof_dropff">下车</string>
+    <string name="alert_accept">接受</string>
+    <string name="alert_new_job_offer">可用的新的工作机会</string>
+    <string name="alert_from">从</string>
+    <string name="alert_to">自</string>
+    <string name="alert_type">类型</string>
+    <string name="alert_item">项目</string>
+    <string name="alert_view_details">查看详细信息</string>
+    <string name="job_order">工作订单</string>
+    <string name="job_order_list_for_claiming">申领</string>
+    <string name="job_order_list_for_pickup">为捡起</string>
+    <string name="filter_area">地区</string>
+    <string name="filter_branch">分公司</string>
+    <string name="job_order_waybill_number">运单号</string>
+    <string name="job_order_number">作业顺序编号</string>
+    <string name="eta">埃塔</string>
+    <string name="pickup_address">收件地址</string>
+    <string name="dropoff_address">接送孩子地址</string>
+    <string name="delivery_address">收信人地址</string>
+    <string name="drop_to">降至</string>
+    <string name="deliver_to">交付</string>
+    <string name="recipient">收件人</string>
+    <string name="shipper_name">托运人名称</string>
+    <string name="consignee">收货人</string>
+    <string name="consignee_name">收货人名称</string>
+    <string name="contact_number">联系电话</string>
+    <string name="item">项目</string>
+    <string name="type">类型</string>
+    <string name="rating">评分</string>
+    <string name="time_used">使用时间</string>
+    <string name="time_elapsed">经过的时间</string>
+    <string name="earned">赢得了</string>
+    <string name="status">状态</string>
+    <string name="amount_collected">收集的金额</string>
+    <string name="distance_from_me">我的距离</string>
+    <string name="joborderdetail_open_accept">接受工作</string>
+    <string name="joborderdetail_open_decline">下降</string>
+    <string name="joborderdetail_pickup">皮卡</string>
+    <string name="joborderdetail_outofstock">缺货</string>
+    <string name="joborderdetail_deliver">提供</string>
+    <string name="joborderdetail_problematic">有问题</string>
+    <string name="joborderdetail_claim">索赔</string>
+    <string name="joborderdetail_csrname">报告</string>
+    <string name="joborderdetail_type">类型</string>
+    <string name="joborderdetail_remarks">备注</string>
+    <string name="joborderdetail_error_no_image">没有可用的图像</string>
+    <string name="joborderdetail_report_out_of_stock">报告这出股票？</string>
+    <string name="joborderdetail_job_order_accepted">工作订单接受 ！</string>
+    <string name="joborderdetail_job_order_successfully_problem_reporting">成功地报告有关的问题 ！</string>
+    <string name="joborderdetail_date_created">创建日期</string>
+    <string name="joborderdetail_date_accepted">接受日期</string>
+    <string name="joborderdetail_amount_to_collect">收集的金额</string>
+    <string name="cancel">取消</string>
+    <string name="gps_network_not_enabled">您需要打开位置服务要使用此功能。</string>
+    <string name="open_location_settings">转到设置</string>
+    <string name="generating_qr">正在生成 QR 代码...</string>
+    <string name="job_order_list_open">开放</string>
+    <string name="job_order_list_current">当前</string>
+    <string name="job_order_list_completed">完成</string>
+    <string name="job_order_list_problematic">有问题</string>
+    <string name="joborder_list_no_results_found">未找到任何结果</string>
+    <string name="joborder_list_search_job_order">搜索工作顺序</string>
+    <string name="joborder_list_delivery">交付</string>
+    <string name="joborder_list_eta">埃塔</string>
+    <string name="update_pickup_completed">拿起完成 ！</string>
+    <string name="update_select_new_status">请选择新状态</string>
+    <string name="update_for_delivery">交付</string>
+    <string name="update_for_dropoff">为落客</string>
+    <string name="signature_good_condition">我收到的货物状况良好</string>
+    <string name="signature_submit">提交</string>
+    <string name="signature_rating">添加评级</string>
+    <string name="signature_rate_delivery">你将如何评价此交货？</string>
+    <string name="signature_error_no_rating">请添加您的评级 ！</string>
+    <string name="signature_error_empty">请登录屏幕继续 ！</string>
+    <string name="signature_warning">你没有提交您的签名 ！</string>
+    <string name="signature_exit">退出</string>
+    <string name="signature_rating_added">添加的评级</string>
+    <string name="signature_clear_signature">明确的签名</string>
     <string name="scan_qr"></string>
-    <string-array name="array_scanner_tab">
-        <item name="single_scanner">Single Scanning</item>
-        <item name="bulk_scanner">Bulk Check-in</item>
-    </string-array>
-    <string name="scanner_job_order_accepted">Job accepted!</string>
-
-    <!--Problematic-->
-    <string name="problematic_recipient_not_found">Recipient Not Found</string>
-    <string name="problematic_delivery_rejected">Delivery rejected by recipientName</string>
-    <string name="problematic_damaged_upon_delivery">Damaged Upon Delivery</string>
-    <string name="problematic_unable_to_pay">Recipient is unable to pay</string>
-    <string name="problematic_out_of_stock">Out of Stock</string>
-    <string name="confirm_problematic">Confirm Problematic Delivery</string>
-    <string name="problematic_remarks_hint">Remarks</string>
-
-    <!--Complete-->
-    <string name="ok">Ok</string>
-
-    <!--Cash Management-->
-    <string name="cashmanagement_onhand">Cash on hand</string>
-    <string name="cashmanagement_limit">Cash on hand limit</string>
-    <string name="cashmanagement_history">Cash History</string>
-
-    <string name="title_activity_activity_job_order_list">Map</string>
+    <string name="scanner_job_order_accepted">接受的工作 ！</string>
+    <string name="problematic_recipient_not_found">找不到收件人</string>
+    <string name="problematic_delivery_rejected">由收件人拒绝交货</string>
+    <string name="problematic_damaged_upon_delivery">在交货时损坏</string>
+    <string name="problematic_unable_to_pay">收件人是无力支付</string>
+    <string name="problematic_out_of_stock">缺货</string>
+    <string name="confirm_problematic">确认问题交付</string>
+    <string name="problematic_remarks_hint">备注</string>
+    <string name="problematic_notes">"无存货项目"</string>
+    <string name="ok">还行</string>
+    <string name="cashmanagement_onhand">手头现金</string>
+    <string name="cashmanagement_limit">手头现金限制</string>
+    <string name="cashmanagement_history">现金历史</string>
+    <string name="cashmanagement_balance">平衡</string>
+    <string name="cashmanagement_amount">金额</string>
+    <string name="cash_management">现金管理</string>
+    <string name="title_activity_activity_job_order_list">地图</string>
     <string name="title_activity_activity_dashboard">ActivityDashboard</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="action_example" translatable="false">Example action</string>
-
-    <string name="action_settings">Settings</string>
-
-    <!--Navigation-->
-    <string name="navigation_distance">Distance:</string>
-    <string name="navigation_route_not_available">Route Not Available</string>
-
-    <!--Contact-->
-    <string name="contact_error_no_number">No contact number!</string>
-
-    <!--Action Bar Title-->
-    <string name="actionbar_title_qrcode">QR Code</string>
-    <string name="actionbar_title_qrcode_single_scanning">QR Code Single Scanning</string>
-    <string name="actionbar_title_cashmanagement">Cash Management</string>
-    <string name="actionbar_title_problematic">Problematic</string>
-    <string name="actionbar_title_navigation">navigation</string>
-    <string name="title_activity_activity_navigation">Map</string>
-    <string name="actionbar_title_acknowledge">Direct Acknowledge</string>
-    <string name="actionbar_title_contact_details">Contact Details</string>
-
-    <!--Logout-->
-    <string name="logout_username">Username</string>
-    <string name="logout_password">Password</string>
-    <string name="logout_confirm">Confirm</string>
-    <string name="logout_managers_verification">Manager\'s verification\nis required to continue</string>
-    <string name="logout">Logging Out</string>
-
-    <!--Cash Limit-->
-    <string name="cashlimit_oops">Oops!</string>
-    <string name="cashlimit_message">You are about to exceed your\nCash On Hand Limit</string>
-    <string name="cashlimit_verification">Manager\'s Verification\nis required to continue</string>
-    <string name="cashlimit_username">Username</string>
-    <string name="cashlimit_password">Password</string>
-    <string name="cashlimit_submit">Submit</string>
-
-    <!--Checklist-->
-    <string name="checklist_pickup_complete">Complete Pick Up</string>
-    <string name="checklist_delivery_complete">Complete Delivery</string>
-
-    <!--View Images-->
-    <string name="view_images"><u>View Images</u></string>
-
-    <!--Calculator-->
-    <string name="calculator_total_volume">Total Volume</string>
-    <string name="calculator_total_weight">Total Weight</string>
-    <string name="calculator_declared_value">Declared Value</string>
-    <string name="calculator_shipping_fee">Total Volume</string>
-    <string name="calculator_add_item">Add Item</string>
-    <string name="calculator_weight">Weight</string>
-    <string name="calculator_value">Value</string>
-    <string name="calculator_length">Length</string>
-    <string name="calculator_width">Width</string>
-    <string name="calculator_height">Height</string>
-    <string name="calculator_submit">Submit</string>
-
-    <!--Printing-->
-    <string name="printing_title">Print Waybill Information</string>
-    <string name="printing_status_ongoingprint">Printing waybill...</string>
-    <string name="printing_status_connecting">Connecting to printer...</string>
-    <string name="printing_status_done">Printing complete!</string>
-    <string name="printing_status_problem">Problem has occurred. Try again.</string>
-    <string name="printing_ok">Ok</string>
-    <string name="printing_cancel">Cancel</string>
-    <string name="printing_print_again">Print Again</string>
-    <string name="printing_certify">This is to certify that we received your package in good condition.</string>
-    <string name="printing_bluetooth_enable_cancelled">Please enable bluetooth to proceed with printing.</string>
-    <string name="printing_select">Select a Printer</string>
-    <string name="printing_search_again">Search Again</string>
-    <string name="printing_bluetooth_not_supported">Bluetooth not supported!</string>
-    <string name="printing_package_description">Package Description:</string>
-    <string name="printing_package_amount_to_collect">Amount to Collect:</string>
-
-    <!--Confirm PackageRequest-->
-
-    <string name="package_title_type">Package Type</string>
-    <string name="package_title_weight">Package Weight</string>
-    <string name="package_title_size">Package Size</string>
-    <string name="package_shipping_fee">Shipping Fee</string>
-    <string name="package_button_save">Save</string>
-    <string name="package_enter_length">Enter Length</string>
-    <string name="package_enter_width">Enter Width</string>
-    <string name="package_enter_height">Enter Height</string>
-    <string name="package_retrieving_list">Loading list…</string>
-    <string name="package_select">--- Select ---</string>
-    <string name="package_weight_error">Weight input should be greater than 0</string>
-
-    <!--Checklist-->
-    <string name="checklist_job_completed">Job order is completed!</string>
-    <string name="checklist_job_updated">Job order status is updated!</string>
-
-    <!--Acknowledge-->
-    <string name="acknowledge_message">Are sure you want to pickup this package?</string>
-
-    <!--Syncing-->
-
-    <string name="request_sync_success">Job Orders successfully synced!</string>
-    <string name="request_data_sync">Data sync successful</string>
-    <string name="request_data_sync_failed">Data sync failed. Try again later.</string>
-
-    <!--Others-->
-    <string name="error_problem_connecting">Problem connecting to the server. Tap to reload.</string>
-    <string name="message_success">Success</string>
-    <string name="message_failed">Failed</string>
-    <string name="dialog_yes">Yes</string>
-    <string name="dialog_no">No</string>
-
-    <!--Gallery/Image Capture-->
-
-    <string name="image_select_picture">Select Picture</string>
-    <string name="image_upload_options">Upload Pictures Option</string>
-    <string name="image_show_gallery">Show Gallery</string>
-    <string name="image_launch_camera">Launch Camera</string>
-
-
-    <!--Tools-->
-
-    <string name="tools_search_qr">easdasd</string>
-    <string name="tools_bulk_checkin">Bulk Check In</string>
-    <string name="tools_direct_acknowledge">asdasda Acknowledge</string>
-    <string name="tools_cash_turnover">Search by QR Cod</string>
+    <string name="title_section1">部分 1</string>
+    <string name="title_section2">部分 2</string>
+    <string name="title_section3">部分 3</string>
+    <string name="action_example" translatable="false">示例操作</string>
+    <string name="action_settings">设置</string>
+    <string name="navigation_distance">距离 ︰</string>
+    <string name="navigation_route_not_available">没有可供选择的路线</string>
+    <string name="contact_error_no_number">没有联系人的号码 ！</string>
+    <string name="actionbar_title_qrcode">QR 码</string>
+    <string name="actionbar_title_qrcode_single_scanning">QR 码单扫描</string>
+    <string name="actionbar_title_cashmanagement">现金管理</string>
+    <string name="actionbar_title_problematic">有问题</string>
+    <string name="actionbar_title_navigation">导航</string>
+    <string name="title_activity_activity_navigation">地图</string>
+    <string name="actionbar_title_acknowledge">直接承认</string>
+    <string name="actionbar_title_contact_details">联系方式</string>
+    <string name="logout_username">用户名</string>
+    <string name="logout_password">密码</string>
+    <string name="logout_confirm">确认</string>
+	<string name="logout_managers_verification">Manager 的 verification
+is 继续所需</string>
+    <string name="logout">登出</string>
+    <string name="cashlimit_oops">哎呀 ！</string>
+	<string name="cashlimit_message">您将要超过 your
+Cash 一方面限制</string>
+	<string name="cashlimit_verification">Manager 的 Verification
+is 需要继续</string>
+    <string name="cashlimit_username">用户名</string>
+    <string name="cashlimit_password">密码</string>
+    <string name="cashlimit_submit">提交</string>
+    <string name="checklist_pickup_complete">完整的捡起</string>
+    <string name="checklist_delivery_complete">完成和交付</string>
+    <string name="view_images"><u>查看图像</u></string>
+    <string name="calculator_total_volume">总容积</string>
+    <string name="calculator_total_weight">总重量</string>
+    <string name="calculator_declared_value">声明的价值</string>
+    <string name="calculator_shipping_fee">总容积</string>
+    <string name="calculator_add_item">添加项</string>
+    <string name="calculator_weight">重量</string>
+    <string name="calculator_value">价值</string>
+    <string name="calculator_length">长度</string>
+    <string name="calculator_width">宽度</string>
+    <string name="calculator_height">高度</string>
+    <string name="calculator_submit">提交</string>
+    <string name="printing_title">打印运单信息</string>
+    <string name="printing_status_ongoingprint">打印提单...</string>
+    <string name="printing_status_connecting">正在连接到打印机...</string>
+    <string name="printing_status_done">打印完成 ！</string>
+    <string name="printing_status_problem">发生了问题。再试一次。</string>
+    <string name="printing_ok">还行</string>
+    <string name="printing_cancel">取消</string>
+    <string name="printing_print_again">重新打印</string>
+    <string name="printing_certify">这是为了证明我们收到你的包裹，在良好的条件。</string>
+    <string name="printing_bluetooth_enable_cancelled">请启用蓝牙，继续打印。</string>
+    <string name="printing_select">选择一台打印机</string>
+    <string name="printing_search_again">再次搜索</string>
+    <string name="printing_bluetooth_not_supported">不支持蓝牙 ！</string>
+    <string name="printing_package_description">包装说明 ︰</string>
+    <string name="printing_package_amount_to_collect">共计收集 ︰</string>
+    <string name="package_title_type">封装类型</string>
+    <string name="package_title_weight">包装的重量</string>
+    <string name="package_title_size">包大小</string>
+    <string name="package_shipping_fee">运输费用</string>
+    <string name="package_button_save">保存</string>
+    <string name="package_enter_length">输入长度</string>
+    <string name="package_enter_width">输入宽度</string>
+    <string name="package_enter_height">输入高度</string>
+    <string name="package_retrieving_list">正在加载列表...</string>
+    <string name="package_select">---选择--</string>
+    <string name="package_weight_error">重量输入应大于 0</string>
+    <string name="checklist_job_completed">工作订单完成 ！</string>
+    <string name="checklist_job_updated">工作订单状态更新 ！</string>
+    <string name="acknowledge_message">确信你想取这个包裹吗？</string>
+    <string name="request_sync_success">工作订单成功同步 ！</string>
+    <string name="request_data_sync">数据同步成功</string>
+    <string name="request_data_sync_failed">数据同步失败。稍后再试。</string>
+    <string name="error_problem_connecting">连接到服务器的问题。点击可重新加载。</string>
+    <string name="message_success">成功</string>
+    <string name="message_failed">失败</string>
+    <string name="dialog_yes">是啊</string>
+    <string name="dialog_no">没有</string>
+    <string name="image_select_picture">选择图片</string>
+    <string name="image_upload_options">上传图片选项</string>
+    <string name="image_show_gallery">秀图库</string>
+    <string name="image_launch_camera">启动相机</string>
+    <string name="tools_title">表达的工具</string>
+    <string name="tools_search_qr">由 QR 代码搜索</string>
+    <string name="tools_bulk_checkin">批量签入</string>
+    <string name="tools_direct_acknowledge">直接承认</string>
+    <string name="tools_cash_turnover">现金周转</string>
+    <string name="tools_sync">同步</string>
+    <string name="job_order_list_from_label">从</string>
+    <string name="job_order_list_to_label">自</string>
+    <string name="job_order_list_distance_label">距离</string>
+    <string name="job_order_list_pick_up_at">接在</string>
+    <string name="job_order_list_deliver_to">交付</string>
+    <string name="pick_up">捡起</string>
+    <string name="deliver">提供</string>
+    <string name="drop_off">下车</string>
+    <string name="filter">筛选器</string>
+    <string name="select_job_types">选择要显示的工作类型</string>
+    <string name="search_type_for_pick_up">为捡起</string>
+    <string name="search_for_drop_off">为上落客</string>
+    <string name="search_for_delivery">交付</string>
 
     <string-array name="array_tool_items">
         <item name="tool_search_qr">@string/tools_search_qr</item>
         <item name="tool_bulk_checkin">@string/tools_bulk_checkin</item>
         <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
         <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
+        <item name="tool_sync">@string/tools_sync</item>
     </string-array>
 
-    <string-array name="array_tool_images">
-        <item name="tool_image_search_qr">@drawable/ic_qrcodescanner</item>
-        <item name="tool_image_bulk_checkin">@drawable/ic_bulk_checkin</item>
-        <item name="tool_image_direct_acknowledge">@drawable/ic_direct_acknowledge</item>
-        <item name="tool_image_cash_turnover">@drawable/ic_cash_turnover</item>
-    </string-array>
-
-
-    <!--Main Screen-->
-    <string-array name="main_tab_items">
-        <item name="tab_jobs">JOBS</item>
-        <item name="tab_tools">TOOLS</item>
-        <item name="tab_empty"></item>
-        <item name="tab_profile">PROFILE</item>
-    </string-array>
-
-
-    <string-array name="main_tab_icons_unselected">
-        <item>@drawable/ic_jobs</item>
-        <item>@drawable/ic_tools</item>
-        <item>@drawable/ic_tools</item>
-        <item>@drawable/ic_profile</item>
-    </string-array>
-
-
-    <string-array name="main_tab_icons_selected">
-        <item>@drawable/ic_jobs_selected</item>
-        <item>@drawable/ic_tools_selected</item>
-        <item>@drawable/ic_tools_selected</item>
-        <item>@drawable/ic_profile_selected</item>
-    </string-array>
-
-    <string-array name="profile_languages">
-        <item name="lang_en">English</item>
-        <item name="lang_cn">Chinese</item>
-    </string-array>
-
-    <string-array name="profile_languages_locale">
-        <item name="lang_en">en</item>
-        <item name="lang_cn">cn</item>
-    </string-array>
-
-    <!--New Job Order List Layout-->
-    <!--OPEN-->
-    <string name="job_order_list_from_label">FROM</string>
-    <string name="job_order_list_to_label">TO</string>
-    <string name="job_order_list_distance_label">Distance</string>
-    <!--CURRENT-->
-    <string name="job_order_list_pick_up_at">PICK UP AT</string>
-    <string name="job_order_list_deliver_to">DELIVER TO</string>
-    <string name="pick_up">PICK UP</string>
-    <string name="deliver">DELIVER</string>
-    <string name="drop_off">DROP OFF</string>
-    <!--search-->
-    <string name="filter">Filter</string>
-    <string name="select_job_types">SELECT JOB TYPES TO DISPLAY</string>
-    <string name="search_type_for_pick_up">FOR PICK UP</string>
-    <string name="search_for_drop_off">FOR DROP-OFF</string>
-    <string name="search_for_delivery">FOR DELIVERY</string>
 </resources>

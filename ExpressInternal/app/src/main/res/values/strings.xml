@@ -390,7 +390,7 @@
 
     <string-array name="profile_languages_locale">
         <item name="lang_en">en</item>
-        <item name="lang_cn">cn</item>
+        <item name="lang_cn">ch</item>
     </string-array>
 
     <!--New Job Order List Layout-->

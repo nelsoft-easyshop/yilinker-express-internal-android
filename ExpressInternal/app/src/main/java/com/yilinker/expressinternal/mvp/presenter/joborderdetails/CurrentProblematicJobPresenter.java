@@ -24,7 +24,7 @@ public class CurrentProblematicJobPresenter extends BasePresenter<JobOrder, ICur
         view().setWaybillNoText(model.getWaybillNo());
         view().setDateCreatedText(DateUtility.convertDateToString(model.getDateCreated(), CURRENT_DATE_FORMAT));
         view().setDateAcceptedText(DateUtility.convertDateToString(model.getDateAccepted(), CURRENT_DATE_FORMAT));
-        view().setDeliveryAddress(model.getDeliveryAddress());
+        view().setDeliveryAddress(model.getDropoffAddress());
         view().setItemText(model.getRemarks());
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
 
