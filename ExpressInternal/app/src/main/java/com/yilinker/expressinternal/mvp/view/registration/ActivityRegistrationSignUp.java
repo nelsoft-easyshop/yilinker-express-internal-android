@@ -12,11 +12,12 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.registration.RegistrationSignUpPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseActivity;
+import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
 
 /**
  * Created by Patrick on 3/8/2016.
  */
-public class ActivityRegistrationSignUp extends BaseActivity implements IActivityRegistrationSignUpView, View.OnClickListener{
+public class ActivityRegistrationSignUp extends BaseFragmentActivity implements IActivityRegistrationSignUpView, View.OnClickListener{
 
     private final static int VERIFICATION_REQUEST_CODE = 2000;
     public final static String KEY_MOBILE_NUMBER = "mobile-number";
@@ -30,7 +31,7 @@ public class ActivityRegistrationSignUp extends BaseActivity implements IActivit
     protected void onCreate(Bundle savedInstanceState) {
 
         //Set the layout of the actionbar
-        setActionBarLayout(R.layout.layout_toolbar_registration);
+//        setActionBarLayout(R.layout.layout_toolbar_registration);
 
         super.onCreate(savedInstanceState);
 
@@ -92,7 +93,9 @@ public class ActivityRegistrationSignUp extends BaseActivity implements IActivit
 
         Intent goToCodeVerification = new Intent(this,ActivityRegistrationVerificationCode.class);
         goToCodeVerification.putExtra(KEY_MOBILE_NUMBER,etMobileNumber.getText().toString());
-        startActivityForResult(goToCodeVerification, VERIFICATION_REQUEST_CODE);
+//        startActivityForResult(goToCodeVerification, VERIFICATION_REQUEST_CODE);
+        startActivity(goToCodeVerification);
+        overridePendingTransition(R.anim.pull_in_right,R.anim.push_out_left);
     }
 
 
@@ -120,7 +123,7 @@ public class ActivityRegistrationSignUp extends BaseActivity implements IActivit
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
+//        super.onClick(v);
 
         switch (v.getId()){
 
@@ -139,25 +142,30 @@ public class ActivityRegistrationSignUp extends BaseActivity implements IActivit
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode){
-
-            case VERIFICATION_REQUEST_CODE:
-                if (resultCode == RESULT_OK){
-                    //TODO get verification code from data
-                    String verificationCode = data.getStringExtra(KEY_VERIFICATION_CODE);
-                    etMobileNumber.setText(data.getStringExtra(KEY_MOBILE_NUMBER));
-                    goToCompleteSignUp(verificationCode);
-                }
-
-                break;
-
-            default:
-                break;
-        }
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
+
+    //    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        switch (requestCode){
+//
+//            case VERIFICATION_REQUEST_CODE:
+//                if (resultCode == RESULT_OK){
+//                    //TODO get verification code from data
+//                    String verificationCode = data.getStringExtra(KEY_VERIFICATION_CODE);
+//                    etMobileNumber.setText(data.getStringExtra(KEY_MOBILE_NUMBER));
+//                    goToCompleteSignUp(verificationCode);
+//                }
+//
+//                break;
+//
+//            default:
+//                break;
+//        }
+//    }
 
     @Override
     public void showLoader(boolean isShown) {
