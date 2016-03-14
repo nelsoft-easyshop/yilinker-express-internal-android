@@ -21,14 +21,6 @@ import java.util.Date;
  */
 public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHolder> {
 
-    protected Handler timerHandler;
-
-    public CurrentJobItemPresenter(){
-
-        timerHandler = new Handler();
-    }
-
-
     @Override
     protected void updateView() {
 
@@ -49,35 +41,25 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
         else{
 
             view().showForSyncLabel(model.isForSyncing());
+            view().setTimeElapsed(convertTimeElapsedToString(model.getDateAccepted()));
+
         }
 
     }
 
 
-    @Override
-    public void bindView(CurrentJobsViewHolder view) {
-        super.bindView(view);
-
-//        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
-//        {
-//            startTimer();
-//        }
-    }
-
-    @Override
-    public void unbindView() {
-
-//        if(!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC))
-//        {
-//            stopTimer();
-//        }
-
-        super.unbindView();
-    }
-
     public void onClick(){
 
         view().showDetails(model);
+    }
+
+    public void onTimerTick(){
+
+        if(model.getDateAccepted() != null && !model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC) && view() != null) {
+
+            view().setTimeElapsed(convertTimeElapsedToString(model.getDateAccepted()));
+        }
+
     }
 
     //TODO Move this method so this can be reuse
@@ -134,41 +116,59 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
     }
 
     public void startTimer() {
-
-        timerHandler = new Handler();
-        timerHandler.postDelayed(mRunnable, 0);
     }
+//    private String getAddressByStatusId(int typeId){
+//
+//        String address = null;
+//
+//        if(typeId==2){
+//
+//
+//        }
+//        else if (typeId==1){
+//
+//            address = model.getDeliveryAddress();
+//        }
+//
+//
+//        return address;
+//    }
 
-    public void stopTimer() {
+    private String convertTimeElapsedToString(Date dateAccepted){
 
-        timerHandler = null;
-    }
+        String timeElapsed = null;
 
-    //For Timer
-    private  Runnable mRunnable = new Runnable() {
+            if (dateAccepted == null) {
 
-        public void run() {
+                timeElapsed = "-";
 
-            // if counters are active
-            if (!model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)) {
+            } else {
 
-                if(model.getDateAccepted() != null) {
-                    Calendar calendar = Calendar.getInstance();
 
-                    long difference = calendar.getTimeInMillis() - model.getDateAccepted().getTime();
-                    Calendar newDate = Calendar.getInstance();
-                    newDate.setTimeInMillis(difference);
+                Calendar calendar = Calendar.getInstance();
 
-                    view().setTimeElapsed(String.format("%d:%02d:%02d", newDate.get(Calendar.HOUR), newDate.get(Calendar.MINUTE), newDate.get(Calendar.SECOND)));
+                long difference = calendar.getTimeInMillis() - dateAccepted.getTime();
+//                Calendar newDate = Calendar.getInstance();
+//                newDate.setTimeInMillis(difference);
 
-                }
+
+                long secondsInMilli = 1000;
+                long minsInMilli = secondsInMilli * 60;
+                long hoursInMilli = 60 * minsInMilli;
+
+                long hour =  difference / hoursInMilli;
+                difference = difference % hoursInMilli;
+
+                long minute = difference / minsInMilli;
+                difference = difference % minsInMilli;
+
+                long second = difference / secondsInMilli;
+                difference = difference % secondsInMilli;
+
+                timeElapsed = String.format("%02d:%02d:%02d", hour, minute, second);
+
             }
 
-            // update every second
-            timerHandler.postDelayed(this, 1000);
-        }
-    };
-
-
-
+        return timeElapsed;
+    }
 }

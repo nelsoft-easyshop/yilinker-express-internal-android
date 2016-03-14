@@ -88,6 +88,8 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
 
         getData();
 
+        presenter.startTimer();
+
     }
 
     @Override

@@ -69,10 +69,17 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
     }
 
     @Override
+    public void onPause() {
+
+        presenter.unbindView();
+
+        super.onPause();
+    }
+
+    @Override
     public void loadJobOrderList(List<JobOrder> jobOrders) {
 
         adapter.clearAndAddAll(jobOrders);
-
 
     }
 

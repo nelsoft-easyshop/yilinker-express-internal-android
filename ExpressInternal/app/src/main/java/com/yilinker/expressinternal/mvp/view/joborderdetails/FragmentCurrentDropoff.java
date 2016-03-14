@@ -74,12 +74,15 @@ public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDrop
 
         getData();
 
+        presenter.startTimer();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
+        presenter.onPause();
         presenter.unbindView();
     }
 
