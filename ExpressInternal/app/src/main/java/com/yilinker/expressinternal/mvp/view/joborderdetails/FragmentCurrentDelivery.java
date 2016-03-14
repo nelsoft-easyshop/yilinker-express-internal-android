@@ -85,12 +85,15 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
 
         getData();
 
+        presenter.startTimer();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
+        presenter.onPause();
         presenter.unbindView();
     }
 

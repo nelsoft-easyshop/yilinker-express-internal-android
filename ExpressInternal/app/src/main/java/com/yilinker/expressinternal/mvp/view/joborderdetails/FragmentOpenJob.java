@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +38,8 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
     private TextView tvConsigneeName;
     private TextView tvConsigneeContactNo;
     private TextView tvEarning;
-    private Button btnPositive;
-    private Button btnNegative;
+    private LinearLayout btnPositive;
+    private LinearLayout btnNegative;
     private RelativeLayout rlProgressBar;
 
 
@@ -188,8 +189,8 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
         tvDeliveryAddress = (TextView) parent.findViewById(R.id.tvDeliveryAddress);
         tvConsigneeName = (TextView) parent.findViewById(R.id.tvConsigneeName);
         tvConsigneeContactNo = (TextView) parent.findViewById(R.id.tvConsigneeContactNo);
-        btnPositive = (Button) parent.findViewById(R.id.btnPositive);
-        btnNegative = (Button) parent.findViewById(R.id.btnNegative);
+        btnPositive = (LinearLayout) parent.findViewById(R.id.btnPositive);
+        btnNegative = (LinearLayout) parent.findViewById(R.id.btnNegative);
         rlProgressBar = (RelativeLayout) parent.findViewById(R.id.rlProgress);
 
         btnPositive.setOnClickListener(this);
