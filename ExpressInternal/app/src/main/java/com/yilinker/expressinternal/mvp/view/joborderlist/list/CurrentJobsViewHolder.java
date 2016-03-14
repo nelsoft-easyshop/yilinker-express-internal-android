@@ -119,6 +119,14 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
     }
 
     @Override
+    public void onTick() {
+
+        if(presenter != null) {
+            presenter.onTimerTick();
+        }
+    }
+
+    @Override
     public void showForSyncLabel(boolean isForSync) {
 
         int visibility = 0;

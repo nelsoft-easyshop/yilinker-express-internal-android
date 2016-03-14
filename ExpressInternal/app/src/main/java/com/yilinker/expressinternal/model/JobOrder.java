@@ -129,9 +129,6 @@ public class JobOrder implements Parcelable{
             remarks = problemDetail.getProblemRemarks();
             problematicImages = problemDetail.getImages();
         }
-
-        dateCreated = DateUtility.convertStringToDate(jobOrder.getDateCreated(), SERVER_DATE_FORMAT);
-        dateAccepted = DateUtility.convertStringToDate(jobOrder.getDateAccepted(), SERVER_DATE_FORMAT);
     }
 
     public int getId() {
