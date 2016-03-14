@@ -27,8 +27,7 @@
     <string name="terms_and_conditions_ours">"ours "</string>
     <string name="login_sign_up">Sign Up</string>
 
-
-    <!--registration-->
+    <!--Registration-->
     <string name="registration_sit_back_and_relax">Sit back and relax while we verify</string>
     <string name="registration_sit_back_and_relax_2">your mobile number</string>
     <string name="registration_verification_code_sent">VERIFICATION CODE HAS BEEN SENT TO</string>
@@ -41,35 +40,26 @@
     <string name="registration_verifying">"Verifying..."</string>
     <string name="registration_create_account">Create Account</string>
 
-    <!--terms and conditions-->
+    <!--Terms and Conditions-->
     <string name="yilinker_express_rider">YILINKER EXPRESS RIDER</string>
 
     <!-- Menu-->
     <string name="menu_mapview">Map View</string>
     <string name="menu_listview">List View</string>
-    <string-array name="array_menu_items">
-        <item name="menu_switchview">@string/menu_mapview</item>
-        <item name="menu_current_job">View All Current Jobs</item>
-        <item name="menu_pickup">View For Pickup</item>
-        <item name="menu_delivery">View For Delivery</item>
-        <!--<item name="menu_claiming">View For Claiming</item>-->
-        <item name="menu_dropoff">View For Dropoff</item>
-        <item name="menu_scanner">QR Code Scanner</item>
-        <!--<item name="menu_scanner">QR Code Bulk Scanner</item>-->
-        <item name="menu_acknowledge">Direct Acknowledge</item>
-    </string-array>
+    <string name="menu_current_job">View All Current Jobs</string>
+    <string name="menu_pickup">View For Pickup</string>
+    <string name="menu_delivery">View For Delivery</string>
+    <string name="menu_dropoff">View For Dropoff</string>
+    <string name="menu_scanner">QR Code Scanner</string>
+    <string name="menu_acknowledge">Direct Acknowledge</string>
 
     <!-- Navigation Drawer -->
-    <string name="nd_list1">Dashboard</string>
-    <string name="nd_list2">Profile</string>
-    <string name="nd_list3">Map</string>
-    <string name="nd_logout">Logout</string>
-    <string-array name="navigation_item_array">
-        <item >Dashboard</item>
-        <item>Cash Management</item>
-        <item>Sync</item>
-    </string-array>
-
+    <string name="drawer_dashboard">Dashboard</string>
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_map">Map</string>
+    <string name="drawer_logout">Logout</string>
+    <string name="drawer_cash_management">Cash Management</string>
+    <string name="drawer_sync">Sync</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -97,14 +87,9 @@
 
     <!-- Job Order List -->
     <string name="job_order">Job Order</string>
-    <string name="job_order_list_for_claiming">For Claiming</string>
-    <string name="job_order_list_for_pickup">For Pick Up</string>
-    <string-array name="tab_items">
-        <item name="tab_open">Open</item>
-        <item name="tab_current">Current</item>
-        <item name="tab_completed">Completed</item>
-        <item name="tab_problematic">Problematic</item>
-    </string-array>
+    <string name="joblist_claiming">For Claiming</string>
+    <string name="joblist_completed">Completed</string>
+    <string name="joblist_problematic">Problematic</string>
     <string name="filter_area">Area</string>
     <string name="filter_branch">Branch</string>
 
@@ -155,7 +140,6 @@
 
 
     <!--Job Order List-->
-
     <string name="job_order_list_open">Open</string>
     <string name="job_order_list_current">Current</string>
     <string name="job_order_list_completed">Completed</string>
@@ -186,10 +170,8 @@
 
     <!--QR Code Scanner-->
     <string name="scan_qr"></string>
-    <string-array name="array_scanner_tab">
-        <item name="single_scanner">Single Scanning</item>
-        <item name="bulk_scanner">Bulk Check-in</item>
-    </string-array>
+    <string name="single_scanner">Single Scanning</string>
+    <string name="bulk_scanner">Bulk Check-in</string>
     <string name="scanner_job_order_accepted">Job accepted!</string>
     
     <!--Problematic-->
@@ -212,17 +194,6 @@
     <string name="cashmanagement_balance">Balance</string>
     <string name="cashmanagement_amount">Amount</string>
     <string name="cash_management">CASH MANAGEMENT</string>
-
-    <string name="title_activity_activity_job_order_list">Map</string>
-    <string name="title_activity_activity_dashboard">ActivityDashboard</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="action_example" translatable="false">Example action</string>
-
-    <string name="action_settings">Settings</string>
 
     <!--Navigation-->
     <string name="navigation_distance">Distance:</string>
@@ -294,7 +265,6 @@
     <string name="printing_package_amount_to_collect">Amount to Collect:</string>
 
     <!--Confirm PackageRequest-->
-
     <string name="package_title_type">Package Type</string>
     <string name="package_title_weight">Package Weight</string>
     <string name="package_title_size">Package Size</string>
@@ -329,7 +299,6 @@
     <string name="dialog_no">No</string>
 
     <!--Gallery/Image Capture-->
-
     <string name="image_select_picture">Select Picture</string>
     <string name="image_upload_options">Upload Pictures Option</string>
     <string name="image_show_gallery">Show Gallery</string>
@@ -337,7 +306,6 @@
 
 
     <!--Tools-->
-
     <string name="tools_title">Express Tools</string>
     <string name="tools_search_qr">Search by QR Code</string>
     <string name="tools_bulk_checkin">Bulk Check In</string>
@@ -345,53 +313,23 @@
     <string name="tools_cash_turnover">Cash Turnover</string>
     <string name="tools_sync">Sync</string>
 
-    <string-array name="array_tool_items">
-        <item name="tool_search_qr">@string/tools_search_qr</item>
-        <item name="tool_bulk_checkin">@string/tools_bulk_checkin</item>
-        <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
-        <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
-        <item name="tool_sync">@string/tools_sync</item>
-    </string-array>
-
-    <string-array name="array_tool_images">
-        <item name="tool_image_search_qr">@drawable/ic_qrcodescanner</item>
-        <item name="tool_image_bulk_checkin">@drawable/ic_bulk_checkin</item>
-        <item name="tool_image_direct_acknowledge">@drawable/ic_direct_acknowledge</item>
-        <item name="tool_image_cash_turnover">@drawable/ic_cash_turnover</item>
-        <item name="tool_sync">@drawable/ic_sync</item>
-    </string-array>
-
 
     <!--Main Screen-->
-    <string-array name="main_tab_items">
-        <item name="tab_jobs">JOBS</item>
-        <item name="tab_tools">TOOLS</item>
-        <item name="tab_empty"></item>
-        <item name="tab_profile">PROFILE</item>
-    </string-array>
+    <string name="tab_jobs">JOBS</string>
+    <string name="tab_tools">TOOLS</string>
+    <string name="tab_empty"></string>
+    <string name="tab_profile">PROFILE</string>
 
 
-    <string-array name="jobs_tab_items">
-        <item>Open</item>
-        <item>Current</item>
-    </string-array>
+    <!-- Job Order List-->
+    <string name="joblist_open">Open</string>
+    <string name="joblist_current">Current</string>
 
-    <string-array name="jobs_type_items">
-        <item>For Pick-up</item>
-        <item>For Drop Off</item>
-        <item>For Delivery</item>
-        <item>Problematic</item>
-    </string-array>
+    <string name="jobstatus_for_pickup">For Pick-up</string>
+    <string name="jobstatus_for_drop_off">For Drop Off</string>
+    <string name="jobstatus_for_delivery">For Delivery</string>
+    <string name="jobstatus_problematic">Problematic</string>
 
-    <string-array name="profile_languages">
-        <item name="lang_en">English</item>
-        <item name="lang_cn">Chinese</item>
-    </string-array>
-
-    <string-array name="profile_languages_locale">
-        <item name="lang_en">en</item>
-        <item name="lang_cn">cn</item>
-    </string-array>
 
     <!--New Job Order List Layout-->
     <!--OPEN-->

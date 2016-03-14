@@ -3,6 +3,7 @@ package com.yilinker.expressinternal.mvp.presenter.joborderdetails;
 import com.android.volley.Request;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.utility.DateUtility;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.IOpenJobDetailsView;
@@ -32,6 +33,15 @@ public class OpenJobDetailsPresenter extends RequestPresenter<JobOrder, IOpenJob
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
         view().setStatusText(model.getStatus());
         view().setWaybillNoText(model.getWaybillNo());
+
+        if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+            view().setDeliveryAddressText(model.getDeliveryAddress());
+            view().setPickupAddressText(model.getDropoffAddress());
+        }
+        else{
+            view().setDeliveryAddressText(model.getDeliveryAddress());
+            view().setPickupAddressText(model.getPickupAddress());
+        }
     }
 
     public void onPause() {

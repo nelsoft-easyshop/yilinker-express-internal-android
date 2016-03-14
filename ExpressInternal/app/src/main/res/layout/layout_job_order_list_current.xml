@@ -9,7 +9,7 @@
         <TextView android:id="@+id/tvStatus"
             android:layout_weight="0.8"
             style="@style/JobOrderListTagStyle"
-            android:text="@string/job_order_list_for_claiming"/>
+            android:text="@string/joblist_claiming"/>
 
         <TextView android:id="@+id/tvJobOrderNo"
             android:layout_weight="1.2"

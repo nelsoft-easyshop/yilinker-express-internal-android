@@ -62,20 +62,9 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
 
     }
 
-    //TODO Move this method so this can be reuse
-
     private String formatEarning(double earning){
 
         return PriceFormatHelper.formatPrice(earning);
-    }
-
-    private String formatDateCreated(Date date){
-
-        String format = "dd MMM - hh:mm aa";
-
-        String stringDate = DateUtility.convertDateToString(date, format);
-
-        return stringDate;
     }
 
     private String getAddressByStatus(String status){
@@ -98,19 +87,6 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
 
             address = model.getDropoffAddress();
         }
-//        else {
-//
-//            //TEMP
-//            if(model.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
-//
-//                address = model.getDeliveryAddress();
-//            }
-//            else {
-//
-//                address = model.getPickupAddress();
-//            }
-//
-//        }
 
         return address;
     }
@@ -147,9 +123,6 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
                 Calendar calendar = Calendar.getInstance();
 
                 long difference = calendar.getTimeInMillis() - dateAccepted.getTime();
-//                Calendar newDate = Calendar.getInstance();
-//                newDate.setTimeInMillis(difference);
-
 
                 long secondsInMilli = 1000;
                 long minsInMilli = secondsInMilli * 60;
@@ -164,7 +137,7 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
                 long second = difference / secondsInMilli;
                 difference = difference % secondsInMilli;
 
-                timeElapsed = String.format("%02d:%02d:%02d", hour, minute, second);
+                timeElapsed = String.format("%02dh:%02dm:%02ds", hour, minute, second);
 
             }
 
