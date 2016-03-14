@@ -152,6 +152,7 @@
     <string name="gps_network_not_enabled">You need to turn on location services to use this feature.</string>
     <string name="open_location_settings">Go to Settings</string>
     <string name="generating_qr">Generating QR Code...</string>
+    <string name="open_joborderdetail_accept">Accept</string>
 
 
     <!--Job Order List-->
