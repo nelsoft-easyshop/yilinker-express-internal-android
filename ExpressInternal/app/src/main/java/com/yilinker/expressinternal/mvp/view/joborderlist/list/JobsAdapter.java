@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.joborderlist.list;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,11 @@ import com.yilinker.expressinternal.mvp.presenter.joborderlist.CurrentJobItemPre
 import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobItemPresenter;
 import com.yilinker.expressinternal.mvp.presenter.joborderlist.OpenJobItemPresenter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by J.Bautista on 3/3/16.
  */
@@ -24,11 +29,46 @@ public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresen
     private RecyclerViewClickListener listener;
     private int resourceId;
 
+    //For Counter
+    private List<JobsViewHolder> currentJobsViewHolders;
+    private boolean isCounterActive;
+    protected Handler timerHandler;
+
+    //For Timer
+    private final Runnable mRunnable = new Runnable() {
+
+        public void run() {
+
+            // if counters are active
+            if (isCounterActive) {
+
+                for(JobsViewHolder viewHolder : currentJobsViewHolders){
+
+                    viewHolder.onTick();
+                }
+
+                // update every second
+                timerHandler.postDelayed(this, 1000);
+            }
+
+        }
+
+    };
+
     public JobsAdapter(int resourceId , RecyclerViewClickListener listener){
 
         this.resourceId = resourceId;
         this.listener = listener;
 
+        this.currentJobsViewHolders = new ArrayList<>();
+
+    }
+
+    @Override
+    public void onBindViewHolder(JobsViewHolder<JobItemPresenter> holder, int position) {
+        super.onBindViewHolder(holder, position);
+
+        currentJobsViewHolders.add(holder);
     }
 
     @NonNull
@@ -44,8 +84,8 @@ public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresen
         else {
 
             presenter = new CurrentJobItemPresenter();
-        }
 
+        }
 
         presenter.setModel(model);
 
@@ -98,7 +138,7 @@ public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresen
             type = R.layout.layout_job_order_list_open_2;
 
         }
-        else if (!model.isOpen() && model.getStatus().equals(JobOrderConstant.JO_PROBLEMATIC)){
+        else if (!model.isOpen() && status.equals(JobOrderConstant.JO_PROBLEMATIC)){
 
             type = R.layout.layout_job_order_list_problematic;
         }
@@ -108,5 +148,31 @@ public class JobsAdapter extends ListRecyclerViewAdapter<JobOrder, JobItemPresen
         }
 
         return type;
+    }
+
+    public void startTimer(){
+
+        isCounterActive = true;
+        timerHandler = new Handler();
+        timerHandler.postDelayed(mRunnable, 0);
+
+    }
+
+    public void stopTimer(){
+
+        isCounterActive = false;
+        timerHandler = null;
+
+    }
+
+    @Override
+    public void clearAndAddAll(Collection<JobOrder> data) {
+
+        stopTimer();
+        currentJobsViewHolders.clear();
+
+        super.clearAndAddAll(data);
+
+        startTimer();
     }
 }

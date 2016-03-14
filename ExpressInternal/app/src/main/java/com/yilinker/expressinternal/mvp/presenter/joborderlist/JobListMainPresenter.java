@@ -326,7 +326,7 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
                 String waybillNo = item.getWaybillNo();
 
-                if (waybillNo.contains(query)) {
+                if (waybillNo.toLowerCase().contains(query.toLowerCase())) {
 
                     result.add(item);
                 }

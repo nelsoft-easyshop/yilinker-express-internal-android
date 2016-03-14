@@ -7,8 +7,8 @@
     android:layout_margin="5dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/ic_qrcodescanner"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
@@ -16,15 +16,16 @@
 
         <TextView
             android:id="@+id/tvToolsTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sync"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:textAlignment="center"
             android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/ivToolImage"
+            android:layout_marginTop="5dp"/>
 
 </RelativeLayout>

@@ -16,4 +16,6 @@ public abstract class JobsViewHolder<P extends JobItemPresenter>  extends BaseVi
         super(itemView);
 
     }
+
+    public abstract void onTick();
 }

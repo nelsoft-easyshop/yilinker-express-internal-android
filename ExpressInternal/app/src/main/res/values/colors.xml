@@ -25,5 +25,6 @@
     <!-- Semi-transparent colors-->
     <color name="trans_orange_red">#CCff5722</color>
     <color name="trans_orange_yellow">#CCffa000</color>
+    <color name="trans_white">#CCffffff</color>
 
 </resources>

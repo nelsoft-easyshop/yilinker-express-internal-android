@@ -126,4 +126,9 @@ public class OpenJobsViewHolder extends JobsViewHolder<OpenJobItemPresenter> imp
         tvStatus.setBackgroundResource(background);
 
     }
+
+    @Override
+    public void onTick() {
+
+    }
 }
