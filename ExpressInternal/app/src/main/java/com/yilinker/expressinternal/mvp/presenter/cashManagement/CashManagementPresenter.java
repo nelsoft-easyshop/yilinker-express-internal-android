@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.cashManagement;
 
+import android.nfc.tech.TagTechnology;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.RiderAPI;
@@ -27,7 +29,6 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
     private final static String GET_CASH_DETAILS_REQUEST_TAG = "request-tag";
 
     private CashDetail cashDetail;
-    private String[] requests = {GET_CASH_DETAILS_REQUEST_TAG};
 
     @Override
     protected void updateView() {
@@ -49,7 +50,6 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
 
     @Override
     public void requestCashDetails() {
-//        view().showLoader(true);
         view().showErrorMessage(false,"");
 
         Request request = RiderAPI.getCashDetails(REQUEST_GET_CASH_DETAIL, this);
@@ -74,9 +74,8 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
 
     private List<String> getRequestTags(){
         List<String> lists = new ArrayList<>();
-        for (String item : requests){
-            lists.add(item);
-        }
+        lists.add(GET_CASH_DETAILS_REQUEST_TAG);
+
         return lists;
     }
 

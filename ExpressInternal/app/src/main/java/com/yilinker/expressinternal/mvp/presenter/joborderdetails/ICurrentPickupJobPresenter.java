@@ -7,4 +7,5 @@ public interface ICurrentPickupJobPresenter {
 
     public void reportOutOfStock(String problemType, String notes);
     public void onPause();
+    public void startTimer();
 }

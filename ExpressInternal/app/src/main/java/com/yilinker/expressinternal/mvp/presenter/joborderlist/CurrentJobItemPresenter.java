@@ -91,23 +91,24 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
         return address;
     }
 
-
-    private String getAddressByStatusId(int typeId){
-
-        String address = null;
-
-        if(typeId==2){
-
-
-        }
-        else if (typeId==1){
-
-            address = model.getDeliveryAddress();
-        }
-
-
-        return address;
+    public void startTimer() {
     }
+//    private String getAddressByStatusId(int typeId){
+//
+//        String address = null;
+//
+//        if(typeId==2){
+//
+//
+//        }
+//        else if (typeId==1){
+//
+//            address = model.getDeliveryAddress();
+//        }
+//
+//
+//        return address;
+//    }
 
     private String convertTimeElapsedToString(Date dateAccepted){
 
