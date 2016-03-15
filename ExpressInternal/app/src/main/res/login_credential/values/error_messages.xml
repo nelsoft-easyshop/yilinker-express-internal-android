@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_no_entries_found">No entries found</string>
+    <string name="error_cash_limit_reached">Cash Limit Reached</string>
+     <string name="error_no_segregation_area">Rider has no segregation area</string>
+    <string name="error_expired_token">Expired token</string>
+    <string name="error_invalid_username_password">Invalid username/password</string>
+
+</resources>

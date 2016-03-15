@@ -810,7 +810,7 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
 
         tabItems = new ArrayList<TabModel>();
-        String[] arrayTabItems = getResources().getStringArray(R.array.tab_items);
+        String[] arrayTabItems = getResources().getStringArray(R.array.old_tab_items);
 
         TabModel tab;
         int i = 0;

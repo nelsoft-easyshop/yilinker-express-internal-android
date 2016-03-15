@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="old_tab_items">
+        <item>@string/joblist_open</item>
+        <item>@string/joblist_current</item>
+        <item>@string/joblist_completed</item>
+        <item>@string/joblist_problematic</item>
+    </string-array>
 
     <string-array name="main_tab_icons_unselected">
         <item>@drawable/ic_jobs</item>
@@ -17,6 +23,71 @@
         <item>@drawable/ic_profile_selected</item>
     </string-array>
 
+    <string-array name="array_tool_images">
+        <item name="tool_image_search_qr">@drawable/ic_qrcodescanner</item>
+        <item name="tool_image_bulk_checkin">@drawable/ic_bulk_checkin</item>
+        <item name="tool_image_direct_acknowledge">@drawable/ic_direct_acknowledge</item>
+        <item name="tool_image_cash_turnover">@drawable/ic_cash_turnover</item>
+        <item name="tool_sync">@drawable/ic_sync</item>
+    </string-array>
 
+    <string-array name="array_menu_items">
+        <item>@string/menu_mapview</item>
+        <item>@string/menu_current_job</item>
+        <item>@string/menu_pickup</item>
+        <item>@string/menu_delivery</item>
+        <item>@string/menu_dropoff</item>
+        <item>@string/menu_scanner</item>
+        <item>@string/menu_acknowledge</item>
+    </string-array>
+
+    <string-array name="navigation_item_array">
+        <item >@string/drawer_dashboard</item>
+        <item>@string/drawer_cash_management</item>
+        <item>@string/drawer_sync</item>
+    </string-array>
+
+    <string-array name="array_scanner_tab">
+        <item>@string/single_scanner</item>
+        <item>@string/bulk_scanner</item>
+    </string-array>
+
+    <string-array name="jobs_tab_items">
+        <item>@string/joblist_open</item>
+        <item>@string/joblist_current</item>
+    </string-array>
+
+    <string-array name="jobs_type_items">
+        <item>@string/jobstatus_for_pickup</item>
+        <item>@string/jobstatus_for_drop_off</item>
+        <item>@string/jobstatus_for_delivery</item>
+        <item>@string/jobstatus_problematic</item>
+    </string-array>
+
+
+    <string-array name="profile_languages">
+        <item name="lang_en">English</item>
+        <item name="lang_cn">Chinese</item>
+    </string-array>
+
+    <string-array name="profile_languages_locale">
+        <item name="lang_en">en</item>
+        <item name="lang_cn">ch</item>
+    </string-array>
+
+    <string-array name="main_tab_items">
+        <item>@string/tab_jobs</item>
+        <item>@string/tab_tools</item>
+        <item></item>
+        <item>@string/tab_profile</item>
+    </string-array>
+
+    <string-array name="array_tool_items">
+        <item name="tool_search_qr">@string/tools_search_qr</item>
+        <item name="tool_bulk_checkin">@string/tools_bulk_checkin</item>
+        <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
+        <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
+        <item name="tool_sync">@string/tools_sync</item>
+    </string-array>
 
 </resources>
