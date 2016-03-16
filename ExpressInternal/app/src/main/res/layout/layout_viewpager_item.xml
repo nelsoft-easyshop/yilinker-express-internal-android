@@ -6,7 +6,21 @@
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"/>
+        android:layout_height="0dp"
+        android:layout_weight=".8"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".2"
+        android:text="Indulge yourself with the hottest items in store Indulge yourself with the hottest \nitems in store "
+        android:textColor="@color/gray_brown"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@drawable/bg_rounded_white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
 </LinearLayout>
