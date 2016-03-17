@@ -60,7 +60,7 @@
         <activity
             android:name=".mvp.view.registration.ActivityRegistrationVerificationCode"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/ActivityTheme" />
 
         <activity
@@ -72,10 +72,6 @@
             android:name=".controllers.login.ActivityLogin"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -89,8 +85,10 @@
             android:name=".mvp.view.startpage.ActivitySplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity

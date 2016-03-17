@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.registration.RegistrationVerificationCodePresenter;
 import com.yilinker.expressinternal.mvp.view.BaseActivity;
@@ -22,13 +23,14 @@ import java.util.List;
  */
 public class ActivityRegistrationVerificationCode extends BaseActivity implements IActivityRegistrationVerificationCodeView, View.OnClickListener {
 
-    private String mobileNumber;
     private TextView tvErrorMessage;
+    private TextView tvResendVerification;
     private EditText etCode;
 
     private View viewLoader;
     private Button btnVerify;
 
+    private String mobileNumber;
     private RegistrationVerificationCodePresenter presenter;
 
     @Override
@@ -64,12 +66,19 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         mobileNumber = getIntent().getStringExtra(ActivityRegistrationSignUp.KEY_MOBILE_NUMBER);
     }
 
+    private String getRemainingTime(){
+
+        ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
+        return applicationClass.getRemainingTime(getApplicationContext());
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
         presenter.bindView(this);
+        presenter.getRemainingTime(getRemainingTime());
         presenter.getVerificationCode();
     }
 
@@ -90,7 +99,7 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         btnVerify =(Button) findViewById(R.id.btnVerify);
         btnVerify.setOnClickListener(this);
 
-        TextView tvResendVerification = (TextView) findViewById(R.id.tvResendVerification);
+        tvResendVerification = (TextView) findViewById(R.id.tvResendVerification);
         tvResendVerification.setOnClickListener(this);
 
         viewLoader = findViewById(R.id.viewLoader);
@@ -131,16 +140,7 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     public void handleVerifyResponse(String message) {
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-//        goBackToSignUp();
         goToCompleteSignUp();
-    }
-
-    private void goBackToSignUp(){
-        Intent intent = new Intent();
-        intent.putExtra(ActivityRegistrationSignUp.KEY_VERIFICATION_CODE,etCode.getText().toString());
-        intent.putExtra(ActivityRegistrationSignUp.KEY_MOBILE_NUMBER, mobileNumber);
-        setResult(RESULT_OK,intent);
-        finish();
     }
 
     private void goToCompleteSignUp(){
@@ -163,20 +163,43 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     }
 
     @Override
+    public void saveCurrentTime(String currentTime) {
+        ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
+        applicationClass.saveRemainingTime(currentTime);
+    }
+
+    @Override
+    public void setRemainingTime(String remainingTime) {
+
+        TextView tvTimer = (TextView) findViewById(R.id.tvTimer);
+
+        if (remainingTime.equals("0")){
+            tvResendVerification.setTextColor(getResources().getColor(R.color.orange_red));
+            tvResendVerification.setEnabled(true);
+            tvTimer.setVisibility(View.GONE);
+        }else
+        {
+
+            tvResendVerification.setTextColor(getResources().getColor(R.color.gray_brown));
+            tvResendVerification.setEnabled(false);
+
+            tvTimer.setVisibility(View.VISIBLE);
+            tvTimer.setText(remainingTime);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         super.onClick(v);
 
         switch (v.getId()){
 
             case R.id.btnVerify:
-//                presenter.validateInput(etCode.getText().toString());
-//                temp TODO to be remove
-                handleVerifyResponse("verified");
+                presenter.validateInput(etCode.getText().toString());
                 break;
 
             case R.id.tvResendVerification:
-                Toast.makeText(getApplicationContext(),"Resend Verification",Toast.LENGTH_SHORT).show();
-//                presenter.getVerificationCode();
+                presenter.getVerificationCode();
                 break;
 
             default:

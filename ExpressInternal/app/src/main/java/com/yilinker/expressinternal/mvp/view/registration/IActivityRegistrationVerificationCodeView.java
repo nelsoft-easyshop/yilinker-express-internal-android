@@ -15,4 +15,6 @@ public interface IActivityRegistrationVerificationCodeView {
     public void handleVerifyResponse(String message);
     public void addRequest(Request request);
     public void cancelRequest(List<String> requestTags);
+    public void saveCurrentTime(String currentTime);
+    public void setRemainingTime(String remainingTime);
 }

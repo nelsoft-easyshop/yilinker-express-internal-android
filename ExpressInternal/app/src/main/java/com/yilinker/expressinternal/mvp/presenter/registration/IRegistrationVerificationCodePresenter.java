@@ -9,6 +9,6 @@ public interface IRegistrationVerificationCodePresenter {
     public void getVerificationCode();
     public void validateInput(String inputCode);
     public void onPause();
-
+    public void getRemainingTime(String remainingTime);
 
 }

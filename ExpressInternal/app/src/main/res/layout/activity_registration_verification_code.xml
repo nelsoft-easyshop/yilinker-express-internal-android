@@ -73,7 +73,7 @@
                 android:background="@drawable/bg_rounded_white_no_padding"
                 android:hint="@string/registration_enter_code"
                 android:singleLine="true"
-                android:gravity="center"
+                android:gravity="center_horizontal|center_vertical"
                 />
 
             <Button
@@ -109,6 +109,16 @@
             android:gravity="center"
             android:textColor="@color/orange_red"
             android:layout_marginTop="@dimen/verification_code_margin_top"/>
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/gray_brown"/>
 
     </LinearLayout>
 

@@ -1,5 +1,8 @@
 package com.yilinker.expressinternal.mvp.presenter.registration;
 
+import android.os.CountDownTimer;
+import android.os.SystemClock;
+
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationVerificationCodePresenter;
@@ -7,6 +10,7 @@ import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationV
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Patrick on 3/8/2016.
@@ -22,15 +26,71 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
     private String[] request_tags = {GET_VERIFICATION_REQUEST_TAG, VERIFY_CODE_REQUEST_TAG};
 
+    private boolean isTimerFinished = true;
+    private String minutes = "00";
+    private String seconds = "00";
+    private long remainingTime = 60000;
+    private static final String FORMAT2 = "%02d";
+
+    private CountDownTimer countDownTimer;
+
     @Override
     protected void updateView() {
     }
 
+    private void setCountDownTimer(long remainingTime){
+
+        countDownTimer = new CountDownTimer(remainingTime, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                minutes = String.format(FORMAT2, TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished)));
+                seconds = String.format(FORMAT2, TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                isTimerFinished = false;
+                view().setRemainingTime(minutes+":"+seconds);
+
+            }
+
+            @Override
+            public void onFinish() {
+                isTimerFinished = true;
+                view().setRemainingTime("0");
+                view().saveCurrentTime(null);
+                setCountDownTimer(60000);
+            }
+
+        };
+
+    }
+
+    /****method to start the timer*/
+    public void startTimer(){
+        countDownTimer.start();
+    }
+
+    public void stopTimer(){
+        isTimerFinished = true;
+
+        if (countDownTimer!=null){
+
+            countDownTimer.cancel();
+        }
+
+       view().saveCurrentTime(null);
+
+    }
 
     @Override
     public void getVerificationCode() {
 //        view().showLoader(true);
-        requestVerificationCode();
+        if (isTimerFinished){
+//            requestVerificationCode();
+            //TODO move this to onSuccess
+            setCountDownTimer(60000);
+            view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
+            startTimer();
+        }
     }
 
     @Override
@@ -49,7 +109,38 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     public void onPause() {
         //TODO cancel request here
 //        view().cancelRequest(getRequestTags());
+        if (countDownTimer!=null)
+        {
+            isTimerFinished = true;
+            countDownTimer.cancel();
+        }
     }
+
+    @Override
+    public void getRemainingTime(String remainingTime) {
+
+        if (remainingTime != null){
+
+            long currentTime = System.currentTimeMillis();
+            long savedTime = Long.valueOf(remainingTime);
+            long timeLapsed = currentTime - savedTime;
+
+            if (timeLapsed < 60000 ){
+                this.remainingTime = this.remainingTime - timeLapsed;
+                setCountDownTimer(this.remainingTime);
+                isTimerFinished = false;
+                startTimer();
+                this.remainingTime = 60000;
+
+            }else {
+                setCountDownTimer(this.remainingTime);
+                view().saveCurrentTime(null);
+            }
+        }else{
+            setCountDownTimer(this.remainingTime);
+        }
+    }
+
 
     private List<String> getRequestTags(){
         List<String> lists = new ArrayList<>();
@@ -77,9 +168,14 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
             case GET_VERIFICATION_REQUEST_CODE:
                 view().showLoader(false);
                 view().handleGetVerificationCodeResponse(object.toString());
+
+                setCountDownTimer(60000);
+                startTimer();
+
                 break;
 
             case VERIFY_CODE_REQUEST_CODE:
+                stopTimer();
                 view().showLoader(false);
                 view().handleVerifyResponse(object.toString());
                 break;
