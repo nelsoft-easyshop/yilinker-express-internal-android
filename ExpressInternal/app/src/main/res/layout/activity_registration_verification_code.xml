@@ -73,7 +73,7 @@
                 android:background="@drawable/bg_rounded_white_no_padding"
                 android:hint="@string/registration_enter_code"
                 android:singleLine="true"
-                android:gravity="center_horizontal|center_vertical"
+                android:gravity="center"
                 />
 
             <Button
