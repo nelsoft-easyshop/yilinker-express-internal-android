@@ -195,7 +195,9 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         switch (v.getId()){
 
             case R.id.btnVerify:
-                presenter.validateInput(etCode.getText().toString());
+//                presenter.validateInput(etCode.getText().toString());
+                //ToDO delete this
+                goToCompleteSignUp();
                 break;
 
             case R.id.tvResendVerification:
