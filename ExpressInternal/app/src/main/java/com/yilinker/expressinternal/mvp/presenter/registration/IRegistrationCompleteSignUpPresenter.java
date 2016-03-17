@@ -7,5 +7,6 @@ public interface IRegistrationCompleteSignUpPresenter {
 
     public void validateInputs(String password, String confirmPassword);
     public void handleSignUpResponse(String message);
+    public void onPause();
 
 }

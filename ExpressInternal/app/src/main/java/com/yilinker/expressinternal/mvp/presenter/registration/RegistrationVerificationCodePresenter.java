@@ -119,6 +119,14 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
         }
     }
 
+    private List<String> getRequestTags(){
+        List<String> lists = new ArrayList<>();
+        for (String item : request_tags){
+            lists.add(item);
+        }
+        return lists;
+    }
+
     @Override
     public void getRemainingTime(String remainingTime) {
 
@@ -150,18 +158,10 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     }
 
 
-    private List<String> getRequestTags(){
-        List<String> lists = new ArrayList<>();
-        for (String item : request_tags){
-            lists.add(item);
-        }
-        return lists;
-    }
-
-
     private void requestVerificationCode(){
-        //TODO Add api call andd loader
+        //TODO Add api call and loader
 //        Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+//        request.setTag(GET_VERIFICATION_REQUEST_TAG);
 //        view().addRequest(request);
 
     }
@@ -169,6 +169,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     private void requestVerifyCode(String input){
         //TODO Add Api call here
 //        Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+//        request.setTag(VERIFY_CODE_REQUEST_TAG);
 //        view().addRequest(request);
 //        view().showLoader(true);
     }

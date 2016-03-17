@@ -75,7 +75,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-
+        presenter.onPause();
         presenter.unbindView();
     }
 
@@ -115,10 +115,6 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
         addRequestToQueue(request);
     }
 
-    @Override
-    public void cancelRequest(List<String> requestTags) {
-        cancelRequests(requestTags);
-    }
 
     @Override
     public void showLoader(boolean isToShow) {

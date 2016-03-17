@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.registration;
 
+import android.content.res.TypedArray;
+
 import com.android.volley.Request;
 import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
@@ -8,6 +10,9 @@ import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationCompleteSignUpPresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationCompleteSignUpView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Patrick on 3/8/2016.
  */
@@ -15,6 +20,9 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         implements IRegistrationCompleteSignUpPresenter, ResponseHandler{
 
     private final static int SIGN_UP_REQUEST_CODE = 2001;
+    private final static String SIGN_UP_REQUEST_TAG = "sign-up";
+
+    private String[] request_tags = {SIGN_UP_REQUEST_TAG};
 
     @Override
     protected void updateView() {
@@ -41,6 +49,20 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
     @Override
     public void handleSignUpResponse(String message) {
         view().handleSignUpResponse(message);
+    }
+
+    @Override
+    public void onPause() {
+//        view().cancelRequests(getRequestTags());
+    }
+
+
+    private List<String> getRequestTags(){
+        List<String> lists = new ArrayList<>();
+        for (String item : request_tags){
+            lists.add(item);
+        }
+        return lists;
     }
 
     private void requestSignUp(){
