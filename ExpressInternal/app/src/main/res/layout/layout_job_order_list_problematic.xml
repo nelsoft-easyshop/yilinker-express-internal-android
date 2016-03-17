@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewLine1"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp">
 
@@ -78,7 +78,7 @@
             android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Address"
+            android:text="-"
             android:textStyle="bold"
             android:textSize="14sp"
             android:layout_below="@+id/tvAddressLabel"
@@ -109,7 +109,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewLine2"
         android:padding="10dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/bg_rounded_bottom_white">
 
 
@@ -117,7 +116,7 @@
             android:id="@+id/tvProblemType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delivery Rejected by Recipient"
+            android:text="-"
             android:textSize="12sp"
             android:textColor="@color/orange_red"
             android:layout_toStartOf="@+id/tvSize"
