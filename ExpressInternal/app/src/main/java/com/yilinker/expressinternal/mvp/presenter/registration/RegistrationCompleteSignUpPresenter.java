@@ -1,6 +1,9 @@
 package com.yilinker.expressinternal.mvp.presenter.registration;
 
+import com.android.volley.Request;
+import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationCompleteSignUpPresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationCompleteSignUpView;
@@ -31,7 +34,6 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
             view().showErrorMessage("password is not equal");
 
         }else {
-            view().showLoader(true);
             requestSignUp();
         }
     }
@@ -43,7 +45,9 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
 
     private void requestSignUp(){
         //TODO call request here
-//        view().addRequest();
+//        Request request = RegistrationApi.submitRegistration(SIGN_UP_REQUEST_CODE,this,new ExpressErrorHandler(this,SIGN_UP_REQUEST_CODE));
+//        view().addRequest(request);
+//        view().showLoader(true);
     }
 
     @Override
@@ -54,6 +58,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
 
             case SIGN_UP_REQUEST_CODE:
                 handleSignUpResponse(object.toString());
+                view().showLoader(false);
                 break;
 
         }
@@ -66,7 +71,8 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         switch (requestCode){
 
             case SIGN_UP_REQUEST_CODE:
-                handleSignUpResponse(message);
+                view().showErrorMessage(message);
+                view().showLoader(false);
                 break;
 
         }

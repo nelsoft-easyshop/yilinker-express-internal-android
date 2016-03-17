@@ -10,7 +10,7 @@ import java.util.List;
 public interface IActivityRegistrationVerificationCodeView {
 
     public void handleGetVerificationCodeResponse(String message);
-    public void showLoader(boolean isToShow);
+    public void showVerifyLoader(boolean isToShow);
     public void showErrorMessage(boolean isToShow, String errorMessage);
     public void handleVerifyResponse(String message);
     public void addRequest(Request request);

@@ -79,7 +79,7 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
 
         presenter.bindView(this);
         presenter.getRemainingTime(getRemainingTime());
-        presenter.getVerificationCode();
+//        presenter.getVerificationCode();
     }
 
     @Override
@@ -119,7 +119,8 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     }
 
     @Override
-    public void showLoader(boolean isToShow) {
+    public void showVerifyLoader(boolean isToShow) {
+
         viewLoader.setVisibility(isToShow? View.VISIBLE:View.GONE);
         if (isToShow){
             btnVerify.setText(getString(R.string.registration_verifying));

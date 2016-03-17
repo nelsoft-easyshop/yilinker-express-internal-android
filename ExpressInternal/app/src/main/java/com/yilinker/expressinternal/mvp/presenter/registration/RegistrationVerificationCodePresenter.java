@@ -3,7 +3,10 @@ package com.yilinker.expressinternal.mvp.presenter.registration;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 
+import com.android.volley.Request;
+import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationVerificationCodePresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationVerificationCodeView;
@@ -125,6 +128,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
             long savedTime = Long.valueOf(remainingTime);
             long timeLapsed = currentTime - savedTime;
 
+            /***to check if saved time is less than 1 minute*/
             if (timeLapsed < 60000 ){
                 this.remainingTime = this.remainingTime - timeLapsed;
                 setCountDownTimer(this.remainingTime);
@@ -133,11 +137,15 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
                 this.remainingTime = 60000;
 
             }else {
+                /***to check if saved time exceed to 1 minute*/
                 setCountDownTimer(this.remainingTime);
                 view().saveCurrentTime(null);
+                getVerificationCode();
             }
         }else{
+            /***if no saved time available*/
             setCountDownTimer(this.remainingTime);
+            getVerificationCode();
         }
     }
 
@@ -152,12 +160,17 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
 
     private void requestVerificationCode(){
-        //TODO Add api call
-//        view().addRequest();
+        //TODO Add api call andd loader
+//        Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+//        view().addRequest(request);
+
     }
 
     private void requestVerifyCode(String input){
         //TODO Add Api call here
+//        Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+//        view().addRequest(request);
+//        view().showLoader(true);
     }
 
     @Override
@@ -166,7 +179,6 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
         switch (requestCode){
             case GET_VERIFICATION_REQUEST_CODE:
-                view().showLoader(false);
                 view().handleGetVerificationCodeResponse(object.toString());
 
                 setCountDownTimer(60000);
@@ -176,7 +188,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
             case VERIFY_CODE_REQUEST_CODE:
                 stopTimer();
-                view().showLoader(false);
+                view().showVerifyLoader(false);
                 view().handleVerifyResponse(object.toString());
                 break;
 
@@ -192,12 +204,11 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
         switch (requestCode) {
             case GET_VERIFICATION_REQUEST_CODE:
-                view().showLoader(false);
                 view().handleGetVerificationCodeResponse(message);
                 break;
 
             case VERIFY_CODE_REQUEST_CODE:
-                view().showLoader(false);
+                view().showVerifyLoader(false);
                 view().showErrorMessage(true,message);
                 break;
             default:
