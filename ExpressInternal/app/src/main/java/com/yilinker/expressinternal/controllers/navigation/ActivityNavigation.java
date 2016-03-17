@@ -271,7 +271,8 @@ public class ActivityNavigation extends BaseActivity implements RoutingListener,
 
                 list.set(0, curentLocation);
 
-                map.addMarker(new MarkerOptions().position(curentLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_current));
+//                map.addMarker(new MarkerOptions().position(curentLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_current));
+                map.addMarker(new MarkerOptions().position(curentLocation).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rider_2));
                 map.addMarker(new MarkerOptions().position(destination).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_destination));
                 map.addPolyline(polyRoute);
 

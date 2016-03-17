@@ -93,7 +93,7 @@
         <activity android:name=".mvp.view.joborderdetails.ActivityCompleteJODetails"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-            
+
         <activity
             android:name=".controllers.qrscanner.ActivityScanToDetails"
             android:screenOrientation="portrait"
