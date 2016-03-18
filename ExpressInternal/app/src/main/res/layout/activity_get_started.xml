@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray2">
+    android:background="@color/gray">
 
     <Button
         android:id="@+id/btnGetStarted"
@@ -31,9 +31,10 @@
             android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_margin="15dp"
             app:centered="true"
             app:fillColor="@color/orange_red"
-            app:pageColor="@color/gray"
+            app:pageColor="@color/light_gray"
             app:radius="4dp"
             app:strokeWidth="1dp"/>
 
