@@ -6,6 +6,7 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICompleteJODetailsView;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 /**
  * Created by Patrick on 3/17/2016.
@@ -19,8 +20,23 @@ public class CompleteJODetailsPresenter extends RequestPresenter<JobOrder, IComp
     protected void updateView() {
         super.updateView();
 
-        /***TODO add methods here for setting values to views **/
+        view().setEarning(PriceFormatHelper.formatPrice(model.getEarning()));
+        view().setJobOrderNumber(model.getWaybillNo());
+        view().setOverallRating(model.getRating());
+        view().setTimeUsed(getTimeused());
+        view().setType(model.getType());
+        //TODO add more setter here
 
+    }
+
+    private String getTimeused(){
+        long timeUsed = Math.abs((model.getTimeDelivered().getTime() - model.getEstimatedTimeOfArrival().getTime())/(3600 * 1000));
+        int timeInHours = (int) timeUsed;
+        int timeInMins = Math.abs((int) ((timeUsed - timeInHours) / 60));
+
+        String formattedString = String.format("%02dHRS %02dMIN", timeInHours, timeInMins);
+
+        return  formattedString;
     }
 
     @Override

@@ -9,5 +9,12 @@ import com.yilinker.expressinternal.mvp.view.RequestBaseView;
 public interface ICompleteJODetailsView extends RequestBaseView {
 
     public void showErrorMessage(String errorMessage);
+    public void setJobOrderNumber(String jobOrderNumber);
+    public void setType(String type);
+    public void setOverallRating(int rating);
+    public void setTimeUsed(String timeUsed);
+    public void setEarning(String earning);
+
+
 
 }

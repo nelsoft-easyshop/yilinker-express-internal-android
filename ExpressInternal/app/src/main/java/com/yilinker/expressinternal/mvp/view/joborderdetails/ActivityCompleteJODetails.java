@@ -3,6 +3,8 @@ package com.yilinker.expressinternal.mvp.view.joborderdetails;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -73,5 +75,35 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
     public void showErrorMessage(String errorMessage) {
 
         Toast.makeText(getApplicationContext(),errorMessage,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setJobOrderNumber(String jobOrderNumber) {
+        TextView tvJobOrderNumber = (TextView) findViewById(R.id.tvJobOrderNo);
+        tvJobOrderNumber.setText(jobOrderNumber);
+    }
+
+    @Override
+    public void setType(String type) {
+
+        //TODO add type to xml
+    }
+
+    @Override
+    public void setOverallRating(int rating) {
+        RatingBar rbRating = (RatingBar) findViewById(R.id.ratingJob);
+        rbRating.setRating((float) rating);
+    }
+
+    @Override
+    public void setTimeUsed(String timeUsed) {
+        TextView tvTimeUsed = (TextView) findViewById(R.id.tvTimeUsed);
+        tvTimeUsed.setText(timeUsed);
+    }
+
+    @Override
+    public void setEarning(String earning) {
+        TextView tvEarned = (TextView) findViewById(R.id.tvEarned);
+        tvEarned.setText(earning);
     }
 }
