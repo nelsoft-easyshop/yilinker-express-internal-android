@@ -33,13 +33,13 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
     public void validateInputs(String mobileNumber, String password, String confirmPassword) {
 
         if (password.isEmpty()){
-            view().showErrorMessage("password is empty");
+            view().showValidationError(1);
 
         }else if (confirmPassword.isEmpty()){
-            view().showErrorMessage("confirm password is empty");
+            view().showValidationError(2);
 
         }else if (!password.equals(confirmPassword)){
-            view().showErrorMessage("password is not equal");
+            view().showValidationError(2);
 
         }else {
             requestSignUp(mobileNumber, password);

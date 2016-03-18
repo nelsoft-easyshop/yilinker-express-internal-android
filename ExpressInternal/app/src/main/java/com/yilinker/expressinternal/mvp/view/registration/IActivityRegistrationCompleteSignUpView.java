@@ -13,6 +13,7 @@ public interface IActivityRegistrationCompleteSignUpView extends RequestBaseView
     public void addRequest(Request request);
     public void showLoader(boolean isToShow);
     public void showErrorMessage(String errorMessage);
+    public void showValidationError(int Code);
     public void handleSignUpResponse(String message);
 
 }

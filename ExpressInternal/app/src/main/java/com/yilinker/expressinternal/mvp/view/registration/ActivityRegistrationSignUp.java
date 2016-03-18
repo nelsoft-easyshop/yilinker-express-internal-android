@@ -108,8 +108,10 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
 
     @Override
-    public void showErrorMessage(String message) {
-        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+    public void showErrorMessage() {
+
+        Toast.makeText(getApplicationContext(),getString(R.string.login_error_mobile_required),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

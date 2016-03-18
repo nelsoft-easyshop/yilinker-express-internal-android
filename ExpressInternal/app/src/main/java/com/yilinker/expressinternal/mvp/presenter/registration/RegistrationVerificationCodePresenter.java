@@ -89,7 +89,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
         view().showErrorMessage(false,"");
 
         if (inputCode.length()<1){
-            view().showErrorMessage(true,"Code is empty");
+            view().showValidationError(1);
 
         }else {
             requestVerifyCode(inputCode, mobileNumber);

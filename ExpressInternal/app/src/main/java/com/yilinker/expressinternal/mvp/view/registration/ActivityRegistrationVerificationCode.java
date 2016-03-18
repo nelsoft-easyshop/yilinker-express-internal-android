@@ -151,6 +151,22 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     }
 
     @Override
+    public void showValidationError(int errorCode) {
+
+        String errorMessage = null;
+        switch (errorCode){
+
+            case 1:
+                errorMessage = getString(R.string.registration_error_code_required);
+                break;
+
+            default:break;
+
+        }
+        Toast.makeText(getApplicationContext(),errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void handleVerifyResponse(String message) {
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

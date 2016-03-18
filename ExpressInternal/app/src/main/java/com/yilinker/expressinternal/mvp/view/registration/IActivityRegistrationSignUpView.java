@@ -7,7 +7,7 @@ public interface IActivityRegistrationSignUpView {
 
     public void onSignUpClick();
     public void onSignInClick();
-    public void showErrorMessage(String message);
+    public void showErrorMessage();
 
 
 }
