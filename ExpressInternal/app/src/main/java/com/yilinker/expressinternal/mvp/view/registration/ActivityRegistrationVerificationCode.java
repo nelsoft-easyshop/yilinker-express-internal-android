@@ -79,8 +79,9 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
 
         presenter.bindView(this);
         presenter.getRemainingTime(getRemainingTime());
-//        presenter.getVerificationCode();
+        presenter.getVerificationCode(getFormatterMobileNumber());
     }
+
 
     @Override
     protected void onPause() {
@@ -126,6 +127,18 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
             btnVerify.setText(getString(R.string.registration_verifying));
         }else {
             btnVerify.setText(getString(R.string.registration_verify));
+        }
+
+    }
+
+    @Override
+    public void showGetVerificationLoader(boolean isToShow) {
+
+        viewLoader.setVisibility(isToShow? View.VISIBLE:View.GONE);
+        if (isToShow){
+            tvResendVerification.setText(getString(R.string.registration_sending_verification_code));
+        }else {
+            tvResendVerification.setText(getString(R.string.registration_resend_verification));
         }
 
     }
@@ -196,13 +209,13 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         switch (v.getId()){
 
             case R.id.btnVerify:
-//                presenter.validateInput(etCode.getText().toString());
+//                presenter.validateInput(etCode.getText().toString(), getFormatterMobileNumber());
                 //ToDO delete this
                 goToCompleteSignUp();
                 break;
 
             case R.id.tvResendVerification:
-                presenter.getVerificationCode();
+                presenter.getVerificationCode(getFormatterMobileNumber());
                 break;
 
             default:

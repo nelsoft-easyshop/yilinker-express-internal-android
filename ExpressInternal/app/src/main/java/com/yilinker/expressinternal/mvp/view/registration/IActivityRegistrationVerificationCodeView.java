@@ -11,6 +11,7 @@ public interface IActivityRegistrationVerificationCodeView {
 
     public void handleGetVerificationCodeResponse(String message);
     public void showVerifyLoader(boolean isToShow);
+    public void showGetVerificationLoader(boolean isToShow);
     public void showErrorMessage(boolean isToShow, String errorMessage);
     public void handleVerifyResponse(String message);
     public void addRequest(Request request);

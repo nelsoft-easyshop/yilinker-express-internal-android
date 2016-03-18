@@ -85,26 +85,14 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     }
 
     @Override
-    public void getVerificationCode() {
-//        view().showLoader(true);
-        if (isTimerFinished){
-//            requestVerificationCode();
-            //TODO move this to onSuccess
-            setCountDownTimer(60000);
-            view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
-            startTimer();
-        }
-    }
-
-    @Override
-    public void validateInput(String inputCode) {
+    public void validateInput(String inputCode, String mobileNumber) {
         view().showErrorMessage(false,"");
 
         if (inputCode.length()<1){
             view().showErrorMessage(true,"Code is empty");
 
         }else {
-            requestVerifyCode(inputCode);
+            requestVerifyCode(inputCode, mobileNumber);
         }
     }
 
@@ -146,32 +134,44 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
             }else {
                 /***to check if saved time exceed to 1 minute*/
-                setCountDownTimer(this.remainingTime);
+                setCountDownTimer(60000);
                 view().saveCurrentTime(null);
-                getVerificationCode();
+                isTimerFinished = true;
             }
         }else{
             /***if no saved time available*/
-            setCountDownTimer(this.remainingTime);
-            getVerificationCode();
+            setCountDownTimer(60000);
+            isTimerFinished = true;
+        }
+    }
+
+    @Override
+    public void getVerificationCode(String mobileNumber) {
+        if (isTimerFinished){
+
+//            requestVerificationCode();
+            //TODO move this to onSuccess of request verification
+            setCountDownTimer(60000);
+            view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
+            startTimer();
         }
     }
 
 
-    private void requestVerificationCode(){
-        //TODO Add api call and loader
-//        Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
-//        request.setTag(GET_VERIFICATION_REQUEST_TAG);
-//        view().addRequest(request);
+    private void requestVerificationCode(String mobileNumber){
+        view().showGetVerificationLoader(true);
+        Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, mobileNumber, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+        request.setTag(GET_VERIFICATION_REQUEST_TAG);
+        view().addRequest(request);
 
     }
 
-    private void requestVerifyCode(String input){
+    private void requestVerifyCode(String code, String mobileNumber){
         //TODO Add Api call here
-//        Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
-//        request.setTag(VERIFY_CODE_REQUEST_TAG);
-//        view().addRequest(request);
-//        view().showLoader(true);
+        Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE,code, mobileNumber, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+        request.setTag(VERIFY_CODE_REQUEST_TAG);
+        view().addRequest(request);
+        view().showVerifyLoader(true);
     }
 
     @Override
@@ -180,9 +180,11 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
         switch (requestCode){
             case GET_VERIFICATION_REQUEST_CODE:
-                view().handleGetVerificationCodeResponse(object.toString());
+                view().showGetVerificationLoader(false);
 
+                view().handleGetVerificationCodeResponse(object.toString());
                 setCountDownTimer(60000);
+                view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
                 startTimer();
 
                 break;

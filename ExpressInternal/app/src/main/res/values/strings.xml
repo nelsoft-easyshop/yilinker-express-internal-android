@@ -39,6 +39,7 @@
     <string name="registration_verify">Verify</string>
     <string name="registration_verifying">"Verifying..."</string>
     <string name="registration_create_account">Create Account</string>
+    <string name="registration_sending_verification_code">Sending Verification Code...</string>
 
     <!--Terms and Conditions-->
     <string name="yilinker_express_rider">YILINKER EXPRESS RIDER</string>

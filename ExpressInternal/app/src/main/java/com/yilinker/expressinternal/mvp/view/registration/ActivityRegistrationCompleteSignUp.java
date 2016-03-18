@@ -158,7 +158,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
             case R.id.btnSignUp:
                 String password = etPassword.getText().toString();
                 String confirmPassword = etConfirmPassword.getText().toString();
-                presenter.validateInputs(password, confirmPassword);
+                presenter.validateInputs(getFormatterMobileNumber(),password, confirmPassword);
                 break;
 
             default:

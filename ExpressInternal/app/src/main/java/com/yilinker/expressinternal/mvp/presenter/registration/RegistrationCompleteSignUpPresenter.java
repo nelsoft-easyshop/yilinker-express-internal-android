@@ -30,7 +30,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
     }
 
     @Override
-    public void validateInputs(String password, String confirmPassword) {
+    public void validateInputs(String mobileNumber, String password, String confirmPassword) {
 
         if (password.isEmpty()){
             view().showErrorMessage("password is empty");
@@ -42,7 +42,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
             view().showErrorMessage("password is not equal");
 
         }else {
-            requestSignUp();
+            requestSignUp(mobileNumber, password);
         }
     }
 
@@ -65,9 +65,9 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         return lists;
     }
 
-    private void requestSignUp(){
+    private void requestSignUp(String mobileNumber, String password){
         //TODO call request here
-//        Request request = RegistrationApi.submitRegistration(SIGN_UP_REQUEST_CODE,this,new ExpressErrorHandler(this,SIGN_UP_REQUEST_CODE));
+//        Request request = RegistrationApi.submitRegistration(SIGN_UP_REQUEST_CODE, mobileNumber, password, this,new ExpressErrorHandler(this,SIGN_UP_REQUEST_CODE));
 //        view().addRequest(request);
 //        view().showLoader(true);
     }
