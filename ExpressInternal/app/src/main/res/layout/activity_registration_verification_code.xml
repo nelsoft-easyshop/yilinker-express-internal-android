@@ -35,17 +35,19 @@
             android:layout_marginTop="@dimen/phone_icon_margin_top"/>
 
         <LinearLayout
+            android:id="@+id/llCodeContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             android:layout_marginTop="@dimen/verification_form_margin_top"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/bg_btn_marigold_rounded">
+            android:background="@drawable/bg_btn_marigold_rounded"
+            android:animateLayoutChanges="true">
 
             <TextView
                 android:layout_width="match_parent"
@@ -83,6 +85,7 @@
                 android:text="@string/registration_verify"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
+                android:textSize="20sp"
                 android:background="@drawable/bg_btn_orangeyellow_rounded"
                 android:layout_below="@+id/etConfirmPassword"
                 android:layout_marginTop="10dp"/>
@@ -100,15 +103,55 @@
         </LinearLayout>
 
 
+        <!--<TextView-->
+            <!--android:id="@+id/tvResendVerification"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/registration_resend_verification"-->
+            <!--android:textSize="18sp"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/orange_red"-->
+            <!--android:layout_marginTop="@dimen/verification_code_margin_top"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tvTimer"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="00:00"-->
+            <!--android:textSize="20sp"-->
+            <!--android:gravity="center"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/gray_brown"/>-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/verification_code_resend_margin_bottom"
+        android:animateLayoutChanges="true">
+
+
         <TextView
             android:id="@+id/tvResendVerification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/registration_resend_verification"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:gravity="center"
-            android:textColor="@color/orange_red"
-            android:layout_marginTop="@dimen/verification_code_margin_top"/>
+            android:textColor="@color/orange_red"/>
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/gray_brown"/>
 
     </LinearLayout>
 

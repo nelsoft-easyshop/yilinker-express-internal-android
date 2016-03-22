@@ -75,7 +75,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-
+        presenter.onPause();
         presenter.unbindView();
     }
 
@@ -115,10 +115,6 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
         addRequestToQueue(request);
     }
 
-    @Override
-    public void cancelRequest(List<String> requestTags) {
-        cancelRequests(requestTags);
-    }
 
     @Override
     public void showLoader(boolean isToShow) {
@@ -133,6 +129,27 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
 
     @Override
     public void showErrorMessage(String errorMessage) {
+
+        Toast.makeText(getApplicationContext(),errorMessage,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showValidationError(int errorCode) {
+        String errorMessage = "";
+
+        switch (errorCode){
+            case 1:
+                errorMessage = getString(R.string.registration_password_required);
+                break;
+
+            case 2:
+                errorMessage = getString(R.string.registration_coonfirm_password_not_match);
+                break;
+
+            default:
+                break;
+        }
+
         Toast.makeText(getApplicationContext(),errorMessage,Toast.LENGTH_SHORT).show();
     }
 
@@ -162,7 +179,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
             case R.id.btnSignUp:
                 String password = etPassword.getText().toString();
                 String confirmPassword = etConfirmPassword.getText().toString();
-                presenter.validateInputs(password, confirmPassword);
+                presenter.validateInputs(getFormatterMobileNumber(),password, confirmPassword);
                 break;
 
             default:

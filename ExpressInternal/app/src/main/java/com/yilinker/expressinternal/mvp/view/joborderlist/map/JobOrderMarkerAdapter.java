@@ -38,12 +38,15 @@ public class JobOrderMarkerAdapter extends BaseMapAdapter<MarkerOptions, JobOrde
         int resourceId = 0;
         if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
-            resourceId = R.drawable.pin_joborder_delivery;
+//            resourceId = R.drawable.pin_joborder_delivery;
+            resourceId = R.drawable.pin_joborder_delivery_2;
         }
         else {
 
-            resourceId = R.drawable.pin_joborder_pickup;
-        }
+//            resourceId = R.drawable.pin_joborder_pickup;
+            resourceId = R.drawable.pin_joborder_pickup_2;
+
+    }
 
         markerOptions.icon(BitmapDescriptorFactory.fromResource(resourceId));
         markerOptions.snippet(object.getJobOrderNo());

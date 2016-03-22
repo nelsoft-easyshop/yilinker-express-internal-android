@@ -1,12 +1,19 @@
 package com.yilinker.expressinternal.mvp.presenter.registration;
 
+import android.os.CountDownTimer;
+import android.os.SystemClock;
+
+import com.android.volley.Request;
+import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationVerificationCodePresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationVerificationCodeView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Patrick on 3/8/2016.
@@ -22,26 +29,70 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
     private String[] request_tags = {GET_VERIFICATION_REQUEST_TAG, VERIFY_CODE_REQUEST_TAG};
 
+    private boolean isTimerFinished = true;
+    private String minutes = "00";
+    private String seconds = "00";
+    private long remainingTime = 60000;
+    private static final String FORMAT2 = "%02d";
+
+    private CountDownTimer countDownTimer;
+
     @Override
     protected void updateView() {
     }
 
+    private void setCountDownTimer(long remainingTime){
 
-    @Override
-    public void getVerificationCode() {
-//        view().showLoader(true);
-        requestVerificationCode();
+        countDownTimer = new CountDownTimer(remainingTime, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                minutes = String.format(FORMAT2, TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished)));
+                seconds = String.format(FORMAT2, TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                isTimerFinished = false;
+                view().setRemainingTime(minutes+":"+seconds);
+
+            }
+
+            @Override
+            public void onFinish() {
+                isTimerFinished = true;
+                view().setRemainingTime("0");
+                view().saveCurrentTime(null);
+                setCountDownTimer(60000);
+            }
+
+        };
+
+    }
+
+    /****method to start the timer*/
+    public void startTimer(){
+        countDownTimer.start();
+    }
+
+    public void stopTimer(){
+        isTimerFinished = true;
+
+        if (countDownTimer!=null){
+
+            countDownTimer.cancel();
+        }
+
+       view().saveCurrentTime(null);
+
     }
 
     @Override
-    public void validateInput(String inputCode) {
+    public void validateInput(String inputCode, String mobileNumber) {
         view().showErrorMessage(false,"");
 
         if (inputCode.length()<1){
-            view().showErrorMessage(true,"Code is empty");
+            view().showValidationError(1);
 
         }else {
-            requestVerifyCode(inputCode);
+            requestVerifyCode(inputCode, mobileNumber);
         }
     }
 
@@ -49,6 +100,11 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     public void onPause() {
         //TODO cancel request here
 //        view().cancelRequest(getRequestTags());
+        if (countDownTimer!=null)
+        {
+            isTimerFinished = true;
+            countDownTimer.cancel();
+        }
     }
 
     private List<String> getRequestTags(){
@@ -59,14 +115,63 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
         return lists;
     }
 
+    @Override
+    public void getRemainingTime(String remainingTime) {
 
-    private void requestVerificationCode(){
-        //TODO Add api call
-//        view().addRequest();
+        if (remainingTime != null){
+
+            long currentTime = System.currentTimeMillis();
+            long savedTime = Long.valueOf(remainingTime);
+            long timeLapsed = currentTime - savedTime;
+
+            /***to check if saved time is less than 1 minute*/
+            if (timeLapsed < 60000 ){
+                this.remainingTime = this.remainingTime - timeLapsed;
+                setCountDownTimer(this.remainingTime);
+                isTimerFinished = false;
+                startTimer();
+                this.remainingTime = 60000;
+
+            }else {
+                /***to check if saved time exceed to 1 minute*/
+                setCountDownTimer(60000);
+                view().saveCurrentTime(null);
+                isTimerFinished = true;
+            }
+        }else{
+            /***if no saved time available*/
+            setCountDownTimer(60000);
+            isTimerFinished = true;
+        }
     }
 
-    private void requestVerifyCode(String input){
+    @Override
+    public void getVerificationCode(String mobileNumber) {
+        if (isTimerFinished){
+
+//            requestVerificationCode();
+            //TODO move this to onSuccess of request verification
+            setCountDownTimer(60000);
+            view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
+            startTimer();
+        }
+    }
+
+
+    private void requestVerificationCode(String mobileNumber){
+        view().showGetVerificationLoader(true);
+        Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, mobileNumber, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+        request.setTag(GET_VERIFICATION_REQUEST_TAG);
+        view().addRequest(request);
+
+    }
+
+    private void requestVerifyCode(String code, String mobileNumber){
         //TODO Add Api call here
+        Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE,code, mobileNumber, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+        request.setTag(VERIFY_CODE_REQUEST_TAG);
+        view().addRequest(request);
+        view().showVerifyLoader(true);
     }
 
     @Override
@@ -75,12 +180,18 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
         switch (requestCode){
             case GET_VERIFICATION_REQUEST_CODE:
-                view().showLoader(false);
+                view().showGetVerificationLoader(false);
+
                 view().handleGetVerificationCodeResponse(object.toString());
+                setCountDownTimer(60000);
+                view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
+                startTimer();
+
                 break;
 
             case VERIFY_CODE_REQUEST_CODE:
-                view().showLoader(false);
+                stopTimer();
+                view().showVerifyLoader(false);
                 view().handleVerifyResponse(object.toString());
                 break;
 
@@ -96,12 +207,11 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
         switch (requestCode) {
             case GET_VERIFICATION_REQUEST_CODE:
-                view().showLoader(false);
                 view().handleGetVerificationCodeResponse(message);
                 break;
 
             case VERIFY_CODE_REQUEST_CODE:
-                view().showLoader(false);
+                view().showVerifyLoader(false);
                 view().showErrorMessage(true,message);
                 break;
             default:

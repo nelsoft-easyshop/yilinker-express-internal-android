@@ -56,10 +56,10 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
         ApplicationClass app = (ApplicationClass)ApplicationClass.getInstance();
 
-        if(app.isLoggedIn()){
-
-            goToDashboard();
-        }
+//        if(app.isLoggedIn()){
+//
+//            goToDashboard();
+//        }
 
         requestQueue = app.getRequestQueue();
 
@@ -189,12 +189,10 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
     private void goToDashboard(){
 
-//        Intent goToDashBoard = new Intent(ActivityLogin.this, ActivityDashboard.class);
-//        startActivity(goToDashBoard);
-//        finish();
-
         Intent goToDashBoard = new Intent(ActivityLogin.this, ActivityMain.class);
+        goToDashBoard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(goToDashBoard);
+
         finish();
     }
 

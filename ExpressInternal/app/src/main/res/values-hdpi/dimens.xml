@@ -8,7 +8,28 @@
     <dimen name="dashboard_josummarylabel_textsize">14sp</dimen>
 
     <!--login-->
-    <dimen name="yilinker_express_name_textsize">16sp</dimen>
+    <dimen name="yilinker_express_name_textsize">18sp</dimen>
+
+    <!--OTP-->
+    <dimen name="verification_code_margin_top">20dp</dimen>
     <dimen name="verification_form_margin_top">20dp</dimen>
+    <dimen name="phone_icon_margin_top">20dp</dimen>
+    <dimen name="verification_code_resend_margin_bottom">30dp</dimen>
+
+    <!--registration-->
+    <dimen name="registration_cover_height">250dp</dimen>
+    <dimen name="registration_message_marginBottom">80dp</dimen>
+    <dimen name="registration_rider_logo">80dp</dimen>
+    <dimen name="registration_rider_logo_margin_top">-40dp</dimen>
+
+    <dimen name="registration_mobile_margin_top">10dp</dimen>
+    <dimen name="registration_sign_up_margin_top">10dp</dimen>
+    <dimen name="registration_sign_in_margin_top">20dp</dimen>
+
+    <!--complete registration-->
+    <dimen name="complete_registration_banner_height">120dp</dimen>
+    <dimen name="complete_registration_verified_margin_bottom">60dp</dimen>
+    <dimen name="complete_registration_edittext_height">40dp</dimen>
+    <dimen name="complete_registration_sign_up_button_height">40dp</dimen>
 
 </resources>
