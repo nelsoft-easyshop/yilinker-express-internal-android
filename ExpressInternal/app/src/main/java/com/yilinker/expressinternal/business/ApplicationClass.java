@@ -56,6 +56,7 @@ public class ApplicationClass extends BaseApplication {
 
     private static final String KEY_FILTER_AREA = "filterBy";
     private static final String REMAINING_TIME =  "remaining-time";
+    private static final String KEY_MOBILE_NUMBER = "registration-mobile-number";
 
     private Intent intentServiceLocation;
 
@@ -393,6 +394,22 @@ public class ApplicationClass extends BaseApplication {
     public String getRemainingTime(Context context){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getString(REMAINING_TIME,null);
+
+    }
+
+
+    public void saveMobileNumber(String remainingTime){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(KEY_MOBILE_NUMBER, remainingTime);
+        editor.commit();
+
+    }
+
+    public String getMobileNumber(Context context){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getString(KEY_MOBILE_NUMBER,null);
 
     }
 

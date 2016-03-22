@@ -5,5 +5,7 @@ package com.yilinker.expressinternal.mvp.presenter.registration;
  */
 public interface IRegistrationSignUpPresenter {
 
-    public void validateInput(String mobileNumber);
+    public void validateInput(String mobileNumber,String savedMobileNumber);
+    public void onPause();
+
 }

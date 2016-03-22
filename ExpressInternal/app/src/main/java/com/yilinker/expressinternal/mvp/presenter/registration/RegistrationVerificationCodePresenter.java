@@ -80,8 +80,6 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
             countDownTimer.cancel();
         }
 
-       view().saveCurrentTime(null);
-
     }
 
     @Override
@@ -140,8 +138,11 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
             }
         }else{
             /***if no saved time available*/
-            setCountDownTimer(60000);
+//            setCountDownTimer(60000);
             isTimerFinished = true;
+            setCountDownTimer(60000);
+            view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
+            startTimer();
         }
     }
 
@@ -149,7 +150,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     public void getVerificationCode(String mobileNumber) {
         if (isTimerFinished){
 
-//            requestVerificationCode();
+//            requestVerificationCode(mobileNumber);
             //TODO move this to onSuccess of request verification
             setCountDownTimer(60000);
             view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));

@@ -27,6 +27,7 @@
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="terms_and_conditions_ours">"ours "</string>
     <string name="login_sign_up">Sign Up</string>
+    <string name="login_signing_up">Signing up..</string>
     <string name="registration_already_have_an_account">Already have an account? Sign in</string>
     <string name="registration_here">" here"</string>
     <string name="registration_password_required">Password is required.</string>
