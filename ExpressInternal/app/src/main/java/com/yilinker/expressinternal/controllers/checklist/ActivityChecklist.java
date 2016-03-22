@@ -27,7 +27,7 @@ import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
-import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
+//import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete2;
@@ -42,6 +42,7 @@ import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.PackageType;
 import com.yilinker.expressinternal.model.Rider;
+import com.yilinker.expressinternal.mvp.view.images.ActivityImageGallery;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 import java.io.File;
@@ -902,6 +903,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     }
 
     private void showImageGallery(ArrayList<String> images, int requestCode) {
+//
+//        Intent intent = new Intent(ActivityChecklist.this, ActivityImageGallery.class);
+//        intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, images);
+//        intent.putExtra(ActivityImageGallery.ARG_TYPE, ImagePagerAdapter.TYPE_URI);
+//        intent.putExtra(ActivityImageGallery.ARG_RETAKE, true);
+//        startActivityForResult(intent, requestCode);
 
         Intent intent = new Intent(ActivityChecklist.this, ActivityImageGallery.class);
         intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, images);
