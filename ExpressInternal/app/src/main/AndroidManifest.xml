@@ -94,6 +94,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <activity android:name=".mvp.view.images.ActivityImageGallery"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" />
+
         <activity
             android:name=".controllers.qrscanner.ActivityScanToDetails"
             android:screenOrientation="portrait"

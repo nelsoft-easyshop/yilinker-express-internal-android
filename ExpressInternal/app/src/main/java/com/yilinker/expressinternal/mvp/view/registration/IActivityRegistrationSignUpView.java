@@ -12,5 +12,5 @@ public interface IActivityRegistrationSignUpView extends RequestBaseView {
     public void showErrorMessage();
     public void showValidationError(String errorMessage);
     public void saveMobileNumber(String mobileNumber);
-
+    public void setAccessToken(String accessToken);
 }

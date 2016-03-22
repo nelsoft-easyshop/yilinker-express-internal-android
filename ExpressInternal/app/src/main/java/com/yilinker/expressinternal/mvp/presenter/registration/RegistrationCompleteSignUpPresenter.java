@@ -30,7 +30,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
     }
 
     @Override
-    public void validateInputs(String mobileNumber, String password, String confirmPassword) {
+    public void validateInputs(String mobileNumber, String password, String confirmPassword,String accessToken) {
 
         if (password.isEmpty()){
             view().showValidationError(1);
@@ -42,7 +42,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
             view().showValidationError(2);
 
         }else {
-            requestSignUp(mobileNumber, password);
+            requestSignUp(mobileNumber, password, accessToken);
         }
     }
 
@@ -53,7 +53,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
 
     @Override
     public void onPause() {
-//        view().cancelRequests(getRequestTags());
+        view().cancelRequests(getRequestTags());
     }
 
 
@@ -65,11 +65,12 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         return lists;
     }
 
-    private void requestSignUp(String mobileNumber, String password){
+    private void requestSignUp(String mobileNumber, String password, String accessToken){
         //TODO call request here
-//        Request request = RegistrationApi.submitRegistration(SIGN_UP_REQUEST_CODE, mobileNumber, password, this,new ExpressErrorHandler(this,SIGN_UP_REQUEST_CODE));
-//        view().addRequest(request);
-//        view().showLoader(true);
+        Request request = RegistrationApi.submitRegistration(SIGN_UP_REQUEST_CODE, mobileNumber, password,accessToken, this,new ExpressErrorHandler(this,SIGN_UP_REQUEST_CODE));
+        request.setTag(SIGN_UP_REQUEST_TAG);
+        view().addRequest(request);
+        view().showLoader(true);
     }
 
     @Override

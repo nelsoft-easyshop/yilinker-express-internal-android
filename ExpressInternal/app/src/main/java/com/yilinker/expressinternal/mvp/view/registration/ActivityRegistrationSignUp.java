@@ -24,10 +24,12 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
     public final static String KEY_MOBILE_NUMBER = "mobile-number";
     public final static String KEY_VERIFICATION_CODE = "verification-code";
     public final static String KEY_IS_NEW_MOBILE_NUMBER = "is-new-mobile";
+    public final static String KEY_ACCESS_TOKEN = "access_token";
 
     private EditText etMobileNumber;
     private RegistrationSignUpPresenter presenter;
     private Button btnSignUp;
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
     @Override
     protected void onPause() {
         super.onPause();
-//        presenter.onPause();
+        presenter.onPause();
         presenter.unbindView();
     }
 
@@ -100,6 +102,7 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
         Intent goToCodeVerification = new Intent(this,ActivityRegistrationVerificationCode.class);
         goToCodeVerification.putExtra(KEY_MOBILE_NUMBER,etMobileNumber.getText().toString());
         goToCodeVerification.putExtra(KEY_IS_NEW_MOBILE_NUMBER, isNewNumber);
+        goToCodeVerification.putExtra(KEY_ACCESS_TOKEN, accessToken);
         startActivity(goToCodeVerification);
         overridePendingTransition(R.anim.pull_in_right,R.anim.push_out_left);
     }
@@ -131,6 +134,11 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
         ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
         applicationClass.saveMobileNumber(mobileNumber);
 
+    }
+
+    @Override
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     private String getSavedMobileNumber(){
