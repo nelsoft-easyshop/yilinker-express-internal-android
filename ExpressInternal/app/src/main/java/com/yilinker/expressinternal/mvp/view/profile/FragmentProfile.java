@@ -49,14 +49,20 @@ public class FragmentProfile extends BaseFragment implements IMainProfileView, R
         if (savedInstanceState == null) {
 
             presenter = new MainProfilePresenter();
+            initializeViews(view);
+            presenter.bindView(this);
+
+            initializeLanguages();
 
         } else {
 
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
 
+            presenter.bindView(this);
+
         }
 
-        initializeViews(view);
+
     }
 
     @Override
@@ -66,14 +72,6 @@ public class FragmentProfile extends BaseFragment implements IMainProfileView, R
         PresenterManager.getInstance().savePresenter(presenter, outState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        presenter.bindView(this);
-
-        initializeLanguages();
-    }
 
     @Override
     public void onPause() {

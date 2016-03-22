@@ -321,6 +321,8 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 //        refreshLayout.setRefreshing(isVisible);
 
         currentFragmentView.showLoader(isVisible);
+
+
     }
 
     @Override

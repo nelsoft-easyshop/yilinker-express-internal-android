@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist2;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentPickupJobPresenter;
@@ -199,7 +200,7 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     @Override
     public void goToChecklist() {
 
-        Intent intent = new Intent(getActivity(), ActivityChecklist.class);
+        Intent intent = new Intent(getActivity(), ActivityChecklist2.class);
         intent.putExtra(ActivityChecklist.ARG_JOB_ORDER, jobOrder);
         startActivity(intent);
     }

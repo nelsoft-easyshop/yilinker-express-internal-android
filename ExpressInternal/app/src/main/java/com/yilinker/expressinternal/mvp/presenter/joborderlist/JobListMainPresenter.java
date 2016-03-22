@@ -156,10 +156,12 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         }
 
         //Filter and Search
-        List<JobOrder> result = new ArrayList<>();
-        result.addAll(filterAndSearch(completeList));
+        if(completeList != null) {
+            List<JobOrder> result = new ArrayList<>();
+            result.addAll(filterAndSearch(completeList));
 
-        setModel(result);
+            setModel(result);
+        }
     }
 
     public void onSearchWaybill(String waybillNo){
@@ -168,9 +170,12 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         searchString = waybillNo;
 
-        result.addAll(filterAndSearch(completeList));
 
-        setModel(result);
+        if(completeList != null) {
+            result.addAll(filterAndSearch(completeList));
+
+            setModel(result);
+        }
 
     }
 

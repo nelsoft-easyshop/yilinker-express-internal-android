@@ -16,7 +16,7 @@ import com.yilinker.expressinternal.R;
 /**
  * Created by Patrick on 3/9/2016.
  */
-public class BaseActivity extends BaseFragmentActivity implements View.OnClickListener{
+public abstract class BaseActivity extends BaseFragmentActivity implements View.OnClickListener{
 
     private ImageButton ivBack;
     private ImageButton ivMenu;
@@ -143,18 +143,6 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
     public View getActionBarView(){
 
         return actionBar.getCustomView();
-
-    }
-
-
-
-    @Override
-    public void initializeViews(View parent) {
-
-    }
-
-    @Override
-    public void showLoader(boolean isShown) {
 
     }
 

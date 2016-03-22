@@ -39,12 +39,6 @@ public abstract class RequestPresenter <M, V>  extends BasePresenter <M, V>  imp
     }
 
     @Override
-    protected void updateView() {
-
-
-    }
-
-    @Override
     public void onSuccess(int requestCode, Object object) {
 
 

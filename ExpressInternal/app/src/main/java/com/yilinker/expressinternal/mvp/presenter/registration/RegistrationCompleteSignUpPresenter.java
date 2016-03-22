@@ -15,7 +15,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
 
     @Override
     protected void updateView() {
-        super.updateView();
+//        super.updateView();
     }
 
     @Override
