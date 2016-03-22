@@ -14,4 +14,8 @@ public class APIConstant {
     public static final String ERR_EXCEEDS_CASH_LIMIT = "Cash Limit Reached";
     public static final String ERR_NO_SEGREGATION_AREA = "Rider has no segregation area";
 
+    public static final String OAUTH_VERIFICATION_CLIENT_ID = "3_2xbdqhr499icwo8ggwosks8wksss0kc8gsw8ko4sck8480o4kk";
+    public static final String OAUTH_VERIFICATION_CLIENT_SECRET = "3ph588gxblicscs4w80084cwwkk4s4s4o4wssoskkg8c8sc0gc";
+    public static final String OAUTH_VERIFICATION_GRANT_TYPE = "client_credentials";
+
 }

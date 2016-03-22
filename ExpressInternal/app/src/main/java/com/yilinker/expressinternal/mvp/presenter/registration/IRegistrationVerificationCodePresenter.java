@@ -6,8 +6,8 @@ package com.yilinker.expressinternal.mvp.presenter.registration;
  */
 public interface IRegistrationVerificationCodePresenter {
 
-    public void getVerificationCode(String mobileNumber);
-    public void validateInput(String code, String mobileNumber);
+    public void getVerificationCode(String mobileNumber, String accessToken);
+    public void validateInput(String code, String mobileNumber, String accessToken);
     public void onPause();
     public void getRemainingTime(String remainingTime);
 
