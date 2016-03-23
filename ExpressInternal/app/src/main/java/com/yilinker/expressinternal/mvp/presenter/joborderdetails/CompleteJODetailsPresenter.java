@@ -21,10 +21,10 @@ public class CompleteJODetailsPresenter extends RequestPresenter<JobOrder, IComp
         super.updateView();
 
         view().setEarning(PriceFormatHelper.formatPrice(model.getEarning()));
-        view().setJobOrderNumber(model.getWaybillNo());
-        view().setOverallRating(model.getRating());
-        view().setTimeUsed(getTimeused());
-        view().setType(model.getType());
+//        view().setJobOrderNumber(model.getWaybillNo());
+//        view().setOverallRating(model.getRating());
+//        view().setTimeUsed(getTimeused());
+//        view().setType(model.getType());
         //TODO add more setter here
 
     }
