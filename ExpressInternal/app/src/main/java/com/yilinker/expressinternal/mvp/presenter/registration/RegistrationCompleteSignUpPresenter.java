@@ -1,9 +1,17 @@
 package com.yilinker.expressinternal.mvp.presenter.registration;
 
+import android.content.res.TypedArray;
+
+import com.android.volley.Request;
+import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationCompleteSignUpPresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationCompleteSignUpView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Patrick on 3/8/2016.
@@ -12,6 +20,9 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         implements IRegistrationCompleteSignUpPresenter, ResponseHandler{
 
     private final static int SIGN_UP_REQUEST_CODE = 2001;
+    private final static String SIGN_UP_REQUEST_TAG = "sign-up";
+
+    private String[] request_tags = {SIGN_UP_REQUEST_TAG};
 
     @Override
     protected void updateView() {
@@ -19,20 +30,19 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
     }
 
     @Override
-    public void validateInputs(String password, String confirmPassword) {
+    public void validateInputs(String mobileNumber, String password, String confirmPassword) {
 
         if (password.isEmpty()){
-            view().showErrorMessage("password is empty");
+            view().showValidationError(1);
 
         }else if (confirmPassword.isEmpty()){
-            view().showErrorMessage("confirm password is empty");
+            view().showValidationError(2);
 
         }else if (!password.equals(confirmPassword)){
-            view().showErrorMessage("password is not equal");
+            view().showValidationError(2);
 
         }else {
-            view().showLoader(true);
-            requestSignUp();
+            requestSignUp(mobileNumber, password);
         }
     }
 
@@ -41,9 +51,25 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         view().handleSignUpResponse(message);
     }
 
-    private void requestSignUp(){
+    @Override
+    public void onPause() {
+//        view().cancelRequests(getRequestTags());
+    }
+
+
+    private List<String> getRequestTags(){
+        List<String> lists = new ArrayList<>();
+        for (String item : request_tags){
+            lists.add(item);
+        }
+        return lists;
+    }
+
+    private void requestSignUp(String mobileNumber, String password){
         //TODO call request here
-//        view().addRequest();
+//        Request request = RegistrationApi.submitRegistration(SIGN_UP_REQUEST_CODE, mobileNumber, password, this,new ExpressErrorHandler(this,SIGN_UP_REQUEST_CODE));
+//        view().addRequest(request);
+//        view().showLoader(true);
     }
 
     @Override
@@ -54,6 +80,7 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
 
             case SIGN_UP_REQUEST_CODE:
                 handleSignUpResponse(object.toString());
+                view().showLoader(false);
                 break;
 
         }
@@ -66,7 +93,8 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         switch (requestCode){
 
             case SIGN_UP_REQUEST_CODE:
-                handleSignUpResponse(message);
+                view().showErrorMessage(message);
+                view().showLoader(false);
                 break;
 
         }

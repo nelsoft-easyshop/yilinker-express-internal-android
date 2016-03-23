@@ -33,6 +33,7 @@ public class CurrentProblematicJobPresenter extends BasePresenter<JobOrder, ICur
         view().setDeliveryAddress(model.getDropoffAddress());
         view().setItemText(model.getRemarks());
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
+        view().setProblemType(model.getProblemType());
 
     }
 

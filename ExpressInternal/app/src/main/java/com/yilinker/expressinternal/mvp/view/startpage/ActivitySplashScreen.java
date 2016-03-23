@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 /**
  * Created by Patrick on 3/9/2016.
@@ -21,6 +23,7 @@ public class ActivitySplashScreen extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash_screen);
+
         initializeViews(null);
     }
 
@@ -32,14 +35,34 @@ public class ActivitySplashScreen extends BaseFragmentActivity {
 
             @Override
             public void run() {
-                Intent intent = new Intent(ActivitySplashScreen.this, ActivityGetStarted.class);
-                startActivity(intent);
 
-                finish();
+                ApplicationClass app = (ApplicationClass)ApplicationClass.getInstance();
+
+                if(app.isLoggedIn()){
+                    goToActivityMain();
+
+                }  else {
+                    goToActivityStarted();
+
+                }
             }
         }, SPLASH_TIME_OUT);
     }
 
+    private void goToActivityStarted(){
+        Intent intent = new Intent(ActivitySplashScreen.this, ActivityGetStarted.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+
+    private void goToActivityMain(){
+        Intent intent = new Intent(ActivitySplashScreen.this, ActivityMain.class);
+        startActivity(intent);
+        finish();
+
+    }
 
     @Override
     public void showLoader(boolean isShown) {

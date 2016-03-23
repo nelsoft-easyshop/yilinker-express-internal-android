@@ -364,9 +364,11 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
                 marker = mMap.addMarker(markerOptions);
 
-                int markerResId = R.drawable.pin_joborder_pickup;
+//                int markerResId = R.drawable.pin_joborder_pickup;
+                int markerResId = R.drawable.pin_joborder_pickup_2;
                 if (item.getType().equalsIgnoreCase(getString(R.string.joborder_list_delivery))) {
-                    markerResId = R.drawable.pin_joborder_delivery;
+//                    markerResId = R.drawable.pin_joborder_delivery;
+                    markerResId = R.drawable.pin_joborder_delivery_2;
                 }
 
                 marker.setIcon(BitmapDescriptorFactory.fromResource(markerResId));
@@ -383,8 +385,8 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
             if (mLastLocation != null) {
                 //Center map to rider's location
                 LatLng location = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
-
+//                mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_current_location));
+                mMap.addMarker(new MarkerOptions().position(location).title("Marker")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rider_2));
             }
 
             mMap.setMyLocationEnabled(true);

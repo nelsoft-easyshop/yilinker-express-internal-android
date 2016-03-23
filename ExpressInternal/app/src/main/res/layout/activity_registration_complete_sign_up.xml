@@ -10,14 +10,27 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="@drawable/ic_map_background"
+            android:layout_height="@dimen/complete_registration_banner_height"
+            android:background="@drawable/ic_map_complete_sign_up"
             android:id="@+id/ivBackground" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_white"
+            android:layout_above="@+id/ivLogo"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="@dimen/complete_registration_verified_margin_bottom"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/gray_brown"
+            android:text="Mobile number verified"/>
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/registration_rider_logo"
+            android:layout_height="@dimen/registration_rider_logo"
             android:background="@drawable/ic_rider_circle"
             android:layout_below="@+id/ivBackground"
             android:layout_centerHorizontal="true"
@@ -35,7 +48,7 @@
             <EditText
                 android:id="@+id/etMobileNumber"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/complete_registration_edittext_height"
                 android:background="@drawable/bg_rounded_corner_dark_gray"
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
@@ -48,7 +61,7 @@
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/complete_registration_edittext_height"
                 android:background="@drawable/bg_rounded_white_no_padding"
                 android:layout_marginTop="10dp"
                 android:hint="@string/login_password"
@@ -58,7 +71,7 @@
             <EditText
                 android:id="@+id/etConfirmPassword"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/complete_registration_edittext_height"
                 android:background="@drawable/bg_rounded_white_no_padding"
                 android:layout_below="@+id/etPassword"
                 android:layout_marginTop="10dp"
@@ -69,7 +82,7 @@
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/complete_registration_sign_up_button_height"
                 android:text="@string/login_complete_sign_up"
                 android:textColor="@color/white"
                 android:textAllCaps="false"

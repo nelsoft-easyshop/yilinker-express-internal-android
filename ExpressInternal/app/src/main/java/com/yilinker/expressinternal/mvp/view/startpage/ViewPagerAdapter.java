@@ -26,7 +26,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     public ViewPagerAdapter(Context context, TypedArray images){
         this.images = images;
         this.context = context;
-        inflater = inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class RegistrationSignUpPresenter extends BasePresenter<Object,IActivityR
     @Override
     public void validateInput(String mobileNumber) {
         if (mobileNumber.length()<10){
-            view().showErrorMessage("Invalid mobile number");
+            view().showErrorMessage();
         }else{
             updateView();
         }

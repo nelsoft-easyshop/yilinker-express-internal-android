@@ -55,6 +55,7 @@ public class ApplicationClass extends BaseApplication {
     private static final String CURRENT_LOCALE_ID = "localeId";
 
     private static final String KEY_FILTER_AREA = "filterBy";
+    private static final String REMAINING_TIME =  "remaining-time";
 
     private Intent intentServiceLocation;
 
@@ -379,4 +380,20 @@ public class ApplicationClass extends BaseApplication {
 
         editor.commit();
     }
+
+    public void saveRemainingTime(String remainingTime){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(REMAINING_TIME, remainingTime);
+        editor.commit();
+
+    }
+
+    public String getRemainingTime(Context context){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getString(REMAINING_TIME,null);
+
+    }
+
 }

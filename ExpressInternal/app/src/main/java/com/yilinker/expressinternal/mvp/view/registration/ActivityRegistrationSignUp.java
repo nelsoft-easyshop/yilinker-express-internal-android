@@ -93,7 +93,6 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
 
         Intent goToCodeVerification = new Intent(this,ActivityRegistrationVerificationCode.class);
         goToCodeVerification.putExtra(KEY_MOBILE_NUMBER,etMobileNumber.getText().toString());
-//        startActivityForResult(goToCodeVerification, VERIFICATION_REQUEST_CODE);
         startActivity(goToCodeVerification);
         overridePendingTransition(R.anim.pull_in_right,R.anim.push_out_left);
     }
@@ -107,18 +106,12 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
         finish();
     }
 
-    private void goToCompleteSignUp(String verificationCode){
-
-        Intent goToCompleteSignUp = new Intent(this, ActivityRegistrationCompleteSignUp.class);
-        goToCompleteSignUp.putExtra(KEY_MOBILE_NUMBER,etMobileNumber.getText().toString());
-        goToCompleteSignUp.putExtra(KEY_VERIFICATION_CODE, verificationCode);
-        startActivity(goToCompleteSignUp);
-
-    }
 
     @Override
-    public void showErrorMessage(String message) {
-        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+    public void showErrorMessage() {
+
+        Toast.makeText(getApplicationContext(),getString(R.string.login_error_mobile_required),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -145,27 +138,6 @@ public class ActivityRegistrationSignUp extends BaseFragmentActivity implements 
     public void onBackPressed() {
 //        super.onBackPressed();
     }
-
-    //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        switch (requestCode){
-//
-//            case VERIFICATION_REQUEST_CODE:
-//                if (resultCode == RESULT_OK){
-//                    //TODO get verification code from data
-//                    String verificationCode = data.getStringExtra(KEY_VERIFICATION_CODE);
-//                    etMobileNumber.setText(data.getStringExtra(KEY_MOBILE_NUMBER));
-//                    goToCompleteSignUp(verificationCode);
-//                }
-//
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }
 
     @Override
     public void showLoader(boolean isShown) {

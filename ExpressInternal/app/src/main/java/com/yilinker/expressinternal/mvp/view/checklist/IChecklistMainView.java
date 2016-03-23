@@ -10,8 +10,9 @@ import java.util.List;
  */
 public interface IChecklistMainView {
 
-    public void showChecklistView(String status, JobOrder jobOrder, List<ChecklistItem> items);
+    public void showChecklistView(String status, JobOrder jobOrder);
     public void setWaybillNoText(String waybillNo);
     public void setItemText(String item);
-    public void setActionBarTitle(String status);
+    public void setStatusTitle(String status);
+    public void setActionBarColor(String status);
 }

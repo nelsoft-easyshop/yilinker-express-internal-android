@@ -14,14 +14,28 @@
             android:background="@drawable/ic_map_background"
             android:id="@+id/ivBackground" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_white"
+            android:layout_above="@+id/ivLogo"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginBottom="@dimen/registration_message_marginBottom"
+            android:gravity="center"
+            android:padding="15dp"
+            android:textSize="20sp"
+            android:textColor="@color/gray_brown"
+            android:text="Become a \n YILINKER EXPRESS \nPARTNER"/>
+
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/registration_rider_logo"
+            android:layout_height="@dimen/registration_rider_logo"
             android:background="@drawable/ic_rider_circle"
             android:layout_below="@+id/ivBackground"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-40dp"/>
+            android:layout_marginTop="@dimen/registration_rider_logo_margin_top"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,10 +77,11 @@
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:text="@string/login_sign_up"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
+                android:textSize="20sp"
                 android:background="@drawable/bg_btn_orangeyellow_rounded"
                 android:layout_below="@+id/etConfirmPassword"
                 android:layout_marginTop="@dimen/registration_sign_up_margin_top"/>
@@ -93,6 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/registration_here"
+                    android:textSize="18sp"
                     android:textColor="@color/orange_yellow"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"/>
