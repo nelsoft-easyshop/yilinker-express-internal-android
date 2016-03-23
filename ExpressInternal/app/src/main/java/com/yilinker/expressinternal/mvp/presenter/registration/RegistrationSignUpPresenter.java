@@ -41,23 +41,21 @@ public class RegistrationSignUpPresenter extends RequestPresenter<Object,IActivi
         if (mobileNumber.length()<10){
             view().showErrorMessage();
         }else{
-//            updateView();
             if (savedMobileNumber!=null){
 
                 if (savedMobileNumber.equals(mobileNumber)){
                     isSameNumber = true;
                     requestGetToken();
-//                    view().onSignUpClick(false);
 
                 }else {
-                    this.mobileNumber = mobileNumber;
-//                    requestVerificationCode(String.format("0%s",mobileNumber));
+                    this.mobileNumber = String.format("0%s",mobileNumber);
+                    isSameNumber  =false;
                     requestGetToken();
                 }
 
             }else {
-//                requestVerificationCode(String.format("0%s",mobileNumber));
-                this.mobileNumber = mobileNumber;
+                isSameNumber = false;
+                this.mobileNumber = String.format("0%s",mobileNumber);
                 requestGetToken();
             }
         }
@@ -115,7 +113,8 @@ public class RegistrationSignUpPresenter extends RequestPresenter<Object,IActivi
                     view().onSignUpClick(false);
                 }else {
 
-                    requestVerificationCode(mobileNumber, accessToken);
+//                    requestVerificationCode(mobileNumber, accessToken);
+                    view().onSignUpClick(true);
                 }
                 break;
 

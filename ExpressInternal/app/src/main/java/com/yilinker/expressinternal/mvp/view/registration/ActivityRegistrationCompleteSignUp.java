@@ -102,14 +102,14 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
         tvTermsAndConditions.setOnClickListener(this);
 
         EditText etMobileNumber = (EditText) findViewById(R.id.etMobileNumber);
-        etMobileNumber.setText(getFormatterMobileNumber());
+        etMobileNumber.setText(String.format("%s%s",
+                getString(R.string.registration_mobile_number_start),mobileNumber));
 
     }
 
     private String getFormatterMobileNumber(){
 
-        return String.format("%s%s",
-                getString(R.string.registration_mobile_number_start),mobileNumber);
+        return String.format("0%s",mobileNumber);
     }
 
 
@@ -148,6 +148,9 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
             case 2:
                 errorMessage = getString(R.string.registration_coonfirm_password_not_match);
                 break;
+
+            case 3:
+                errorMessage = getString(R.string.registration_password_less_than_min);
 
             default:
                 break;

@@ -22,7 +22,7 @@
     <string name="login_confirm_password">Confirm Password</string>
     <string name="login_complete_sign_up">Complete Sign Up</string>
     <string name="login_completing_sign_up">"Completing Sign Up..."</string>
-    <string name="login_error_mobile_required">Mobile number is required.</string>
+    <string name="login_error_mobile_required">Invalid Mobile Number</string>
     <string name="terms_and_condition_label">By Signing Up you have accepted</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="terms_and_conditions_ours">"ours "</string>
@@ -32,13 +32,14 @@
     <string name="registration_here">" here"</string>
     <string name="registration_password_required">Password is required.</string>
     <string name="registration_coonfirm_password_not_match">Password does not match.</string>
+    <string name="registration_password_less_than_min">Password must be at least 8 characters</string>
 
     <!--OTP-->
     <string name="registration_sit_back_and_relax">Sit back and relax while we verify</string>
     <string name="registration_sit_back_and_relax_2">your mobile number</string>
     <string name="registration_verification_code_sent">VERIFICATION CODE HAS BEEN SENT TO</string>
     <string name="registration_enter_code">Enter Code</string>
-    <string name="registration_resend_verification">Resent Verification Code</string>
+    <string name="registration_resend_verification">Resend Verification Code</string>
     <string name="registration_mobile_number_start">+63</string>
     <string name="registration_verify">Verify</string>
     <string name="registration_verifying">"Verifying..."</string>
@@ -360,6 +361,10 @@
     <!-- Profile-->
     <string name="profile_filter_by">Filter By: </string>
     <string name="profile_select_language">Select Language: </string>
+
+    <string name="complete_jo_good_job">Good Job!</string>
+    <string name="complete_jo_congratulation">Congratulations, you have\n earned the amount below for\n completing thing this job</string>
+    <string name="complete_jo_wow">Wow</string>
 
 </resources>
 
