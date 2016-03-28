@@ -25,5 +25,7 @@ public class ChecklistMainPresenter extends BasePresenter<JobOrder, IChecklistMa
     public void onCreate(JobOrder jobOrder){
 
         setModel(jobOrder);
+
+        view().showChecklistView(jobOrder.getStatus(), jobOrder);
     }
 }

@@ -426,11 +426,12 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         if(hasFocus){
 
             llJobTypeContainer.setVisibility(View.GONE);
+            viewTransaparent.setVisibility(View.GONE);
         }
         else{
 
-            llJobTypeContainer.setVisibility(View.VISIBLE);
             hideKeyboard();
+            llJobTypeContainer.setVisibility(View.VISIBLE);
         }
     }
 

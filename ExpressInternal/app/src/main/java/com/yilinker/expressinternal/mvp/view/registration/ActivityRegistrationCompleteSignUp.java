@@ -11,9 +11,11 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.controllers.login.ActivityLogin;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.registration.RegistrationCompleteSignUpPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseActivity;
+import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 /**
  * Created by Patrick on 3/8/2016.
@@ -32,6 +34,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
     private RegistrationCompleteSignUpPresenter presenter;
 
     private String mobileNumber, verificationCode;
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
     private void initData(){
         mobileNumber = getIntent().getStringExtra(ActivityRegistrationSignUp.KEY_MOBILE_NUMBER);
         verificationCode = getIntent().getStringExtra(ActivityRegistrationSignUp.KEY_VERIFICATION_CODE);
-
+        accessToken = getIntent().getStringExtra(ActivityRegistrationSignUp.KEY_ACCESS_TOKEN);
     }
 
     @Override
@@ -154,8 +157,12 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
     @Override
     public void handleSignUpResponse(String message) {
         Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
-        //TODO go to respective page
-    }
+
+        Intent goToLogin = new Intent(ActivityRegistrationCompleteSignUp.this, ActivityLogin.class);
+        goToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(goToLogin);
+
+        finish();    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -177,7 +184,7 @@ public class ActivityRegistrationCompleteSignUp extends BaseActivity
             case R.id.btnSignUp:
                 String password = etPassword.getText().toString();
                 String confirmPassword = etConfirmPassword.getText().toString();
-                presenter.validateInputs(getFormatterMobileNumber(),password, confirmPassword);
+                presenter.validateInputs(getFormatterMobileNumber(),password, confirmPassword,accessToken);
                 break;
 
             default:

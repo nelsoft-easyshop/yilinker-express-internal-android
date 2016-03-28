@@ -1,8 +1,11 @@
+
 package com.yilinker.expressinternal.mvp.view.checklist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,22 +22,27 @@ import com.yilinker.expressinternal.controllers.checklist.FragmentDialogUpdateSt
 import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
+import com.yilinker.expressinternal.mvp.model.DeliveryPackage;
 import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistDeliveryPresenter;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistPickupPresenter;
 import com.yilinker.expressinternal.mvp.view.confirmpackage.ActivityConfirmPackage;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
-import com.yilinker.expressinternal.service.ServicePickupChecklist;
+import com.yilinker.expressinternal.service.ServiceDeliveryChecklist;
 
 import java.util.List;
 
 /**
  * Created by J.Bautista on 3/22/16.
  */
-public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPickupPresenter> implements IChecklistPickupView, View.OnClickListener{
+public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDeliveryPresenter> implements IChecklistDeliveryView, View.OnClickListener{
 
-    private static final int REQUEST_CONFIRM_PACKAGE = 100;
-    private static final int REQUEST_DIALOG_UPDATE = 102;
+    private static final int REQUEST_VALID_ID = 100;
+    private static final int REQUEST_RECIPIENT_PICTURE = 102;
+    private static final int REQUEST_SIGNATURE = 103;
+
+    private ChecklistDeliveryPresenter presenter;
 
     private ChecklistItemAdapter adapter;
 
@@ -69,16 +77,17 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
 
         if(savedInstanceState == null){
 
-            presenter = new ChecklistPickupPresenter();
+            presenter = new ChecklistDeliveryPresenter();
 
             initializeViews(view);
 
             presenter.bindView(this);
 
             //For creating the checklist
-            presenter.onViewCreated(getData(), getTitles(R.array.checklist_pickup), getTitleWithData(R.array.checklist_pickup_with_data));
+            presenter.onViewCreated(getData(), getTitles(R.array.checklist_delivery), getTitleWithData(R.array.checklist_delivery_with_data));
 
         }
+
         else{
 
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
@@ -117,16 +126,19 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
 
             switch (requestCode) {
 
-                case  REQUEST_CONFIRM_PACKAGE:
+                case REQUEST_RECIPIENT_PICTURE:
 
-                    handleConfirmPackageResult(data);
+
                     break;
 
-                case REQUEST_DIALOG_UPDATE:
+                case REQUEST_SIGNATURE:
 
-                    String status = data.getStringExtra(FragmentDialogUpdateStatus2.ARG_NEW_STATUS);
 
-                    presenter.onSelectStatus(status);
+                    break;
+
+                case REQUEST_VALID_ID:
+
+                    presenter.onValidIdResult();
                     break;
             }
         }
@@ -146,23 +158,16 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
         adapter = new ChecklistItemAdapter(this);
         rvChecklist.setAdapter(adapter);
 
-        btnComplete.setText(getString(R.string.checklist_pickup_complete));
+        btnComplete.setText(getString(R.string.checklist_delivery_complete));
         btnComplete.setOnClickListener(this);
     }
 
     @Override
     public void showLoader(boolean isShown) {
 
+
     }
 
-    @Override
-    public void showConfirmPackageScreen(Package selectedPackage) {
-
-        Intent intent = new Intent(getActivity(), ActivityConfirmPackage.class);
-        intent.putExtra(ActivityConfirmPackage.ARG_SELECTED_PACKAGE, selectedPackage);
-
-        startActivityForResult(intent, REQUEST_CONFIRM_PACKAGE);
-    }
 
     @Override
     public void goToMainScreen() {
@@ -175,28 +180,50 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
     }
 
     @Override
-    public void startPickupService(Package selectedPackage) {
+    public void startDeliveryService(DeliveryPackage deliveryPackage) {
 
-        Intent service = new Intent(getActivity(), ServicePickupChecklist.class);
+        Intent service = new Intent(getActivity(), ServiceDeliveryChecklist.class);
+        service.putExtra(ServiceDeliveryChecklist.ARG_DELIVERY_JO, deliveryPackage);
+
         getActivity().startService(service);
+
     }
 
     @Override
-    public void showStatusOptionDialog() {
+    public void showCaptureImageScreen(String uri) {
 
-        FragmentDialogUpdateStatus2 dialog = FragmentDialogUpdateStatus2.createInstance(REQUEST_DIALOG_UPDATE);
-        dialog.setTargetFragment(this, REQUEST_DIALOG_UPDATE);
-        dialog.show(getFragmentManager(), null);
+
     }
 
     @Override
-    public String getRiderAreaCode() {
+    public void launchCamera(Uri uri, int type) {
 
-        ApplicationClass appClass = (ApplicationClass) ApplicationClass.getInstance();
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
-        Rider rider = appClass.getRider();
+        int requestCode = 0;
 
-        return rider.getAreaCode();
+        switch (type){
+
+            case ChecklistDeliveryPresenter.TYPE_RECIPIENT_PIC:
+
+                requestCode = REQUEST_RECIPIENT_PICTURE;
+                break;
+
+            case ChecklistDeliveryPresenter.TYPE_VALID_ID:
+
+                requestCode = REQUEST_VALID_ID;
+                break;
+
+        }
+
+        startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void showSignatureScreen(String uri) {
+
+
     }
 
     @Override
@@ -239,26 +266,27 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
     public void onItemClick(int position, ChecklistItem object) {
 
 
-        String confirmPackage = getString(R.string.checklist_delivery_package);
+        String validId = getString(R.string.checklist_delivery_valid_id);
+        String recipientPicture = getString(R.string.checklist_delivery_picture);
+        String signature = getString(R.string.checklist_delivery_signature);
 
-        if(object.getTitle().equalsIgnoreCase(confirmPackage)){
+        if(object.getTitle().equalsIgnoreCase(validId)){
 
-            presenter.onConfirmPackageClick(object);
+            presenter.onValidIdClick(object);
+
         }
-        else{
+        else if(object.getTitle().equalsIgnoreCase(recipientPicture)){
+
+
+        }
+        else if(object.getTitle().equalsIgnoreCase(signature)){
+
+        }
+        else {
 
             updateItem(object);
+
         }
-
-    }
-
-
-
-    private void handleConfirmPackageResult(Intent data){
-
-        Package selectedPackage = data.getParcelableExtra(ActivityConfirmPackage.ARG_SELECTED_PACKAGE);
-
-        presenter.onConfirmPackageResult(selectedPackage);
 
     }
 
@@ -276,7 +304,4 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
                 break;
         }
     }
-
-
-
 }

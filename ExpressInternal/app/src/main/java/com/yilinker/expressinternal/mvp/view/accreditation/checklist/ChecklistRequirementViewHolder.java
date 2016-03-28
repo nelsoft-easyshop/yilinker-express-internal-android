@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.yilinker.core.customview.CustomLinearLayoutManager;
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.customviews.CustomLinearLayoutManager;
 import com.yilinker.expressinternal.mvp.model.AccreditationRequirementData;
 import com.yilinker.expressinternal.mvp.presenter.accreditation.ChecklistRequirementPresenter;
 import com.yilinker.expressinternal.mvp.view.accreditation.AccreditationRequirementView;

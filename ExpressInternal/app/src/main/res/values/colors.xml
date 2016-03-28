@@ -28,5 +28,6 @@
     <color name="trans_orange_red">#CCff5722</color>
     <color name="trans_orange_yellow">#CCffa000</color>
     <color name="trans_white">#CCffffff</color>
+    <color name="trans_gray">#A69b9b9b</color>
 
 </resources>

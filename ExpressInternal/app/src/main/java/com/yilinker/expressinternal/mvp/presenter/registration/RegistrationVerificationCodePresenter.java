@@ -4,9 +4,12 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 
 import com.android.volley.Request;
+import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
+import com.yilinker.core.model.OAuthentication;
 import com.yilinker.expressinternal.business.ExpressErrorHandler;
+import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationVerificationCodePresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationVerificationCodeView;
@@ -80,26 +83,23 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
             countDownTimer.cancel();
         }
 
-       view().saveCurrentTime(null);
-
     }
 
     @Override
-    public void validateInput(String inputCode, String mobileNumber) {
+    public void validateInput(String inputCode, String mobileNumber, String accessToken) {
         view().showErrorMessage(false,"");
 
         if (inputCode.length()<1){
             view().showValidationError(1);
 
         }else {
-            requestVerifyCode(inputCode, mobileNumber);
+            requestVerifyCode(inputCode, mobileNumber,accessToken);
         }
     }
 
     @Override
     public void onPause() {
-        //TODO cancel request here
-//        view().cancelRequest(getRequestTags());
+        view().cancelRequest(getRequestTags());
         if (countDownTimer!=null)
         {
             isTimerFinished = true;
@@ -140,35 +140,37 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
             }
         }else{
             /***if no saved time available*/
-            setCountDownTimer(60000);
-            isTimerFinished = true;
-        }
-    }
-
-    @Override
-    public void getVerificationCode(String mobileNumber) {
-        if (isTimerFinished){
-
-//            requestVerificationCode();
-            //TODO move this to onSuccess of request verification
+//            setCountDownTimer(60000);
+            isTimerFinished = false;
             setCountDownTimer(60000);
             view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
             startTimer();
         }
     }
 
+    @Override
+    public void getVerificationCode(String mobileNumber, String accessToken) {
+        if (isTimerFinished){
 
-    private void requestVerificationCode(String mobileNumber){
+            requestVerificationCode(mobileNumber,accessToken);
+            //TODO move this to onSuccess of request verification
+//            setCountDownTimer(60000);
+//            view().saveCurrentTime(String.valueOf(System.currentTimeMillis()));
+//            startTimer();
+        }
+    }
+
+    private void requestVerificationCode(String mobileNumber,String accessToken){
         view().showGetVerificationLoader(true);
-        Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, mobileNumber, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+        Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, mobileNumber,accessToken, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
         request.setTag(GET_VERIFICATION_REQUEST_TAG);
         view().addRequest(request);
 
     }
 
-    private void requestVerifyCode(String code, String mobileNumber){
+    private void requestVerifyCode(String code, String mobileNumber, String accessToken){
         //TODO Add Api call here
-        Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE,code, mobileNumber, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
+        Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE,code, mobileNumber,accessToken, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
         request.setTag(VERIFY_CODE_REQUEST_TAG);
         view().addRequest(request);
         view().showVerifyLoader(true);

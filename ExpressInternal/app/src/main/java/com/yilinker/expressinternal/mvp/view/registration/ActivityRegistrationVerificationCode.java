@@ -30,7 +30,11 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     private Button btnVerify;
 
     private String mobileNumber;
+    private boolean isNewNumber = false;
+    private String access_token;
+
     private RegistrationVerificationCodePresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         setActionBarLayout(R.layout.layout_toolbar_registration);
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registration_verification_code);
 
         if (savedInstanceState == null){
 
@@ -48,9 +53,11 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
 
         }
 
-        setContentView(R.layout.activity_registration_verification_code);
         initData();
         initializeViews(null);
+
+        presenter.bindView(this);
+
     }
 
 
@@ -63,6 +70,9 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
 
     private void initData(){
         mobileNumber = getIntent().getStringExtra(ActivityRegistrationSignUp.KEY_MOBILE_NUMBER);
+        isNewNumber = getIntent().getBooleanExtra(ActivityRegistrationSignUp.KEY_IS_NEW_MOBILE_NUMBER,true);
+        access_token = getIntent().getStringExtra(ActivityRegistrationSignUp.KEY_ACCESS_TOKEN);
+
     }
 
     private String getRemainingTime(){
@@ -76,9 +86,12 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     protected void onResume() {
         super.onResume();
 
-        presenter.bindView(this);
-        presenter.getRemainingTime(getRemainingTime());
-        presenter.getVerificationCode(getFormatterMobileNumber());
+        if (!isNewNumber)
+        {
+            presenter.getRemainingTime(getRemainingTime());
+        }
+        presenter.getVerificationCode(getFormatterMobileNumber(),access_token);
+
     }
 
 
@@ -94,7 +107,8 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     @Override
     public void initializeViews(View parent) {
         TextView tvMobileNumber = (TextView) findViewById(R.id.tvMobileNumber);
-        tvMobileNumber.setText(getFormatterMobileNumber());
+        tvMobileNumber.setText(String.format("%s%s",
+                getString(R.string.registration_mobile_number_start), mobileNumber));
 
         btnVerify =(Button) findViewById(R.id.btnVerify);
         btnVerify.setOnClickListener(this);
@@ -114,9 +128,9 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
 
     private String getFormatterMobileNumber(){
 
-        return String.format("%s%s",
-                getString(R.string.registration_mobile_number_start), mobileNumber);
+        return String.format("0%s", mobileNumber);
     }
+
 
     @Override
     public void handleGetVerificationCodeResponse(String message) {
@@ -174,6 +188,8 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     public void handleVerifyResponse(String message) {
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        saveCurrentTime(null);
+        clearMobileNumber();
         goToCompleteSignUp();
     }
 
@@ -181,7 +197,9 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         Intent intent = new Intent(this, ActivityRegistrationCompleteSignUp.class);
         intent.putExtra(ActivityRegistrationSignUp.KEY_VERIFICATION_CODE, etCode.getText().toString());
         intent.putExtra(ActivityRegistrationSignUp.KEY_MOBILE_NUMBER, mobileNumber);
+        intent.putExtra(ActivityRegistrationSignUp.KEY_ACCESS_TOKEN, access_token);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.pull_in_right,R.anim.push_out_left);
 
     }
@@ -200,6 +218,12 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     public void saveCurrentTime(String currentTime) {
         ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
         applicationClass.saveRemainingTime(currentTime);
+    }
+
+    private void clearMobileNumber(){
+
+        ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
+        applicationClass.saveMobileNumber(null);
     }
 
     @Override
@@ -229,13 +253,11 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         switch (v.getId()){
 
             case R.id.btnVerify:
-//                presenter.validateInput(etCode.getText().toString(), getFormatterMobileNumber());
-                //ToDO delete this
-                goToCompleteSignUp();
+                presenter.validateInput(etCode.getText().toString(), getFormatterMobileNumber(),access_token);
                 break;
 
             case R.id.tvResendVerification:
-                presenter.getVerificationCode(getFormatterMobileNumber());
+                presenter.getVerificationCode(getFormatterMobileNumber(),access_token);
                 break;
 
             default:

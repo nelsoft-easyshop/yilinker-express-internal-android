@@ -1,18 +1,18 @@
-package com.yilinker.expressinternal.model;
+package com.yilinker.expressinternal.mvp.model;
 
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by J.Bautista
+ * Created by J.Bautista on 3/28/16.
  */
 public class ChecklistItem implements Parcelable {
 
     private int id;
     private String title;
     private boolean isChecked;
-    private Bundle attachedItem;
+    private String attachedItem;
     private boolean needData;
 
     public ChecklistItem(){
@@ -24,7 +24,7 @@ public class ChecklistItem implements Parcelable {
         id = in.readInt();
         title = in.readString();
         isChecked = in.readByte() != 0;
-        attachedItem = in.readBundle();
+        attachedItem = in.readString();
         needData = in.readByte() != 0;
     }
 
@@ -64,11 +64,11 @@ public class ChecklistItem implements Parcelable {
         this.isChecked = isChecked;
     }
 
-    public Bundle getAttachedItem() {
+    public String getAttachedItem() {
         return attachedItem;
     }
 
-    public void setAttachedItem(Bundle attachedItem) {
+    public void setAttachedItem(String attachedItem) {
         this.attachedItem = attachedItem;
     }
 
@@ -91,7 +91,7 @@ public class ChecklistItem implements Parcelable {
         dest.writeInt(id);
         dest.writeString(title);
         dest.writeByte((byte) (isChecked ? 1 : 0));
-        dest.writeBundle(attachedItem);
+        dest.writeString(attachedItem);
         dest.writeByte((byte) (needData ? 1 : 0));
     }
 }

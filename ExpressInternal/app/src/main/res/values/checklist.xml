@@ -29,10 +29,20 @@
         <item>@string/checklist_pickup_package_complete</item>
     </string-array>
 
+    <string-array name="checklist_pickup_with_data">
+        <item>@string/checklist_delivery_package</item>
+    </string-array>
+
+    <string-array name="checklist_delivery_with_data">
+        <item>@string/checklist_delivery_valid_id</item>
+        <item>@string/checklist_delivery_picture</item>
+        <item>@string/checklist_delivery_signature</item>
+    </string-array>
+
     <string-array name="checklist_claiming">
-        <item>Item is matched with JO</item>
-        <item>Item is in Good Condition</item>
-        <item>Item Package Complete</item>
+        <item>@string/checklist_pickup_matchjo</item>
+        <item>@string/checklist_pickup_good_condition</item>
+        <item>@string/checklist_pickup_package_complete</item>
     </string-array>
 
 </resources>

@@ -214,6 +214,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/rlFilterContainer"
         android:clickable="true"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:background="@color/trans_gray"/>
 
 </RelativeLayout>
