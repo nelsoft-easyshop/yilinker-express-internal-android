@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.checklist;
 
-import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.mvp.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistBase;
 

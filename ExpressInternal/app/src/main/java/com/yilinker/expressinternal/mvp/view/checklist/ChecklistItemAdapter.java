@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
-import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.adapter.ListRecyclerViewAdapter;
+import com.yilinker.expressinternal.mvp.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistItemPresenter;
 
 /**

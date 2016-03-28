@@ -10,7 +10,7 @@ import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
-import com.yilinker.expressinternal.model.ChecklistItem;
+import com.yilinker.expressinternal.mvp.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistDeliveryView;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistPickupView;
@@ -26,8 +26,6 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
     public static final int TYPE_RECIPIENT_PIC = 2;
 
     private static final int REQUEST_UPDATE = 1003;
-
-    private ChecklistItem currentItem;
 
     private Uri photoUri;
 
@@ -52,10 +50,10 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
 
     public void onValidIdResult(){
 
-//        String validImage = photoUri.toString();
+        String validImage = photoUri.toString();
 
         currentItem.setIsChecked(true);
-//        currentItem.setAttachedItem(validImage);
+        currentItem.setAttachedItem(validImage);
 
         view().updateItem(currentItem);
     }

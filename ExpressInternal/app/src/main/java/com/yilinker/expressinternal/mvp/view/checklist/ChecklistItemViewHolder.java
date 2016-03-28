@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
-import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
 import com.yilinker.expressinternal.mvp.model.AccreditationRequirementData;
+import com.yilinker.expressinternal.mvp.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistItemPresenter;
 import com.yilinker.expressinternal.mvp.view.accreditation.OnDataUpdateListener;
 
