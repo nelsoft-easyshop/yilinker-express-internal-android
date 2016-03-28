@@ -27,7 +27,7 @@ import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
-//import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
+import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityComplete2;
@@ -42,7 +42,8 @@ import com.yilinker.expressinternal.model.ChecklistItem;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.PackageType;
 import com.yilinker.expressinternal.model.Rider;
-import com.yilinker.expressinternal.mvp.view.images.ActivityImageGallery;
+//import com.yilinker.expressinternal.mvp.view.images.ActivityImageGallery;
+import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityCompleteJODetails;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 import java.io.File;
@@ -801,7 +802,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     //New version
     private void goToCompleteScreen() {
 
-        Intent intent = new Intent(ActivityChecklist.this, ActivityComplete2.class);
+//        Intent intent = new Intent(ActivityChecklist.this, ActivityComplete2.class);
+        Intent intent = new Intent(ActivityChecklist.this, ActivityCompleteJODetails.class);
         intent.putExtra(ActivityComplete.ARG_JOB_ORDER, jobOrder);
         intent.putExtra(ActivityComplete.ARG_FROM_HOME, false);
         startActivity(intent);

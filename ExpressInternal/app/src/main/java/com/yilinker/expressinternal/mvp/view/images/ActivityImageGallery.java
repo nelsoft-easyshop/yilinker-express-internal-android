@@ -14,6 +14,7 @@ import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.images.ImageGalleryPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseActivity;
+import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
 import com.yilinker.expressinternal.mvp.view.images.IImageGalleryView;
 
 import java.io.File;
@@ -22,7 +23,7 @@ import java.util.List;
 /**
  * Created by patrick-villanueva on 3/22/2016.
  */
-public class ActivityImageGallery extends BaseActivity implements IImageGalleryView {
+public class ActivityImageGallery extends BaseFragmentActivity implements IImageGalleryView , View.OnClickListener{
 
     private final static String KEY_PHOTO_URI = "photoUri";
 
@@ -53,10 +54,8 @@ public class ActivityImageGallery extends BaseActivity implements IImageGalleryV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        setActionBarLayout(R.layout.layout_toolbar_registration);
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_gallery);
+        setContentView(R.layout.activity_image_gallery_2);
 
         if (savedInstanceState == null){
             presenter = new ImageGalleryPresenter();
@@ -99,9 +98,13 @@ public class ActivityImageGallery extends BaseActivity implements IImageGalleryV
 
     @Override
     public void initializeViews(View parent) {
-        super.initializeViews(parent);
 
         setPager();
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
+
     }
 
     private void getData(){
@@ -155,7 +158,6 @@ public class ActivityImageGallery extends BaseActivity implements IImageGalleryV
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
 
         switch (v.getId()){
 

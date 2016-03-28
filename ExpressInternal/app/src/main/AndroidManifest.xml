@@ -92,11 +92,13 @@
 
         <activity android:name=".mvp.view.joborderdetails.ActivityCompleteJODetails"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppDialogTheme">
+            </activity>
 
         <activity android:name=".mvp.view.images.ActivityImageGallery"
             android:screenOrientation="portrait"
-            android:theme="@style/ActivityTheme" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
 
         <activity
             android:name=".controllers.qrscanner.ActivityScanToDetails"
