@@ -43,9 +43,9 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
 
     private RequestOngoingListener requestListener;
 
-    public static FragmentChecklistDelivery createInstance(JobOrder jobOrder){
+    public static FragmentChecklistPickup createInstance(JobOrder jobOrder){
 
-        FragmentChecklistDelivery fragment = new FragmentChecklistDelivery();
+        FragmentChecklistPickup fragment = new FragmentChecklistPickup();
 
         Bundle args = new Bundle();
         args.putParcelable(ARG_JOB_ORDER, jobOrder);

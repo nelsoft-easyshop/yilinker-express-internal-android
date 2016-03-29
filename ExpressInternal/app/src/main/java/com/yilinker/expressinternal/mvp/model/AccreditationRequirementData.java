@@ -6,8 +6,21 @@ package com.yilinker.expressinternal.mvp.model;
 public class AccreditationRequirementData {
 
     private int id;
+    private String key;
     private String label;
     private boolean isSelected;
+
+    public AccreditationRequirementData(){
+
+
+    }
+
+    public AccreditationRequirementData(com.yilinker.core.model.express.internal.AccreditationRequirementData object){
+
+        this.key = object.getId();
+        this.label = object.getLabel();
+
+    }
 
     public int getId() {
         return id;
@@ -31,5 +44,13 @@ public class AccreditationRequirementData {
 
     public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

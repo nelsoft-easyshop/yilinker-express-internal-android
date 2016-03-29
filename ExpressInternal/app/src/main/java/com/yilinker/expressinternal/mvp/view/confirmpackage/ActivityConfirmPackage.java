@@ -439,6 +439,7 @@ public class ActivityConfirmPackage extends BaseFragmentActivity implements ICon
             case R.id.btnPackageType:
 
                 showPackageTypeList(!(rvTypes.getVisibility() == View.VISIBLE));
+                showPackageSizeList(false);
                 break;
 
             case R.id.btnPackageSize:

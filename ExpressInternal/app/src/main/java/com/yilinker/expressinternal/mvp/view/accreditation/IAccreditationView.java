@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.accreditation;
 
+import android.net.Uri;
+
 import com.android.volley.Request;
 import com.yilinker.expressinternal.mvp.model.AccreditationRequirement;
 
@@ -15,5 +17,8 @@ public interface IAccreditationView {
     public void showErrorMessageByType(int type);
     public void loadRequirementsList(List<AccreditationRequirement> requirements);
     public void addRequest(Request request);
-
+    public void launchCamera(Uri uri);
+    public void launchGallery();
+    public void resetItem(AccreditationRequirement item);
+    public String compressImage(String path) ;
 }

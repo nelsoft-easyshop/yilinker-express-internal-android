@@ -51,8 +51,9 @@ public class ChecklistRequirementViewHolder extends AccreditationRequirementView
 
         RecyclerView rvItems = (RecyclerView) parent.findViewById(R.id.rvItems);
 
-        CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(parent.getContext(), CustomLinearLayoutManager.VERTICAL, false);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(parent.getContext(), LinearLayoutManager.VERTICAL, false);
+        layoutManager.setAutoMeasureEnabled(true);
+        rvItems.setNestedScrollingEnabled(false);
         rvItems.setLayoutManager(layoutManager);
 
         adapter = new ChecklistItemAdapter(this);
@@ -65,5 +66,7 @@ public class ChecklistRequirementViewHolder extends AccreditationRequirementView
 
         AccreditationRequirementData data = (AccreditationRequirementData)item;
         adapter.updateItem(data);
+
+        presenter.onValueChanged(data);
     }
 }

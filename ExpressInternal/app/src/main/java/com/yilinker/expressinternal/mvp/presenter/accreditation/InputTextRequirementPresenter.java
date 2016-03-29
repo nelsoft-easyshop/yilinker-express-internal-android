@@ -11,6 +11,7 @@ public class InputTextRequirementPresenter extends AccreditationRequirementPrese
     protected void updateView() {
 
         view().setLabelText(model.getLabel());
+        view().setInputText(model.getInputValue());
     }
 
 

@@ -1,5 +1,8 @@
 package com.yilinker.expressinternal.mvp.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,13 +19,32 @@ public class AccreditationRequirement {
     private List<String> validations;
     private List<String> selectedValues;
     private String inputValue;
+    private String inputKey;
 
     public AccreditationRequirement() {
     }
 
     public AccreditationRequirement(com.yilinker.core.model.express.internal.AccreditationRequirement object) {
 
-        //TODO Insert mapping here
+        this.key = object.getId();
+        this.label = object.getLabel();
+        this.type = object.getType();
+        this.validations = Arrays.asList(object.getValidation());
+        this.isRequired = object.isRequired();
+
+        List<com.yilinker.core.model.express.internal.AccreditationRequirementData> requirementData = object.getData();
+        data = new ArrayList<>();
+
+        int i = 0;
+        AccreditationRequirementData requirementItem = null;
+        for(com.yilinker.core.model.express.internal.AccreditationRequirementData item : requirementData ){
+
+            requirementItem = new AccreditationRequirementData(item);
+            requirementItem.setId(i);
+
+            data.add(requirementItem);
+            i++;
+        }
 
     }
 
@@ -96,5 +118,13 @@ public class AccreditationRequirement {
 
     public void setInputValue(String inputValue) {
         this.inputValue = inputValue;
+    }
+
+    public String getInputKey() {
+        return inputKey;
+    }
+
+    public void setInputKey(String inputKey) {
+        this.inputKey = inputKey;
     }
 }
