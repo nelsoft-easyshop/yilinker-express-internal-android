@@ -2,6 +2,7 @@ package com.yilinker.expressinternal.mvp.view.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -143,8 +144,20 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     @Override
     public void handleGetVerificationCodeErrorResponse(String errorMessage) {
         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
-        if (isFromResendButton){
-            onBackPressed();
+        if (!isFromResendButton){
+            saveCurrentTime(null);
+            clearMobileNumber();
+
+            /***set delay before closing back*/
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    onBackPressed();
+                    overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+                }
+            }, 1000);
         }
     }
 
