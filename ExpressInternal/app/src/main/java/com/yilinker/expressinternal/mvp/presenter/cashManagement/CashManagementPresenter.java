@@ -104,6 +104,7 @@ public class CashManagementPresenter  extends RequestPresenter<CashDetail, ICash
 
     private void handleCashDetails(Object object){
         cashDetail = new CashDetail((com.yilinker.core.model.express.internal.CashDetail) object);
-        updateView();
+//        updateView();
+        setModel(cashDetail);
     }
 }

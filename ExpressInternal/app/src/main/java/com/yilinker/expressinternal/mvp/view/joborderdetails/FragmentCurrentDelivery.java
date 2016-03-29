@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
-import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityJobOderDetail;
 import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -19,6 +18,7 @@ import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDeliveryJobPresenter;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDropoffJobPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.checklist.ActivityChecklist;
 
 import org.w3c.dom.Text;
 
@@ -168,6 +168,10 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
 
     @Override
     public void openChecklistDelivery(JobOrder jobOrder) {
+
+//        Intent intent = new Intent(getActivity(), ActivityChecklist2.class);
+//        intent.putExtra(ActivityChecklist.ARG_JOB_ORDER, jobOrder);
+//        startActivity(intent);
 
         Intent intent = new Intent(getActivity(), ActivityChecklist.class);
         intent.putExtra(ActivityChecklist.ARG_JOB_ORDER, jobOrder);

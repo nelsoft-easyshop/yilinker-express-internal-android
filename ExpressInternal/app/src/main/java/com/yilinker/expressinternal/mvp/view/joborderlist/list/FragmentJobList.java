@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
@@ -34,6 +35,7 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
     private JobsAdapter adapter;
 
     private SwipeRefreshLayout refreshLayout;
+    private TextView tvRefresh;
 
 
     @Nullable
@@ -96,6 +98,9 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
 
         refreshLayout = (SwipeRefreshLayout) parent.findViewById(R.id.swipeRefresh);
         refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setColorSchemeColors(android.R.color.transparent);
+//        refreshLayout.setProgressBackgroundColorSchemeColor(android.R.color.transparent);
+        refreshLayout.setBackgroundResource(android.R.color.transparent);
 
         //For jobs
         RecyclerView rvJobOrders = (RecyclerView) parent.findViewById(R.id.rvJobOrder);
@@ -112,7 +117,9 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
         refreshLayout.post(new Runnable() {
             @Override
             public void run() {
+
                 refreshLayout.setRefreshing(isShown);
+
             }
         });
     }

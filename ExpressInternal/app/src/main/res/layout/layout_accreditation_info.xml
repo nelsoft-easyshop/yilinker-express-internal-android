@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_rounded_white_no_padding">
+
+    <TextView
+        style="@style/AccreditationHeaderTitleStyle"
+        android:text="@string/accreditation_information" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray5"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRequirements"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

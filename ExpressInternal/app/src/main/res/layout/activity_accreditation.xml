@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnSave">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray"
+            >
+
+    <include
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_accreditation_basicinfo"
+        android:id="@+id/llBasicInformation"
+        android:layout_margin="5dp"/>
+
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="500dp"
+        layout="@layout/layout_accreditation_info"
+        android:layout_below="@+id/llBasicInformation"
+        android:layout_margin="5dp"/>
+
+</RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_button_height"
+        android:text="@string/accreditation_save"
+        android:background="@drawable/bg_btn_orangeyellow"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"/>
+
+
+</RelativeLayout>
