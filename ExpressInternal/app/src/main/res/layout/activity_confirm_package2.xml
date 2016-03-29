@@ -89,8 +89,10 @@
                 android:id="@+id/rvTypes"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:background="@color/white"
-                android:visibility="gone" />
+                android:background="@drawable/bg_outline_gray4"
+                android:visibility="gone"
+                android:layout_marginTop="-7dp"
+                android:paddingTop="10dp"/>
 
             <TextView
                 android:id="@+id/tvTitlePackageSize"
@@ -140,9 +142,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvSizes"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:background="@color/white"
-                android:visibility="gone" />
+                android:layout_height="120dp"
+                android:background="@drawable/bg_outline_gray4"
+                android:visibility="gone"
+                android:layout_marginTop="-7dp"
+                android:paddingTop="10dp"/>
 
             <LinearLayout
                 android:id="@+id/llCustomFields"

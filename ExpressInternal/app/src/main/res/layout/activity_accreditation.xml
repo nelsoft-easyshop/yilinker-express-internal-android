@@ -40,7 +40,15 @@
         android:text="@string/accreditation_save"
         android:background="@drawable/bg_btn_orangeyellow"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:enabled="false"/>
 
+    <View
+        android:id="@+id/invisibleLoader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="@android:color/transparent"
+        android:visibility="gone"/>
 
 </RelativeLayout>

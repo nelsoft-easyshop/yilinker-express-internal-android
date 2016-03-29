@@ -14,6 +14,7 @@ public interface IChecklistPickupView extends IChecklistBase {
 
     public void showConfirmPackageScreen(Package selectedPackage);
     public void goToMainScreen();
+    public void goToCompleteScreen(JobOrder jobOrder);
     public void startPickupService(Package selectedPackage);
     public void showStatusOptionDialog();
     public String getRiderAreaCode();

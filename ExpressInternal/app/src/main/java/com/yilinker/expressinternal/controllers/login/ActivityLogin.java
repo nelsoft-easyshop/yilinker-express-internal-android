@@ -30,6 +30,7 @@ import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
 import com.yilinker.expressinternal.model.Rider;
+import com.yilinker.expressinternal.mvp.view.accreditation.ActivityAccreditation;
 import com.yilinker.expressinternal.mvp.view.login.ActivityOngoingAccreditation;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 import com.yilinker.expressinternal.mvp.view.registration.ActivityRegistrationSignUp;
@@ -111,12 +112,26 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     @Override
     public void onFailed(int requestCode, String message) {
 
-        if(requestCode == REQUEST_VERIFY_RIDER || requestCode == REQUEST_GET_DETAILS){
-
-            //TODO uncomment this
+//        if(requestCode == REQUEST_VERIFY_RIDER || requestCode == REQUEST_GET_DETAILS){
+//
 //            ApplicationClass.getInstance().deleteTokens();
-            //TodO TEMP
+//            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+//
+//        }else{
+//
+//            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+//            showLoader(false, getString(R.string.login_button_2));
+//        }
+
+        //TODO temp
+        if(requestCode == REQUEST_VERIFY_RIDER ){
+
+            requestRiderInfo();
+
+        } else if (requestCode == REQUEST_GET_DETAILS){
+
             goToAccreditation();
+
         }else{
 
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
@@ -222,7 +237,10 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
     private void goToAccreditation(){
 
-        //TODO go to accreditation
+        Intent intent = new Intent(ActivityLogin.this, ActivityAccreditation.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
     }
 
 

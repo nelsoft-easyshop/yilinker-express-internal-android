@@ -98,9 +98,6 @@ public class FragmentJobList extends BaseFragment implements IJobListView, Recyc
 
         refreshLayout = (SwipeRefreshLayout) parent.findViewById(R.id.swipeRefresh);
         refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setColorSchemeColors(android.R.color.transparent);
-//        refreshLayout.setProgressBackgroundColorSchemeColor(android.R.color.transparent);
-        refreshLayout.setBackgroundResource(android.R.color.transparent);
 
         //For jobs
         RecyclerView rvJobOrders = (RecyclerView) parent.findViewById(R.id.rvJobOrder);

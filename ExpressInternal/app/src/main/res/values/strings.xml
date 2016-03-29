@@ -384,6 +384,7 @@
     <string name="accreditation_accredited">accredited</string>
     <string name="accreditation_one_step_away">Your accreditation has now\n been sent for verification and\n approval.</string>
     <string name="accreditation_got_it">Got it!</string>
+    <string name="accreditation_saving">Saving...</string>
 
     <!-- Confirm Package-->
     <string name="package_confirm_title">Confirm Package</string>

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.AccreditationConstant;
+import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.mvp.adapter.ListRecyclerViewAdapter;
 import com.yilinker.expressinternal.mvp.model.AccreditationRequirement;
 import com.yilinker.expressinternal.mvp.presenter.accreditation.AccreditationRequirementPresenter;
@@ -16,6 +17,7 @@ import com.yilinker.expressinternal.mvp.presenter.accreditation.ChecklistRequire
 import com.yilinker.expressinternal.mvp.presenter.accreditation.DropdownRequirementPresenter;
 import com.yilinker.expressinternal.mvp.presenter.accreditation.InputTextRequirementPresenter;
 import com.yilinker.expressinternal.mvp.view.accreditation.button.ButtonRequirementViewHolder;
+import com.yilinker.expressinternal.mvp.view.accreditation.button.IButtonRequirementListener;
 import com.yilinker.expressinternal.mvp.view.accreditation.checkbox.CheckboxRequirementViewHolder;
 import com.yilinker.expressinternal.mvp.view.accreditation.checklist.ChecklistRequirementViewHolder;
 import com.yilinker.expressinternal.mvp.view.accreditation.dropdown.DropdownRequirementViewHolder;
@@ -27,10 +29,18 @@ import com.yilinker.expressinternal.mvp.view.accreditation.inputtext.InputTextRe
 public class AccreditationRequirementAdapter extends ListRecyclerViewAdapter<AccreditationRequirement, AccreditationRequirementPresenter, AccreditationRequirementView<AccreditationRequirementPresenter>> {
 
     private OnDataUpdateListener listener;
+    private RecyclerViewClickListener recyclerViewClickListener;
+    private IButtonRequirementListener innerButtonListener;
 
-    public AccreditationRequirementAdapter(OnDataUpdateListener listener){
+    public AccreditationRequirementAdapter(OnDataUpdateListener listener, RecyclerViewClickListener recyclerViewClickListener){
 
+        this.recyclerViewClickListener = recyclerViewClickListener;
         this.listener = listener;
+    }
+
+    public void setInnerButtonListener(IButtonRequirementListener innerButtonListener){
+
+        this.innerButtonListener = innerButtonListener;
     }
 
     @NonNull
@@ -91,7 +101,7 @@ public class AccreditationRequirementAdapter extends ListRecyclerViewAdapter<Acc
 
             case R.layout.layout_accreditation_item_button:
 
-                viewHolder = new ButtonRequirementViewHolder(view, listener);
+                viewHolder = new ButtonRequirementViewHolder(view, listener, recyclerViewClickListener, innerButtonListener);
                 break;
 
             case R.layout.layout_accreditation_item_checkbox:

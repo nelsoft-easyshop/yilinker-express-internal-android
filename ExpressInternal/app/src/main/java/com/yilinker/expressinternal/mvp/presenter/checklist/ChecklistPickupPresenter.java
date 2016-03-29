@@ -118,7 +118,8 @@ public class ChecklistPickupPresenter extends ChecklistBasePresenter<IChecklistP
 
         selectedPackage.setIsUpdated(true);
         view().startPickupService(selectedPackage);
-        view().goToMainScreen();
+//        view().goToMainScreen();
+        view().goToCompleteScreen(model);
     }
 
     private void handleFailedUpdate(){

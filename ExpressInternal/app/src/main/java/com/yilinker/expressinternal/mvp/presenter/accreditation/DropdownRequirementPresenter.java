@@ -21,6 +21,7 @@ public class DropdownRequirementPresenter extends AccreditationRequirementPresen
         AccreditationRequirementData selectedData = (AccreditationRequirementData) object;
 
         model.setInputValue(selectedData.getLabel());
+        model.setInputKey(selectedData.getKey());
 
         view().notifyDataChanged(model);
     }

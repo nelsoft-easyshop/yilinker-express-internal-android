@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvLabel"
@@ -17,6 +17,12 @@
         android:text="@string/accreditation_upload"
         android:background="@drawable/bg_btn_orangeyellow_rounded"
         android:textColor="@color/white"
+        android:layout_margin="10dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"/>
 
     <include layout="@layout/view_divider_gray5"/>

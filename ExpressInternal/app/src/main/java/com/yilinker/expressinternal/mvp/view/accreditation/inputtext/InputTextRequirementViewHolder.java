@@ -55,4 +55,9 @@ public class InputTextRequirementViewHolder extends AccreditationRequirementView
             isUpdating = false;
         }
     }
+
+    public void setInputText(String text){
+
+        etValue.setText(text);
+    }
 }

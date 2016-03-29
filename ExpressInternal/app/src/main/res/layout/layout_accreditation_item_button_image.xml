@@ -2,34 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:paddingTop="5dp">
 
     <TextView
         android:id="@+id/tvLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:textColor="@color/marigold"
-        android:gravity="center_vertical"/>
+        android:layout_weight="3"
+        android:layout_gravity="center_vertical"
+        android:text="sample.img"
+        android:textColor="@color/marigold"/>
 
     <TextView
         android:id="@+id/tvView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textColor="@color/gray6"
         android:text="@string/accreditation_view"
         android:gravity="center"
-        android:clickable="true"/>
+        android:textColor="@color/gray6"
+        />
 
     <TextView
         android:id="@+id/tvDelete"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textColor="@color/gray6"
         android:text="@string/accreditation_delete"
         android:gravity="center"
-        android:clickable="true"/>
+        android:textColor="@color/gray6"
+        />
+
 
 </LinearLayout>
