@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IChecklistDeliveryView extends IChecklistBase {
 
-    public void showCaptureImageScreen(List<String> uri, int type);
+    public void showCaptureImageScreen(List<String> uri, int type, String pageName);
     public void launchCamera(Uri uri, int type);
     public void showSignatureScreen(String uri);
     public void goToCompleteScreen(JobOrder joborder);

@@ -191,6 +191,10 @@
     <string name="confirm_problematic">Confirm Problematic Delivery</string>
     <string name="problematic_remarks_hint">Remarks</string>
     <string name="problematic_notes">"Item(s) out of stock"</string>
+    <string name="problematic_attach_photo">Attach photo</string>
+    <string name="confirm_problematic_2">Confirm Problematic</string>
+    <string name="confirm_problematic_submitting">Confirming...</string>
+    <string name="report_as_problematic">REPORT AS PROBLEMATIC</string>
 
     <!--Complete-->
     <string name="ok">Ok</string>
@@ -241,6 +245,7 @@
 
     <!--View Images-->
     <string name="view_images"><u>View Images</u></string>
+    <string name="images">Images</string>
     
     <!--Calculator-->
     <string name="calculator_total_volume">Total Volume</string>
@@ -374,6 +379,11 @@
     <string name="accreditation_upload">Upload</string>
     <string name="accreditation_view">View</string>
     <string name="accreditation_delete">Delete</string>
+    <string name="no_accreditation">no accreditation</string>
+    <string name="accreditation_ongoing">ongoing</string>
+    <string name="accreditation_accredited">accredited</string>
+    <string name="accreditation_one_step_away">Your accreditation has now\n been sent for verification and\n approval.</string>
+    <string name="accreditation_got_it">Got it!</string>
 
     <!-- Confirm Package-->
     <string name="package_confirm_title">Confirm Package</string>

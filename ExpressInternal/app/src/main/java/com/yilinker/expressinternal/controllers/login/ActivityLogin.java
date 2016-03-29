@@ -30,6 +30,7 @@ import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
 import com.yilinker.expressinternal.gcm.RegistrationIntentService;
 import com.yilinker.expressinternal.model.Rider;
+import com.yilinker.expressinternal.mvp.view.login.ActivityOngoingAccreditation;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 import com.yilinker.expressinternal.mvp.view.registration.ActivityRegistrationSignUp;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
@@ -99,7 +100,8 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
                 Rider rider = new Rider((com.yilinker.core.model.express.internal.Rider) object);
                 ((ApplicationClass) BaseApplication.getInstance()).setRider(rider);
 
-                goToDashboard();
+                checkAccreditationStatus(rider);
+//                goToDashboard();
                 break;
 
         }
@@ -111,11 +113,16 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
 
         if(requestCode == REQUEST_VERIFY_RIDER || requestCode == REQUEST_GET_DETAILS){
 
-            ApplicationClass.getInstance().deleteTokens();
+            //TODO uncomment this
+//            ApplicationClass.getInstance().deleteTokens();
+            //TodO TEMP
+            goToAccreditation();
+        }else{
+
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            showLoader(false, getString(R.string.login_button_2));
         }
 
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        showLoader(false, getString(R.string.login_button_2));
     }
 
     @Override
@@ -137,6 +144,22 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
             case R.id.tvSignUp:
                 goToRegistration();
                 break;
+        }
+    }
+
+    private void checkAccreditationStatus(Rider rider){
+        if (rider.getAaccreditationStatus().equalsIgnoreCase(getString(R.string.no_accreditation))){
+
+            goToAccreditation();
+
+        }else if (rider.getAaccreditationStatus().equalsIgnoreCase(getString(R.string.accreditation_ongoing))){
+
+            goToOnGoingAccreditation();
+
+        }else if (rider.getAaccreditationStatus().equalsIgnoreCase(getString(R.string.accreditation_accredited))){
+
+            goToDashboard();
+
         }
     }
 
@@ -194,6 +217,20 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
         startActivity(goToDashBoard);
 
         finish();
+    }
+
+
+    private void goToAccreditation(){
+
+        //TODO go to accreditation
+    }
+
+
+    private void goToOnGoingAccreditation(){
+
+        Intent goToOngoing = new Intent(ActivityLogin.this, ActivityOngoingAccreditation.class);
+        startActivity(goToOngoing);
+
     }
 
     private boolean allowLogin(){

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_problematic"
+        android:layout_above="@+id/tvProblemType"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/tvProblemType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recipient not Found"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:layout_above="@id/etRemarks"/>
+
+    <EditText
+        android:id="@+id/etRemarks"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_rounded_white_gray_stroke"
+        android:hint="@string/problematic_remarks_hint"
+        android:inputType="textMultiLine"
+        android:gravity="top|left"
+        android:scrollbars="vertical"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAttachPhoto"
+        android:text="@string/problematic_attach_photo"
+        android:layout_below="@+id/etRemarks"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/marigold"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/ic_attach_photo"
+        android:layout_toStartOf="@+id/tvViewImages"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvViewImages"
+        android:text="@string/view_images"
+        android:layout_below="@+id/etRemarks"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/orange_red"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/tvAttachPhoto"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:id="@+id/btnConfirmProblematic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_problematic_options_button"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/confirm_problematic_2"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/tvAttachPhoto"/>
+
+    <View
+        android:id="@+id/viewLoader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        android:clickable="true"/>
+
+</RelativeLayout>

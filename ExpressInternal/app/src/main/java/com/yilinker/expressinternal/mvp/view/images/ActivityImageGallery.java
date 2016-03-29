@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
@@ -32,6 +33,7 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
     public static final String ARG_IMAGES = "images";
     public static final String ARG_TYPE = "type";
     public static final String ARG_NEW_PHOTO = "newPhoto";
+    public static final String ARG_PAGE_NAME = "pageName";
 
     private static final int REQUEST_CAMERA = 1000;
 
@@ -44,7 +46,7 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
 
     private List<String> images;
     private String type;
-
+    private String pageName;
     private boolean retake;
 
     private ImageGalleryPresenter presenter;
@@ -109,6 +111,7 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
         ImageView ivClose = (ImageView) findViewById(R.id.ivClose);
         ivClose.setOnClickListener(this);
 
+        setPageName(pageName);
         setPager();
 
     }
@@ -121,9 +124,15 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
     private void getData(){
         Intent intent = getIntent();
 
+        pageName = getString(R.string.images);
+
         images = intent.getStringArrayListExtra(ARG_IMAGES);
         type = intent.getStringExtra(ARG_TYPE);
         retake = intent.getBooleanExtra(ARG_RETAKE, false);
+        if (intent.hasExtra(ARG_PAGE_NAME)) {
+            pageName = intent.getStringExtra(ARG_PAGE_NAME);
+        }
+
     }
 
     @Override
@@ -168,6 +177,11 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
             btnRetake.setOnClickListener(this);
         }
 
+    }
+
+    private void setPageName(String pageName){
+        TextView tvPageName = (TextView) findViewById(R.id.tvPageName);
+        tvPageName.setText(pageName);
     }
 
     @Override

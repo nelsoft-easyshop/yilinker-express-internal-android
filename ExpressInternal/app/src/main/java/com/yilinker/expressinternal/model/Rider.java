@@ -22,6 +22,7 @@ public class Rider implements Parcelable {
     private int currentJO;
     private int currentDropoff;
     private String areaCode;
+    private String accreditationStatus;
 
     public Rider(){
 
@@ -40,33 +41,16 @@ public class Rider implements Parcelable {
         currentJO = rider.getCurrentJO();
         currentDropoff = rider.getCurrentDropoffJO();
         areaCode = rider.getAreaCode();
-
+        accreditationStatus = rider.getAccreditationStatus();
     }
 
-    protected Rider(Parcel in) {
-        name = in.readString();
-        imageUrl = in.readString();
-        currentDeliveryJO = in.readInt();
-        currentPickupJO = in.readInt();
-        cashOnHand = in.readDouble();
-        totalEarning = in.readDouble();
-        completedJO = in.readInt();
-        currentJO = in.readInt();
-        currentDropoff = in.readInt();
-        areaCode = in.readString();
+    public String getAaccreditationStatus() {
+        return accreditationStatus;
     }
 
-    public static final Creator<Rider> CREATOR = new Creator<Rider>() {
-        @Override
-        public Rider createFromParcel(Parcel in) {
-            return new Rider(in);
-        }
-
-        @Override
-        public Rider[] newArray(int size) {
-            return new Rider[size];
-        }
-    };
+    public void setAaccreditationStatus(String aaccreditationStatus) {
+        this.accreditationStatus = aaccreditationStatus;
+    }
 
     public String getName() {
         return name;
@@ -155,15 +139,40 @@ public class Rider implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(imageUrl);
-        dest.writeInt(currentDeliveryJO);
-        dest.writeInt(currentPickupJO);
-        dest.writeDouble(cashOnHand);
-        dest.writeDouble(totalEarning);
-        dest.writeInt(completedJO);
-        dest.writeInt(currentJO);
-        dest.writeInt(currentDropoff);
-        dest.writeString(areaCode);
+        dest.writeString(this.name);
+        dest.writeString(this.imageUrl);
+        dest.writeInt(this.currentDeliveryJO);
+        dest.writeInt(this.currentPickupJO);
+        dest.writeDouble(this.cashOnHand);
+        dest.writeDouble(this.totalEarning);
+        dest.writeInt(this.completedJO);
+        dest.writeInt(this.currentJO);
+        dest.writeInt(this.currentDropoff);
+        dest.writeString(this.areaCode);
+        dest.writeString(this.accreditationStatus);
     }
+
+    protected Rider(Parcel in) {
+        this.name = in.readString();
+        this.imageUrl = in.readString();
+        this.currentDeliveryJO = in.readInt();
+        this.currentPickupJO = in.readInt();
+        this.cashOnHand = in.readDouble();
+        this.totalEarning = in.readDouble();
+        this.completedJO = in.readInt();
+        this.currentJO = in.readInt();
+        this.currentDropoff = in.readInt();
+        this.areaCode = in.readString();
+        this.accreditationStatus = in.readString();
+    }
+
+    public static final Creator<Rider> CREATOR = new Creator<Rider>() {
+        public Rider createFromParcel(Parcel source) {
+            return new Rider(source);
+        }
+
+        public Rider[] newArray(int size) {
+            return new Rider[size];
+        }
+    };
 }

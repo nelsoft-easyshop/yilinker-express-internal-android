@@ -17,7 +17,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/ic_close_light_gray"/>
+
         <TextView
+            android:id="@+id/tvPageName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/image_recipient_picture"

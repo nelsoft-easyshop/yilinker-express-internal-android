@@ -211,7 +211,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
 
         switch (requestCode) {
             case GET_VERIFICATION_REQUEST_CODE:
-                view().handleGetVerificationCodeResponse(message);
+                view().handleGetVerificationCodeErrorResponse(message);
                 break;
 
             case VERIFY_CODE_REQUEST_CODE:
