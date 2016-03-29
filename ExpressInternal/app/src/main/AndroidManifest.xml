@@ -100,6 +100,12 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
 
+
+        <activity android:name=".mvp.view.reportproblematic.ActivityReportProblematic"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" >
+        </activity>
+
         <activity
             android:name=".controllers.qrscanner.ActivityScanToDetails"
             android:screenOrientation="portrait"

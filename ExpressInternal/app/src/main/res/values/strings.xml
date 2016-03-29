@@ -191,6 +191,10 @@
     <string name="confirm_problematic">Confirm Problematic Delivery</string>
     <string name="problematic_remarks_hint">Remarks</string>
     <string name="problematic_notes">"Item(s) out of stock"</string>
+    <string name="problematic_attach_photo">Attach photo</string>
+    <string name="confirm_problematic_2">Confirm Problematic</string>
+    <string name="confirm_problematic_submitting">Confirming...</string>
+    <string name="report_as_problematic">REPORT AS PROBLEMATIC</string>
 
     <!--Complete-->
     <string name="ok">Ok</string>

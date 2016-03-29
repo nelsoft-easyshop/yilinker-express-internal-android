@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/warm_gray">
+
+    <ImageButton android:id="@+id/ivBack" android:clickable="true"
+        android:layout_width="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/gray_dark"
+        android:src="@drawable/ic_back_arrow" android:layout_centerVertical="true" android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/ivBack"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        android:text="@string/report_as_problematic"
+        android:textColor="@color/white"
+        android:id="@+id/tvTitle"
+        android:textSize="18sp"  android:textAllCaps="true"
+        android:textStyle="bold"/>
+
+    <ImageButton android:id="@+id/ivSync" android:clickable="true"
+        android:layout_width="@dimen/actionbar_button_width"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_refresh" android:layout_centerVertical="true" android:layout_alignParentRight="true" android:visibility="gone" />
+
+    <!--<Button android:id="@+id/ivSwitch" android:clickable="true"-->
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="30dp"  android:background="@drawable/bg_btn_marigold_rounded"-->
+    <!--android:visibility="visible" android:textColor="@color/white"-->
+    <!--android:gravity="right"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_centerVertical="true" />-->
+
+
+
+</RelativeLayout>

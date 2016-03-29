@@ -109,6 +109,7 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
         ImageView ivClose = (ImageView) findViewById(R.id.ivClose);
         ivClose.setOnClickListener(this);
 
+
         setPager();
 
     }

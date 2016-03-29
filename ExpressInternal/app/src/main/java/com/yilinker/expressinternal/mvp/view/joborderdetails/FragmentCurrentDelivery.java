@@ -19,6 +19,7 @@ import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDeliveryJobPresenter;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDropoffJobPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.reportproblematic.ActivityReportProblematic;
 
 import org.w3c.dom.Text;
 
@@ -177,8 +178,13 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
     @Override
     public void openProblematicOptions(String jobOrderNo) {
 
-        Intent intent = new Intent(getActivity(), ActivityProblematic.class);
-        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrderNo);
+//        Intent intent = new Intent(getActivity(), ActivityProblematic.class);
+//        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrderNo);
+//        startActivity(intent);
+
+
+        Intent intent = new Intent(getActivity(), ActivityReportProblematic.class);
+        intent.putExtra(ActivityReportProblematic.ARG_JOB_ORDER_NO, jobOrderNo);
         startActivity(intent);
 
     }
