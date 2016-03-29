@@ -17,6 +17,8 @@ import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistDeliveryView;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistPickupView;
 
+import org.apache.http.entity.mime.content.StringBody;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +38,15 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
     private String validId;
     private String signature;
 
-    public void onValidIdClick(ChecklistItem checklistItem){
+    public void onValidIdClick(ChecklistItem checklistItem, String pageName){
 
-        handleImageItemClick(checklistItem, TYPE_VALID_ID);
+        handleImageItemClick(checklistItem, TYPE_VALID_ID, pageName);
 
     }
 
-    public void onRecipientPictureClick(ChecklistItem checklistItem){
+    public void onRecipientPictureClick(ChecklistItem checklistItem, String pageName){
 
-        handleImageItemClick(checklistItem, TYPE_RECIPIENT_PIC);
+        handleImageItemClick(checklistItem, TYPE_RECIPIENT_PIC, pageName);
     }
 
     public void onValidIdResult(){
@@ -195,7 +197,7 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
         view().updateItem(currentItem);
     }
 
-    private void handleImageItemClick(ChecklistItem item, int type){
+    private void handleImageItemClick(ChecklistItem item, int type, String pageName){
 
         currentItem = item;
 
@@ -210,7 +212,7 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
             List<String> images = new ArrayList<>();
             images.add(item.getAttachedItem());
 
-            view().showCaptureImageScreen(images, type);
+            view().showCaptureImageScreen(images, type, pageName);
         }
     }
 

@@ -23,7 +23,10 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
     private ReportProblematicPresenter presenter;
     public static final String ARG_JOB_ORDER_NO = "jobOrder";
 
+    private static final String KEY_CONTENT = "content";
+
     private Bundle savedInstance;
+    private Fragment content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +38,24 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
 
         if (savedInstanceState == null){
             presenter = new ReportProblematicPresenter();
+            presenter.bindView(this);
+            initializeViews(null);
+            setFragment();
+            getData();
+
         }else{
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
 
             if (presenter==null) {
                 presenter = PresenterManager.getInstance().restorePresenter(savedInstance);
             }
+            content = getFragmentManager().getFragment(savedInstanceState, KEY_CONTENT);
+
+            replaceFragment(content);
+
 
         }
 
-        presenter.bindView(this);
-        initializeViews(null);
-        setFragment();
-        getData();
     }
 
     @Override
@@ -55,6 +63,8 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
         super.onSaveInstanceState(outState);
 
         PresenterManager.getInstance().savePresenter(presenter, outState);
+
+        getFragmentManager().putFragment(outState, KEY_CONTENT, content);
 
     }
 
@@ -65,7 +75,12 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
 
     @Override
     public void initializeViews(View parent) {
-        super.initializeViews(parent);
+
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
+
     }
 
     @Override
@@ -107,8 +122,8 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
     }
 
     private void setFragment(){
-        FragmentReportProblematicSelectType fragment = FragmentReportProblematicSelectType.createInstance();
-        replaceFragment(fragment);
+        content = FragmentReportProblematicSelectType.createInstance();
+        replaceFragment(content);
     }
 
     @Override
@@ -134,8 +149,8 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
     public void goToConfirmProblematic(ProblematicType problematicType, String jobOrderNo) {
         //TODO create instance of report problematic details
 //        Toast.makeText(getApplicationContext(),problematicType.getType(),Toast.LENGTH_SHORT).show();
-        FragmentReportProblematicForm fragment = FragmentReportProblematicForm.createInstance(problematicType, jobOrderNo);
-        replaceFragment(fragment);
+        content = FragmentReportProblematicForm.createInstance(problematicType, jobOrderNo);
+        replaceFragment(content);
     }
 
 }

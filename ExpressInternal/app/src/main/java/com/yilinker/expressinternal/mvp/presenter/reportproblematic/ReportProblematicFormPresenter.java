@@ -34,7 +34,7 @@ public class ReportProblematicFormPresenter extends RequestPresenter<Problematic
 
     @Override
     protected void updateView() {
-        super.updateView();
+
     }
 
 

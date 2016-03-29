@@ -20,7 +20,7 @@ import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.checklist.FragmentDialogUpdateStatus2;
-import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
+//import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.signature.ActivitySignature;
 import com.yilinker.expressinternal.interfaces.RequestOngoingListener;
@@ -33,6 +33,7 @@ import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistDeliveryPresenter;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistPickupPresenter;
 import com.yilinker.expressinternal.mvp.view.confirmpackage.ActivityConfirmPackage;
+import com.yilinker.expressinternal.mvp.view.images.ActivityImageGallery;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityCompleteJODetails;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 import com.yilinker.expressinternal.service.ServiceDeliveryChecklist;
@@ -229,13 +230,19 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     }
 
     @Override
-    public void showCaptureImageScreen(List<String> uri, int type) {
+    public void showCaptureImageScreen(List<String> uri, int type, String pageName) {
 
+
+//        Intent intent = new Intent(getActivity(), ActivityImageGallery.class);
+//        intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, (ArrayList<String>) uri);
+//        intent.putExtra(ActivityImageGallery.ARG_TYPE, ImagePagerAdapter.TYPE_URI);
+//        intent.putExtra(ActivityImageGallery.ARG_RETAKE, true);
 
         Intent intent = new Intent(getActivity(), ActivityImageGallery.class);
         intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, (ArrayList<String>) uri);
         intent.putExtra(ActivityImageGallery.ARG_TYPE, ImagePagerAdapter.TYPE_URI);
         intent.putExtra(ActivityImageGallery.ARG_RETAKE, true);
+        intent.putExtra(ActivityImageGallery.ARG_PAGE_NAME, pageName);
 
         int requestCode = REQUEST_IMAGE_GALLERY + getRequestCode(type);
         startActivityForResult(intent, requestCode);
@@ -335,12 +342,12 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
 
         if(object.getTitle().equalsIgnoreCase(validId)){
 
-            presenter.onValidIdClick(object);
+            presenter.onValidIdClick(object, validId);
 
         }
         else if(object.getTitle().equalsIgnoreCase(recipientPicture)){
 
-            presenter.onRecipientPictureClick(object);
+            presenter.onRecipientPictureClick(object, recipientPicture);
 
         }
         else if(object.getTitle().equalsIgnoreCase(signature)){

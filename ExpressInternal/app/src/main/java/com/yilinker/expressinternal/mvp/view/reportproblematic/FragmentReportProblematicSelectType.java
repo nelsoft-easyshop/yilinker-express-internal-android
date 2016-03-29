@@ -73,8 +73,11 @@ public class FragmentReportProblematicSelectType extends BaseFragment implements
     @Override
     public void initializeViews(View parent) {
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        layoutManager.setAutoMeasureEnabled(false);
+
         RecyclerView rvProblematicType = (RecyclerView) parent.findViewById(R.id.rvProblematicType);
-        rvProblematicType.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false));
+        rvProblematicType.setLayoutManager(layoutManager);
         adapter = new ProblematicTypeAdapter(itemClickCallBack);
         rvProblematicType.setAdapter(adapter);
 
