@@ -24,6 +24,7 @@ import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistPickupPresenter;
 import com.yilinker.expressinternal.mvp.view.confirmpackage.ActivityConfirmPackage;
+import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityCompleteJODetails;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 import com.yilinker.expressinternal.service.ServicePickupChecklist;
 
@@ -183,6 +184,16 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         startActivity(intent);
+    }
+
+    @Override
+    public void goToCompleteScreen(JobOrder jobOrder) {
+
+        Intent intent = new Intent(getActivity(), ActivityCompleteJODetails.class);
+        intent.putExtra(ActivityCompleteJODetails.KEY_JOB_ORDER, jobOrder);
+
+        startActivity(intent);
+
     }
 
     @Override

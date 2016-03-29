@@ -6,5 +6,6 @@
      <string name="error_no_segregation_area">Rider has no segregation area</string>
     <string name="error_expired_token">Expired token</string>
     <string name="error_invalid_username_password">Invalid username/password</string>
+    <string name="error_fill_up_fields">Please fill up all required fields!</string>
 
 </resources>

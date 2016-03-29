@@ -14,6 +14,8 @@ public class AccreditationConstant {
     public static final String REQUIREMENT_ID = "id";
     public static final String REQUIREMENT_DATA = "data";
 
+    public static final int ACCREDITATION_ERROR_INCOMPLETE = 1;
+
 }
 
 

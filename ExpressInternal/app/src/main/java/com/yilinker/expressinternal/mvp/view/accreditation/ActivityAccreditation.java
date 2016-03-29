@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.accreditation;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import com.android.volley.Request;
 import com.yilinker.core.customview.CustomLinearLayoutManager;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.constants.AccreditationConstant;
 import com.yilinker.expressinternal.controllers.login.ActivityLogin;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.mvp.model.AccreditationRequirement;
@@ -32,18 +37,24 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/16/16.
  */
-public class ActivityAccreditation extends BaseFragmentActivity implements IAccreditationView, OnDataUpdateListener, View.OnClickListener, RecyclerViewClickListener<AccreditationRequirement>, IButtonRequirementListener{
+public class ActivityAccreditation extends BaseFragmentActivity implements IAccreditationView, OnDataUpdateListener, View.OnClickListener, RecyclerViewClickListener<AccreditationRequirement>, IButtonRequirementListener, DatePickerDialog.OnDateSetListener{
 
     private static final int REQUEST_CAMERA = 100;
+    private static final int REQUEST_DATE = 101;
 
     private AccreditationPresenter presenter;
 
     private EditText etFirstName;
     private EditText etLastName;
-    private EditText etBirthday;
+    private Button etBirthday;
     private EditText etGender;
+    private Button btnSave;
+    private View invisibleLoader;
 
     private View currentFocus;
+
+    private AccreditationRequirementAdapter adapter;
+
 
     private View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
         @Override
@@ -52,6 +63,12 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
             if(hasFocus){
 
                 currentFocus = v;
+
+                if(v.getId() == R.id.etBithday){
+                    showDatePicker();
+                    hideKeyboard(v);
+                }
+
             }
         }
     };
@@ -98,8 +115,6 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
         }
     };
 
-
-    private AccreditationRequirementAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,11 +169,13 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
     @Override
     public void initializeViews(View parent) {
 
-        etBirthday = (EditText) findViewById(R.id.etBithday);
+        etBirthday = (Button) findViewById(R.id.etBithday);
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
         etGender = (EditText) findViewById(R.id.etGender);
-        Button btnSave = (Button) findViewById(R.id.btnSave);
+        btnSave = (Button) findViewById(R.id.btnSave);
+        invisibleLoader = findViewById(R.id.invisibleLoader);
+
         RecyclerView rvRequirements = (RecyclerView) findViewById(R.id.rvRequirements);
 
         //For Requirements list
@@ -184,6 +201,8 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
         etFirstName.setOnFocusChangeListener(focusChangeListener);
         etLastName.setOnFocusChangeListener(focusChangeListener);
         etGender.setOnFocusChangeListener(focusChangeListener);
+
+        etBirthday.setOnClickListener(this);
     }
 
     @Override
@@ -210,7 +229,14 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
     @Override
     public void showErrorMessageByType(int type) {
 
+        switch (type){
 
+            case AccreditationConstant.ACCREDITATION_ERROR_INCOMPLETE:
+
+                showErrorMessage(getString(R.string.error_fill_up_fields));
+                break;
+
+        }
     }
 
     @Override
@@ -269,6 +295,11 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
                 v.requestFocus();
                 presenter.onSaveButtonClick();
                 break;
+
+            case R.id.etBithday:
+
+                showDatePicker();
+                break;
         }
     }
 
@@ -299,5 +330,52 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
         String compressedImage = ImageUtility.compressCameraFileBitmap(path, getApplicationContext());
 
         return compressedImage;
+    }
+
+    @Override
+    public void enableSaveButton(boolean isEnabled) {
+
+        btnSave.setEnabled(isEnabled);
+    }
+
+    @Override
+    public void showScreenLoader(boolean isShown) {
+
+        String text = null;
+        int visibility = 0;
+
+        if(isShown){
+
+            visibility = View.VISIBLE;
+            text = getString(R.string.accreditation_saving);
+        }
+        else {
+
+            visibility = View.GONE;
+            text = getString(R.string.accreditation_save);
+        }
+
+        btnSave.setText(text);
+        invisibleLoader.setVisibility(visibility);
+
+    }
+
+    private void showDatePicker(){
+
+        FragmentDialogDatePicker dialog = FragmentDialogDatePicker.createInstance(REQUEST_DATE);
+        dialog.show(getFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+        String date = String.format("%02d/%02d/%04d", monthOfYear, dayOfMonth, year);
+        etBirthday.setText(date);
+    }
+
+    private void hideKeyboard(View view){
+
+        InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

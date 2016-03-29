@@ -25,10 +25,13 @@
     style="@style/AccreditationEditTextStyle"
     android:hint="@string/accreditation_lastname"/>
 
-<EditText
+<Button
     android:id="@+id/etBithday"
     style="@style/AccreditationEditTextStyle"
-    android:hint="@string/accreditation_birthday"/>
+    android:hint="@string/accreditation_birthday"
+    android:focusableInTouchMode="true"
+    android:gravity="left|center_vertical"
+    android:textColor="@color/gray6"/>
 
 <EditText
     android:id="@+id/etGender"

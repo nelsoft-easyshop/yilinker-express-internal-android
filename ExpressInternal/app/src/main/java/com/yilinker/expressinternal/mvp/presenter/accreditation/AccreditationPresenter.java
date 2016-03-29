@@ -48,6 +48,7 @@ public class AccreditationPresenter extends RequestPresenter<AccreditationInform
     @Override
     protected void updateView() {
 
+
     }
 
     @Override
@@ -59,6 +60,7 @@ public class AccreditationPresenter extends RequestPresenter<AccreditationInform
             case REQUEST_GET_REQUIREMENTS:
 
                 handleGetRequirementsResponse((List<com.yilinker.core.model.express.internal.AccreditationRequirement>) object);
+                view().enableSaveButton(true);
                 break;
 
             case REQUEST_SUBMIT_ACCREDITATION:
@@ -75,6 +77,7 @@ public class AccreditationPresenter extends RequestPresenter<AccreditationInform
         super.onFailed(requestCode, message);
 
         view().showErrorMessage(message);
+        view().showScreenLoader(false);
     }
 
     @Override
@@ -122,9 +125,15 @@ public class AccreditationPresenter extends RequestPresenter<AccreditationInform
     @Override
     public void onSaveButtonClick() {
 
-        //Do validation here
+        if(hasCompleteRequirements()) {
 
-        requestSubmitAccreditation();
+            view().showScreenLoader(true);
+            requestSubmitAccreditation();
+        }
+        else{
+
+            view().showErrorMessageByType(AccreditationConstant.ACCREDITATION_ERROR_INCOMPLETE);
+        }
     }
 
     @Override
@@ -387,4 +396,153 @@ public class AccreditationPresenter extends RequestPresenter<AccreditationInform
         return jsonArray;
     }
 
+    private boolean hasCompleteRequirements(){
+
+        if(requirementList == null){
+
+            return false;
+        }
+
+
+        if(requirementList.size() == 0){
+
+            return false;
+        }
+        else {
+
+            boolean isComplete = true;
+
+            for (AccreditationRequirement requirement : requirementList) {
+
+                isComplete = true;
+
+                if (requirement.isRequired()) {
+
+                    int type = requirement.getType();
+
+                    switch (type) {
+                        case AccreditationConstant.REQUIREMENT_TYPE_BUTTON:
+
+                            isComplete = completeButtonType(requirement);
+                            break;
+
+                        case AccreditationConstant.REQUIREMENT_TYPE_DROPDOWN:
+
+                            isComplete = completeDropdown(requirement);
+                            break;
+
+                        case AccreditationConstant.REQUIREMENT_TYPE_CHECKLIST:
+
+                            isComplete = completeChecklistType(requirement);
+                            break;
+
+                        case AccreditationConstant.REQUIREMENT_TYPE_INPUTTEXT:
+
+                            isComplete = completeInputType(requirement);
+                            break;
+
+                        case AccreditationConstant.REQUIREMENT_TYPE_CHECKBOX:
+
+                            isComplete = completeInputType(requirement);
+                            break;
+                    }
+                }
+
+                if(!isComplete){
+
+                    break;
+                }
+
+            }
+
+            return isComplete;
+        }
+
+
+    }
+
+    private boolean completeInputType(AccreditationRequirement requirement){
+
+        String inputValue = requirement.getInputValue();
+
+        boolean isComplete = true;
+        if(inputValue == null){
+
+            isComplete = false;
+        }
+        else {
+
+            isComplete = !inputValue.trim().isEmpty();
+        }
+
+        return isComplete;
+    }
+
+    private boolean completeDropdown(AccreditationRequirement requirement){
+
+        String inputValue = requirement.getInputKey();
+
+        boolean isComplete = true;
+        if(inputValue == null){
+
+            isComplete = false;
+        }
+        else {
+
+            isComplete = !inputValue.trim().isEmpty();
+        }
+
+        return isComplete;
+    }
+
+    private boolean completeCheckboxType(AccreditationRequirement requirement){
+
+        String inputValue = requirement.getInputValue();
+
+        boolean isComplete = true;
+        if(inputValue == null){
+
+            isComplete = false;
+        }
+        else {
+
+            isComplete = !inputValue.trim().isEmpty();
+        }
+
+        return isComplete;
+    }
+
+    private boolean completeChecklistType(AccreditationRequirement requirement){
+
+        List<String> selectedValues = requirement.getSelectedValues();
+
+        boolean isComplete = true;
+        if(selectedValues == null){
+
+            isComplete = false;
+        }
+        else {
+
+            isComplete = selectedValues.size() > 0;
+        }
+
+        return isComplete;
+    }
+
+    private boolean completeButtonType(AccreditationRequirement requirement){
+
+        List<String> selectedValues = requirement.getSelectedValues();
+
+        boolean isComplete = true;
+        if(selectedValues == null){
+
+            isComplete = false;
+        }
+        else {
+
+            isComplete = selectedValues.size() > 0;
+        }
+
+        return isComplete;
+    }
 }

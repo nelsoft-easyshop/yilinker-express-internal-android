@@ -39,6 +39,7 @@ import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.mvp.view.reportproblematic.ActivityReportProblematic;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.ArrayList;
@@ -748,11 +749,14 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
     }
 
     private void reportProblematic() {
+//
+//        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityProblematic.class);
+//        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder.getJobOrderNo());
+//        startActivity(intent);
 
-        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityProblematic.class);
-        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder.getJobOrderNo());
+        Intent intent = new Intent(ActivityJobOderDetail.this, ActivityReportProblematic.class);
+        intent.putExtra(ActivityReportProblematic.ARG_JOB_ORDER_NO, jobOrder.getJobOrderNo());
         startActivity(intent);
-
     }
 
     private void reportOutOfStock() {

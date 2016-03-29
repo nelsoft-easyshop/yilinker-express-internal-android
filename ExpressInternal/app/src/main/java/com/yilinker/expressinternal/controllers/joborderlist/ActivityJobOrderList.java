@@ -57,6 +57,7 @@ import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.TabModel;
 import com.yilinker.expressinternal.model.Warehouse;
+import com.yilinker.expressinternal.mvp.view.reportproblematic.ActivityReportProblematic;
 import com.yilinker.expressinternal.utilities.DrawableHelper;
 import com.yilinker.expressinternal.utilities.LocationHelper;
 
@@ -1124,8 +1125,13 @@ public class ActivityJobOrderList extends BaseActivity implements TabItemClickLi
 
     private void reportProblematic(JobOrder jobOrder) {
 
-        Intent intent = new Intent(ActivityJobOrderList.this, ActivityProblematic.class);
-        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder);
+//        Intent intent = new Intent(ActivityJobOrderList.this, ActivityProblematic.class);
+//        intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder);
+//        startActivity(intent);
+
+
+        Intent intent = new Intent(ActivityJobOrderList.this, ActivityReportProblematic.class);
+        intent.putExtra(ActivityReportProblematic.ARG_JOB_ORDER_NO, jobOrder);
         startActivity(intent);
 
     }

@@ -20,5 +20,7 @@ public interface IAccreditationView {
     public void launchCamera(Uri uri);
     public void launchGallery();
     public void resetItem(AccreditationRequirement item);
-    public String compressImage(String path) ;
+    public String compressImage(String path);
+    public void enableSaveButton(boolean isEnabled);
+    public void showScreenLoader(boolean isShown);
 }
