@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
@@ -45,11 +46,10 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
     private String type;
 
     private boolean retake;
-    private boolean hasNewPhoto;
-
-    private Uri photoUri;
 
     private ImageGalleryPresenter presenter;
+
+    private static Bundle savedInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +58,24 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
         setContentView(R.layout.activity_image_gallery_2);
 
         if (savedInstanceState == null){
+
+            Log.i("RESULT","Create presenter");
             presenter = new ImageGalleryPresenter();
-            Log.i("RESULT","new");
+            getData();
+            initializeViews(null);
+            presenter.bindView(this);
+            presenter.setModel(images);
 
         }else{
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+            Log.i("RESULT","restore presenter");
 
-            Log.i("RESULT","restore");
+            if (presenter==null){
+                Log.i("RESULT","restoring null presenter");
+                presenter = PresenterManager.getInstance().restorePresenter(savedInstance);
+
+            }
         }
-        getData();
-        initializeViews(null);
-
-        presenter.bindView(this);
-        presenter.addAllImage(images);
 
     }
 
@@ -78,28 +83,34 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        PresenterManager.getInstance().savePresenter(presenter, outState);
+        if (presenter==null){
+            Log.i("RESULT","saving null presenter");
 
-        if (photoUri!=null){
-            outState.putString(KEY_PHOTO_URI, photoUri.toString());
         }
+
+        savedInstance = new Bundle();
+        PresenterManager.getInstance().savePresenter(presenter, outState);
+        Log.i("RESULT","presenter saved");
 
     }
 
+
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null){
-            photoUri = Uri.parse(savedInstanceState.getString(KEY_PHOTO_URI));
+    protected void onDestroy() {
+        super.onDestroy();
 
-        }
-
+        savedInstance = new Bundle();
+        PresenterManager.getInstance().savePresenter(presenter, savedInstance);
     }
 
     @Override
     public void initializeViews(View parent) {
 
+        ImageView ivClose = (ImageView) findViewById(R.id.ivClose);
+        ivClose.setOnClickListener(this);
+
         setPager();
+
     }
 
     @Override
@@ -118,6 +129,9 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
     @Override
     protected void onResume() {
         super.onResume();
+
+        Log.i("RESULT","resume");
+        presenter.bindView(this);
     }
 
     @Override
@@ -165,27 +179,27 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
                 presenter.launchCamera();
                 break;
 
+            case R.id.ivClose:
+                onBackPressed();
+                break;
+
             default:
                 break;
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //bind the presenter
+        Log.i("RESULT","reload gallery");
+        presenter.bindView(this);
 
         if(resultCode == RESULT_OK){
 
-            String photoFile = photoUri.toString();
-
-            Log.i("RESULT","reload gallery");
-            presenter.reloadGallery(photoFile);
-
-            Intent intent = new Intent();
-            intent.putExtra(ARG_NEW_PHOTO, photoUri.toString());
-
-            setResult(RESULT_OK, intent);
+            presenter.reloadGallery();
 
         }
         else{
@@ -194,16 +208,19 @@ public class ActivityImageGallery extends BaseFragmentActivity implements IImage
         }
 
     }
-
     @Override
-    public void reloadGallery() {
+    public void reloadGallery(String photoFile) {
         adapter.notifyDataSetChanged();
+
+        Intent intent = new Intent();
+        intent.putExtra(ARG_NEW_PHOTO, photoFile);
+
+        setResult(RESULT_OK, intent);
     }
 
     @Override
-    public void launchCamera(File outputFile) {
+    public void launchCamera(Uri photoUri) {
 
-        photoUri = Uri.fromFile(outputFile);
 
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);

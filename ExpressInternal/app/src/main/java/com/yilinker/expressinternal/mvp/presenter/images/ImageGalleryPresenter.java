@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.images;
 
+import android.net.Uri;
+
 import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.images.IImageGalleryView;
 
@@ -12,30 +14,40 @@ import java.util.List;
  */
 public class ImageGalleryPresenter extends BasePresenter<List<String>,IImageGalleryView> implements IImageGalleryPresenter {
 
+    private Uri photoUri;
 
     @Override
     protected void updateView() {
 
     }
 
+//    @Override
+//    public void reloadGallery(String photoFile) {
+//        model.clear();
+//        model.add(photoFile);
+//        view().reloadGallery();
+//    }
+
     @Override
-    public void reloadGallery(String photoFile) {
+    public void reloadGallery() {
+
+        String photoFile = photoUri.toString();
+
         model.clear();
         model.add(photoFile);
-        view().reloadGallery();
+        view().reloadGallery(photoFile);
     }
+
 
     @Override
     public void launchCamera() {
         String tempFileName = String.format("image_%s", Long.toString(System.currentTimeMillis()));
         File outputFile = new File(android.os.Environment.getExternalStorageDirectory(), tempFileName);
 
-        view().launchCamera(outputFile);
+        photoUri = Uri.fromFile(outputFile);
+//        view().launchCamera(outputFile);
+        view().launchCamera(photoUri);
 
     }
 
-    @Override
-    public void addAllImage(List<String> images) {
-        model.addAll(images);
-    }
 }
