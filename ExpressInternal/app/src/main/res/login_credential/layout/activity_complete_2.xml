@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rounded_white"
+    android:layout_margin="10dp">
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@drawable/complete_jo_image"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/complete_jo_good_job"
+        android:textSize="22sp"
+        android:textColor="@color/gray_brown"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/complete_jo_congratulation"
+        android:textSize="18sp"
+        android:textColor="@color/warm_gray"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+
+
+    <TextView
+        android:id="@+id/tvEarned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="P 50.00"
+        android:textSize="36sp"
+        android:textColor="@color/green"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btnWow"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/complete_jo_wow"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_btn_orangeyellow_rounded"
+        android:textSize="20sp"/>
+
+</LinearLayout>

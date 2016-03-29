@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.checklist.FragmentDialogUpdateStatus2;
+import com.yilinker.expressinternal.interfaces.RequestOngoingListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
@@ -40,6 +41,7 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
 
     private Button btnComplete;
 
+    private RequestOngoingListener requestListener;
 
     public static FragmentChecklistDelivery createInstance(JobOrder jobOrder){
 
@@ -76,7 +78,7 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
             presenter.bindView(this);
 
             //For creating the checklist
-            presenter.onViewCreated(getData(), getTitles(R.array.checklist_pickup), getTitleWithData(R.array.checklist_pickup_with_data));
+            presenter.onViewCreated(getData(), getTitles(R.array.checklist_pickup), getTitleWithData(R.array.checklist_pickup_with_data), getString(R.string.checklist_pickup_payment));
 
         }
         else{
@@ -84,6 +86,13 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
 
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        requestListener = (RequestOngoingListener)activity;
     }
 
     @Override
@@ -102,6 +111,8 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
 
     @Override
     public void onPause() {
+
+        presenter.onPause();
 
         presenter.unbindView();
         super.onPause();
@@ -178,6 +189,7 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
     public void startPickupService(Package selectedPackage) {
 
         Intent service = new Intent(getActivity(), ServicePickupChecklist.class);
+        service.putExtra(ServicePickupChecklist.ARG_PACKAGE, selectedPackage);
         getActivity().startService(service);
     }
 
@@ -233,6 +245,26 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
     public void showMessage(String message) {
 
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showScreenLoader(boolean showLoader) {
+
+        String text = null;
+
+        if(showLoader){
+
+            text = getString(R.string.completing_delivery);
+
+        }
+        else{
+
+            text = getString(R.string.checklist_delivery_complete);
+        }
+
+        requestListener.onRequestOngoing(showLoader);
+        btnComplete.setText(text);
+
     }
 
     @Override

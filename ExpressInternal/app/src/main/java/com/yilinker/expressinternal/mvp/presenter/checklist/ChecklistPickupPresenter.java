@@ -41,6 +41,8 @@ public class ChecklistPickupPresenter extends ChecklistBasePresenter<IChecklistP
 
     public void onSelectStatus(String newStatus){
 
+        view().showScreenLoader(true);
+        selectedPackage.setNewStatus(newStatus);
         requestCompletePickup(newStatus);
     }
 
@@ -63,6 +65,7 @@ public class ChecklistPickupPresenter extends ChecklistBasePresenter<IChecklistP
 
         if(riderCode.equalsIgnoreCase(model.getAreaCode())){
 
+            view().showScreenLoader(true);
             requestCompletePickup(JobOrderConstant.JO_CURRENT_DROPOFF);
         }
         else {
@@ -103,23 +106,24 @@ public class ChecklistPickupPresenter extends ChecklistBasePresenter<IChecklistP
     }
 
 
-
     private void requestCompletePickup(String newStatus){
 
         Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE, model.getJobOrderNo(), newStatus, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
+        request.setTag(REQUEST_TAG);
 
         view().addRequest(request);
     }
 
     private void handleCompleteRequest(){
 
+        selectedPackage.setIsUpdated(true);
         view().startPickupService(selectedPackage);
         view().goToMainScreen();
     }
 
     private void handleFailedUpdate(){
 
+        selectedPackage.setIsUpdated(false);
         view().startPickupService(selectedPackage);
 
     }

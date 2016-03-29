@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.interfaces.RequestOngoingListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistMainPresenter;
@@ -18,7 +19,7 @@ import com.yilinker.expressinternal.mvp.view.BaseActivity;
 /**
  * Created by J.Bautista on 3/22/16.
  */
-public class ActivityChecklist extends BaseActivity implements IChecklistMainView {
+public class ActivityChecklist extends BaseActivity implements IChecklistMainView, RequestOngoingListener {
 
     public static final String ARG_JOB_ORDER = "jobOrder";
 
@@ -28,6 +29,7 @@ public class ActivityChecklist extends BaseActivity implements IChecklistMainVie
 
     private TextView tvWaybillNo;
     private TextView tvItem;
+    private View invisibleLoader;
 
     private Fragment content;
 
@@ -154,7 +156,7 @@ public class ActivityChecklist extends BaseActivity implements IChecklistMainVie
 
         tvItem = (TextView) findViewById(R.id.tvItem);
         tvWaybillNo = (TextView) findViewById(R.id.tvWaybillNo);
-
+        invisibleLoader = findViewById(R.id.invisibleLoader);
     }
 
     @Override
@@ -181,4 +183,21 @@ public class ActivityChecklist extends BaseActivity implements IChecklistMainVie
         transaction.commit();
     }
 
+    @Override
+    public void onRequestOngoing(boolean isOngoing) {
+
+        int visibility = 0;
+
+        if(isOngoing){
+
+            visibility = View.VISIBLE;
+        }
+        else {
+
+            visibility = View.GONE;
+        }
+
+
+        invisibleLoader.setVisibility(visibility);
+    }
 }

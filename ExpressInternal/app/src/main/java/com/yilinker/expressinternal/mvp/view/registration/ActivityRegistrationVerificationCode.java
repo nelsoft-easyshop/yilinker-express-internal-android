@@ -56,8 +56,6 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         initData();
         initializeViews(null);
 
-        presenter.bindView(this);
-
     }
 
 
@@ -85,12 +83,16 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     @Override
     protected void onResume() {
         super.onResume();
+        presenter.bindView(this);
 
         if (!isNewNumber)
         {
-            presenter.getRemainingTime(getRemainingTime());
+            presenter.getRemainingTime(getRemainingTime(),getFormatterMobileNumber(),access_token);
+
+        }else {
+            isNewNumber = false;
+            presenter.getVerificationCode(getFormatterMobileNumber(),access_token);
         }
-        presenter.getVerificationCode(getFormatterMobileNumber(),access_token);
 
     }
 

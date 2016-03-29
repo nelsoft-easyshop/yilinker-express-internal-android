@@ -16,6 +16,10 @@ public class DeliveryPackage implements Parcelable {
     private String signature;
     private boolean isUpdated;
 
+    public DeliveryPackage(){
+
+    }
+
     protected DeliveryPackage(Parcel in) {
 
         jobOrderNo = in.readString();

@@ -41,6 +41,9 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
         }else if (!password.equals(confirmPassword)){
             view().showValidationError(2);
 
+        }else if (password.length()<8){
+            view().showValidationError(3);
+
         }else {
             requestSignUp(mobileNumber, password, accessToken);
         }
@@ -66,7 +69,6 @@ public class RegistrationCompleteSignUpPresenter extends RequestPresenter<Object
     }
 
     private void requestSignUp(String mobileNumber, String password, String accessToken){
-        //TODO call request here
         Request request = RegistrationApi.submitRegistration(SIGN_UP_REQUEST_CODE, mobileNumber, password,accessToken, this,new ExpressErrorHandler(this,SIGN_UP_REQUEST_CODE));
         request.setTag(SIGN_UP_REQUEST_TAG);
         view().addRequest(request);

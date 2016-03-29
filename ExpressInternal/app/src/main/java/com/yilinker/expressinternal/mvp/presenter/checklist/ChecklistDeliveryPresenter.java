@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
@@ -11,11 +12,14 @@ import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
+import com.yilinker.expressinternal.mvp.model.DeliveryPackage;
 import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistDeliveryView;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistPickupView;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by J.Bautista on 3/22/16.
@@ -28,41 +32,68 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
     private static final int REQUEST_UPDATE = 1003;
 
     private Uri photoUri;
-
+    private String recipientPicture;
+    private String validId;
+    private String signature;
 
     public void onValidIdClick(ChecklistItem checklistItem){
 
-        currentItem = checklistItem;
+        handleImageItemClick(checklistItem, TYPE_VALID_ID);
 
-        if(checklistItem.getAttachedItem() == null){
+    }
 
-            createImageFile();
-            view().launchCamera(photoUri, TYPE_VALID_ID);
+    public void onRecipientPictureClick(ChecklistItem checklistItem){
 
-        }
-        else {
-
-            //TODO Launch gallery
-        }
-
-
+        handleImageItemClick(checklistItem, TYPE_RECIPIENT_PIC);
     }
 
     public void onValidIdResult(){
 
-        String validImage = photoUri.toString();
+        validId = photoUri.toString();
+        setPhotoUri();
+    }
 
+    public void onValidIdRetake(String newUri){
+
+        validId = newUri;
+        updatePhoto(newUri);
+    }
+
+
+    public void onRecipientPictureResult(){
+
+        recipientPicture = photoUri.toString();
+        setPhotoUri();
+    }
+
+    public void onRecipientPictureRetake(String newUri){
+
+        recipientPicture = newUri;
+        updatePhoto(newUri);
+    }
+
+    public void onSignatureImageClick(ChecklistItem item){
+
+        currentItem = item;
+
+        view().showSignatureScreen(signature);
+    }
+
+    public void onSignatureResult(String data){
+
+        signature = data;
+
+        currentItem.setAttachedItem(data);
         currentItem.setIsChecked(true);
-        currentItem.setAttachedItem(validImage);
 
         view().updateItem(currentItem);
     }
 
-
     @Override
     public void onCompleteButtonClick() {
 
-
+        view().showScreenLoader(true);
+        requestCompleteDelivery();
     }
 
     @Override
@@ -89,29 +120,35 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
 
             case REQUEST_UPDATE:
 
+                view().showMessage(message);
                 handleFailedUpdate();
                 break;
-
         }
     }
 
 
+    private void requestCompleteDelivery(){
 
-    private void requestCompletePickup(String newStatus){
-
-        Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE, model.getJobOrderNo(), newStatus, this);
-        request.setTag(ApplicationClass.REQUEST_TAG);
+        Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE, model.getJobOrderNo(), JobOrderConstant.JO_COMPLETE, this);
+        request.setTag(REQUEST_TAG);
 
         view().addRequest(request);
     }
 
     private void handleCompleteRequest(){
 
-        view().goToMainScreen();
+        DeliveryPackage deliveryPackage = createDeliveryPackage(true);
+
+        view().startDeliveryService(deliveryPackage);
+        view().goToCompleteScreen(model);
     }
 
     private void handleFailedUpdate(){
 
+        DeliveryPackage deliveryPackage = createDeliveryPackage(false);
+
+        view().startDeliveryService(deliveryPackage);
+        view().goToMainScreen();
 
     }
 
@@ -136,5 +173,70 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
 
         }
 
+    }
+
+    private void updatePhoto(String newUri){
+
+        photoUri = Uri.parse(newUri);
+
+        currentItem.setAttachedItem(newUri);
+
+        view().updateItem(currentItem);
+
+    }
+
+    private void setPhotoUri(){
+
+        String image = photoUri.toString();
+
+        currentItem.setIsChecked(true);
+        currentItem.setAttachedItem(image);
+
+        view().updateItem(currentItem);
+    }
+
+    private void handleImageItemClick(ChecklistItem item, int type){
+
+        currentItem = item;
+
+        if(item.getAttachedItem() == null){
+
+            createImageFile();
+            view().launchCamera(photoUri, type);
+
+        }
+        else {
+
+            List<String> images = new ArrayList<>();
+            images.add(item.getAttachedItem());
+
+            view().showCaptureImageScreen(images, type);
+        }
+    }
+
+    private DeliveryPackage createDeliveryPackage(boolean isUpdated){
+
+        DeliveryPackage deliveryPackage = new DeliveryPackage();
+
+        deliveryPackage.setJobOrderNo(model.getJobOrderNo());
+        deliveryPackage.setWaybillNo(model.getWaybillNo());
+        deliveryPackage.setIsUpdated(isUpdated);
+        deliveryPackage.setSignature(signature);
+
+        List<String> images = new ArrayList<>();
+        images.add(compressImage(validId));
+        images.add(compressImage(recipientPicture));
+        deliveryPackage.setImages(images);
+
+        return deliveryPackage;
+    }
+
+    private String compressImage(String imagePath){
+
+        Uri uri = Uri.parse(imagePath);
+
+        String compressedImage = view().compressImage(uri.getEncodedPath());
+
+        return compressedImage;
     }
 }

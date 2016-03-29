@@ -18,6 +18,8 @@ public class Package implements Parcelable{
     private String shippingFee;
     private String packageSize;
     private String packageType;
+    private boolean isUpdated;
+    private String newStatus;
 
     public Package(){
 
@@ -34,6 +36,8 @@ public class Package implements Parcelable{
         shippingFee = in.readString();
         packageSize = in.readString();
         packageType = in.readString();
+        isUpdated = in.readByte() != 0;
+        newStatus = in.readString();
     }
 
     public static final Creator<Package> CREATOR = new Creator<Package>() {
@@ -128,6 +132,22 @@ public class Package implements Parcelable{
         this.packageType = packageType;
     }
 
+    public boolean isUpdated() {
+        return isUpdated;
+    }
+
+    public void setIsUpdated(boolean isUpdated) {
+        this.isUpdated = isUpdated;
+    }
+
+    public String getNewStatus() {
+        return newStatus;
+    }
+
+    public void setNewStatus(String newStatus) {
+        this.newStatus = newStatus;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -146,5 +166,7 @@ public class Package implements Parcelable{
         dest.writeString(shippingFee);
         dest.writeString(packageSize);
         dest.writeString(packageType);
+        dest.writeByte((byte) (isUpdated ? 1 : 0));
+        dest.writeString(newStatus);
     }
 }

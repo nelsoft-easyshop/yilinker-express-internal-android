@@ -17,12 +17,12 @@
     <dimen name="yilinker_express_name_textsize">20sp</dimen>
 
     <!--OTP-->
-    <dimen name="verification_code_margin_top">40dp</dimen>
-    <dimen name="verification_form_margin_top">40dp</dimen>
-    <dimen name="phone_icon_margin_top">40dp</dimen>
-    <dimen name="verification_code_resend_margin_bottom">60dp</dimen>
+    <dimen name="verification_code_margin_top">35dp</dimen>
+    <dimen name="verification_form_margin_top">35dp</dimen>
+    <dimen name="phone_icon_margin_top">35dp</dimen>
+    <dimen name="verification_code_resend_margin_bottom">30dp</dimen>
 
-    <dimen name="registration_cover_height">350dp</dimen>
+    <dimen name="registration_cover_height">300dp</dimen>
     <dimen name="registration_message_marginBottom">130dp</dimen>
     <dimen name="registration_rider_logo">100dp</dimen>
     <dimen name="registration_rider_logo_margin_top">-50dp</dimen>
@@ -32,10 +32,10 @@
     <dimen name="registration_sign_in_margin_top">20dp</dimen>
 
     <!--complete registration-->
-    <dimen name="complete_registration_banner_height">180dp</dimen>
+    <dimen name="complete_registration_banner_height">160dp</dimen>
     <dimen name="complete_registration_verified_margin_bottom">70dp</dimen>
-    <dimen name="complete_registration_edittext_height">50dp</dimen>
-    <dimen name="complete_registration_sign_up_button_height">50dp</dimen>
+    <dimen name="complete_registration_edittext_height">40dp</dimen>
+    <dimen name="complete_registration_sign_up_button_height">40dp</dimen>
 
 
 </resources>

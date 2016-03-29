@@ -16,9 +16,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.checklist.FragmentDialogUpdateStatus2;
+import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
+import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
+import com.yilinker.expressinternal.controllers.signature.ActivitySignature;
+import com.yilinker.expressinternal.interfaces.RequestOngoingListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
@@ -28,9 +33,11 @@ import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistDeliveryPresenter;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistPickupPresenter;
 import com.yilinker.expressinternal.mvp.view.confirmpackage.ActivityConfirmPackage;
+import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityCompleteJODetails;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 import com.yilinker.expressinternal.service.ServiceDeliveryChecklist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +48,7 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     private static final int REQUEST_VALID_ID = 100;
     private static final int REQUEST_RECIPIENT_PICTURE = 102;
     private static final int REQUEST_SIGNATURE = 103;
+    private static final int REQUEST_IMAGE_GALLERY = 1000;
 
     private ChecklistDeliveryPresenter presenter;
 
@@ -48,6 +56,8 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
 
     private Button btnComplete;
 
+
+    private RequestOngoingListener reqeuestListener;
 
     public static FragmentChecklistDelivery createInstance(JobOrder jobOrder){
 
@@ -84,7 +94,7 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
             presenter.bindView(this);
 
             //For creating the checklist
-            presenter.onViewCreated(getData(), getTitles(R.array.checklist_delivery), getTitleWithData(R.array.checklist_delivery_with_data));
+            presenter.onViewCreated(getData(), getTitles(R.array.checklist_delivery), getTitleWithData(R.array.checklist_delivery_with_data), getString(R.string.checklist_delivery_payment));
 
         }
 
@@ -93,6 +103,13 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
 
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        reqeuestListener = (RequestOngoingListener) activity;
     }
 
     @Override
@@ -112,7 +129,9 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     @Override
     public void onPause() {
 
+        presenter.onPause();
         presenter.unbindView();
+
         super.onPause();
     }
 
@@ -128,17 +147,30 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
 
                 case REQUEST_RECIPIENT_PICTURE:
 
-
+                    presenter.onRecipientPictureResult();
                     break;
 
                 case REQUEST_SIGNATURE:
 
-
+                    String signature = data.getStringExtra(ActivitySignature.ARG_IMAGE_FILE);
+                    presenter.onSignatureResult(signature);
                     break;
 
                 case REQUEST_VALID_ID:
 
                     presenter.onValidIdResult();
+                    break;
+
+                case (REQUEST_IMAGE_GALLERY + REQUEST_VALID_ID):
+
+                    String idUri = data.getStringExtra(ActivityImageGallery.ARG_NEW_PHOTO);
+                    presenter.onValidIdRetake(idUri);
+                    break;
+
+                case (REQUEST_IMAGE_GALLERY + REQUEST_RECIPIENT_PICTURE):
+
+                    String pictureUri = data.getStringExtra(ActivityImageGallery.ARG_NEW_PHOTO);
+                    presenter.onRecipientPictureRetake(pictureUri);
                     break;
             }
         }
@@ -165,7 +197,6 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     @Override
     public void showLoader(boolean isShown) {
 
-
     }
 
 
@@ -190,8 +221,24 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     }
 
     @Override
-    public void showCaptureImageScreen(String uri) {
+    public String compressImage(String path) {
 
+        String compressedImage = ImageUtility.compressCameraFileBitmap(path, getActivity());
+
+        return compressedImage;
+    }
+
+    @Override
+    public void showCaptureImageScreen(List<String> uri, int type) {
+
+
+        Intent intent = new Intent(getActivity(), ActivityImageGallery.class);
+        intent.putStringArrayListExtra(ActivityImageGallery.ARG_IMAGES, (ArrayList<String>) uri);
+        intent.putExtra(ActivityImageGallery.ARG_TYPE, ImagePagerAdapter.TYPE_URI);
+        intent.putExtra(ActivityImageGallery.ARG_RETAKE, true);
+
+        int requestCode = REQUEST_IMAGE_GALLERY + getRequestCode(type);
+        startActivityForResult(intent, requestCode);
 
     }
 
@@ -201,21 +248,7 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
-        int requestCode = 0;
-
-        switch (type){
-
-            case ChecklistDeliveryPresenter.TYPE_RECIPIENT_PIC:
-
-                requestCode = REQUEST_RECIPIENT_PICTURE;
-                break;
-
-            case ChecklistDeliveryPresenter.TYPE_VALID_ID:
-
-                requestCode = REQUEST_VALID_ID;
-                break;
-
-        }
+        int requestCode = getRequestCode(type);
 
         startActivityForResult(intent, requestCode);
     }
@@ -223,7 +256,10 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     @Override
     public void showSignatureScreen(String uri) {
 
+        Intent intent = new Intent(getActivity(), ActivitySignature.class);
+        intent.putExtra(ActivitySignature.ARG_IMAGE_FILE, uri);
 
+        startActivityForResult(intent, REQUEST_SIGNATURE);
     }
 
     @Override
@@ -235,6 +271,15 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     public void cancelRequest(List<String> requests) {
 
         cancelRequests(requests);
+    }
+
+    @Override
+    public void goToCompleteScreen(JobOrder joborder) {
+
+        Intent intent = new Intent(getActivity(), ActivityCompleteJODetails.class);
+        intent.putExtra(ActivityCompleteJODetails.KEY_JOB_ORDER, joborder);
+
+        startActivity(intent);
     }
 
     @Override
@@ -263,8 +308,26 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     }
 
     @Override
-    public void onItemClick(int position, ChecklistItem object) {
+    public void showScreenLoader(boolean showLoader) {
 
+        String text = null;
+
+        if(showLoader){
+
+            text = getString(R.string.completing_delivery);
+
+        }
+        else{
+
+            text = getString(R.string.checklist_delivery_complete);
+        }
+
+        reqeuestListener.onRequestOngoing(showLoader);
+        btnComplete.setText(text);
+    }
+
+    @Override
+    public void onItemClick(int position, ChecklistItem object) {
 
         String validId = getString(R.string.checklist_delivery_valid_id);
         String recipientPicture = getString(R.string.checklist_delivery_picture);
@@ -277,9 +340,12 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
         }
         else if(object.getTitle().equalsIgnoreCase(recipientPicture)){
 
+            presenter.onRecipientPictureClick(object);
 
         }
         else if(object.getTitle().equalsIgnoreCase(signature)){
+
+            presenter.onSignatureImageClick(object);
 
         }
         else {
@@ -303,5 +369,27 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
                 presenter.onCompleteButtonClick();
                 break;
         }
+    }
+
+    private int getRequestCode(int type){
+
+        int requestCode = 0;
+
+        switch (type){
+
+            case ChecklistDeliveryPresenter.TYPE_RECIPIENT_PIC:
+
+                requestCode = REQUEST_RECIPIENT_PICTURE;
+                break;
+
+            case ChecklistDeliveryPresenter.TYPE_VALID_ID:
+
+                requestCode = REQUEST_VALID_ID;
+                break;
+
+        }
+
+        return requestCode;
+
     }
 }

@@ -14,6 +14,7 @@ public class ChecklistItem implements Parcelable {
     private boolean isChecked;
     private String attachedItem;
     private boolean needData;
+    private String extraField;
 
     public ChecklistItem(){
 
@@ -26,6 +27,7 @@ public class ChecklistItem implements Parcelable {
         isChecked = in.readByte() != 0;
         attachedItem = in.readString();
         needData = in.readByte() != 0;
+        extraField = in.readString();
     }
 
     public static final Creator<ChecklistItem> CREATOR = new Creator<ChecklistItem>() {
@@ -80,6 +82,14 @@ public class ChecklistItem implements Parcelable {
         this.needData = needData;
     }
 
+    public String getExtraField() {
+        return extraField;
+    }
+
+    public void setExtraField(String extraField) {
+        this.extraField = extraField;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -93,5 +103,6 @@ public class ChecklistItem implements Parcelable {
         dest.writeByte((byte) (isChecked ? 1 : 0));
         dest.writeString(attachedItem);
         dest.writeByte((byte) (needData ? 1 : 0));
+        dest.writeString(extraField);
     }
 }

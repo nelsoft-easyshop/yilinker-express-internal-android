@@ -116,7 +116,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     }
 
     @Override
-    public void getRemainingTime(String remainingTime) {
+    public void getRemainingTime(String remainingTime,String mobileNumber, String accessToken) {
 
         if (remainingTime != null){
 
@@ -137,6 +137,7 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
                 setCountDownTimer(60000);
                 view().saveCurrentTime(null);
                 isTimerFinished = true;
+                requestVerificationCode(mobileNumber,accessToken);
             }
         }else{
             /***if no saved time available*/
@@ -161,6 +162,8 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     }
 
     private void requestVerificationCode(String mobileNumber,String accessToken){
+
+        view().showErrorMessage(false,"");
         view().showGetVerificationLoader(true);
         Request request = RegistrationApi.getVerificationCode(GET_VERIFICATION_REQUEST_CODE, mobileNumber,accessToken, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
         request.setTag(GET_VERIFICATION_REQUEST_TAG);
@@ -169,7 +172,6 @@ public class RegistrationVerificationCodePresenter extends RequestPresenter<Obje
     }
 
     private void requestVerifyCode(String code, String mobileNumber, String accessToken){
-        //TODO Add Api call here
         Request request = RegistrationApi.verifyCode(VERIFY_CODE_REQUEST_CODE,code, mobileNumber,accessToken, this, new ExpressErrorHandler(this,VERIFY_CODE_REQUEST_CODE));
         request.setTag(VERIFY_CODE_REQUEST_TAG);
         view().addRequest(request);

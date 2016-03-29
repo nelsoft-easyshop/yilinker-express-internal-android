@@ -15,6 +15,7 @@ public class ChecklistItemPresenter extends BasePresenter<ChecklistItem, Checkli
 
         view().setLabelText(model.getTitle());
         view().setCheckDrawable(model.isChecked());
+        view().setExtraField(model.getExtraField());
     }
 
 

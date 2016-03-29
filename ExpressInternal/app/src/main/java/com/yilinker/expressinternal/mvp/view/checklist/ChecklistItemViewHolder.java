@@ -22,6 +22,7 @@ public class ChecklistItemViewHolder extends BaseViewHolder<ChecklistItemPresent
 
     private TextView tvLabel;
     private ImageView ivImage;
+    private TextView tvExtraField;
 
     public ChecklistItemViewHolder(View itemView, RecyclerViewClickListener listener) {
         super(itemView);
@@ -30,8 +31,25 @@ public class ChecklistItemViewHolder extends BaseViewHolder<ChecklistItemPresent
 
         tvLabel = (TextView) itemView.findViewById(R.id.tvLabel);
         ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
+        tvExtraField = (TextView) itemView.findViewById(R.id.tvExtraField);
 
         itemView.setOnClickListener(this);
+    }
+
+    public void setExtraField(String field){
+
+        int visibility = 0;
+        if(field == null){
+
+            visibility = View.GONE;
+        }
+        else{
+
+            visibility = View.VISIBLE;
+            tvExtraField.setText(field);
+        }
+
+        tvExtraField.setVisibility(visibility);
     }
 
     public void setLabelText(String label) {

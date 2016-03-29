@@ -11,7 +11,9 @@ import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.controllers.sync.ActivitySync2;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.mvp.model.DeliveryPackage;
@@ -27,6 +29,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
     public static final String ARG_DELIVERY_JO = "deliveryPackage";
 
+    private static final int REQUEST_UPDATE_STATUS = 1004;
     private static final int REQUEST_SUBMIT_SIGNATURE = 1005;
     private static final int REQUEST_UPLOAD_IMAGES = 1006;
 
@@ -53,9 +56,15 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
         getData(intent);
 
-        requestSubmitSignature();
-//        requestSubmitRating();
-        requestSubmitImages();
+        if(!deliveryPackage.isUpdated()) {
+
+            requestUpdateStatus();
+        }
+        else{
+
+            requestSubmitSignature();
+            requestSubmitImages();
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -73,6 +82,15 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
         deliveryPackage = intent.getParcelableExtra(ARG_DELIVERY_JO);
 
+    }
+
+    private void requestUpdateStatus(){
+
+        Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE_STATUS, deliveryPackage.getJobOrderNo(), JobOrderConstant.JO_COMPLETE, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        request.setTag(ApplicationClass.REQUEST_TAG);
+        requestQueue.add(request);
     }
 
     private void requestSubmitImages() {
@@ -105,13 +123,20 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         //do nothing
         switch(requestCode) {
 
-            case ActivityChecklist.REQUEST_SUBMIT_SIGNATURE:
+            case REQUEST_UPDATE_STATUS:
+
+                requestSubmitImages();
+                requestSubmitSignature();
+
+                break;
+
+            case REQUEST_SUBMIT_SIGNATURE:
 
                 isSubmitSignatureDone = true;
                 isToStopService();
                 break;
 
-            case ActivityChecklist.REQUEST_UPLOAD_IMAGES:
+            case REQUEST_UPLOAD_IMAGES:
 
                 isSubmitImagesDone = true;
                 isToStopService();
@@ -129,17 +154,24 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
         switch(requestCode) {
 
+            case REQUEST_UPDATE_STATUS:
+
+                handleFailedUpdate();
+                handleFailedSubmitSignature();
+                handleFailedUploadImages();
+                isToStopService();
+
+                break;
+
             case REQUEST_SUBMIT_SIGNATURE:
 
                 handleFailedSubmitSignature();
-                isSubmitSignatureDone = true;
                 isToStopService();
                 break;
 
             case REQUEST_UPLOAD_IMAGES:
 
                 handleFailedUploadImages();
-                isSubmitImagesDone = true;
                 isToStopService();
                 break;
 
@@ -157,6 +189,18 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
     }
 
+    private void handleFailedUpdate(){
+
+        SyncDBObject request = new SyncDBObject();
+        request.setRequestType(ActivitySync2.TYPE_UPDATE_STATUS);
+        request.setKey(String.format("%s%s", deliveryPackage.getJobOrderNo(), String.valueOf(ActivitySync2.TYPE_UPDATE_STATUS)));
+        request.setId(deliveryPackage.getJobOrderNo());
+        request.setData(JobOrderConstant.JO_COMPLETE);
+        request.setSync(false);
+
+        dbTransaction.add(request);
+    }
+
 
     private void handleFailedSubmitSignature(){
 
@@ -164,14 +208,15 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         String signature = deliveryPackage.getSignature();
 
         SyncDBObject request = new SyncDBObject();
-        request.setRequestType(REQUEST_SUBMIT_SIGNATURE);
-        request.setKey(String.format("%s%s", jobOrderNo, String.valueOf(REQUEST_SUBMIT_SIGNATURE)));
+        request.setRequestType(ActivitySync2.TYPE_SIGNATURE);
+        request.setKey(String.format("%s%s", jobOrderNo, String.valueOf(ActivitySync2.TYPE_SIGNATURE)));
         request.setId(jobOrderNo);
         request.setData(signature);
         request.setSync(false);
 
         dbTransaction.add(request);
 
+        isSubmitSignatureDone = true;
 
     }
 
@@ -180,17 +225,26 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
         String wayBillNo = deliveryPackage.getWaybillNo();
         List<String> imageList = deliveryPackage.getImages();
-        String[] images = (String[]) imageList.toArray();
+
+        String[] images = new String[imageList.size()];
+
+        int i = 0;
+        for(String item : imageList){
+
+            images[i] = item;
+            i++;
+        }
 
         SyncDBObject request = new SyncDBObject();
-        request.setRequestType(REQUEST_UPLOAD_IMAGES);
-        request.setKey(String.format("%s%s", wayBillNo, String.valueOf(REQUEST_UPLOAD_IMAGES)));
+        request.setRequestType(ActivitySync2.TYPE_UPLOAD_IMAGE);
+        request.setKey(String.format("%s%s", wayBillNo, String.valueOf(ActivitySync2.TYPE_SIGNATURE)));
         request.setId(wayBillNo);
         request.setData(Arrays.toString(images));
         request.setSync(false);
 
         dbTransaction.add(request);
 
+        isSubmitImagesDone = true;
 
     }
 

@@ -17,7 +17,5 @@ public interface IChecklistPickupView extends IChecklistBase {
     public void startPickupService(Package selectedPackage);
     public void showStatusOptionDialog();
     public String getRiderAreaCode();
-    public void addRequest(Request request);
-    public void cancelRequest(List<String> requests);
 
 }

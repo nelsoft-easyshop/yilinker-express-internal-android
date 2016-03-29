@@ -4,6 +4,7 @@ import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistBase;
+import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,8 @@ import java.util.List;
  * Created by J.Bautista on 3/23/16.
  */
 public abstract class ChecklistBasePresenter<V extends IChecklistBase> extends RequestPresenter<JobOrder, V> {
+
+    protected static final String REQUEST_TAG = "request";
 
     private List<ChecklistItem> checklistItems;
 
@@ -30,11 +33,20 @@ public abstract class ChecklistBasePresenter<V extends IChecklistBase> extends R
         }
     }
 
-    public void onViewCreated(JobOrder jobOrder, String[] titles, String[] titlesWithData){
+    public void onPause(){
+
+        List<String> requests = new ArrayList<>();
+        requests.add(REQUEST_TAG);
+
+        view().cancelRequest(requests);
+
+    }
+
+    public void onViewCreated(JobOrder jobOrder, String[] titles, String[] titlesWithData, String paymentField){
 
         setModel(jobOrder);
 
-        createChecklist(titles, titlesWithData);
+        createChecklist(titles, titlesWithData, paymentField);
 
         view().loadChecklistItems(checklistItems);
     }
@@ -46,7 +58,7 @@ public abstract class ChecklistBasePresenter<V extends IChecklistBase> extends R
         updateView();
     }
 
-    private void createChecklist(String[] titles, String[] titlesWithData){
+    private void createChecklist(String[] titles, String[] titlesWithData, String paymentField){
 
         String dataDictionary = Arrays.toString(titlesWithData);
 
@@ -61,6 +73,11 @@ public abstract class ChecklistBasePresenter<V extends IChecklistBase> extends R
             item.setTitle(title);
 
             item.setNeedData(dataDictionary.contains(title));
+
+            if(title.equalsIgnoreCase(paymentField) && model.getAmountToCollect() > 0){
+
+                item.setExtraField(PriceFormatHelper.formatPrice(model.getAmountToCollect()));
+            }
 
             checklistItems.add(item);
 

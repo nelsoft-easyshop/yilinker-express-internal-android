@@ -13,8 +13,10 @@ import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.express.internal.request.PackageRequest;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.business.ExpressErrorHandler;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
+import com.yilinker.expressinternal.controllers.sync.ActivitySync2;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.PackageType;
@@ -31,7 +33,8 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
 
     public static final String ARG_PACKAGE = "package";
 
-    private static final int REQUEST_CALCULATE_FEE = 1000;
+    private static final int REQUEST_UPDATE_STATUS = 1004;
+    private static final int REQUEST_CALCULATE_FEE = 1005;
 
     private ApplicationClass appClass;
 
@@ -53,7 +56,17 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         getData(intent);
-        calculateShippingFee();
+
+        if(selectedPackage.isUpdated()) {
+
+            calculateShippingFee();
+        }
+        else {
+
+            requestUpdateStatus();
+
+        }
+
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -83,11 +96,32 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
 
     }
 
+    private void requestUpdateStatus(){
+
+        Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE_STATUS, selectedPackage.getJobOrderNo(), selectedPackage.getNewStatus(), this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        request.setTag(ApplicationClass.REQUEST_TAG);
+        requestQueue.add(request);
+    }
+
 
     @Override
     public void onSuccess(int requestCode, Object object) {
 
-        //do nothing
+        switch (requestCode) {
+
+            case REQUEST_UPDATE_STATUS:
+
+                calculateShippingFee();
+                break;
+
+            case REQUEST_CALCULATE_FEE:
+
+                stopSelf();
+                break;
+
+        }
 
     }
 
@@ -98,15 +132,37 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
 
         switch (requestCode) {
 
+            case REQUEST_UPDATE_STATUS:
+
+                handleFailedUpdate();
+                handleFailedCalculation();
+
+                stopSelf();
+
+                break;
+
             case REQUEST_CALCULATE_FEE:
 
                 handleFailedCalculation();
+                stopSelf();
 
                 break;
 
         }
 
 
+    }
+
+    private void handleFailedUpdate(){
+
+        SyncDBObject request = new SyncDBObject();
+        request.setRequestType(ActivitySync2.TYPE_UPDATE_STATUS);
+        request.setKey(String.format("%s%s", selectedPackage.getJobOrderNo(), String.valueOf(ActivitySync2.TYPE_UPDATE_STATUS)));
+        request.setId(selectedPackage.getJobOrderNo());
+        request.setData(JobOrderConstant.JO_COMPLETE);
+        request.setSync(false);
+
+        dbTransaction.add(request);
     }
 
     private void handleFailedCalculation() {
@@ -121,9 +177,9 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
 
 
         SyncDBObject request = new SyncDBObject();
-        request.setRequestType(ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE);
+        request.setRequestType(ActivitySync2.TYPE_CONFIRM_PACKAGE);
         request.setKey(String.format("%s%s", selectedPackage.getJobOrderNo(),
-                String.valueOf(ActivityConfirmPackage.REQUEST_CODE_CALCULATE_SHIPPING_FEE)));
+                String.valueOf(ActivitySync2.TYPE_CONFIRM_PACKAGE)));
         request.setId(selectedPackage.getJobOrderNo());
         request.setData(packageData.toString());
         request.setSync(false);
