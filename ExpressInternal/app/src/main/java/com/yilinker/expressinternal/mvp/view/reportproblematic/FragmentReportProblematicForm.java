@@ -48,6 +48,8 @@ public class FragmentReportProblematicForm extends BaseFragment implements View.
     private Button btnConfirmProblematic;
     private EditText etRemark;
 
+    private Bundle savedInstance;
+
     public static FragmentReportProblematicForm createInstance(ProblematicType problematicType, String jobOrderNo){
         FragmentReportProblematicForm fragment = new FragmentReportProblematicForm();
 
@@ -78,6 +80,10 @@ public class FragmentReportProblematicForm extends BaseFragment implements View.
 
         }else {
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+
+            if (presenter == null) {
+                presenter = PresenterManager.getInstance().restorePresenter(savedInstance);
+            }
         }
 
         presenter.onCreate();
@@ -153,6 +159,14 @@ public class FragmentReportProblematicForm extends BaseFragment implements View.
                 break;
 
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        savedInstance = new Bundle();
+        PresenterManager.getInstance().savePresenter(presenter, savedInstance);
     }
 
     @Override
