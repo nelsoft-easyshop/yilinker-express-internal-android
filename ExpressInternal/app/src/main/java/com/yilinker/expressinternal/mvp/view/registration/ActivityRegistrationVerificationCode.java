@@ -33,6 +33,7 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     private String mobileNumber;
     private boolean isNewNumber = false;
     private String access_token;
+    private boolean isFromResendButton = false;
 
     private RegistrationVerificationCodePresenter presenter;
 
@@ -133,6 +134,14 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
     @Override
     public void handleGetVerificationCodeResponse(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void handleGetVerificationCodeErrorResponse(String errorMessage) {
+        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+        if (isFromResendButton){
+            onBackPressed();
+        }
     }
 
     @Override
@@ -256,6 +265,7 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
 
             case R.id.tvResendVerification:
                 presenter.getVerificationCode(getFormatterMobileNumber(),access_token);
+                isFromResendButton = true;
                 break;
 
             default:
