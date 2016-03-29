@@ -311,6 +311,7 @@
     <string name="image_upload_options">Upload Pictures Option</string>
     <string name="image_show_gallery">Show Gallery</string>
     <string name="image_launch_camera">Launch Camera</string>
+    <string name="image_recipient_picture">Recipient Picture</string>
 
 
     <!--Tools-->

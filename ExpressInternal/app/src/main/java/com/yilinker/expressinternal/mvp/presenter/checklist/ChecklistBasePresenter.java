@@ -78,6 +78,10 @@ public abstract class ChecklistBasePresenter<V extends IChecklistBase> extends R
 
                 item.setExtraField(PriceFormatHelper.formatPrice(model.getAmountToCollect()));
             }
+            else if(title.equalsIgnoreCase(paymentField) && model.getAmountToCollect() == 0){
+
+                continue;
+            }
 
             checklistItems.add(item);
 

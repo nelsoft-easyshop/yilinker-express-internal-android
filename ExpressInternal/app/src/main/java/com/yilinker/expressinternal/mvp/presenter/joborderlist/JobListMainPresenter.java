@@ -85,7 +85,9 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     public void onTabItemClicked(int jobType){
 
         //Clear list
-        completeList.clear();
+        if(completeList != null) {
+            completeList.clear();
+        }
         setModel(new ArrayList<JobOrder>());
 
         //Cancel previous request

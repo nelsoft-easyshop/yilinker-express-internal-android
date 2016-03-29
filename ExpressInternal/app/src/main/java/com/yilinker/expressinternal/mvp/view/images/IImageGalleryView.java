@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.images;
 
+import android.net.Uri;
+
 import java.io.File;
 
 /**
@@ -7,6 +9,8 @@ import java.io.File;
  */
 public interface IImageGalleryView {
 
-    public void reloadGallery();
-    public void launchCamera(File outputFile);
+    public void reloadGallery(String photoFile);
+//    public void reloadGallery();
+//    public void launchCamera(File outputFile);
+    public void launchCamera(Uri photoUri);
 }
