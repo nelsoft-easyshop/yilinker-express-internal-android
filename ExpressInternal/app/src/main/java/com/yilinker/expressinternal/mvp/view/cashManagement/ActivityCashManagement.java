@@ -7,18 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.controllers.cashmanagement.AdapterCashHistory;
 import com.yilinker.expressinternal.model.CashDetail;
 import com.yilinker.expressinternal.model.CashHistory;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.cashManagement.CashManagementPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseActivity;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
-import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.List;
 

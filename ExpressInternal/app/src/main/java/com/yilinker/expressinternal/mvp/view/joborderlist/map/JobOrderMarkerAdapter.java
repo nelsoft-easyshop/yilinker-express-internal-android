@@ -39,12 +39,24 @@ public class JobOrderMarkerAdapter extends BaseMapAdapter<MarkerOptions, JobOrde
         if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
 
 //            resourceId = R.drawable.pin_joborder_delivery;
-            resourceId = R.drawable.pin_joborder_delivery_2;
+            resourceId = R.drawable.pin_joborder_pickup_2;
+        }
+        else if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)) {
+
+//            resourceId = R.drawable.pin_joborder_pickup;
+            resourceId = R.drawable.pin_joborder_problematic_2;
+
+        }
+        else if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)) {
+
+//            resourceId = R.drawable.pin_joborder_pickup;
+            resourceId = R.drawable.pin_branch_2;
+
         }
         else {
 
 //            resourceId = R.drawable.pin_joborder_pickup;
-            resourceId = R.drawable.pin_joborder_pickup_2;
+            resourceId = R.drawable.pin_joborder_delivery_2;
 
     }
 

@@ -102,7 +102,7 @@ public class JobOrder implements Parcelable{
         images = jobOrder.getImages();
         type = jobOrder.getJobOrderType();
 //        items = jobOrder.getItems();
-        items = new ArrayList<>();
+//        items = new ArrayList<>();
         estimatedTimeOfArrival = DateUtility.convertStringToDate(jobOrder.getEta(), SERVER_DATE_FORMAT);
         packageDescription = jobOrder.getPackageDescription();
         amountToCollect = jobOrder.getAmountToCollect();
@@ -114,10 +114,6 @@ public class JobOrder implements Parcelable{
 
         isOpen = jobOrder.isOpen();
         areaCode = jobOrder.getAreaCode();
-
-        //temp
-//        estimatedTimeOfArrival = Calendar.getInstance().getTime();
-//        type = JOB_ORDER_TYPE.get(jobOrder.getJobOrderType());
         waybillNo = jobOrder.getTrackingNo();
 
         //For Problematic

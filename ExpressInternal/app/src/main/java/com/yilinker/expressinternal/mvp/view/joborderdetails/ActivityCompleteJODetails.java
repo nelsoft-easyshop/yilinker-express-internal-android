@@ -51,6 +51,12 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
     }
 
     @Override
+    public void onBackPressed() {
+
+        goToMainScreen();
+    }
+
+    @Override
     public void initializeViews(View parent) {
         Button btnWow = (Button) findViewById(R.id.btnWow);
         btnWow.setOnClickListener(this);
@@ -122,15 +128,20 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
 
         switch (v.getId()){
             case R.id.btnWow:
-                Intent intent = new Intent(ActivityCompleteJODetails.this, ActivityMain.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+
+                goToMainScreen();
                 break;
 
             default:
                 break;
         }
 
+    }
+
+    private void goToMainScreen(){
+
+        Intent intent = new Intent(ActivityCompleteJODetails.this, ActivityMain.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

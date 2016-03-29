@@ -18,7 +18,6 @@ public class CompleteJODetailsPresenter extends RequestPresenter<JobOrder, IComp
 
     @Override
     protected void updateView() {
-        super.updateView();
 
         view().setEarning(PriceFormatHelper.formatPrice(model.getEarning()));
 //        view().setJobOrderNumber(model.getWaybillNo());

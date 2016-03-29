@@ -68,5 +68,11 @@
     <dimen name="joborder_status_width">150dp</dimen>
     <dimen name="joborderdetails_earning_textsize">20sp</dimen>
 
+    <!-- Accreditation-->
+    <dimen name="accreditation_edittext_height">50dp</dimen>
+
+    <!-- Checklist-->
+    <dimen name="checklist_height">280dp</dimen>
+
 
 </resources>

@@ -9,18 +9,23 @@ import android.os.Parcelable;
  */
 public class ChecklistItem implements Parcelable {
 
+    private int id;
     private String title;
     private boolean isChecked;
     private Bundle attachedItem;
+    private boolean needData;
 
     public ChecklistItem(){
 
     }
 
     protected ChecklistItem(Parcel in) {
+
+        id = in.readInt();
         title = in.readString();
         isChecked = in.readByte() != 0;
         attachedItem = in.readBundle();
+        needData = in.readByte() != 0;
     }
 
     public static final Creator<ChecklistItem> CREATOR = new Creator<ChecklistItem>() {
@@ -34,6 +39,14 @@ public class ChecklistItem implements Parcelable {
             return new ChecklistItem[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -59,6 +72,14 @@ public class ChecklistItem implements Parcelable {
         this.attachedItem = attachedItem;
     }
 
+    public boolean needData() {
+        return needData;
+    }
+
+    public void setNeedData(boolean needData) {
+        this.needData = needData;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -66,8 +87,11 @@ public class ChecklistItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeByte((byte) (isChecked ? 1 : 0));
         dest.writeBundle(attachedItem);
+        dest.writeByte((byte) (needData ? 1 : 0));
     }
 }

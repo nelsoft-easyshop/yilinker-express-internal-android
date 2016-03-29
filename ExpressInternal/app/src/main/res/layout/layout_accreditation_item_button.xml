@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="adadadadad"
+        android:layout_margin="10dp"/>
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="@string/accreditation_upload"
+        android:background="@drawable/bg_btn_orangeyellow_rounded"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"/>
+
+    <include layout="@layout/view_divider_gray5"/>
+
+</LinearLayout>

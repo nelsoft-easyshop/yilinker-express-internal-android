@@ -40,7 +40,7 @@ public class CurrentPickupJobPresenter extends RequestPresenter<JobOrder, ICurre
         view().setStatusText(model.getStatus());
         view().setDateCreatedText(DateUtility.convertDateToString(model.getDateCreated(), CURRENT_DATE_FORMAT));
         view().setDateAccepted(getDateAccepted());
-        view().setAmountToCollectText(PriceFormatHelper.formatPrice(model.getEarning()));
+        view().setAmountToCollectText(PriceFormatHelper.formatPrice(model.getAmountToCollect()));
         view().setConsigneeNameText(model.getRecipientName());
         view().setConsigneeNoText(model.getRecipientContactNo());
         view().setPickupAddressText(model.getPickupAddress());

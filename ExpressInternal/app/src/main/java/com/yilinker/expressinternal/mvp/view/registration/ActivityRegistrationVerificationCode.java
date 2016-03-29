@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,6 +122,11 @@ public class ActivityRegistrationVerificationCode extends BaseActivity implement
         viewLoader = findViewById(R.id.viewLoader);
         etCode = (EditText) findViewById(R.id.etCode);
         tvErrorMessage = (TextView) findViewById(R.id.tvErrorMessage);
+    }
+
+    @Override
+    public void showLoader(boolean isShown) {
+
     }
 
     private String getFormatterMobileNumber(){

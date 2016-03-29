@@ -367,9 +367,35 @@
     <string name="profile_filter_by">Filter By: </string>
     <string name="profile_select_language">Select Language: </string>
 
+    <!-- Accreditation-->
+    <string name="accreditation_basic_information">Basic Information</string>
+    <string name="accreditation_firstname">First Name</string>
+    <string name="accreditation_lastname">Last Name</string>
+    <string name="accreditation_birthday">Birthday</string>
+    <string name="accreditation_gender">Gender</string>
+    <string name="accreditation_information">Accreditation Information</string>
+    <string name="accreditation_save">Save</string>
+    <string name="accreditation_upload">Upload</string>
+    <string name="accreditation_view">View</string>
+    <string name="accreditation_delete">Delete</string>
+
+    <!-- Confirm Package-->
+    <string name="package_confirm_title">Confirm Package</string>
+    <string name="package_length">length</string>
+    <string name="package_width">width</string>
+    <string name="package_height">height</string>
+    <string name="package_weight">Weight</string>
+    <string name="package_total_shipping_fee">Total Shipping Fee</string>
+    <string name="package_calculating">Calculating...</string>
+    <string name="package_maximum_weight_error">Weight should be less than 1,000,000 kg</string>
+
     <string name="complete_jo_good_job">Good Job!</string>
     <string name="complete_jo_congratulation">Congratulations, you have\n earned the amount below for\n completing thing this job</string>
     <string name="complete_jo_wow">Wow</string>
+
+    <!-- Checklist-->
+    <string name="completing_delivery">Completing Delivery...</string>
+    <string name="completing_pickup">Completing Pickup...</string>
 
 </resources>
 

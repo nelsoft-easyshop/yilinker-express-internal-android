@@ -17,8 +17,6 @@ import com.yilinker.expressinternal.mvp.presenter.registration.RegistrationCompl
 import com.yilinker.expressinternal.mvp.view.BaseActivity;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
-import java.util.List;
-
 /**
  * Created by Patrick on 3/8/2016.
  */
