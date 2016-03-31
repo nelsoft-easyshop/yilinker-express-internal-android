@@ -284,6 +284,7 @@ public class AccreditationPresenter extends RequestPresenter<AccreditationInform
     private void handleSubmitAccreditationResponse(String message){
 
         view().showErrorMessage(message);
+        view().goToConfirmation();
         //Show success message here
     }
 

@@ -135,10 +135,10 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
                 long minute = difference / minsInMilli;
                 difference = difference % minsInMilli;
 
-                long second = difference / secondsInMilli;
-                difference = difference % secondsInMilli;
+//                long second = difference / secondsInMilli;
+//                difference = difference % secondsInMilli;
 
-                timeElapsed = String.format("%02dh:%02dm:%02ds", hour, minute, second);
+                timeElapsed = String.format("%02dh %02dm", hour, minute);
 
             }
 

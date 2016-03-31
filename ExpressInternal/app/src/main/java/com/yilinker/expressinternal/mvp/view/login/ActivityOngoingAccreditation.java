@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.login.*;
 import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
 
@@ -16,6 +17,7 @@ import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
  * Created by patrick-villanueva on 3/29/2016.
  */
 public class ActivityOngoingAccreditation extends BaseFragmentActivity implements View.OnClickListener{
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,10 +48,8 @@ public class ActivityOngoingAccreditation extends BaseFragmentActivity implement
         switch (v.getId()){
 
             case R.id.btnGotIt:
-                Intent goToLogIn = new Intent(ActivityOngoingAccreditation.this, com.yilinker.expressinternal.controllers.login.ActivityLogin.class);
-                goToLogIn.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(goToLogIn);
-                finish();
+
+                goToLogin();
                 break;
 
             default:
@@ -58,4 +58,21 @@ public class ActivityOngoingAccreditation extends BaseFragmentActivity implement
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+        goToLogin();
+    }
+
+    private void goToLogin(){
+
+        //temp Clear tokens
+        ApplicationClass.getInstance().deleteTokens();
+
+        Intent goToLogIn = new Intent(ActivityOngoingAccreditation.this, com.yilinker.expressinternal.controllers.login.ActivityLogin.class);
+        goToLogIn.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(goToLogIn);
+    }
+
 }

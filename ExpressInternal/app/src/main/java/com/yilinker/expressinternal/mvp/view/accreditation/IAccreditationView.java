@@ -23,4 +23,5 @@ public interface IAccreditationView {
     public String compressImage(String path);
     public void enableSaveButton(boolean isEnabled);
     public void showScreenLoader(boolean isShown);
+    public void goToConfirmation();
 }
