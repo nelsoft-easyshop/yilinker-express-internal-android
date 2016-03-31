@@ -173,34 +173,37 @@ public class FragmentReportProblematicForm extends BaseFragment implements View.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        if(resultCode == Activity.RESULT_OK){
+            switch (requestCode){
 
-            case REQUEST_LAUNCH_CAMERA:
+                case REQUEST_LAUNCH_CAMERA:
 
-                if (resultCode == Activity.RESULT_OK){
+                    if (resultCode == Activity.RESULT_OK){
 
-                    presenter.addImageGallery(null);
-                }
-                break;
+                        presenter.addImageGallery(null);
+                    }
+                    break;
 
-            case REQUEST_SHOW_GALLERY:
-                if (resultCode == Activity.RESULT_OK){
+                case REQUEST_SHOW_GALLERY:
+                    if (resultCode == Activity.RESULT_OK){
 
-                    presenter.addImageGallery(data.getData());
-                }
+                        presenter.addImageGallery(data.getData());
+                    }
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+
+            }
+            /***show view images label if images already have content*/
+            if(tvViewImages.getVisibility() == View.GONE){
+
+                tvViewImages.setVisibility(View.VISIBLE);
+            }
 
         }
 
-        /***show view images label if images already have content*/
-        if(tvViewImages.getVisibility() == View.GONE){
-
-            tvViewImages.setVisibility(View.VISIBLE);
-        }
     }
 
     private void attachPhoto(){
