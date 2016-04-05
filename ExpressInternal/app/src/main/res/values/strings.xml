@@ -147,7 +147,7 @@
     <string name="open_location_settings">Go to Settings</string>
     <string name="generating_qr">Generating QR Code...</string>
     <string name="open_joborderdetail_accept">Accept</string>
-
+    <string name="request_claim_successful_message">Job order has been claimed successfully.</string>
 
     <!--Job Order List-->
     <string name="job_order_list_open">Open</string>

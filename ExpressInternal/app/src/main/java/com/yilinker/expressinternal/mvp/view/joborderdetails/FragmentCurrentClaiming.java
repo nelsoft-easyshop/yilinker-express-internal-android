@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -151,7 +154,7 @@ public class FragmentCurrentClaiming extends BaseFragment implements ICurrentCla
 
             case R.id.btnNegative:
 
-                presenter.reportOutOfStock();
+                showReportOutOfStockDialog();
 
                 break;
 
@@ -220,6 +223,49 @@ public class FragmentCurrentClaiming extends BaseFragment implements ICurrentCla
     public void setItemLabel(String item) {
 
         tvItem.setText(item);
+
+    }
+
+    @Override
+    public void showOutOfStock() {
+
+        showToast(getString(R.string.joborderdetail_job_order_successfully_problem_reporting));
+        getActivity().finish();
+
+    }
+
+    @Override
+    public void showClaimSuccessful() {
+
+        showToast(getString(R.string.request_claim_successful_message));
+        getActivity().finish();
+
+    }
+
+    @Override
+    public void showToast(String message) {
+
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void showReportOutOfStockDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(getString(R.string.joborderdetail_report_out_of_stock));
+        builder.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                presenter.reportOutOfStock();
+
+            }
+
+        });
+        builder.setNegativeButton(getString(R.string.dialog_no), null);
+        builder.create();
+        builder.show();
 
     }
 

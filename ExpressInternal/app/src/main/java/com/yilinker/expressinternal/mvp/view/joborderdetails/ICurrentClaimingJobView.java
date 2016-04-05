@@ -12,5 +12,8 @@ public interface ICurrentClaimingJobView extends IJobDetailsView, RequestBaseVie
     void setClaimingAddressLabel(String address);
     void setContactNumberLabel(String contactNumber);
     void setItemLabel(String item);
+    void showOutOfStock();
+    void showClaimSuccessful();
+    void showToast(String message);
 
 }

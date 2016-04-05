@@ -32,4 +32,7 @@ public class JobOrderConstant {
     public static final String JO_TYPE_PICKUP_KEY = "Type 2";
     public static final String JO_TYPE_DELIVERY_KEY = "Type 1";
 
+    //JO Problem Type
+    public static final String PROBLEM_OUT_OF_STOCK = "Out of Stock";
+
 }

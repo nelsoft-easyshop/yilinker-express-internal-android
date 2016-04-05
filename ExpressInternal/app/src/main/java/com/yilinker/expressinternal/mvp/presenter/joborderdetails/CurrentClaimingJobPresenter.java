@@ -4,8 +4,14 @@ import android.os.Handler;
 
 import com.android.volley.Request;
 import com.yilinker.core.api.RiderAPI;
+import com.yilinker.core.api.express.JobOrderApi;
+import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.DateUtility;
+import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ExpressErrorHandler;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.mvp.model.ProblematicType;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentClaimingJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
@@ -21,6 +27,7 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
     private static final String CURRENT_DATE_FORMAT = "dd MMM yyyy hh:mm:ss aa";
 
     private static final int REQUEST_CLAIM = 1000;
+    private static final int REQUEST_OUT_OF_STOCK = 1001;
 
     private boolean isTimerAvailable = false;
     private Handler timerHandler;
@@ -48,6 +55,14 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
 
             case REQUEST_CLAIM:
 
+                view().showClaimSuccessful();
+
+                break;
+
+            case REQUEST_OUT_OF_STOCK:
+
+                view().showOutOfStock();
+
                 break;
 
         }
@@ -63,6 +78,14 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
         switch (requestCode) {
 
             case REQUEST_CLAIM:
+
+                view().showToast(message);
+
+                break;
+
+            case REQUEST_OUT_OF_STOCK:
+
+                view().showToast(message);
 
                 break;
 
@@ -90,7 +113,9 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
     @Override
     public void claimJobOrder() {
 
-        Request request = RiderAPI.acceptJobOrder(REQUEST_CLAIM, model.getJobOrderNo(), this);
+        Request request = JobOrderApi.updateStatus(REQUEST_CLAIM, model.getJobOrderNo(),
+                JobOrderConstant.JO_CURRENT_DELIVERY, this,
+                new ExpressErrorHandler(this, REQUEST_CLAIM));
         request.setTag(REQUEST_CLAIM);
         view().addRequestToQueue(request);
         view().showLoader(true);
@@ -100,8 +125,21 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
     @Override
     public void reportOutOfStock() {
 
+        Request request = JobOrderApi.reportProblematic(REQUEST_OUT_OF_STOCK, getProblematicJobOrder(),
+                this, new ExpressErrorHandler(this, REQUEST_OUT_OF_STOCK));
+        request.setTag(REQUEST_OUT_OF_STOCK);
+        view().addRequestToQueue(request);
         view().showLoader(true);
 
+    }
+
+    private ProblematicJobOrder getProblematicJobOrder() {
+
+        ProblematicJobOrder jobOrder = new ProblematicJobOrder();
+        jobOrder.setJobOrderNo(model.getJobOrderNo());
+        jobOrder.setProblemType(JobOrderConstant.PROBLEM_OUT_OF_STOCK);
+
+        return jobOrder;
     }
 
     private String getItems() {
