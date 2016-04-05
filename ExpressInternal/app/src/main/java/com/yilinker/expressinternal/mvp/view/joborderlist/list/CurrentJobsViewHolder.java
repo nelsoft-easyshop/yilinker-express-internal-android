@@ -30,6 +30,7 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
     private TextView tvAddressLabel;
     private TextView tvProblemType;
     private RelativeLayout rlSyncLabel;
+    private TextView tvForSyncing;
 
     public CurrentJobsViewHolder(View itemView, RecyclerViewClickListener listener) {
         super(itemView);
@@ -46,6 +47,7 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
         tvAddressLabel = (TextView) itemView.findViewById(R.id.tvAddressLabel);
         tvProblemType = (TextView) itemView.findViewById(R.id.tvProblemType);
         rlSyncLabel = (RelativeLayout) itemView.findViewById(R.id.rlSyncContainer);
+        tvForSyncing = (TextView) itemView.findViewById(R.id.tvForSyncing);
 
         itemView.setOnClickListener(this);
     }
@@ -140,7 +142,8 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
             visibility = View.GONE;
         }
 
-        rlSyncLabel.setVisibility(visibility);
+//        rlSyncLabel.setVisibility(visibility);
+        tvForSyncing.setVisibility(visibility);
     }
 
     private void setstatusBackground(String status){
