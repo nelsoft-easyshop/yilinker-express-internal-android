@@ -3,15 +3,13 @@ package com.yilinker.expressinternal.mvp.presenter.joborderdetails;
 import android.os.Handler;
 
 import com.android.volley.Request;
-import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.api.express.JobOrderApi;
 import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.DateUtility;
-import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.model.ProblematicType;
+import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentClaimingJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
@@ -35,14 +33,19 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
     @Override
     protected void updateView() {
         view().setStatusText(model.getStatus());
-        view().setEarningText(PriceFormatHelper.formatPrice(model.getAmountToCollect()));
+        view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
         view().setWaybillNoText(model.getWaybillNo());
         view().setDateCreatedText(DateUtility.convertDateToString(model.getDateCreated(), CURRENT_DATE_FORMAT));
         view().setDateAcceptedLabel(model.getDateAccepted() == null ?
                 "-" : DateUtility.convertDateToString(model.getDateAccepted(), CURRENT_DATE_FORMAT));
-        view().setClaimingAddressLabel(model.getItemLocation());
+        view().setClaimingAddressLabel(model.getPickupAddress());
         view().setContactNumberLabel(model.getShipperContactNo());
         view().setItemLabel(getItems());
+
+        if (!view().ifUpdated(model.getJobOrderNo())) {
+            view().showOutdated();
+        }
+
     }
 
     @Override
@@ -55,7 +58,7 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
 
             case REQUEST_CLAIM:
 
-                view().showClaimSuccessful();
+                view().goToCompleteScreen(model, false);
 
                 break;
 
@@ -80,6 +83,7 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
             case REQUEST_CLAIM:
 
                 view().showToast(message);
+                doOfflineCompletion();
 
                 break;
 
@@ -133,10 +137,29 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
 
     }
 
+    @Override
+    public void doOfflineCompletion() {
+
+        view().startClaimService(createPackage());
+        view().goToCompleteScreen(model, true);
+
+    }
+
+    private Package createPackage() {
+
+        Package pack = new Package();
+        pack.setJobOrderNo(model.getJobOrderNo());
+        pack.setNewStatus(JobOrderConstant.JO_CURRENT_DELIVERY);
+        pack.setIsUpdated(false);
+
+        return pack;
+    }
+
     private ProblematicJobOrder getProblematicJobOrder() {
 
         ProblematicJobOrder jobOrder = new ProblematicJobOrder();
         jobOrder.setJobOrderNo(model.getJobOrderNo());
+        jobOrder.setNotes("");
         jobOrder.setProblemType(JobOrderConstant.PROBLEM_OUT_OF_STOCK);
 
         return jobOrder;

@@ -2,20 +2,28 @@ package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentClaimingJobPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.service.ServicePickupChecklist;
+import com.yilinker.expressinternal.mvp.model.Package;
+
+import java.util.List;
 
 /**
  * Created by jaybryantc on 4/4/16.
@@ -26,6 +34,9 @@ public class FragmentCurrentClaiming extends BaseFragment implements ICurrentCla
 
     private RelativeLayout rlProgress;
 
+    private LinearLayout llButtons;
+
+    private TextView tvSync;
     private TextView tvStatus;
     private TextView tvEarning;
     private TextView tvWaybillNo;
@@ -99,6 +110,9 @@ public class FragmentCurrentClaiming extends BaseFragment implements ICurrentCla
 
         rlProgress = (RelativeLayout) parent.findViewById(R.id.rlProgress);
 
+        llButtons = (LinearLayout) parent.findViewById(R.id.llButtons);
+
+        tvSync = (TextView) parent.findViewById(R.id.tvSync);
         tvStatus = (TextView) parent.findViewById(R.id.tvStatus);
         tvEarning = (TextView) parent.findViewById(R.id.tvEarning);
         tvWaybillNo = (TextView) parent.findViewById(R.id.tvWaybillNo);
@@ -148,13 +162,27 @@ public class FragmentCurrentClaiming extends BaseFragment implements ICurrentCla
 
             case R.id.btnPositive:
 
-                presenter.claimJobOrder();
+                if (llButtons.getAlpha() == 1.0f) {
+
+                    presenter.claimJobOrder();
+
+                }
 
                 break;
 
             case R.id.btnNegative:
 
-                showReportOutOfStockDialog();
+                if (llButtons.getAlpha() == 1.0f) {
+
+                    showReportOutOfStockDialog();
+
+                }
+
+                break;
+
+            case R.id.tvSync:
+
+                sync();
 
                 break;
 
@@ -235,17 +263,59 @@ public class FragmentCurrentClaiming extends BaseFragment implements ICurrentCla
     }
 
     @Override
-    public void showClaimSuccessful() {
+    public void showToast(String message) {
 
-        showToast(getString(R.string.request_claim_successful_message));
-        getActivity().finish();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void showToast(String message) {
+    public void goToCompleteScreen(JobOrder jobOrder, boolean offline) {
 
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), ActivityCompleteJODetails.class);
+        intent.putExtra(ActivityCompleteJODetails.KEY_JOB_ORDER, jobOrder);
+        intent.putExtra(ActivityCompleteJODetails.KEY_IS_OFFLINE, offline);
+
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void startClaimService(Package pack) {
+
+        Intent service = new Intent(getActivity(), ServicePickupChecklist.class);
+        service.putExtra(ServicePickupChecklist.ARG_PACKAGE, pack);
+        getActivity().startService(service);
+
+    }
+
+    @Override
+    public boolean ifUpdated(String jobOrderNo) {
+
+        SyncDBTransaction<SyncDBObject> dbTransaction = new SyncDBTransaction<>(getActivity());
+        List<SyncDBObject> dbObjects =  dbTransaction.getAll(SyncDBObject.class);
+
+        for (SyncDBObject object : dbObjects) {
+
+            if (object.getId().equals(jobOrderNo) && !object.isSync()) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    @Override
+    public void showOutdated() {
+
+        tvSync.setVisibility(View.VISIBLE);
+        llButtons.setAlpha(0.5f);
+
+    }
+
+    @Override
+    public void sync() {
 
     }
 

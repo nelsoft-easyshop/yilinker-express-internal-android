@@ -1,8 +1,11 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,11 +29,20 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
 
     public final static String KEY_JOB_ORDER_NUMBER = "job-order-number";
     public final static String KEY_JOB_ORDER = "job-order";
+    public final static String KEY_IS_OFFLINE = "is_offline";
+
+    private Button btnWow;
+
+    private TextView tvCongrats;
+    private TextView tvEarned;
+
 
     private CompleteJODetailsPresenter presenter;
 
     private String joborderNumber;
     private JobOrder jobOrder;
+    private boolean isOffline = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -60,14 +72,22 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
 
     @Override
     public void initializeViews(View parent) {
-        Button btnWow = (Button) findViewById(R.id.btnWow);
+
+        tvCongrats = (TextView) findViewById(R.id.tvCongrats);
+        tvEarned = (TextView) findViewById(R.id.tvEarned);
+
+        btnWow = (Button) findViewById(R.id.btnWow);
+
         btnWow.setOnClickListener(this);
+
     }
 
     private void getData(){
 
 //        joborderNumber = getIntent().getStringExtra(KEY_JOB_ORDER_NUMBER);
         jobOrder = getIntent().getParcelableExtra(KEY_JOB_ORDER);
+        isOffline = getIntent().getBooleanExtra(KEY_IS_OFFLINE, false);
+
     }
 
     @Override
@@ -84,6 +104,10 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
         presenter.bindView(this);
         presenter.setModel(jobOrder);
 //        presenter.requestJODetails(joborderNumber);
+        if (isOffline) {
+            showOffline();
+        }
+
     }
 
     @Override
@@ -132,6 +156,7 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
             case R.id.btnWow:
 
                 goToMainScreen();
+
                 break;
 
             default:
@@ -146,4 +171,17 @@ public class ActivityCompleteJODetails extends BaseFragmentActivity implements I
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+    private void showOffline() {
+
+        tvCongrats.setText(getString(R.string.complete_jo_congratulation_2));
+
+        tvEarned.setTypeface(tvEarned.getTypeface(), Typeface.NORMAL);
+        tvEarned.setAllCaps(true);
+        tvEarned.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        tvEarned.setTextColor(getResources().getColor(R.color.orange_yellow));
+        tvEarned.setText(getString(R.string.complete_jo_offline));
+
+    }
+
 }

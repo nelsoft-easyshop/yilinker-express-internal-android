@@ -9,5 +9,6 @@ public interface ICurrentClaimingJobPresenter {
     void stopTimer();
     void claimJobOrder();
     void reportOutOfStock();
+    void doOfflineCompletion();
 
 }
