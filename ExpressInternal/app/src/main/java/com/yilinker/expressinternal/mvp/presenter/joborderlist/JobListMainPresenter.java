@@ -147,6 +147,13 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         view().loadJobTypes(types);
     }
 
+    public void getHiddenJobItemCount(int lastVisibleItem){
+
+        int hiddenItems = types.size() - lastVisibleItem;
+        view().setMoreJobTypesCount(hiddenItems);
+
+    }
+
     public void onFilterChanged(JobType type){
 
         if(type.isChecked()){

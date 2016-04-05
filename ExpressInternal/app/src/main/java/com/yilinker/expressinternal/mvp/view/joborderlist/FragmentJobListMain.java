@@ -310,29 +310,30 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         typeAdapter = new JobTypeAdapter(typeClickListener);
         rvJobTypes.setAdapter(typeAdapter);
 
-        //Added scroll listener to count hidden job types
+        /***Added scroll listener to count hidden job types*/
         rvJobTypes.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
                 int lastJobItemTypeVisiblePosition = jobTpyesLayoutManager.findLastCompletelyVisibleItemPosition()+1;
-                lastJobItemTypeVisiblePosition = 5 - lastJobItemTypeVisiblePosition;
-                setMoreJobTypesCount(lastJobItemTypeVisiblePosition);
+                presenter.getHiddenJobItemCount(lastJobItemTypeVisiblePosition);
 
             }
+
         });
 
+        /***Added layoutChangeListener to notify the added items in first load of the recycler*/
         rvJobTypes.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 
+                /***remove the listener after the first load*/
                 rvJobTypes.removeOnLayoutChangeListener(this);
 
                 int lastJobItemTypeVisiblePosition = jobTpyesLayoutManager.findLastCompletelyVisibleItemPosition()+1;
-                lastJobItemTypeVisiblePosition = 5 - lastJobItemTypeVisiblePosition;
-                setMoreJobTypesCount(lastJobItemTypeVisiblePosition);
+                presenter.getHiddenJobItemCount(lastJobItemTypeVisiblePosition);
 
             }
         });
