@@ -163,6 +163,11 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
 
             background = R.drawable.bg_image_marigold;
         }
+        else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+
+            background = R.drawable.bg_image_green;
+
+        }
 
         tvStatus.setBackgroundResource(background);
 
@@ -179,7 +184,11 @@ public class CurrentJobsViewHolder extends JobsViewHolder<CurrentJobItemPresente
 
             resourceString = R.string.job_order_list_deliver_to;
 
-        }else{
+        }else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+
+            resourceString = R.string.job_order_list_claim_at;
+        }
+        else{
 
             resourceString = R.string.job_order_list_drop_off_to;
 

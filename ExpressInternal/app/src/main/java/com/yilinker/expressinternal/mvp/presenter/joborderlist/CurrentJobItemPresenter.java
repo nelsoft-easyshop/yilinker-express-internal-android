@@ -88,6 +88,8 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
             address = model.getDropoffAddress();
         }
 
+        //TODO add address for claiming
+
         return address;
     }
 

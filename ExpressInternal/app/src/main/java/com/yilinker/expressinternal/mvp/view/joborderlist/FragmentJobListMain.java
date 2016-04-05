@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,7 +51,9 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/2/16.
  */
-public class FragmentJobListMain extends BaseFragment implements IJobListMainView, View.OnClickListener, TabItemClickListener, View.OnFocusChangeListener, SwipeRefreshLayout.OnRefreshListener{
+public class FragmentJobListMain extends BaseFragment implements IJobListMainView,
+        View.OnClickListener, TabItemClickListener, View.OnFocusChangeListener,
+        SwipeRefreshLayout.OnRefreshListener{
 
     private static final String KEY_CONTENT = "content";
 
@@ -72,7 +75,9 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
     private RelativeLayout rlFilter;
 
     private JobsTabAdapter tabAdapter;
+
     private JobTypeAdapter typeAdapter;
+    private LinearLayoutManager jobTpyesLayoutManager;
 
     private int _xDelta;
     private int _yDelta;
@@ -262,7 +267,6 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         ivToggle = (ImageView) parent.findViewById(R.id.ivToggleView);
         ImageView ivScanner = (ImageView) parent.findViewById(R.id.ivScanner);
         RecyclerView rvTabs = (RecyclerView) parent.findViewById(R.id.rvJobOrderTabs);
-        RecyclerView rvJobTypes = (RecyclerView) parent.findViewById(R.id.rvJobOrderTypes);
         tvFilter = (TextView) parent.findViewById(R.id.tvFilter);
         tvItemCount = (TextView) parent.findViewById(R.id.tvItemCount);
         llFilterContainer = (LinearLayout) parent.findViewById(R.id.llFilterContainer);
@@ -279,9 +283,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         rvTabs.setAdapter(tabAdapter);
 
         //For job types
-        rvJobTypes.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        typeAdapter = new JobTypeAdapter(typeClickListener);
-        rvJobTypes.setAdapter(typeAdapter);
+        initializeJobTypes(parent);
 
 //        refreshLayout = (SwipeRefreshLayout) parent.findViewById(R.id.swipeRefresh);
 //        refreshLayout.setOnRefreshListener(this);
@@ -296,6 +298,44 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         viewTransaparent.setOnClickListener(this);
         etSearch.addTextChangedListener(searchTextWatcher);
         etSearch.setOnFocusChangeListener(this);
+
+    }
+
+    private void initializeJobTypes(View parent){
+
+        final RecyclerView rvJobTypes = (RecyclerView) parent.findViewById(R.id.rvJobOrderTypes);
+
+        jobTpyesLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        rvJobTypes.setLayoutManager(jobTpyesLayoutManager);
+        typeAdapter = new JobTypeAdapter(typeClickListener);
+        rvJobTypes.setAdapter(typeAdapter);
+
+        //Added scroll listener to count hidden job types
+        rvJobTypes.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                int lastJobItemTypeVisiblePosition = jobTpyesLayoutManager.findLastCompletelyVisibleItemPosition()+1;
+                lastJobItemTypeVisiblePosition = 5 - lastJobItemTypeVisiblePosition;
+                setMoreJobTypesCount(lastJobItemTypeVisiblePosition);
+
+            }
+        });
+
+        rvJobTypes.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+                rvJobTypes.removeOnLayoutChangeListener(this);
+
+                int lastJobItemTypeVisiblePosition = jobTpyesLayoutManager.findLastCompletelyVisibleItemPosition()+1;
+                lastJobItemTypeVisiblePosition = 5 - lastJobItemTypeVisiblePosition;
+                setMoreJobTypesCount(lastJobItemTypeVisiblePosition);
+
+            }
+        });
 
     }
 
@@ -337,7 +377,6 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
         typeAdapter.addAll(jobTypes);
     }
-
     @Override
     public void changeSelectedTab(TabItem previousTab, TabItem currentTab) {
 
@@ -537,6 +576,19 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
 
         return appClass.isFilterByArea();
+    }
+
+    @Override
+    public void setMoreJobTypesCount(int moreJobTypesCount) {
+        TextView tvMoreJobTypes = (TextView) getActivity().findViewById(R.id.tvMoreJobTypes);
+
+        if (moreJobTypesCount > 0){
+            tvMoreJobTypes.setVisibility(View.VISIBLE);
+            tvMoreJobTypes.setText(String.format("%d %s",moreJobTypesCount,getString(R.string.joborder_list_more)));
+        }else {
+            tvMoreJobTypes.setVisibility(View.GONE);
+        }
+
     }
 
 }
