@@ -107,8 +107,10 @@
     <string name="pickup_address">Pickup Address</string>
     <string name="dropoff_address">Dropoff Address</string>
     <string name="delivery_address">Delivery Address</string>
+    <string name="claiming_address">Claiming Address</string>
     <string name="drop_to">Drop to</string>
     <string name="deliver_to">Deliver to</string>
+    <string name="claim_at">Claim At</string>
     <string name="recipient">Recipient</string>
     <string name="shipper_name">Shipper Name</string>
     <string name="consignee">Consignee</string>

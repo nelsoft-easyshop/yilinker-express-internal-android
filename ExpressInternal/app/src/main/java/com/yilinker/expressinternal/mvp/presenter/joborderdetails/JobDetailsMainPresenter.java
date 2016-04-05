@@ -1,5 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderdetails;
 
+import android.app.Notification;
+
 import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
@@ -26,6 +28,8 @@ public class JobDetailsMainPresenter extends BasePresenter<JobOrder, IJobDetails
             view().showProblematicDeliveryDetails(model);
         } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
             view().showCurrentDeliveryDetails(model);
+        } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)) {
+            view().showClaimingDetails(model);
         } else if (!model.isOpen() && status.equalsIgnoreCase(JobOrderConstant.JO_COMPLETE)) {
             view().showCurrentDeliveryDetails(model);
         }
@@ -58,4 +62,5 @@ public class JobDetailsMainPresenter extends BasePresenter<JobOrder, IJobDetails
 
         view().showPrintScreen(model);
     }
+
 }
