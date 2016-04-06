@@ -294,6 +294,8 @@
         <service android:name=".controllers.checklist.ServicePickupChecklist"
             android:label="@string/app_name" android:enabled="true" android:process=":serviceChecklistPickup"/>
 
+        <service android:name=".mvp.view.sync.ServiceSync" />
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"

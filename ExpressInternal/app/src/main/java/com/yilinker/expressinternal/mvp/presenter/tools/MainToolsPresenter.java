@@ -20,7 +20,12 @@ public class MainToolsPresenter extends BasePresenter<List<Tools>, IMainToolsVie
 
 //        view().openActivity(activity);
         view().loadTabs(model);
-        view().updateSyncItem();
+
+//        if (view().syncable()) {
+        //Called every onResume
+        updateSyncItem();
+
+//        }
 
     }
 
@@ -74,17 +79,49 @@ public class MainToolsPresenter extends BasePresenter<List<Tools>, IMainToolsVie
 //        }
 //    }
 
-    @Override
-    public void setIndicator(int position, int resource) {
+//    @Override
+//    public void setIndicator(int position, int resource) {
+//
+//        model.get(position).setWarningResourceId(resource);
+//
+//    }
+//
+//    @Override
+//    public void changeItemTitle(int position, String title) {
+//
+//        model.get(position).setTitle(title);
+//
+//    }
 
-        model.get(position).setWarningResourceId(resource);
+    @Override
+    public void doIfSyncable(boolean syncable, boolean isConnected) {
+
+        if (isConnected && syncable) {
+
+            view().startSyncing();
+
+        } else if (!isConnected){
+
+            if (syncable) {
+
+                view().showNoInternetConnection();
+
+            } else {
+
+                view().showNoItemsForSyncingMessage();
+
+            }
+
+        }
 
     }
 
     @Override
-    public void changeItemTitle(int position, String title) {
+    public void updateSyncItem() {
 
-        model.get(position).setTitle(title);
+        view().setItemWarningResourceId(model.get(4));
+        view().setItemTitle(model.get(4));
+        view().updateItem(model.get(4));
 
     }
 
