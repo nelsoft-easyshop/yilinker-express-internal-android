@@ -159,7 +159,7 @@
     <string name="joborder_list_search_job_order">Search Job Order</string>
     <string name="joborder_list_delivery">delivery</string>
     <string name="joborder_list_eta">ETA</string>
-
+    <string name="joborder_list_more">more</string>
     
     <!--Update Status (Pickup)-->
     <string name="update_pickup_completed">Pick Up Completed!</string>
@@ -302,6 +302,7 @@
 
     <!--Syncing-->
     <string name="item_for_sync">For Sync</string>
+    <string name="item_for_syncing">For Syncing</string>
     <string name="request_sync_success">Job Orders successfully synced!</string>
     <string name="request_data_sync">Data sync successful</string>
     <string name="request_data_sync_failed">Data sync failed. Try again later.</string>
@@ -346,7 +347,7 @@
     <string name="jobstatus_for_drop_off">For Drop Off</string>
     <string name="jobstatus_for_delivery">For Delivery</string>
     <string name="jobstatus_problematic">Problematic</string>
-
+    <string name="jobstatus_for_claiming">For Claiming</string>
 
     <!--New Job Order List Layout-->
     <!--OPEN-->
@@ -357,6 +358,7 @@
     <string name="job_order_list_pick_up_at">PICK UP AT</string>
     <string name="job_order_list_deliver_to">DELIVER TO</string>
     <string name="job_order_list_drop_off_to">DROP-OFF TO</string>
+    <string name="job_order_list_claim_at">CLAIM AT</string>
     <string name="pick_up">PICK UP</string>
     <string name="deliver">DELIVER</string>
     <string name="drop_off">DROP OFF</string>

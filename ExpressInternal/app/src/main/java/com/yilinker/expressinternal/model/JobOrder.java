@@ -43,6 +43,7 @@ public class JobOrder implements Parcelable{
     private String dropoffAddress;
     private double distance;
     private String deliveryAddress;
+    private String claimingAddress;
     private String itemLocation;
     private String branchName;
     private Date timeDelivered;
@@ -415,6 +416,14 @@ public class JobOrder implements Parcelable{
         this.shipperName = shipperName;
     }
 
+    public String getClaimingAddress() {
+        return claimingAddress;
+    }
+
+    public void setClaimingAddress(String claimingAddress) {
+        this.claimingAddress = claimingAddress;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -441,6 +450,7 @@ public class JobOrder implements Parcelable{
         dest.writeString(this.dropoffAddress);
         dest.writeDouble(this.distance);
         dest.writeString(this.deliveryAddress);
+        dest.writeString(this.claimingAddress);
         dest.writeString(this.itemLocation);
         dest.writeString(this.branchName);
         dest.writeLong(timeDelivered != null ? timeDelivered.getTime() : -1);
@@ -481,6 +491,7 @@ public class JobOrder implements Parcelable{
         this.dropoffAddress = in.readString();
         this.distance = in.readDouble();
         this.deliveryAddress = in.readString();
+        this.claimingAddress = in.readString();
         this.itemLocation = in.readString();
         this.branchName = in.readString();
         long tmpTimeDelivered = in.readLong();

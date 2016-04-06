@@ -26,5 +26,6 @@ public interface IJobListMainView extends RequestBaseView {
     public void showErrorMessage(String message);
     public String getSyncDictionary();
     public boolean isFilterByArea();
+    public void setMoreJobTypesCount(int moreJobTypesCount);
 
 }

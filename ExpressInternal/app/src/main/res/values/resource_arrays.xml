@@ -62,6 +62,7 @@
         <item>@string/jobstatus_for_drop_off</item>
         <item>@string/jobstatus_for_delivery</item>
         <item>@string/jobstatus_problematic</item>
+        <item>@string/jobstatus_for_claiming</item>
     </string-array>
 
 
