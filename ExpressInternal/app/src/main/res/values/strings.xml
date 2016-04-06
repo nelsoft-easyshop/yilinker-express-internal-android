@@ -330,7 +330,7 @@
     <string name="tools_direct_acknowledge">Direct Acknowledge</string>
     <string name="tools_cash_turnover">Cash Turnover</string>
     <string name="tools_sync">Sync</string>
-
+    <string name="tools_bank_information">Bank Information</string>
 
     <!--Main Screen-->
     <string name="tab_jobs">JOBS</string>

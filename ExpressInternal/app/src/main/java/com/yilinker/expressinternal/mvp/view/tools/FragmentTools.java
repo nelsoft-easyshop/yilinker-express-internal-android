@@ -119,7 +119,6 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
         int[] toolIcons = convertTypedArrayToIntArray(toolsIconsArray);
 
         toolsIconsArray.recycle();
-
         presenter.initializeToolsModel(tabTitles, toolIcons);
         presenter.hasItemsForSyncing(appClass.hasItemsForSyncing());
 
