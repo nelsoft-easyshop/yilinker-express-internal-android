@@ -38,7 +38,7 @@
                     android:layout_marginTop="24dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:background="@drawable/bg_image_marigold"
+                    android:background="@drawable/bg_image_green"
                     android:textStyle="bold"
                     android:text="FOR CLAIMING"
                     android:textColor="@color/white"

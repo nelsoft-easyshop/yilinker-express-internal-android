@@ -18,12 +18,14 @@ public class ToolsViewHolder extends BaseViewHolder<ToolsPresenter> implements V
     private TabItemClickListener listener;
     private TextView tvToolsTitle;
     private ImageView ivTools;
+    private ImageView ivIndicator;
 
     public ToolsViewHolder(View itemView, TabItemClickListener listener) {
         super(itemView);
 
         tvToolsTitle = (TextView) itemView.findViewById(R.id.tvToolsTitle);
         ivTools = (ImageView) itemView.findViewById(R.id.ivToolImage);
+        ivIndicator = (ImageView) itemView.findViewById(R.id.ivIndicator);
         this.listener = listener;
 
         itemView.setOnClickListener(this);
@@ -54,6 +56,14 @@ public class ToolsViewHolder extends BaseViewHolder<ToolsPresenter> implements V
     public void showSelected(Tools tool) {
 
         listener.onTabItemClick(tool.getId());
+
+    }
+
+    @Override
+    public void setWarningIcon(int resource) {
+
+        ivIndicator.setVisibility(resource == 0 ? View.GONE : View.VISIBLE);
+        ivIndicator.setImageResource(resource);
 
     }
 }

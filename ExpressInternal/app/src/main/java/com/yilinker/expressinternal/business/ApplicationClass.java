@@ -58,6 +58,8 @@ public class ApplicationClass extends BaseApplication {
     private static final String REMAINING_TIME =  "remaining-time";
     private static final String KEY_MOBILE_NUMBER = "registration-mobile-number";
 
+    private static final String KEY_SYNCING = "syncing";
+
     private Intent intentServiceLocation;
 
     private Rider rider;
@@ -412,5 +414,20 @@ public class ApplicationClass extends BaseApplication {
         return pref.getString(KEY_MOBILE_NUMBER,null);
 
     }
+
+    public void setIsSyncing(boolean isSyncing) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(KEY_SYNCING, isSyncing);
+        editor.commit();
+    }
+
+    public boolean isSyncing(Context context){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getBoolean(KEY_SYNCING, false);
+
+    }
+
 
 }
