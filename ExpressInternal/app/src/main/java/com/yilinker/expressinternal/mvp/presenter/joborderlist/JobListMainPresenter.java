@@ -300,7 +300,7 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
             mockJO.setRecipientName("Recipient Name "+String.valueOf(x));
             mockJO.setRecipientContactNo("0912345678"+String.valueOf(x));
             mockJO.setSize("Size"+String.valueOf(x));
-            mockJO.setEarning(123123+x);
+            mockJO.setEarning(13123+x);
             mockJO.setRecipientContactNo("0912345678"+String.valueOf(x));
             mockJO.setLatitude(123135+x);
             mockJO.setLongitude(123123+x);

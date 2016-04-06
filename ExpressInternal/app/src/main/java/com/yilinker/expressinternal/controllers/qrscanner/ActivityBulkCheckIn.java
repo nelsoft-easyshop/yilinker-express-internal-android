@@ -189,7 +189,7 @@ public class ActivityBulkCheckIn extends BaseActivity implements QRCodeReaderVie
         hideMenuButton();
 
         //Set the title in the action bar
-        setActionBarTitle(getString(R.string.tools_bulk_checkin));
+        setActionBarTitle(getString(R.string.bulk_check_in));
 
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
