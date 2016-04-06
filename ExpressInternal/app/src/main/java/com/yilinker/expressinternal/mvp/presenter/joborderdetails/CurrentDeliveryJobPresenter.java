@@ -4,12 +4,10 @@ import android.os.Handler;
 
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDeliveryJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 

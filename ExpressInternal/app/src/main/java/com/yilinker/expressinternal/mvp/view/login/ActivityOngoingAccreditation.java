@@ -10,8 +10,7 @@ import android.widget.Button;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
-import com.yilinker.expressinternal.controllers.login.*;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 
 /**
  * Created by patrick-villanueva on 3/29/2016.

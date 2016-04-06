@@ -2,14 +2,12 @@ package com.yilinker.expressinternal.mvp.presenter.checklist;
 
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistBase;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**

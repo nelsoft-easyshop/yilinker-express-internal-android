@@ -4,16 +4,14 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.mvp.model.ProblematicType;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.reportproblematic.ReportProblematicPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseActivity;
 
 /**
  * Created by patrick-villanueva on 3/28/2016.

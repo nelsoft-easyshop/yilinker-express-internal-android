@@ -7,14 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.dashboard.ActivityDashboard;
-import com.yilinker.expressinternal.mvp.model.Login;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.login.LoginPresenter;
 
 /**
@@ -75,7 +72,7 @@ public class ActivityLogin extends Activity implements ILoginView, View.OnClickL
 
             case R.id.btnLogin:
 
-                onClickSubmit();
+                login();
                 break;
 
         }
@@ -103,19 +100,6 @@ public class ActivityLogin extends Activity implements ILoginView, View.OnClickL
     }
 
     @Override
-    public void onClickSubmit() {
-
-        EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        EditText etPassword = (EditText) findViewById(R.id.etPassword);
-
-        String userName = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
-
-        presenter.attemptLogin(userName, password);
-
-    }
-
-    @Override
     public void showErrorMessage(String message) {
 
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
@@ -128,15 +112,31 @@ public class ActivityLogin extends Activity implements ILoginView, View.OnClickL
     }
 
     @Override
-    public void showLoader() {
+    public void showLoader(boolean isShown) {
 
-        rlProgress.setVisibility(View.VISIBLE);
+        int visibility = 0;
+
+        if(isShown){
+
+            visibility = View.VISIBLE;
+        }
+        else{
+
+            visibility = View.GONE;
+        }
+
+        rlProgress.setVisibility(visibility);
     }
 
-    @Override
-    public void hideLoader() {
 
-        rlProgress.setVisibility(View.GONE);
+    private void login(){
 
+        EditText etUsername = (EditText) findViewById(R.id.etUsername);
+        EditText etPassword = (EditText) findViewById(R.id.etPassword);
+
+        String userName = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+
+        presenter.attemptLogin(userName, password);
     }
 }

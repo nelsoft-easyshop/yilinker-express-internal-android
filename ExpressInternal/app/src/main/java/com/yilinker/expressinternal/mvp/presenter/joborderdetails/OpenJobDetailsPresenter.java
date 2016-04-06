@@ -5,7 +5,7 @@ import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.IOpenJobDetailsView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 

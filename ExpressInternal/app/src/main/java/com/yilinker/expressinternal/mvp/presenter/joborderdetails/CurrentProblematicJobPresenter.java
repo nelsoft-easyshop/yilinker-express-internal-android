@@ -2,11 +2,9 @@ package com.yilinker.expressinternal.mvp.presenter.joborderdetails;
 
 import android.os.Handler;
 
-import com.yilinker.core.model.Date;
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentDropoffJobView;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentProblematicJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 

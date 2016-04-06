@@ -2,9 +2,7 @@ package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
 import com.android.volley.Request;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
-
-import java.util.List;
+import com.yilinker.expressinternal.mvp.view.base.RequestBaseView;
 
 /**
  * Created by J.Bautista on 3/7/16.

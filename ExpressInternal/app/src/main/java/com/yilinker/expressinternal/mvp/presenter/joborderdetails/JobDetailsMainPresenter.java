@@ -1,9 +1,8 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderdetails;
 
-import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.IJobDetailsMainView;
 
 /**

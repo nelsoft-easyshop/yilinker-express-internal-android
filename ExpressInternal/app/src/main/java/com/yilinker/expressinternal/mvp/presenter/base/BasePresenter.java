@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.presenter;
+package com.yilinker.expressinternal.mvp.presenter.base;
 
 import java.lang.ref.WeakReference;
 

@@ -4,7 +4,7 @@ import com.android.volley.Request;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
+import com.yilinker.expressinternal.mvp.view.base.RequestBaseView;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
-package com.yilinker.expressinternal.mvp.view;
+package com.yilinker.expressinternal.mvp.view.base;
 
 import android.app.Fragment;
-import android.os.Bundle;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;

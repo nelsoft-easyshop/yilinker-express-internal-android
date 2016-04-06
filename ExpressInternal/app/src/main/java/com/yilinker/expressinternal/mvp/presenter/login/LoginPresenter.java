@@ -11,7 +11,7 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.APIConstant;
 import com.yilinker.expressinternal.mvp.model.Login;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.login.ActivityLogin;
 import com.yilinker.expressinternal.mvp.view.login.ILoginView;
 
@@ -41,7 +41,7 @@ public class LoginPresenter extends BasePresenter<Object, ActivityLogin> impleme
     @Override
     public void attemptLogin(String username, String password) {
 
-        view.showLoader();
+//        view.showLoader();
 
         boolean toContinue = hasEnteredValidInputs(username, password);
 
@@ -52,7 +52,7 @@ public class LoginPresenter extends BasePresenter<Object, ActivityLogin> impleme
         else{
 
             view.showInvalidInputMessage();
-            view.hideLoader();
+//            view.hideLoader();
         }
 
     }
@@ -138,7 +138,7 @@ public class LoginPresenter extends BasePresenter<Object, ActivityLogin> impleme
 
         }
 
-        view.hideLoader();
+//        view.hideLoader();
     }
 
     @Override

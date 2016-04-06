@@ -21,7 +21,7 @@ import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.model.Package;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistPickupPresenter;
 import com.yilinker.expressinternal.mvp.view.confirmpackage.ActivityConfirmPackage;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityCompleteJODetails;

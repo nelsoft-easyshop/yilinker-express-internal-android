@@ -12,9 +12,9 @@ import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.model.CashDetail;
 import com.yilinker.expressinternal.model.CashHistory;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.cashManagement.CashManagementPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseActivity;
 
 import java.util.List;
 

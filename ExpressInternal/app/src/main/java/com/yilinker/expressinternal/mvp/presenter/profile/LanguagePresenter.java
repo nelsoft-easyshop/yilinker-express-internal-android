@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.profile;
 
 import com.yilinker.expressinternal.mvp.model.Languages;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.profile.LanguageViewHolder;
 
 /**

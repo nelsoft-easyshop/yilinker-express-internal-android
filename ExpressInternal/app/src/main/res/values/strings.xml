@@ -403,6 +403,13 @@
     <!-- Checklist-->
     <string name="completing_delivery">Completing Delivery...</string>
     <string name="completing_pickup">Completing Pickup...</string>
+    
+    <!-- QR Code Scanner-->
+    <string name="bulk_checkin_scanqrcode">Scan QR Code</string>
+    <string name="bulkcheckin_waybillno">Waybill Number</string>
+    <string name="bulkcheckin_status">Status</string>
+    <string name="bulkcheckin_success">Success</string>
+    <string name="bulkcheckin_failed">Failed</string>
 
 </resources>
 

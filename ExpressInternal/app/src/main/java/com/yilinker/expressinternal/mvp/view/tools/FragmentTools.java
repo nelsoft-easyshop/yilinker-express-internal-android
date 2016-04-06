@@ -20,9 +20,9 @@ import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanToDetails;
 import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.model.Tools;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.tools.MainToolsPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 import com.yilinker.expressinternal.mvp.view.cashManagement.ActivityCashManagement;
 
 import java.util.List;

@@ -7,16 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CompleteJODetailsPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 /**

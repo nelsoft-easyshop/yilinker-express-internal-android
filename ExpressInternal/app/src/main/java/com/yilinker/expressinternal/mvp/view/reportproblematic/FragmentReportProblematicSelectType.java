@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.mvp.model.ProblematicType;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
-import com.yilinker.expressinternal.mvp.presenter.reportproblematic.ReportProblematicPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.reportproblematic.ReportProblematicSelectTypePresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;

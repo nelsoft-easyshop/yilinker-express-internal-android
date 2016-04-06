@@ -1,7 +1,6 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
-import com.android.volley.Request;
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
+import com.yilinker.expressinternal.mvp.view.base.RequestBaseView;
 
 /**
  * Created by Patrick on 3/17/2016.

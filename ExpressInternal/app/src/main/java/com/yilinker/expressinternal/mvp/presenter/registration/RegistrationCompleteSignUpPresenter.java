@@ -1,13 +1,10 @@
 package com.yilinker.expressinternal.mvp.presenter.registration;
 
-import android.content.res.TypedArray;
-
 import com.android.volley.Request;
 import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.expressinternal.business.ExpressErrorHandler;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
-import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationCompleteSignUpPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationCompleteSignUpView;
 
 import java.util.ArrayList;

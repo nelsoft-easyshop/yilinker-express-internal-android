@@ -3,7 +3,6 @@ package com.yilinker.expressinternal.mvp.presenter.reportproblematic;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
@@ -11,7 +10,7 @@ import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.mvp.model.ProblematicType;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.reportproblematic.IReportProblematicFormView;
 
 import java.io.File;

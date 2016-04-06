@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 
 /**
  * Created by Patrick on 3/9/2016.

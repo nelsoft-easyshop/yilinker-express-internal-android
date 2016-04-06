@@ -1,17 +1,12 @@
 package com.yilinker.expressinternal.mvp.presenter.registration;
 
 import android.os.CountDownTimer;
-import android.os.SystemClock;
 
 import com.android.volley.Request;
-import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.api.express.RegistrationApi;
 import com.yilinker.core.interfaces.ResponseHandler;
-import com.yilinker.core.model.OAuthentication;
 import com.yilinker.expressinternal.business.ExpressErrorHandler;
-import com.yilinker.expressinternal.constants.APIConstant;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
-import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationVerificationCodePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationVerificationCodeView;
 
 import java.util.ArrayList;

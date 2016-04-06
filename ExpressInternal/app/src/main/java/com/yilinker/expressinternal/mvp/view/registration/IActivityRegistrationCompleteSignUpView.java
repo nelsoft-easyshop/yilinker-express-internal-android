@@ -1,9 +1,7 @@
 package com.yilinker.expressinternal.mvp.view.registration;
 
 import com.android.volley.Request;
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
-
-import java.util.List;
+import com.yilinker.expressinternal.mvp.view.base.RequestBaseView;
 
 /**
  * Created by Patrick on 3/8/2016.

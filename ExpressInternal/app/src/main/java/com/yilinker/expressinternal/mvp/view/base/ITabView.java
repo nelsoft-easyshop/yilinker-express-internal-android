@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view;
+package com.yilinker.expressinternal.mvp.view.base;
 
 import com.yilinker.expressinternal.mvp.model.TabItem;
 
