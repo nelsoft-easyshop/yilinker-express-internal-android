@@ -5,7 +5,6 @@ import android.util.SparseArray;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.RiderAPI;
-import com.yilinker.core.api.express.RiderApi;
 import com.yilinker.core.constants.ErrorMessages;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.OAuthentication;
