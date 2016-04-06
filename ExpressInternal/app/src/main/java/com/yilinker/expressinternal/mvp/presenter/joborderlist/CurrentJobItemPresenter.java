@@ -86,9 +86,10 @@ public class CurrentJobItemPresenter extends JobItemPresenter<CurrentJobsViewHol
         }else if (status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
 
             address = model.getDropoffAddress();
-        }
 
-        //TODO add address for claiming
+        }else if (status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_CLAIMING)){
+            address = model.getClaimingAddress();
+        }
 
         return address;
     }
