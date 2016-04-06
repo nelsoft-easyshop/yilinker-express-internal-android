@@ -107,8 +107,10 @@
     <string name="pickup_address">Pickup Address</string>
     <string name="dropoff_address">Dropoff Address</string>
     <string name="delivery_address">Delivery Address</string>
+    <string name="claiming_address">Claiming Address</string>
     <string name="drop_to">Drop to</string>
     <string name="deliver_to">Deliver to</string>
+    <string name="claim_at">Claim At</string>
     <string name="recipient">Recipient</string>
     <string name="shipper_name">Shipper Name</string>
     <string name="consignee">Consignee</string>
@@ -145,7 +147,8 @@
     <string name="open_location_settings">Go to Settings</string>
     <string name="generating_qr">Generating QR Code...</string>
     <string name="open_joborderdetail_accept">Accept</string>
-
+    <string name="request_claim_successful_message">Job order has been claimed successfully.</string>
+    <string name="joborderdetail_outdated">Job is outdated. Click here to sync.</string>
 
     <!--Job Order List-->
     <string name="job_order_list_open">Open</string>
@@ -400,6 +403,8 @@
 
     <string name="complete_jo_good_job">Good Job!</string>
     <string name="complete_jo_congratulation">Congratulations, you have\n earned the amount below for\n completing thing this job</string>
+    <string name="complete_jo_congratulation_2">Congratulations, your earning will be updated after syncing.</string>
+    <string name="complete_jo_offline">You are offline</string>
     <string name="complete_jo_wow">Wow</string>
 
     <!-- Checklist-->

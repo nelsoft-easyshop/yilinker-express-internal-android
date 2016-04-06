@@ -91,6 +91,15 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
         view().updateItem(currentItem);
     }
 
+    public void doOfflineCompletion() {
+
+        DeliveryPackage deliveryPackage = createDeliveryPackage(false);
+
+        view().startDeliveryService(deliveryPackage);
+        view().goToCompleteScreen(model, true);
+
+    }
+
     @Override
     public void onCompleteButtonClick() {
 
@@ -123,7 +132,8 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
             case REQUEST_UPDATE:
 
                 view().showMessage(message);
-                handleFailedUpdate();
+//                handleFailedUpdate();
+                doOfflineCompletion();
                 break;
         }
     }
@@ -142,7 +152,7 @@ public class ChecklistDeliveryPresenter extends ChecklistBasePresenter<IChecklis
         DeliveryPackage deliveryPackage = createDeliveryPackage(true);
 
         view().startDeliveryService(deliveryPackage);
-        view().goToCompleteScreen(model);
+        view().goToCompleteScreen(model, false);
     }
 
     private void handleFailedUpdate(){
