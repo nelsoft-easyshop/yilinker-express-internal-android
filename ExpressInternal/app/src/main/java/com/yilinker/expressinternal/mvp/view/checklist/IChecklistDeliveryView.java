@@ -16,7 +16,7 @@ public interface IChecklistDeliveryView extends IChecklistBase {
     public void showCaptureImageScreen(List<String> uri, int type, String pageName);
     public void launchCamera(Uri uri, int type);
     public void showSignatureScreen(String uri);
-    public void goToCompleteScreen(JobOrder joborder);
+    public void goToCompleteScreen(JobOrder joborder, boolean offline);
     public void goToMainScreen();
     public void startDeliveryService(DeliveryPackage deliveryPackage);
     public String compressImage(String path);

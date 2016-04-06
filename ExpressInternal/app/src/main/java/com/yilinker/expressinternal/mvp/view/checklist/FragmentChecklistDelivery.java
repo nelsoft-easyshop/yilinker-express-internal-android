@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.yilinker.core.helper.DeviceHelper;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
@@ -281,10 +282,11 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     }
 
     @Override
-    public void goToCompleteScreen(JobOrder joborder) {
+    public void goToCompleteScreen(JobOrder joborder, boolean offline) {
 
         Intent intent = new Intent(getActivity(), ActivityCompleteJODetails.class);
         intent.putExtra(ActivityCompleteJODetails.KEY_JOB_ORDER, joborder);
+        intent.putExtra(ActivityCompleteJODetails.KEY_IS_OFFLINE, offline);
 
         startActivity(intent);
     }
@@ -373,7 +375,16 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
 
             case R.id.btnConfirm:
 
-                presenter.onCompleteButtonClick();
+                if (DeviceHelper.isDeviceConnected(getActivity())) {
+
+                    presenter.onCompleteButtonClick();
+
+                } else {
+
+                    presenter.doOfflineCompletion();
+
+                }
+
                 break;
         }
     }
