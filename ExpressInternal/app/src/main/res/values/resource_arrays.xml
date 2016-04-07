@@ -62,6 +62,7 @@
         <item>@string/jobstatus_for_drop_off</item>
         <item>@string/jobstatus_for_delivery</item>
         <item>@string/jobstatus_problematic</item>
+        <item>@string/jobstatus_for_claiming</item>
     </string-array>
 
 
@@ -88,6 +89,21 @@
         <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
         <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
         <item name="tool_sync">@string/tools_sync</item>
+    </string-array>
+
+    <string-array name="maplegend_title">
+        <string name="maplegend_forpickup">For Pickup</string>
+        <string name="maplegend_fordelivery">For Delivery</string>
+        <string name="maplegend_you">You</string>
+        <string name="maplegend_problematic">Problematic</string>
+        <string name="maplegend_warehouse">Warehouse</string>
+        <string name="maplegend_branch">Branch</string>
+        <string name="maplegend_dropoff">Drop Off</string>
+        <string name="maplegend_forclaiming">For Claiming</string>
+    </string-array>
+
+    <string-array name="maplegend_icons">
+
     </string-array>
 
 </resources>

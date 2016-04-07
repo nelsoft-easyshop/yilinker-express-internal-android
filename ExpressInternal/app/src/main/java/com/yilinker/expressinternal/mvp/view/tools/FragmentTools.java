@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge2;
-import com.yilinker.expressinternal.controllers.qrscanner.ActivityBulkCheckIn;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanToDetails;
 import com.yilinker.expressinternal.controllers.sync.ActivitySync;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
@@ -23,6 +22,7 @@ import com.yilinker.expressinternal.mvp.model.Tools;
 import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.tools.MainToolsPresenter;
 import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.bulkcheckin.ActivityBulkCheckin;
 import com.yilinker.expressinternal.mvp.view.cashManagement.ActivityCashManagement;
 
 import java.util.List;
@@ -32,13 +32,15 @@ import java.util.List;
  */
 public class FragmentTools extends BaseFragment implements IMainToolsView, TabItemClickListener {
 
+    private static final String KEY_CONTENT = "content";
+
     private ApplicationClass appClass;
-    private boolean hasForSyncing = false;
+//    private boolean hasForSyncing = false;
 
     private MainToolsPresenter presenter;
     private ToolsAdapter adapter;
 
-    RecyclerView rvTools;
+    private RecyclerView rvTools;
 
     @Nullable
     @Override
@@ -51,10 +53,11 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
         appClass = (ApplicationClass) getActivity().getApplicationContext();
 
+        initializeViews(view);
+
         if (savedInstanceState == null) {
 
             presenter = new MainToolsPresenter();
-            initializeViews(view);
 
             presenter.bindView(this);
             initializeTools();
@@ -100,8 +103,9 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
         rvTools.setHasFixedSize(true);
         rvTools.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
-        adapter = new ToolsAdapter(this);
-        rvTools.setAdapter(adapter);
+//        adapter = new ToolsAdapter(this);
+//        rvTools.setAdapter(adapter);
+
     }
 
     @Override
@@ -120,8 +124,10 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
         toolsIconsArray.recycle();
 
-        presenter.initializeToolsModel(tabTitles, toolIcons);
-        presenter.hasItemsForSyncing(appClass.hasItemsForSyncing());
+//        presenter.initializeToolsModel(tabTitles, toolIcons)
+
+        presenter.setModel(presenter.createTools(tabTitles, toolIcons));
+//        presenter.hasItemsForSyncing(appClass.hasItemsForSyncing());
 
     }
 
@@ -142,7 +148,10 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
     @Override
     public void loadTabs(List<Tools> tools) {
 
+        adapter = new ToolsAdapter(this);
+        rvTools.setAdapter(adapter);
         adapter.addAll(tools);
+
     }
 
     @Override
@@ -159,7 +168,7 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
             case 1:
 //                intent = new Intent(getActivity(), ActivityScanner.class);
-                intent = new Intent(getActivity(), ActivityBulkCheckIn.class);
+                intent = new Intent(getActivity(), ActivityBulkCheckin.class);
                 startActivity(intent);
                 break;
 
@@ -176,35 +185,47 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
             case 4:
 
-                presenter.openActivitySync(hasForSyncing);
+//                presenter.openActivitySync(hasForSyncing);
+//                presenter.openActivitySync(appClass.hasItemsForSyncing());
+
 
                 break;
+
         }
 
-
-
     }
 
     @Override
-    public void enableSyncButton(boolean disableSyncing) {
+    public void updateSyncItem() {
 
-        hasForSyncing = disableSyncing;
-
-    }
-
-    @Override
-    public void openActivitySyncing() {
-
-        Intent intent = new Intent(getActivity(), ActivitySync.class);
-        startActivityForResult(intent, ActivitySync.REQUEST_SYNC);
+        presenter.setIndicator(4, appClass.hasItemsForSyncing() && !appClass.isSyncing(getActivity()) ?
+                R.drawable.ic_for_syncing : 0);
+        presenter.changeItemTitle(4, appClass.isSyncing(getActivity()) ?
+                getString(R.string.tools_syncing) : getString(R.string.tools_sync));
+        adapter.notifyItemChanged(4);
 
     }
 
-    @Override
-    public void showNoItemsForSyncingMessage() {
+//    @Override
+//    public void enableSyncButton(boolean disableSyncing) {
+//
+//        hasForSyncing = disableSyncing;
+//
+//    }
 
-        Toast.makeText(getActivity(), getString(R.string.request_no_data_for_syncing), Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void openActivitySyncing() {
+//
+//        Intent intent = new Intent(getActivity(), ActivitySync.class);
+//        startActivityForResult(intent, ActivitySync.REQUEST_SYNC);
+//
+//    }
+//
+//    @Override
+//    public void showNoItemsForSyncingMessage() {
+//
+//        Toast.makeText(getActivity(), getString(R.string.request_no_data_for_syncing), Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onTabItemClick(int position) {

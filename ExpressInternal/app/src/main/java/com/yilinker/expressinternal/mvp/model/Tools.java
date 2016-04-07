@@ -6,7 +6,17 @@ package com.yilinker.expressinternal.mvp.model;
  */
 public class Tools extends TabItem {
 
-//    private int id;
+    private int warningResourceId;
+
+    public int getWarningResourceId() {
+        return warningResourceId;
+    }
+
+    public void setWarningResourceId(int warningResourceId) {
+        this.warningResourceId = warningResourceId;
+    }
+
+    //    private int id;
 //    private String title;
 //    private boolean isSelected;
 //    private int resourceIcon;

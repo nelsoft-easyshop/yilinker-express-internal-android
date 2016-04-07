@@ -69,6 +69,14 @@ public class ChecklistPickupPresenter extends ChecklistBasePresenter<IChecklistP
 
     }
 
+    public void doOfflineCompletion() {
+
+        selectedPackage.setIsUpdated(false);
+        view().startPickupService(selectedPackage);
+        view().goToCompleteScreen(model, true);
+
+    }
+
     @Override
     public void onSuccess(int requestCode, Object object) {
         super.onSuccess(requestCode, object);
@@ -93,7 +101,8 @@ public class ChecklistPickupPresenter extends ChecklistBasePresenter<IChecklistP
 
             case REQUEST_UPDATE:
 
-                handleFailedUpdate();
+//                handleFailedUpdate();
+                doOfflineCompletion();
                 break;
 
         }
@@ -113,7 +122,7 @@ public class ChecklistPickupPresenter extends ChecklistBasePresenter<IChecklistP
         selectedPackage.setIsUpdated(true);
         view().startPickupService(selectedPackage);
 //        view().goToMainScreen();
-        view().goToCompleteScreen(model);
+        view().goToCompleteScreen(model, false);
     }
 
     private void handleFailedUpdate(){

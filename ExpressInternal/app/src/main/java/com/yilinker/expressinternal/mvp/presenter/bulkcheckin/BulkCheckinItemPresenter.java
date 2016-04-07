@@ -12,7 +12,7 @@ public class BulkCheckinItemPresenter extends RequestPresenter<BulkCheckinItem, 
     @Override
     protected void updateView() {
 
-        view().setStatusText(model.isCheckedIn());
+        view().setStatusText(model.isCheckedIn(), model.isProcessed());
         view().setWaybillNoText(model.getWaybillNo());
 
     }

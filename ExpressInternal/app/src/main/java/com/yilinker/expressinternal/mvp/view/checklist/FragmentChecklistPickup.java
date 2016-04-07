@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.yilinker.core.helper.DeviceHelper;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.checklist.FragmentDialogUpdateStatus2;
@@ -187,10 +188,11 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
     }
 
     @Override
-    public void goToCompleteScreen(JobOrder jobOrder) {
+    public void goToCompleteScreen(JobOrder jobOrder, boolean offline) {
 
         Intent intent = new Intent(getActivity(), ActivityCompleteJODetails.class);
         intent.putExtra(ActivityCompleteJODetails.KEY_JOB_ORDER, jobOrder);
+        intent.putExtra(ActivityCompleteJODetails.KEY_IS_OFFLINE, offline);
 
         startActivity(intent);
 
@@ -315,7 +317,16 @@ public class FragmentChecklistPickup extends ChecklistBaseFragment<ChecklistPick
 
             case R.id.btnConfirm:
 
-                presenter.onCompleteButtonClick();
+                if (DeviceHelper.isDeviceConnected(getActivity())) {
+
+                    presenter.onCompleteButtonClick();
+
+                } else {
+
+                    presenter.doOfflineCompletion();
+
+                }
+
                 break;
         }
     }

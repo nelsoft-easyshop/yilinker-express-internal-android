@@ -12,22 +12,23 @@ import java.util.List;
  */
 public class MainToolsPresenter extends BasePresenter<List<Tools>, IMainToolsView> implements IToolsPresenter {
 
-    private int activity;
+//    private int activity;
+//    private List<Tools> tools;
 
     @Override
     protected void updateView() {
 
-        view().openActivity(activity);
+//        view().openActivity(activity);
+        view().loadTabs(model);
+        view().updateSyncItem();
 
     }
 
-    private List<Tools> tools;
-
     @Override
-    public void initializeToolsModel(String[] toolTitles, int[] toolIcons) {
+    public List<Tools> createTools(String[] toolTitles, int[] toolIcons) {
 
-        tools = new ArrayList<>();
-        Tools tool = null;
+        List<Tools> tools = new ArrayList<>();
+        Tools tool;
 
         for(int i =0; i < toolTitles.length; i ++){
 
@@ -36,38 +37,55 @@ public class MainToolsPresenter extends BasePresenter<List<Tools>, IMainToolsVie
             tool.setResourceIcon(toolIcons[i]);
             tool.setSelected(i == 0);
             tool.setTitle(toolTitles[i]);
+            tool.setWarningResourceId(0);
 
             tools.add(tool);
         }
 
-        view().loadTabs(tools);
+
+        return tools;
+//        view().loadTabs(tools);
 
     }
 
     @Override
     public void onToolSelected(int position) {
 
-        activity = position;
-        updateView();
+//        activity = position;
+//        updateView();
+        view().openActivity(position);
+
+    }
+
+//    @Override
+//    public void hasItemsForSyncing(boolean hasForSyncing) {
+//
+//        view().enableSyncButton(hasForSyncing);
+//
+//    }
+
+//    @Override
+//    public void openActivitySync(boolean hasForSyncing) {
+//
+//        if(hasForSyncing) {
+//            view().openActivitySyncing();
+//        } else {
+//            view().showNoItemsForSyncingMessage();
+//        }
+//    }
+
+    @Override
+    public void setIndicator(int position, int resource) {
+
+        model.get(position).setWarningResourceId(resource);
+
     }
 
     @Override
-    public void hasItemsForSyncing(boolean hasForSyncing) {
-        if(hasForSyncing) {
-            view().enableSyncButton(true);
-        } else {
-            view().enableSyncButton(false);
-        }
-    }
+    public void changeItemTitle(int position, String title) {
 
-    @Override
-    public void openActivitySync(boolean hasForSyncing) {
+        model.get(position).setTitle(title);
 
-        if(hasForSyncing) {
-            view().openActivitySyncing();
-        } else {
-            view().showNoItemsForSyncingMessage();
-        }
     }
 
 }

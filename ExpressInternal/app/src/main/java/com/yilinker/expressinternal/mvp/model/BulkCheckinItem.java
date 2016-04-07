@@ -8,6 +8,7 @@ public class BulkCheckinItem {
     private int id;
     private String waybillNo;
     private boolean isCheckedIn;
+    private boolean isProcessed;
 
     public int getId() {
         return id;
@@ -31,5 +32,13 @@ public class BulkCheckinItem {
 
     public void setIsCheckedIn(boolean isCheckedIn) {
         this.isCheckedIn = isCheckedIn;
+    }
+
+    public boolean isProcessed() {
+        return isProcessed;
+    }
+
+    public void setIsProcessed(boolean isProcessed) {
+        this.isProcessed = isProcessed;
     }
 }

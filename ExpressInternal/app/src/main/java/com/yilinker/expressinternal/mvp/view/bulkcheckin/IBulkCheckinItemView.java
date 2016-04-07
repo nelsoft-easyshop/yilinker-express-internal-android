@@ -6,5 +6,5 @@ package com.yilinker.expressinternal.mvp.view.bulkcheckin;
 public interface IBulkCheckinItemView {
 
     public void setWaybillNoText(String waybillNo);
-    public void setStatusText(boolean isUpdated);
+    public void setStatusText(boolean isCheckedIn, boolean isProcessed);
 }

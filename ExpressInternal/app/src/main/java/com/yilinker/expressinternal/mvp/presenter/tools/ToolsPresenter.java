@@ -14,11 +14,14 @@ public class ToolsPresenter extends BasePresenter<Tools, ToolsViewHolder> {
 
         view().setIcon(model.getResourceIcon());
         view().setTitle(model.getTitle());
+        view().setWarningIcon(model.getWarningResourceId());
+
     }
 
     public void onClick(){
 
         view().showSelected(model);
+
     }
 
 

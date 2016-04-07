@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.customviews.CustomQRCodeReaderView;
 import com.yilinker.expressinternal.mvp.model.BulkCheckinItem;
@@ -31,6 +32,7 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
 
     private BulkCheckinAdapter adapter;
 
+    private RecyclerView rvItems;
     private ImageView ivFocusArea;
     private CustomQRCodeReaderView qrCodeReaderView;
     private Handler handler;
@@ -74,7 +76,8 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
 
         if(hasFocus){
 
-            qrCodeReaderView.setFocusAreas(createFocusAreas());
+//            qrCodeReaderView.setFocusAreas(createFocusAreas());
+//            qrCodeReaderView.setCameraPreviewSize(getPreviewHeight(), getPreviewWidth());
         }
     }
 
@@ -90,6 +93,15 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
         super.onResume();
 
         presenter.bindView(this);
+    }
+
+    @Override
+    protected void onPause() {
+
+        presenter.onPause();
+        presenter.unbindView();
+
+        super.onPause();
     }
 
     @Override
@@ -116,15 +128,21 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
 
         int areaDimension = getResources().getDimensionPixelSize(R.dimen.qrscanner_focusarea_dimension);
 
-//        int x1 = location[0];
-//        int x2 = location[0] + areaDimension;
-//        int y1 = location[1];
-//        int y2 = location[1] + areaDimension;
+        //Get dimension of the preview container
+        View container = (View) qrCodeReaderView.getParent();
+        int width = container.getWidth();
+        int height = container.getHeight();
 
-        int x1 = ivFocusArea.getLeft() * 2000 / areaDimension - 1000;
-        int x2 = ivFocusArea.getTop() * 2000 / areaDimension - 1000;
-        int y1 = ivFocusArea.getRight() * 2000 / areaDimension - 1000;
-        int y2 = ivFocusArea.getBottom() * 2000 / areaDimension - 1000;
+
+//        int x1 = ivFocusArea.getLeft() * (2000 / width) - 1000;
+//        int x2 = ivFocusArea.getTop() * (2000 / width) - 1000;
+//        int y1 = ivFocusArea.getRight() * (2000 / height) - 1000;
+//        int y2 = ivFocusArea.getBottom() * (2000 / height) - 1000;
+
+        int x1 = -10;
+        int x2 = 10;
+        int y1 = -10;
+        int y2 = 10;
 
         Toast.makeText(getApplicationContext(), String.format("x1: %d, x2: %d, y1: %d, y2: %d", x1, x2, y1, y2), Toast.LENGTH_LONG).show();
 
@@ -184,6 +202,8 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
     public void addItem(BulkCheckinItem item) {
 
         adapter.addItem(item);
+
+        rvItems.smoothScrollToPosition(adapter.getItemCount() - 1);
     }
 
     @Override
@@ -192,12 +212,25 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
         adapter.updateItem(item);
     }
 
+    @Override
+    public void addRequest(Request request) {
+
+        addRequestToQueue(request);
+    }
+
+    @Override
+    public void cancelRequest(List<String> requests) {
+
+        cancelRequests(requests);
+    }
+
     private void setAdapter(){
 
         adapter = new BulkCheckinAdapter();
 
-        RecyclerView rvItems = (RecyclerView) findViewById(R.id.rvItems);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        rvItems = (RecyclerView) findViewById(R.id.rvItems);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true);
+        layoutManager.setAutoMeasureEnabled(true);
 
         rvItems.setLayoutManager(layoutManager);
 
@@ -208,6 +241,26 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
     private void setActionBar(){
 
         setActionBarTitle(getString(R.string.bulk_checkin_scanqrcode));
+
+    }
+
+    private int getPreviewHeight(){
+
+        //Get dimension of the preview container
+        View container = (View) qrCodeReaderView.getParent();
+        int height = container.getHeight();
+
+        return height;
+
+    }
+
+    private int getPreviewWidth(){
+
+        //Get dimension of the preview container
+        View container = (View) qrCodeReaderView.getParent();
+        int width = container.getWidth();
+
+        return width;
 
     }
 }

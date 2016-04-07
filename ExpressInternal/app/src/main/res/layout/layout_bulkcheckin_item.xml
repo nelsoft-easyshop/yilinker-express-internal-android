@@ -34,6 +34,7 @@
         android:textColor="@color/orange_red"
         android:gravity="center_vertical"
         android:textSize="14sp"
+        android:textAllCaps="true"
         />
 
 </LinearLayout>

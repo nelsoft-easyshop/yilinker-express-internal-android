@@ -32,18 +32,25 @@ public class BulkCheckinViewHolder extends BaseViewHolder<BulkCheckinItemPresent
     }
 
     @Override
-    public void setStatusText(boolean isUpdated) {
+    public void setStatusText(boolean isCheckedIn, boolean isProcessed) {
 
         Resources resources = itemView.getResources();
         String text = null;
 
-        if(isUpdated){
+        if(isProcessed){
 
-            text = resources.getString(R.string.bulkcheckin_success);
+            if (isCheckedIn) {
+
+                text = resources.getString(R.string.bulkcheckin_success);
+            } else {
+
+                text = resources.getString(R.string.bulkcheckin_failed);
+            }
+
         }
-        else{
+        else {
 
-            text = resources.getString(R.string.bulkcheckin_failed);
+            text = "-";
         }
 
         tvStatus.setText(text);

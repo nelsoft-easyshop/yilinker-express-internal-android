@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"/>
 
 
-    <!--buffer space-->
+    <!--&lt;!&ndash;buffer space&ndash;&gt;-->
     <!--<TextView-->
         <!--android:id="@+id/tvBufferSpace"-->
         <!--android:layout_width="wrap_content"-->
@@ -88,7 +88,8 @@
             android:id="@+id/llJobTypesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -105,63 +106,17 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvJobOrderTypes"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:layout_marginBottom="30dp"/>
-
-            <!--<RadioGroup-->
-                <!--android:id="@+id/rgJobTypes"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical"-->
-                <!--android:padding="10dp"-->
-                <!--android:layout_marginBottom="30dp">-->
-
-                <!--<RadioButton android:id="@+id/rbForPickUp"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/search_type_for_pick_up"-->
-                    <!--android:button="@null"-->
-                    <!--android:drawableRight="@drawable/radio_button_selector"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:checked="true"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--/>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/white"/>-->
-
-                <!--<RadioButton android:id="@+id/rbForDropOff"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/search_for_drop_off"-->
-                    <!--android:button="@null"-->
-                    <!--android:drawableRight="@drawable/radio_button_selector"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--/>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/white"/>-->
-
-                <!--<RadioButton android:id="@+id/rbForDelivery"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/search_for_delivery"-->
-                    <!--android:button="@null"-->
-                    <!--android:drawableRight="@drawable/radio_button_selector"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--/>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/white"/>-->
-
-            <!--</RadioGroup>-->
+                android:layout_height="150dp"/>
+            
+            <TextView
+                android:id="@+id/tvMoreJobTypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_gray_brown"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:layout_margin="10dp"/>
 
         </LinearLayout>
     </LinearLayout>
