@@ -156,7 +156,8 @@ public class ServiceSync extends Service implements ISyncView {
     public void updateObject(SyncDBObject object) {
 
         realm.beginTransaction();
-        transaction.update(object);
+        object.setSync(true);
+//        transaction.update(object);
         realm.commitTransaction();
 
     }

@@ -200,7 +200,7 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
 //                presenter.openActivitySync(hasForSyncing);
 //                presenter.openActivitySync(appClass.hasItemsForSyncing());
-                presenter.doIfSyncable(syncable(),
+                presenter.doIfSyncable(syncable(), appClass.isSyncing(getActivity()),
                         DeviceHelper.isDeviceConnected(getActivity()));
 
                 break;
@@ -260,6 +260,13 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
     public void showNoInternetConnection() {
 
         Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void showSyncingOnProgress() {
+
+        Toast.makeText(getActivity(), "Syncing.", Toast.LENGTH_SHORT).show();
 
     }
 

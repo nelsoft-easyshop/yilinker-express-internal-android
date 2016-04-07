@@ -21,5 +21,6 @@ public interface IMainToolsView {
     boolean syncable();
     void updateItem(Tools tools);
     void showNoInternetConnection();
+    void showSyncingOnProgress();
 
 }

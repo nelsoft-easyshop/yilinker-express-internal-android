@@ -94,15 +94,19 @@ public class MainToolsPresenter extends BasePresenter<List<Tools>, IMainToolsVie
 //    }
 
     @Override
-    public void doIfSyncable(boolean syncable, boolean isConnected) {
+    public void doIfSyncable(boolean syncable, boolean syncing, boolean isConnected) {
 
-        if (isConnected && syncable) {
+        if (syncable && isConnected) {
 
             view().startSyncing();
 
-        } else if (!isConnected){
+        } else {
 
-            if (syncable) {
+            if (syncing) {
+
+                view().showSyncingOnProgress();
+
+            } else if (syncable) {
 
                 view().showNoInternetConnection();
 
