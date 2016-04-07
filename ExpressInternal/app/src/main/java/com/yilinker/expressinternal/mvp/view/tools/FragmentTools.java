@@ -214,6 +214,8 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
                 intent = new Intent(getActivity(), ActivityBankInformation.class);
                 startActivity(intent);
+
+                break;
         }
 
     }

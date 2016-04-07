@@ -3,11 +3,12 @@ package com.yilinker.expressinternal.mvp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yilinker.core.model.express.internal.Bank;
+
 /**
  * Created by patrick-villanueva on 4/6/2016.
  */
 public class BankInformation implements Parcelable {
-
 
     private int id;
     private String bankName;
@@ -15,6 +16,16 @@ public class BankInformation implements Parcelable {
     private String accountNumber;
     private String bankLogoURL;
     private boolean isDropDownOpen;
+
+
+    public BankInformation(Bank bankServer){
+
+        this.id = bankServer.getId();
+        this.bankName = bankServer.getBankName();
+        this.bankLogoURL = bankServer.getLogoURL();
+        this.accountName = bankServer.getAcountName();
+        this.accountNumber = bankServer.getAccountNumber();
+    }
 
     public int getId() {
         return id;

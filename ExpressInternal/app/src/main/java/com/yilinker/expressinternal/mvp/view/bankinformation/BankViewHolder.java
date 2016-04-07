@@ -2,6 +2,9 @@ package com.yilinker.expressinternal.mvp.view.bankinformation;
 
 import android.support.v7.view.menu.MenuView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,11 +72,22 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
     public void setDropDownOpen(boolean isToOpen) {
 
         if (isToOpen){
-            llBankContainer.setVisibility(View.VISIBLE);
             ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow_down);
+
+            /***Added simple animation*/
+            Animation in = AnimationUtils.loadAnimation(itemView.getContext(), android.R.anim.fade_in);
+            llBankContainer.startAnimation(in);
+
+            llBankContainer.setVisibility(View.VISIBLE);
+
         }else {
-            llBankContainer.setVisibility(View.GONE);
             ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow);
+
+            /***Added simple animation*/
+            Animation out = AnimationUtils.loadAnimation(itemView.getContext(), android.R.anim.fade_out);
+            llBankContainer.startAnimation(out);
+
+            llBankContainer.setVisibility(View.GONE);
         }
     }
 

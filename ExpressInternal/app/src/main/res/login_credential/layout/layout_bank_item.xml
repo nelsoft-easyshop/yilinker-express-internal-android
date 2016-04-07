@@ -20,9 +20,9 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/ivBankLogo"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@drawable/bg_ongoing_accreditation"/>
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:background="@drawable/test_logo_bdo"/>
 
         <TextView
             android:id="@+id/tvBankName"
