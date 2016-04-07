@@ -411,5 +411,9 @@
     <string name="completing_delivery">Completing Delivery...</string>
     <string name="completing_pickup">Completing Pickup...</string>
 
+    <string name="bank_information_bank_name">Bank Name</string>
+    <string name="bank_information_account_name">Account Name</string>
+    <string name="bank_information_account_number">Account Number</string>
+
 </resources>
 
