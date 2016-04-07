@@ -119,7 +119,7 @@ public class MainToolsPresenter extends BasePresenter<List<Tools>, IMainToolsVie
     @Override
     public void updateSyncItem() {
 
-        view().setItemWarningResourceId(model.get(4));
+        view().setItemIndicatorResourceId(model.get(4));
         view().setItemTitle(model.get(4));
         view().updateItem(model.get(4));
 

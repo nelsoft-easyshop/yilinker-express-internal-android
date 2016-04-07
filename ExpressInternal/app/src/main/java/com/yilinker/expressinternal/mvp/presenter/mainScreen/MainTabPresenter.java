@@ -9,14 +9,15 @@ import com.yilinker.expressinternal.mvp.view.mainScreen.MainTabViewHolder;
  */
 public class MainTabPresenter extends BasePresenter<TabItem, MainTabViewHolder> {
 
-
-
     @Override
     protected void updateView() {
 
         view().setIcon(model.isSelected() ? model.getSelectedIcon() : model.getResourceIcon());
         view().setTitle(model.getTitle());
         view().setSelected(model.isSelected());
+        view().showIndicator(model.getIndicatorIcon() != 0);
+        view().setIndicator(model.getIndicatorIcon());
+
     }
 
     public void onClick(){

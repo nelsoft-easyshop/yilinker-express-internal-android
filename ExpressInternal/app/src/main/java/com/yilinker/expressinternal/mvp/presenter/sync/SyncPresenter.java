@@ -92,9 +92,9 @@ public class SyncPresenter extends RequestPresenter<List<SyncDBObject>, ISyncVie
     public void onSuccess(int requestCode, Object object) {
         super.onSuccess(requestCode, object);
 
-//        SyncDBObject syncDBObject = model.get(progress);
-//        syncDBObject.setSync(true);
-//        view().updateObject(syncDBObject);
+        SyncDBObject syncDBObject = model.get(progress);
+        syncDBObject.setSync(true);
+        view().updateObject(syncDBObject);
 
         success++;
         updateProgress();

@@ -34,6 +34,8 @@ public class ServiceSync extends Service implements ISyncView {
 
     private SyncDBTransaction transaction;
 
+    private Realm realm;
+
     private RequestQueue requestQueue;
 
     private NotificationManager manager;
@@ -85,6 +87,8 @@ public class ServiceSync extends Service implements ISyncView {
 
         appClass = (ApplicationClass) getApplicationContext();
 
+        realm = Realm.getInstance(this);
+
         transaction = new SyncDBTransaction(this);
 
         requestQueue = Volley.newRequestQueue(this);
@@ -110,8 +114,12 @@ public class ServiceSync extends Service implements ISyncView {
     @Override
     public void updateSyncStatus(boolean syncing) {
 
-        appClass.setIsSyncing(syncing);
-        sendBroadcast(new Intent(SYNC));
+        if (syncing != appClass.isSyncing(this)) {
+
+            appClass.setIsSyncing(syncing);
+            sendBroadcast(new Intent(SYNC));
+
+        }
 
     }
 
@@ -147,14 +155,18 @@ public class ServiceSync extends Service implements ISyncView {
     @Override
     public void updateObject(SyncDBObject object) {
 
+        realm.beginTransaction();
         transaction.update(object);
+        realm.commitTransaction();
 
     }
 
     @Override
     public void deleteObject(SyncDBObject object) {
 
+        realm.beginTransaction();
         transaction.delete(object);
+        realm.commitTransaction();
 
     }
 
@@ -168,12 +180,12 @@ public class ServiceSync extends Service implements ISyncView {
     @Override
     public void purgeData(){
 
-//        HashMap<String, Object> mapQuery = new HashMap<>();
-//        mapQuery.put("isSync", true);
+        HashMap<String, Object> mapQuery = new HashMap<>();
+        mapQuery.put("isSync", true);
 
-        transaction.deleteAll(SyncDBObject.class);
+//        transaction.deleteAll(SyncDBObject.class);
 
-//        transaction.deleteAll(SyncDBObject.class, mapQuery);
+        transaction.deleteAll(SyncDBObject.class, mapQuery);
 
         //Clean cache. Remove images
         if(!appClass.hasItemsForSyncing())

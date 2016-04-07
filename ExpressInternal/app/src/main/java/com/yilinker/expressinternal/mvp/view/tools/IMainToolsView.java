@@ -13,8 +13,9 @@ public interface IMainToolsView {
     void openActivity(int selectedActivity);
 //    void enableSyncButton(boolean b);
 //    void openActivitySyncing();
+    void initializeReceivers();
     void showNoItemsForSyncingMessage();
-    void setItemWarningResourceId(Tools tools);
+    void setItemIndicatorResourceId(Tools tools);
     void setItemTitle(Tools tools);
     void startSyncing();
     boolean syncable();
