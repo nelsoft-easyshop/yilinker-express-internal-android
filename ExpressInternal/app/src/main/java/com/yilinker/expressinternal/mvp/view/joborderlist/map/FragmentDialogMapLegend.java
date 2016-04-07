@@ -1,14 +1,18 @@
-package com.yilinker.expressinternal.mvp.view.bulkcheckin;
+package com.yilinker.expressinternal.mvp.view.joborderlist.map;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.yilinker.expressinternal.R;
@@ -25,9 +29,33 @@ import java.util.List;
  */
 public class FragmentDialogMapLegend extends DialogFragment implements IMapLegendView {
 
+    private static final String ARG_ANCHORY = "anchorY";
+
     private MapLegendPresenter presenter;
 
     private MapLegendAdapter adapter;
+
+    private int anchorY;
+
+    public static FragmentDialogMapLegend createInstance(int anchorY){
+
+        FragmentDialogMapLegend fragment = new FragmentDialogMapLegend();
+
+        Bundle args = new Bundle();
+        args.putInt(ARG_ANCHORY, anchorY);
+
+        fragment.setArguments(args);
+
+        return fragment;
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        anchorY = getArguments().getInt(ARG_ANCHORY);
+    }
 
     @Nullable
     @Override
@@ -62,6 +90,31 @@ public class FragmentDialogMapLegend extends DialogFragment implements IMapLegen
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        Dialog dialog = getDialog();
+
+        if(dialog != null){
+
+            Window window = dialog.getWindow();
+            WindowManager.LayoutParams params = window.getAttributes();
+
+            window.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            params.height = height;
+            params.width = width;
+
+            params.y = anchorY;
+
+            window.setAttributes(params);
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -71,7 +124,7 @@ public class FragmentDialogMapLegend extends DialogFragment implements IMapLegen
     @Override
     public void loadItems(List<MapLegendItem> items) {
 
-
+        adapter.clearAndAddAll(items);
     }
 
     private void initializeViews(View parent){
@@ -95,7 +148,7 @@ public class FragmentDialogMapLegend extends DialogFragment implements IMapLegen
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager.setAutoMeasureEnabled(true);
 
-        MapLegendAdapter adapter = new MapLegendAdapter();
+        adapter = new MapLegendAdapter();
 
         rvItems.setLayoutManager(layoutManager);
         rvItems.setAdapter(adapter);
@@ -104,14 +157,14 @@ public class FragmentDialogMapLegend extends DialogFragment implements IMapLegen
 
     private String[] getTitles(){
 
-        String[] titles = getActivity().getResources().getStringArray(R.array.jobs_type_items);
+        String[] titles = getActivity().getResources().getStringArray(R.array.maplegend_title);
 
         return titles;
     }
 
     private int[] getResourceId(){
 
-        TypedArray typedArray = getActivity().getResources().obtainTypedArray(R.array.main_tab_icons_selected);
+        TypedArray typedArray = getActivity().getResources().obtainTypedArray(R.array.maplegend_icons);
 
         int[] resourceIds = convertTypedArrayToIntArray(typedArray);
 

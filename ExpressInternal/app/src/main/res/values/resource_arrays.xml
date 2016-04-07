@@ -92,18 +92,25 @@
     </string-array>
 
     <string-array name="maplegend_title">
-        <string name="maplegend_forpickup">For Pickup</string>
-        <string name="maplegend_fordelivery">For Delivery</string>
-        <string name="maplegend_you">You</string>
-        <string name="maplegend_problematic">Problematic</string>
-        <string name="maplegend_warehouse">Warehouse</string>
-        <string name="maplegend_branch">Branch</string>
-        <string name="maplegend_dropoff">Drop Off</string>
-        <string name="maplegend_forclaiming">For Claiming</string>
+        <item>@string/maplegend_forpickup</item>
+        <item>@string/maplegend_fordelivery</item>
+        <item>@string/maplegend_you</item>
+        <item>@string/maplegend_problematic</item>
+        <item>@string/maplegend_warehouse</item>
+        <item>@string/maplegend_branch</item>
+        <item>@string/maplegend_dropoff</item>
+        <item>@string/maplegend_forclaiming</item>
     </string-array>
 
     <string-array name="maplegend_icons">
-
+        <item>@drawable/pin_joborder_pickup_2</item>
+        <item>@drawable/pin_joborder_delivery_2</item>
+        <item>@drawable/pin_rider_2</item>
+        <item>@drawable/pin_joborder_problematic_2</item>
+        <item>@drawable/pin_warehouse_2</item>
+        <item>@drawable/pin_branch_2</item>
+        <item>@drawable/pin_joborder_pickup_2</item>
+        <item>@drawable/pin_joborder_pickup_2</item>
     </string-array>
 
 </resources>

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -92,6 +93,7 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
         }
 
+        initializeView(view);
         initializeJobsAdapter();
 
         presenter.setModel((ArrayList) getArguments().getParcelableArrayList(ARG_JOBS));
@@ -104,7 +106,7 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
         super.onResume();
         mapView.onResume();
 
-        zoomMap(10, 14.123121, 121.123424);
+//        zoomMap(10, 14.123121, 121.123424);
 
     }
 
@@ -277,5 +279,30 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
     private void setupMap(){
 
 
+    }
+
+    private void initializeView(View parent){
+
+        ImageView btnLegend = (ImageView) parent.findViewById(R.id.btnLegend);
+
+        btnLegend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showMapLegend(v);
+            }
+        });
+    }
+
+    private void showMapLegend(View anchor){
+
+        int[] location = new int[2];
+        anchor.getLocationOnScreen(location);
+
+        location[1] = location[1] - anchor.getHeight();
+
+        FragmentDialogMapLegend dialog = FragmentDialogMapLegend.createInstance(location[1]);
+
+        dialog.show(getChildFragmentManager(), "legend");
     }
 }
