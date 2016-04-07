@@ -325,12 +325,17 @@
 
     <!--Tools-->
     <string name="tools_title">Express Tools</string>
-    <string name="tools_search_qr">Search by QR Code</string>
-    <string name="tools_bulk_checkin">Bulk Check In</string>
-    <string name="tools_direct_acknowledge">Direct Acknowledge</string>
-    <string name="tools_cash_turnover">Cash Turnover</string>
+    <string name="tools_search_qr">Search by\nQR Code</string>
+    <string name="tools_bulk_checkin">Bulk\nCheck In</string>
+    <string name="tools_direct_acknowledge">Direct\nAcknowledge</string>
+    <string name="tools_cash_turnover">Cash\nTurnover</string>
     <string name="tools_sync">Sync</string>
     <string name="tools_bank_information">Bank Information</string>
+    <string name="tools_syncing">Syncing</string>
+
+    <!--Bulk Check In-->
+    <string name="bulk_check_in">Bulk Check In</string>
+
 
     <!--Main Screen-->
     <string name="tab_jobs">JOBS</string>
