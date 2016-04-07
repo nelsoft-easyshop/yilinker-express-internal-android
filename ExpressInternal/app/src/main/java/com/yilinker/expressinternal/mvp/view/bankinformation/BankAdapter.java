@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.mvp.adapter.ListRecyclerViewAdapter;
 import com.yilinker.expressinternal.mvp.model.BankInformation;
-import com.yilinker.expressinternal.mvp.presenter.bankinformation.BankInformationPresenter;
 import com.yilinker.expressinternal.mvp.presenter.bankinformation.BankPresenter;
 
 /**

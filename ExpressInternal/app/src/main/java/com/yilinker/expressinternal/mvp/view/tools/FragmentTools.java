@@ -23,6 +23,7 @@ import com.yilinker.expressinternal.mvp.model.Tools;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.tools.MainToolsPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.bankinformation.ActivityBankInformation;
 import com.yilinker.expressinternal.mvp.view.cashManagement.ActivityCashManagement;
 
 import java.util.List;
@@ -178,6 +179,11 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
                 presenter.openActivitySync(hasForSyncing);
 
                 break;
+
+            case 5:
+
+                intent = new Intent(getActivity(), ActivityBankInformation.class);
+                startActivity(intent);
         }
 
 
