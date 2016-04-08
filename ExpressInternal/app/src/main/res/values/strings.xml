@@ -421,6 +421,7 @@
     <string name="bulkcheckin_status">Status</string>
     <string name="bulkcheckin_success">Success</string>
     <string name="bulkcheckin_failed">Failed</string>
+    <string name="bulkcheckin_submitting">Submitting...</string>
 
     <!-- Map Legend-->
     <string name="maplegend_forpickup">For Pickup</string>

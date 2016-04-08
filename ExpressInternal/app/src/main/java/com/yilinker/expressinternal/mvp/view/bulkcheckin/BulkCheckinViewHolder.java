@@ -50,7 +50,7 @@ public class BulkCheckinViewHolder extends BaseViewHolder<BulkCheckinItemPresent
         }
         else {
 
-            text = "-";
+            text = resources.getString(R.string.bulkcheckin_submitting);
         }
 
         tvStatus.setText(text);
