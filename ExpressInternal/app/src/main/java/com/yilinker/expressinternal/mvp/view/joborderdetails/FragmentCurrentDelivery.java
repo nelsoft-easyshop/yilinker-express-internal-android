@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDeliveryJobPresenter;
@@ -18,6 +21,7 @@ import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 import com.yilinker.expressinternal.mvp.view.reportproblematic.ActivityReportProblematic;
 import com.yilinker.expressinternal.mvp.view.checklist.ActivityChecklist;
 
+import java.util.List;
 /**
  * Created by J.Bautista on 3/8/16.
  */
@@ -27,6 +31,9 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
 
     private CurrentDeliveryJobPresenter presenter;
 
+    private LinearLayout llButtons;
+
+    private TextView tvSync;
     private TextView tvStatus;
     private TextView tvWaybillNo;
     private TextView tvDateCreated;
@@ -96,6 +103,9 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
     @Override
     public void initializeViews(View parent) {
 
+        llButtons = (LinearLayout) parent.findViewById(R.id.llButtons);
+
+        tvSync = (TextView) parent.findViewById(R.id.tvSync);
         tvStatus = (TextView) parent.findViewById(R.id.tvStatus);
         tvDateAccepted = (TextView) parent.findViewById(R.id.tvDateAccepted);
         tvDateCreated = (TextView) parent.findViewById(R.id.tvDateCreated);
@@ -189,6 +199,32 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
     }
 
     @Override
+    public boolean ifUpdated(String jobOrderNo) {
+
+        SyncDBTransaction<SyncDBObject> dbTransaction = new SyncDBTransaction<>(getActivity());
+        List<SyncDBObject> dbObjects =  dbTransaction.getAll(SyncDBObject.class);
+
+        for (SyncDBObject object : dbObjects) {
+
+            if (object.getId().equals(jobOrderNo) && !object.isSync()) {
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public void showOutdated() {
+
+        tvSync.setVisibility(View.VISIBLE);
+        llButtons.setAlpha(0.5f);
+
+    }
+
+    @Override
     public void setWaybillNoText(String waybillNo) {
 
         tvWaybillNo.setText(waybillNo);
@@ -257,11 +293,23 @@ public class FragmentCurrentDelivery extends BaseFragment implements ICurrentDel
         switch(v.getId()) {
 
             case R.id.btnPositive:
-                presenter.openDeliveryChecklist();
+
+                if (llButtons.getAlpha() == 1.0) {
+
+                    presenter.openDeliveryChecklist();
+
+                }
+
                 break;
 
             case R.id.btnNegative:
-                presenter.openProblematicOptions();
+
+                if (llButtons.getAlpha() == 1.0) {
+
+                    presenter.openProblematicOptions();
+
+                }
+
                 break;
 
         }

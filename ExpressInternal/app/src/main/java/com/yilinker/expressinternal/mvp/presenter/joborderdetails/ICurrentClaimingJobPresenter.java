@@ -10,5 +10,7 @@ public interface ICurrentClaimingJobPresenter {
     void claimJobOrder();
     void reportOutOfStock();
     void doOfflineCompletion();
+    void sync(boolean syncable, boolean isConnected);
+    void onSync(boolean restartMain);
 
 }
