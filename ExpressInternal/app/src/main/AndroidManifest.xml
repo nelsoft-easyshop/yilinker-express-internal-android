@@ -111,7 +111,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
 
-
         <activity android:name=".mvp.view.reportproblematic.ActivityReportProblematic"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -121,6 +120,12 @@
         <activity android:name=".mvp.view.login.ActivityOngoingAccreditation"
             android:screenOrientation="portrait"
             android:theme="@style/AppDialogTheme">
+        </activity>
+
+        <activity android:name=".mvp.view.bankinformation.ActivityBankInformation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" >
+
         </activity>
 
         <activity
