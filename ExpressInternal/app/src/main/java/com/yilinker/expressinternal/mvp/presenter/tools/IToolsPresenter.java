@@ -13,7 +13,9 @@ public interface IToolsPresenter {
     void onToolSelected(int position);
 //    void hasItemsForSyncing(boolean hasForSyncing);
 //    void openActivitySync(boolean hasForSyncing);
-    void setIndicator(int position, int resource);
-    void changeItemTitle(int position, String title);
+//    void setIndicator(int position, int resource);
+//    void changeItemTitle(int position, String title);
+    void doIfSyncable(boolean syncable, boolean syncing, boolean isConnected);
+    void updateSyncItem();
 
 }

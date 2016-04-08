@@ -20,6 +20,10 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
     @Override
     public void cancelRequests(List<String> tags) {
 
+        if(tags == null){
+            return;
+        }
+
         ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
         RequestQueue queue = applicationClass.getRequestQueue();
 

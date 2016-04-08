@@ -60,7 +60,7 @@ public class ToolsViewHolder extends BaseViewHolder<ToolsPresenter> implements V
     }
 
     @Override
-    public void setWarningIcon(int resource) {
+    public void setIndicatorIcon(int resource) {
 
         ivIndicator.setVisibility(resource == 0 ? View.GONE : View.VISIBLE);
         ivIndicator.setImageResource(resource);

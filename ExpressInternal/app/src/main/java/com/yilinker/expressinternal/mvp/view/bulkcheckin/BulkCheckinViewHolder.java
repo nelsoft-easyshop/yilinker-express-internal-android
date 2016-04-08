@@ -36,12 +36,14 @@ public class BulkCheckinViewHolder extends BaseViewHolder<BulkCheckinItemPresent
 
         Resources resources = itemView.getResources();
         String text = null;
+        int color = R.color.orange_red;
 
         if(isProcessed){
 
             if (isCheckedIn) {
 
                 text = resources.getString(R.string.bulkcheckin_success);
+                color = R.color.blue_green;
             } else {
 
                 text = resources.getString(R.string.bulkcheckin_failed);
@@ -54,5 +56,8 @@ public class BulkCheckinViewHolder extends BaseViewHolder<BulkCheckinItemPresent
         }
 
         tvStatus.setText(text);
+
+        //Set color
+        tvStatus.setTextColor(itemView.getResources().getColor(color));
     }
 }

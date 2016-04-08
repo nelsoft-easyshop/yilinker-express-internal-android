@@ -15,6 +15,7 @@ public class TabItem {
     private boolean isSelected;
     private int resourceIcon;
     private int selectedIcon;
+    private int indicatorIcon;
 
     public int getId() {
         return id;
@@ -56,4 +57,13 @@ public class TabItem {
     public void setSelectedIcon(int selectedIcon) {
         this.selectedIcon = selectedIcon;
     }
+
+    public int getIndicatorIcon() {
+        return indicatorIcon;
+    }
+
+    public void setIndicatorIcon(int indicatorIcon) {
+        this.indicatorIcon = indicatorIcon;
+    }
+
 }

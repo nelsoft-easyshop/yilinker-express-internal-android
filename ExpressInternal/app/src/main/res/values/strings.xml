@@ -330,6 +330,7 @@
     <string name="tools_direct_acknowledge">Direct\nAcknowledge</string>
     <string name="tools_cash_turnover">Cash\nTurnover</string>
     <string name="tools_sync">Sync</string>
+    <string name="tools_bank_information">Bank Information</string>
     <string name="tools_syncing">Syncing</string>
 
     <!--Bulk Check In-->
@@ -406,7 +407,7 @@
     <string name="package_maximum_weight_error">Weight should be less than 1,000,000 kg</string>
 
     <string name="complete_jo_good_job">Good Job!</string>
-    <string name="complete_jo_congratulation">Congratulations, you have\n earned the amount below for\n completing thing this job</string>
+    <string name="complete_jo_congratulation">Congratulations, you have\n earned the amount below for\n completing this job</string>
     <string name="complete_jo_congratulation_2">Congratulations, your earning will be updated after syncing.</string>
     <string name="complete_jo_offline">You are offline</string>
     <string name="complete_jo_wow">Wow</string>
@@ -422,6 +423,7 @@
     <string name="bulkcheckin_success">Success</string>
     <string name="bulkcheckin_failed">Failed</string>
     <string name="bulkcheckin_submitting">Submitting...</string>
+    <string name="bulkcheckin_placecode">Place code inside frame below</string>
 
     <!-- Map Legend-->
     <string name="maplegend_forpickup">For Pickup</string>
@@ -432,6 +434,10 @@
     <string name="maplegend_branch">Branch</string>
     <string name="maplegend_dropoff">Drop Off</string>
     <string name="maplegend_forclaiming">For Claiming</string>
+
+    <string name="bank_information_bank_name">Bank Name</string>
+    <string name="bank_information_account_name">Account Name</string>
+    <string name="bank_information_account_number">Account Number</string>
 
 </resources>
 

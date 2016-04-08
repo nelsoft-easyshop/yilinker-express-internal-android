@@ -33,6 +33,7 @@ public class MainScreenPresenter extends BasePresenter<List<TabItem>, IMainView>
             tab = new TabItem();
             tab.setId(i);
             tab.setResourceIcon(tabIcons[i]);
+            tab.setIndicatorIcon(0);
             tab.setSelected(i == 0);
             tab.setTitle(tabTitles[i]);
             tab.setSelectedIcon(selectedTabIcons[i]);
@@ -62,4 +63,13 @@ public class MainScreenPresenter extends BasePresenter<List<TabItem>, IMainView>
 
         updateView();
     }
+
+    @Override
+    public void setAvailableIndicators() {
+
+        //For tools tab
+        view().setTabIndicator(tabs.get(1), view().syncable());
+
+    }
+
 }

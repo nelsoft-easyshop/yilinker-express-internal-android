@@ -13,7 +13,14 @@ public interface IMainToolsView {
     void openActivity(int selectedActivity);
 //    void enableSyncButton(boolean b);
 //    void openActivitySyncing();
-//    void showNoItemsForSyncingMessage();
-    void updateSyncItem();
+    void initializeReceivers();
+    void showNoItemsForSyncingMessage();
+    void setItemIndicatorResourceId(Tools tools);
+    void setItemTitle(Tools tools);
+    void startSyncing();
+    boolean syncable();
+    void updateItem(Tools tools);
+    void showNoInternetConnection();
+    void showSyncingOnProgress();
 
 }

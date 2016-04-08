@@ -51,6 +51,16 @@
             android:layout_toLeftOf="@id/rightView"
             android:layout_toRightOf="@id/leftView"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="@color/gray7"
+            android:layout_above="@id/ivFocusArea"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="@string/bulkcheckin_placecode"/>
+
     </RelativeLayout>
 
     <LinearLayout

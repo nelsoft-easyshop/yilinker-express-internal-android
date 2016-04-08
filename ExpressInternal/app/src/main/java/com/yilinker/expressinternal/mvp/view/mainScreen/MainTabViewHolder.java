@@ -17,12 +17,14 @@ public class MainTabViewHolder extends BaseViewHolder<MainTabPresenter> implemen
 
     private TabItemClickListener listener;
     private ImageView ivTabIcon;
+    private ImageView ivTabIndicator;
     private TextView tvTabTitle;
 
     public MainTabViewHolder(View itemView, TabItemClickListener listener) {
         super(itemView);
 
         this.ivTabIcon = (ImageView) itemView.findViewById(R.id.ivTabIcon);
+        this.ivTabIndicator = (ImageView) itemView.findViewById(R.id.ivTabIndicator);
         this.tvTabTitle = (TextView) itemView.findViewById(R.id.tvTabTitle);
         this.listener = listener;
 
@@ -64,5 +66,19 @@ public class MainTabViewHolder extends BaseViewHolder<MainTabPresenter> implemen
     public void showSelected(TabItem tab) {
 
         listener.onTabItemClick(tab.getId());
+    }
+
+    @Override
+    public void showIndicator(boolean show) {
+
+        ivTabIndicator.setVisibility(show ? View.VISIBLE : View.GONE);
+
+    }
+
+    @Override
+    public void setIndicator(int resource) {
+
+        ivTabIndicator.setImageResource(resource);
+
     }
 }

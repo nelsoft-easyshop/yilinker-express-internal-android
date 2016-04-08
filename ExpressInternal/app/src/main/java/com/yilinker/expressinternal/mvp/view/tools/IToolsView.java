@@ -12,6 +12,6 @@ public interface IToolsView {
     void setTitle(String title);
     void setIcon(int resourceIcon);
     void showSelected(Tools tool);
-    void setWarningIcon(int resource);
+    void setIndicatorIcon(int resource);
 
 }
