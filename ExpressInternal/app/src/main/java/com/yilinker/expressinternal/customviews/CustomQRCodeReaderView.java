@@ -188,6 +188,9 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
     private SurfaceHolder mHolder;
     private CameraManager mCameraManager;
 
+    private Camera.Size mPreviewSize;
+    private List<Camera.Size> mSupportedPreviewSizes;
+
     public CustomQRCodeReaderView(Context context) {
         super(context);
         init();
@@ -214,6 +217,7 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
             mHolder = this.getHolder();
             mHolder.addCallback(this);
             mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);  // Need to set this flag despite it's deprecated
+
         } else {
             Log.e(TAG, "Error: Camera not found");
             mOnQRCodeReadListener.cameraNotFound();
@@ -289,7 +293,19 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
+        final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
+        setMeasuredDimension(width, height);
+
+
+
+        if (mSupportedPreviewSizes != null) {
+            mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
+        }
+    }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -303,7 +319,7 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
         //preview_width = width;
         //preview_height = height;
 
-        setCameraPreviewSize(this.getHeight(), this.getWidth());
+//        setCameraPreviewSize(mPreviewHeight, mPreviewWidth);
 
         mPreviewWidth = mCameraManager.getPreviewSize().x;
         mPreviewHeight = mCameraManager.getPreviewSize().y;
@@ -376,11 +392,7 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
 
         Camera.Parameters parameters = camera.getParameters();
 
-        List<Camera.Size> sizes = parameters.getSupportedPreviewSizes();
-
-        Camera.Size size = getOptimalPreviewSize(sizes, width, height);
-
-        parameters.setPreviewSize(size.width, size.height);
+        parameters.setPreviewSize(width, height);
 
         camera.setParameters(parameters);
 
@@ -388,8 +400,40 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
 
 
     private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+//        final double ASPECT_TOLERANCE = 0.05;
+//        double targetRatio = (double) w/h;
+//
+//        if (sizes==null) return null;
+//
+//        Camera.Size optimalSize = null;
+//
+//        double minDiff = Double.MAX_VALUE;
+//
+//        int targetHeight = h;
+//
+//        // Find size
+//        for (Camera.Size size : sizes) {
+//            double ratio = (double) size.width / size.height;
+//            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
+//            if (Math.abs(size.height - targetHeight) < minDiff) {
+//                optimalSize = size;
+//                minDiff = Math.abs(size.height - targetHeight);
+//            }
+//        }
+//
+//        if (optimalSize == null) {
+//            minDiff = Double.MAX_VALUE;
+//            for (Camera.Size size : sizes) {
+//                if (Math.abs(size.height - targetHeight) < minDiff) {
+//                    optimalSize = size;
+//                    minDiff = Math.abs(size.height - targetHeight);
+//                }
+//            }
+//        }
+//        return optimalSize;
+
         final double ASPECT_TOLERANCE = 0.05;
-        double targetRatio = (double) w/h;
+        double targetRatio = (double) h/w;
 
         if (sizes==null) return null;
 
@@ -401,7 +445,7 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
 
         // Find size
         for (Camera.Size size : sizes) {
-            double ratio = (double) size.width / size.height;
+            double ratio = (double) size.height / size.width;
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
             if (Math.abs(size.height - targetHeight) < minDiff) {
                 optimalSize = size;
@@ -419,6 +463,7 @@ public class CustomQRCodeReaderView extends SurfaceView implements SurfaceHolder
             }
         }
         return optimalSize;
+
     }
 }
 

@@ -108,6 +108,8 @@ public class FragmentDialogMapLegend extends DialogFragment implements IMapLegen
             params.height = height;
             params.width = width;
 
+            params.dimAmount = 0;
+
             params.y = anchorY;
 
             window.setAttributes(params);
