@@ -17,6 +17,10 @@ public interface ICurrentDeliveryJobView extends IJobDetailsView {
     void openChecklistDelivery(JobOrder jobOrder);
     void openProblematicOptions(String jobOrderNo);
     boolean ifUpdated(String jobOrderNo);
-    void showOutdated();
+    void showSyncStatus(boolean updated);
+    void startSyncService();
+    void initializeReceivers();
+    void showNoInternetConnection();
+    void restartMain();
 
 }

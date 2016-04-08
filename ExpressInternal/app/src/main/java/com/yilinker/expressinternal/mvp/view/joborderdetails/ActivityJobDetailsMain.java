@@ -218,6 +218,8 @@ public class ActivityJobDetailsMain extends BaseFragmentActivity implements IJob
             btnContact.setVisibility(View.GONE);
         } else if (status.equalsIgnoreCase(getString(R.string.joborderdetail_problematic))) {
             btnPrint.setVisibility(View.GONE);
+        } else if (status.equalsIgnoreCase(getString(R.string.jobstatus_for_claiming))) {
+            btnContact.setVisibility(View.GONE);
         }
 
     }
