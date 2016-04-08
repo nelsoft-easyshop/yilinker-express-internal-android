@@ -42,9 +42,7 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
         view().setContactNumberLabel(model.getShipperContactNo());
         view().setItemLabel(getItems());
 
-        if (!view().ifUpdated(model.getJobOrderNo())) {
-            view().showOutdated();
-        }
+        view().initializeReceivers();
 
     }
 
@@ -98,6 +96,17 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
     }
 
     @Override
+    public void onSync(boolean restartMain) {
+
+        view().showSyncStatus(view().ifUpdated(model.getJobOrderNo()));
+
+        if (restartMain) {
+            view().restartMain();
+        }
+
+    }
+
+    @Override
     public void startTimer() {
 
         isTimerAvailable = true;
@@ -142,6 +151,21 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
 
         view().startClaimService(createPackage());
         view().goToCompleteScreen(model, true);
+
+    }
+
+    @Override
+    public void sync(boolean syncable, boolean isConnected) {
+
+        if (syncable && isConnected) {
+
+            view().startSyncService();
+
+        } else if (syncable) {
+
+            view().showNoInternetConnection();
+
+        }
 
     }
 
