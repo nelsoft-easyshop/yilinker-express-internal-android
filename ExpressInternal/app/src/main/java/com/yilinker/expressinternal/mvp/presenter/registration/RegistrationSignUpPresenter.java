@@ -7,9 +7,7 @@ import com.yilinker.core.model.Login;
 import com.yilinker.core.model.OAuthentication;
 import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.constants.APIConstant;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
-import com.yilinker.expressinternal.mvp.presenter.registration.IRegistrationSignUpPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.registration.IActivityRegistrationSignUpView;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
-package com.yilinker.expressinternal.mvp.view;
+package com.yilinker.expressinternal.mvp.view.base;
 
 import android.app.Fragment;
-import android.os.Bundle;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,6 +23,10 @@ public abstract class BaseFragment extends Fragment implements RequestBaseView {
 
     @Override
     public void cancelRequests(List<String> tags) {
+
+        if(tags == null){
+            return;
+        }
 
         ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
         RequestQueue queue = applicationClass.getRequestQueue();

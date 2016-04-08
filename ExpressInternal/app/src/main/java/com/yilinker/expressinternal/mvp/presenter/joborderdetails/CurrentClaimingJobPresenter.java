@@ -10,7 +10,7 @@ import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.Package;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentClaimingJobView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 

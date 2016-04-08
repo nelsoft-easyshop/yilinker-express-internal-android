@@ -330,6 +330,7 @@
     <string name="tools_direct_acknowledge">Direct\nAcknowledge</string>
     <string name="tools_cash_turnover">Cash\nTurnover</string>
     <string name="tools_sync">Sync</string>
+    <string name="tools_bank_information">Bank Information</string>
     <string name="tools_syncing">Syncing</string>
 
     <!--Bulk Check In-->
@@ -414,6 +415,29 @@
     <!-- Checklist-->
     <string name="completing_delivery">Completing Delivery...</string>
     <string name="completing_pickup">Completing Pickup...</string>
+    
+    <!-- QR Code Scanner-->
+    <string name="bulk_checkin_scanqrcode">Scan QR Code</string>
+    <string name="bulkcheckin_waybillno">Waybill Number</string>
+    <string name="bulkcheckin_status">Status</string>
+    <string name="bulkcheckin_success">Success</string>
+    <string name="bulkcheckin_failed">Failed</string>
+    <string name="bulkcheckin_submitting">Submitting...</string>
+    <string name="bulkcheckin_placecode">Place code inside frame below</string>
+
+    <!-- Map Legend-->
+    <string name="maplegend_forpickup">For Pickup</string>
+    <string name="maplegend_fordelivery">For Delivery</string>
+    <string name="maplegend_you">You</string>
+    <string name="maplegend_problematic">Problematic</string>
+    <string name="maplegend_warehouse">Warehouse</string>
+    <string name="maplegend_branch">Branch</string>
+    <string name="maplegend_dropoff">Drop Off</string>
+    <string name="maplegend_forclaiming">For Claiming</string>
+
+    <string name="bank_information_bank_name">Bank Name</string>
+    <string name="bank_information_account_name">Account Name</string>
+    <string name="bank_information_account_number">Account Number</string>
 
 </resources>
 

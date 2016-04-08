@@ -1,11 +1,8 @@
 package com.yilinker.expressinternal.mvp.presenter.checklist;
 
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistMainView;
-import com.yilinker.expressinternal.mvp.view.confirmpackage.IConfirmPackageView;
 
 /**
  * Created by J.Bauti on 3/22/16.

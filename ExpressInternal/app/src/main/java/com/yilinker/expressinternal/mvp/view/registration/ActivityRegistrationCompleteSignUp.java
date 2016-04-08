@@ -12,10 +12,9 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.login.ActivityLogin;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.registration.RegistrationCompleteSignUpPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseActivity;
-import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
+import com.yilinker.expressinternal.mvp.view.base.BaseActivity;
 
 /**
  * Created by Patrick on 3/8/2016.

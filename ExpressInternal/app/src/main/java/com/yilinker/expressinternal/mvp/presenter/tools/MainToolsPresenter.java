@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.tools;
 
 import com.yilinker.expressinternal.mvp.model.Tools;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.tools.IMainToolsView;
 
 import java.util.ArrayList;

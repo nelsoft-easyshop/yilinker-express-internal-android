@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.confirmpackage;
 
 import com.yilinker.expressinternal.mvp.model.PackageType;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.confirmpackage.PackageTypeViewHolder;
 
 /**

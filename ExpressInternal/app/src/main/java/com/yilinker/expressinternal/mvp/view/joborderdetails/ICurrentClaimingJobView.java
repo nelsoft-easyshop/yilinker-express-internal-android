@@ -1,8 +1,8 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
 import com.yilinker.expressinternal.mvp.model.Package;
+import com.yilinker.expressinternal.mvp.view.base.RequestBaseView;
 
 /**
  * Created by jaybryantc on 4/4/16.

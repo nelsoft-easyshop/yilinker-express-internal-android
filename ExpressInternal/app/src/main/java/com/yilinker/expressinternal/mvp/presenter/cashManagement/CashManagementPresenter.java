@@ -1,22 +1,13 @@
 package com.yilinker.expressinternal.mvp.presenter.cashManagement;
 
-import android.nfc.tech.TagTechnology;
-
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.yilinker.core.api.RiderAPI;
-import com.yilinker.core.interfaces.ResponseHandler;
-import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.model.CashDetail;
-import com.yilinker.expressinternal.model.CashHistory;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.cashManagement.ICashManagementView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

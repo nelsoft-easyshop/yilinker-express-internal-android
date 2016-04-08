@@ -3,7 +3,7 @@ package com.yilinker.expressinternal.mvp.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;

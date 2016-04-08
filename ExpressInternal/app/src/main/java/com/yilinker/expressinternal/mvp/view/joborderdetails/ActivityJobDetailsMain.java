@@ -15,9 +15,9 @@ import com.yilinker.expressinternal.controllers.navigation.ActivityNavigation;
 import com.yilinker.expressinternal.controllers.printer.FragmentDialogPrinterList;
 import com.yilinker.expressinternal.controllers.qrcode.ActivityQRCode;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.JobDetailsMainPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 
 import java.util.ArrayList;
 import java.util.List;

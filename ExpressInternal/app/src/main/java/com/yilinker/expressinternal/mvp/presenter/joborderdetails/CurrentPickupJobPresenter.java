@@ -6,13 +6,9 @@ import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.DateUtility;
-import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ICurrentPickupJobView;
-import com.yilinker.expressinternal.mvp.view.joborderlist.list.JobsViewHolder;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
 import java.util.ArrayList;

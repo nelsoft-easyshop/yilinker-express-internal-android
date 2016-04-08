@@ -17,9 +17,9 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentClaimingJobPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 import com.yilinker.expressinternal.service.ServicePickupChecklist;
 import com.yilinker.expressinternal.mvp.model.Package;
 

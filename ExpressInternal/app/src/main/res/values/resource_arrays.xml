@@ -29,6 +29,7 @@
         <item name="tool_image_direct_acknowledge">@drawable/ic_direct_acknowledge</item>
         <item name="tool_image_cash_turnover">@drawable/ic_cash_turnover</item>
         <item name="tool_sync">@drawable/ic_sync</item>
+        <item name = "tools_bank_information">@drawable/ic_bank_information</item>
     </string-array>
 
     <string-array name="array_menu_items">
@@ -89,6 +90,29 @@
         <item name="tool_direct_acknowledge">@string/tools_direct_acknowledge</item>
         <item name="tool_cash_turnover">@string/tools_cash_turnover</item>
         <item name="tool_sync">@string/tools_sync</item>
+        <item name = "tools_bank">@string/tools_bank_information</item>
+    </string-array>
+
+    <string-array name="maplegend_title">
+        <item>@string/maplegend_forpickup</item>
+        <item>@string/maplegend_fordelivery</item>
+        <item>@string/maplegend_you</item>
+        <item>@string/maplegend_problematic</item>
+        <item>@string/maplegend_warehouse</item>
+        <item>@string/maplegend_branch</item>
+        <item>@string/maplegend_dropoff</item>
+        <item>@string/maplegend_forclaiming</item>
+    </string-array>
+
+    <string-array name="maplegend_icons">
+        <item>@drawable/pin_joborder_pickup_2</item>
+        <item>@drawable/pin_joborder_delivery_2</item>
+        <item>@drawable/pin_rider_2</item>
+        <item>@drawable/pin_joborder_problematic_2</item>
+        <item>@drawable/pin_warehouse_2</item>
+        <item>@drawable/pin_branch_2</item>
+        <item>@drawable/pin_joborder_pickup_2</item>
+        <item>@drawable/pin_joborder_pickup_2</item>
     </string-array>
 
 </resources>

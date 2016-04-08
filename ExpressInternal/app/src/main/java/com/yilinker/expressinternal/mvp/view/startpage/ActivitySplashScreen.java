@@ -8,8 +8,7 @@ import android.view.View;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
-import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityCompleteJODetails;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 /**

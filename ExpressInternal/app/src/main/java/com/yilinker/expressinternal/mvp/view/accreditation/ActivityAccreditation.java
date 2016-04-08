@@ -18,19 +18,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.yilinker.core.customview.CustomLinearLayoutManager;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.AccreditationConstant;
 import com.yilinker.expressinternal.controllers.login.ActivityLogin;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.mvp.model.AccreditationRequirement;
 import com.yilinker.expressinternal.mvp.model.ButtonRequirementImage;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.accreditation.AccreditationPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 import com.yilinker.expressinternal.mvp.view.accreditation.button.DialogImagePreview;
 import com.yilinker.expressinternal.mvp.view.accreditation.button.IButtonRequirementListener;
+import com.yilinker.expressinternal.mvp.view.login.ActivityOngoingAccreditation;
 
 import java.util.List;
 
@@ -213,6 +214,22 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        //temp Clear tokens
+        ApplicationClass.getInstance().deleteTokens();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //temp Clear tokens
+        ApplicationClass.getInstance().deleteTokens();
+    }
+
+    @Override
     public void goToLoginScreen() {
 
         Intent intent = new Intent(ActivityAccreditation.this, ActivityLogin.class);
@@ -357,6 +374,14 @@ public class ActivityAccreditation extends BaseFragmentActivity implements IAccr
 
         btnSave.setText(text);
         invisibleLoader.setVisibility(visibility);
+
+    }
+
+    @Override
+    public void goToConfirmation() {
+
+        Intent goToOngoing = new Intent(ActivityAccreditation.this, ActivityOngoingAccreditation.class);
+        startActivity(goToOngoing);
 
     }
 

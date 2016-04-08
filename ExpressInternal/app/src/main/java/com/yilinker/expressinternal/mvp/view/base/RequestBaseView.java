@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view;
+package com.yilinker.expressinternal.mvp.view.base;
 
 import android.view.View;
 

@@ -14,10 +14,9 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
-import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentDropoffJobPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentProblematicJobPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;

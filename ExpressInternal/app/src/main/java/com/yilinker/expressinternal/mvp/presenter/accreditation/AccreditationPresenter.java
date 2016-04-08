@@ -5,7 +5,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.android.volley.Request;
-import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.core.api.express.AccreditationApi;
 import com.yilinker.core.model.express.internal.request.Accreditation;
 import com.yilinker.core.utility.ImageUtility;
@@ -13,9 +12,7 @@ import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.constants.AccreditationConstant;
 import com.yilinker.expressinternal.mvp.model.AccreditationInformation;
 import com.yilinker.expressinternal.mvp.model.AccreditationRequirement;
-import com.yilinker.expressinternal.mvp.model.AccreditationRequirementData;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.accreditation.IAccreditationView;
 
 import org.json.JSONArray;
@@ -24,9 +21,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -284,6 +278,7 @@ public class AccreditationPresenter extends RequestPresenter<AccreditationInform
     private void handleSubmitAccreditationResponse(String message){
 
         view().showErrorMessage(message);
+        view().goToConfirmation();
         //Show success message here
     }
 

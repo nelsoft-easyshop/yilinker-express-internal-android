@@ -2,11 +2,10 @@ package com.yilinker.expressinternal.mvp.presenter.images;
 
 import android.net.Uri;
 
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.images.IImageGalleryView;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

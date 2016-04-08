@@ -2,16 +2,10 @@ package com.yilinker.expressinternal.mvp.presenter.checklist;
 
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
-import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
-import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.*;
 import com.yilinker.expressinternal.mvp.model.Package;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.checklist.IChecklistPickupView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by J.Bautista on 3/22/16.

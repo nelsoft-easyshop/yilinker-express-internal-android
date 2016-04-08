@@ -1,9 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.profile;
 
-import android.view.View;
-
 import com.yilinker.expressinternal.mvp.model.Languages;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.profile.FragmentProfile;
 
 import java.util.ArrayList;

@@ -1,15 +1,12 @@
 package com.yilinker.expressinternal.mvp.view.checklist;
 
-import android.app.Fragment;
 import android.content.res.Resources;
-import android.os.Bundle;
 
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistBasePresenter;
-import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistPickupPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 
 /**
  * Created by wagnavu on 3/23/16.

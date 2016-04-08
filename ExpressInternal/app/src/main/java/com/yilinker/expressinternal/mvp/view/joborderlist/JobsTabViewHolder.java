@@ -8,8 +8,7 @@ import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
 import com.yilinker.expressinternal.mvp.model.TabItem;
 import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobsTabPresenter;
-import com.yilinker.expressinternal.mvp.presenter.mainScreen.MainTabPresenter;
-import com.yilinker.expressinternal.mvp.view.ITabView;
+import com.yilinker.expressinternal.mvp.view.base.ITabView;
 
 /**
  * Created by J.Bautista on 3/3/16.

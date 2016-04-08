@@ -12,9 +12,9 @@ import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.interfaces.RequestOngoingListener;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.checklist.ChecklistMainPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseActivity;
 
 /**
  * Created by J.Bautista on 3/22/16.
