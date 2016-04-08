@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bulkcheckin_item_height"
+    >
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:id="@+id/tvWaybillNo"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="@string/bulkcheckin_waybillno"
+        android:textColor="@color/warm_gray"
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/bulkcheckin_status"
+        android:textColor="@color/orange_red"
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        android:textAllCaps="true"
+        />
+
+</LinearLayout>
+
+    <include
+        layout="@layout/view_divider_gray5"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

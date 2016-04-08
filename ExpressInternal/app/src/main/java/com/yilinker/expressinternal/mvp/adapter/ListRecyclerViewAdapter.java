@@ -1,6 +1,6 @@
 package com.yilinker.expressinternal.mvp.adapter;
 
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.Collection;

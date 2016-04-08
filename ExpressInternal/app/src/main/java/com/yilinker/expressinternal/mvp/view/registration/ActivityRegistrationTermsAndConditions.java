@@ -2,13 +2,12 @@ package com.yilinker.expressinternal.mvp.view.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.yilinker.expressinternal.R;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 
 /**
  * Created by Patrick on 3/9/2016.

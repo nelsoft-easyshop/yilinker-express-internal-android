@@ -2,7 +2,7 @@ package com.yilinker.expressinternal.mvp.presenter.cashManagement;
 
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.model.CashHistory;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.cashManagement.CashHistoryViewHolder;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 

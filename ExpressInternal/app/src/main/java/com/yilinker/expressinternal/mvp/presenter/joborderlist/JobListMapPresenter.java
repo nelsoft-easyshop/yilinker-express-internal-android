@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderlist.map.IJobListMapView;
 
 import java.util.List;

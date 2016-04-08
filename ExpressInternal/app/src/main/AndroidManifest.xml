@@ -337,6 +337,16 @@
 
         <service android:name=".service.ServicePickupChecklist"/>
 
+        <activity
+            android:name=".mvp.view.bulkcheckin.ActivityBulkCheckin"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme" >
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
     </application>
 
 </manifest>

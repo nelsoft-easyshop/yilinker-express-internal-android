@@ -1,6 +1,6 @@
 package com.yilinker.expressinternal.mvp.view.registration;
 
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
+import com.yilinker.expressinternal.mvp.view.base.RequestBaseView;
 
 /**
  * Created by Patrick on 3/8/2016.

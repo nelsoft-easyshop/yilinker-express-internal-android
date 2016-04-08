@@ -11,7 +11,7 @@ import com.yilinker.expressinternal.business.ExpressErrorHandler;
 import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.model.PackageSize;
 import com.yilinker.expressinternal.mvp.model.PackageType;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.confirmpackage.IConfirmPackageView;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 

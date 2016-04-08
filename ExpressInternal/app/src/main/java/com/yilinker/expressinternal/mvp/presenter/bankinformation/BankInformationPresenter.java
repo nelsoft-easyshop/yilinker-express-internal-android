@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.bankinformation;
 
 import com.yilinker.expressinternal.mvp.model.BankInformation;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.bankinformation.IBankInformationView;
 
 import java.util.ArrayList;

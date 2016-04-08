@@ -3,7 +3,7 @@ package com.yilinker.expressinternal.mvp.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 
 /**
  * Created by J.Bautista on 2/22/16.

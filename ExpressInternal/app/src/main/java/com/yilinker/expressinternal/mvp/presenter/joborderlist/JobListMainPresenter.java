@@ -1,22 +1,16 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
-import android.content.Context;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
+
 import com.yilinker.core.utility.DateUtility;
-import com.yilinker.expressinternal.dao.SyncDBObject;
-import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderlist.IJobListMainView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

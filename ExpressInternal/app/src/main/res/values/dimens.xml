@@ -74,5 +74,8 @@
     <!-- Checklist-->
     <dimen name="checklist_height">280dp</dimen>
 
+    <!-- QR Code Scanner-->
+    <dimen name="qrscanner_focusarea_dimension">150dp</dimen>
+    <dimen name="bulkcheckin_item_height">50dp</dimen>
 
 </resources>

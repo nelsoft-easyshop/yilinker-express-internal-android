@@ -13,13 +13,10 @@ import android.widget.TextView;
 
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.images.ImageGalleryPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseActivity;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
-import com.yilinker.expressinternal.mvp.view.images.IImageGalleryView;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 
-import java.io.File;
 import java.util.List;
 
 /**

@@ -1,20 +1,11 @@
-package com.yilinker.expressinternal.mvp.presenter;
+package com.yilinker.expressinternal.mvp.presenter.base;
 
 import android.util.SparseArray;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.yilinker.core.api.RiderAPI;
-import com.yilinker.core.api.express.RiderApi;
 import com.yilinker.core.constants.ErrorMessages;
 import com.yilinker.core.interfaces.ResponseHandler;
-import com.yilinker.core.model.OAuthentication;
-import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
-import com.yilinker.expressinternal.constants.APIConstant;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by J.Bautista on 2/22/16.

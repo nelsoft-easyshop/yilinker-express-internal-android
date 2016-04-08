@@ -19,13 +19,13 @@ import com.yilinker.core.helper.DeviceHelper;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityAcknowledge2;
-import com.yilinker.expressinternal.controllers.qrscanner.ActivityBulkCheckIn;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivityScanToDetails;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.model.Tools;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.tools.MainToolsPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.bulkcheckin.ActivityBulkCheckin;
 import com.yilinker.expressinternal.mvp.view.bankinformation.ActivityBankInformation;
 import com.yilinker.expressinternal.mvp.view.cashManagement.ActivityCashManagement;
 import com.yilinker.expressinternal.mvp.view.sync.ServiceSync;
@@ -36,6 +36,8 @@ import java.util.List;
  * Created by rlcoronado on 01/03/2016.
  */
 public class FragmentTools extends BaseFragment implements IMainToolsView, TabItemClickListener {
+
+    private static final String KEY_CONTENT = "content";
 
     private ApplicationClass appClass;
 //    private boolean hasForSyncing = false;
@@ -181,7 +183,7 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
             case 1:
 //                intent = new Intent(getActivity(), ActivityScanner.class);
-                intent = new Intent(getActivity(), ActivityBulkCheckIn.class);
+                intent = new Intent(getActivity(), ActivityBulkCheckin.class);
                 startActivity(intent);
                 break;
 

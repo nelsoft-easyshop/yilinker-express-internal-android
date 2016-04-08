@@ -1,8 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
-import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
 import com.yilinker.expressinternal.mvp.model.JobType;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderlist.JobTypeViewHolder;
 
 /**

@@ -2,14 +2,9 @@ package com.yilinker.expressinternal.mvp.presenter.joborderlist;
 
 import com.yilinker.core.utility.DateUtility;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
-import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.joborderlist.list.OpenJobsViewHolder;
 import com.yilinker.expressinternal.utilities.PriceFormatHelper;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**

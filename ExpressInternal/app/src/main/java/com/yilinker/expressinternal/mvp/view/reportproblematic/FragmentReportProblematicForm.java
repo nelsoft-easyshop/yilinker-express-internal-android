@@ -17,20 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
 //import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
-import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
 import com.yilinker.expressinternal.mvp.model.ProblematicType;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.reportproblematic.ReportProblematicFormPresenter;
-import com.yilinker.expressinternal.mvp.view.BaseFragment;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 import com.yilinker.expressinternal.mvp.view.images.ActivityImageGallery;
 import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by patrick-villanueva on 3/29/2016.

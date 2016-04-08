@@ -1,7 +1,7 @@
 package com.yilinker.expressinternal.mvp.presenter.reportproblematic;
 
 import com.yilinker.expressinternal.mvp.model.ProblematicType;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.reportproblematic.IReportProblematicSelectTypeView;
 
 import java.util.ArrayList;

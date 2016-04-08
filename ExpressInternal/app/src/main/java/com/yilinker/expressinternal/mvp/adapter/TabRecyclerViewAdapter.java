@@ -1,19 +1,10 @@
 package com.yilinker.expressinternal.mvp.adapter;
 
 import android.graphics.Point;
-import android.support.annotation.NonNull;
 import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 
 /**
  * Created by J.Bautista on 3/2/16.

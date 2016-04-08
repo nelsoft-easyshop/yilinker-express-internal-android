@@ -93,4 +93,26 @@
         <item name = "tools_bank">@string/tools_bank_information</item>
     </string-array>
 
+    <string-array name="maplegend_title">
+        <item>@string/maplegend_forpickup</item>
+        <item>@string/maplegend_fordelivery</item>
+        <item>@string/maplegend_you</item>
+        <item>@string/maplegend_problematic</item>
+        <item>@string/maplegend_warehouse</item>
+        <item>@string/maplegend_branch</item>
+        <item>@string/maplegend_dropoff</item>
+        <item>@string/maplegend_forclaiming</item>
+    </string-array>
+
+    <string-array name="maplegend_icons">
+        <item>@drawable/pin_joborder_pickup_2</item>
+        <item>@drawable/pin_joborder_delivery_2</item>
+        <item>@drawable/pin_rider_2</item>
+        <item>@drawable/pin_joborder_problematic_2</item>
+        <item>@drawable/pin_warehouse_2</item>
+        <item>@drawable/pin_branch_2</item>
+        <item>@drawable/pin_joborder_pickup_2</item>
+        <item>@drawable/pin_joborder_pickup_2</item>
+    </string-array>
+
 </resources>

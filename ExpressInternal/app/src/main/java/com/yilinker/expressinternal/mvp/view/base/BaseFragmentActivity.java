@@ -1,6 +1,5 @@
-package com.yilinker.expressinternal.mvp.view;
+package com.yilinker.expressinternal.mvp.view.base;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 
 import java.util.List;
@@ -21,6 +19,10 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
 
     @Override
     public void cancelRequests(List<String> tags) {
+
+        if(tags == null){
+            return;
+        }
 
         ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
         RequestQueue queue = applicationClass.getRequestQueue();

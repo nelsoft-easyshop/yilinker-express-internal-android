@@ -1,35 +1,28 @@
 package com.yilinker.expressinternal.mvp.view.joborderlist.map;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.model.JobOrder;
-import com.yilinker.expressinternal.model.Warehouse;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobListPresenter;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityJobDetailsMain;
 
@@ -100,6 +93,7 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
         }
 
+        initializeView(view);
         initializeJobsAdapter();
 
         presenter.setModel((ArrayList) getArguments().getParcelableArrayList(ARG_JOBS));
@@ -112,7 +106,7 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
         super.onResume();
         mapView.onResume();
 
-        zoomMap(10, 14.123121, 121.123424);
+//        zoomMap(10, 14.123121, 121.123424);
 
     }
 
@@ -285,5 +279,30 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
     private void setupMap(){
 
 
+    }
+
+    private void initializeView(View parent){
+
+        ImageView btnLegend = (ImageView) parent.findViewById(R.id.btnLegend);
+
+        btnLegend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showMapLegend(v);
+            }
+        });
+    }
+
+    private void showMapLegend(View anchor){
+
+        int[] location = new int[2];
+        anchor.getLocationOnScreen(location);
+
+        location[1] = location[1] - anchor.getHeight();
+
+        FragmentDialogMapLegend dialog = FragmentDialogMapLegend.createInstance(location[1]);
+
+        dialog.show(getChildFragmentManager(), "legend");
     }
 }

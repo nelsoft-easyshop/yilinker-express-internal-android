@@ -5,7 +5,7 @@ import android.os.Handler;
 import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
 import com.yilinker.expressinternal.dao.SyncDBObject;
-import com.yilinker.expressinternal.mvp.presenter.RequestPresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.RequestPresenter;
 import com.yilinker.expressinternal.mvp.view.sync.ISyncView;
 
 import java.util.ArrayList;

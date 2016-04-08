@@ -1,4 +1,4 @@
-package com.yilinker.expressinternal.mvp.view;
+package com.yilinker.expressinternal.mvp.view.base;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
 

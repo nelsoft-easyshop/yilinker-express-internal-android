@@ -3,7 +3,7 @@ package com.yilinker.expressinternal.mvp.view.reportproblematic;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.yilinker.expressinternal.mvp.view.RequestBaseView;
+import com.yilinker.expressinternal.mvp.view.base.RequestBaseView;
 
 import java.util.ArrayList;
 

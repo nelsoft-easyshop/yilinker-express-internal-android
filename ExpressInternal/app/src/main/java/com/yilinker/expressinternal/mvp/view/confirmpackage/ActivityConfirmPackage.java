@@ -23,8 +23,8 @@ import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.mvp.model.*;
 import com.yilinker.expressinternal.mvp.model.Package;
 import com.yilinker.expressinternal.mvp.presenter.confirmpackage.ConfirmPackagePresenter;
-import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
-import com.yilinker.expressinternal.mvp.view.BaseFragmentActivity;
+import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragmentActivity;
 import com.yilinker.expressinternal.utilities.ExpressFileHelper;
 
 import java.util.ArrayList;

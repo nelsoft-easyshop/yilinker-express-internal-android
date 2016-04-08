@@ -2,7 +2,7 @@ package com.yilinker.expressinternal.mvp.presenter.checklist;
 
 
 import com.yilinker.expressinternal.mvp.model.ChecklistItem;
-import com.yilinker.expressinternal.mvp.presenter.BasePresenter;
+import com.yilinker.expressinternal.mvp.presenter.base.BasePresenter;
 import com.yilinker.expressinternal.mvp.view.checklist.ChecklistItemViewHolder;
 
 /**

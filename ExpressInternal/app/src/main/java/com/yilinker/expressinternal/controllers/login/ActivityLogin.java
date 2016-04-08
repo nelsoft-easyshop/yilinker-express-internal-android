@@ -112,31 +112,31 @@ public class ActivityLogin extends Activity implements View.OnClickListener, Res
     @Override
     public void onFailed(int requestCode, String message) {
 
-//        if(requestCode == REQUEST_VERIFY_RIDER || requestCode == REQUEST_GET_DETAILS){
-//
-//            ApplicationClass.getInstance().deleteTokens();
-//            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-//
-//        }else{
-//
-//            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-//            showLoader(false, getString(R.string.login_button_2));
-//        }
+        if(requestCode == REQUEST_VERIFY_RIDER || requestCode == REQUEST_GET_DETAILS){
 
-        //TODO temp
-        if(requestCode == REQUEST_VERIFY_RIDER ){
-
-            requestRiderInfo();
-
-        } else if (requestCode == REQUEST_GET_DETAILS){
-
-            goToAccreditation();
+            ApplicationClass.getInstance().deleteTokens();
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 
         }else{
 
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             showLoader(false, getString(R.string.login_button_2));
         }
+
+//        //TODO temp
+//        if(requestCode == REQUEST_VERIFY_RIDER ){
+//
+//            requestRiderInfo();
+//
+//        } else if (requestCode == REQUEST_GET_DETAILS){
+//
+//            goToAccreditation();
+//
+//        }else{
+//
+//            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+//            showLoader(false, getString(R.string.login_button_2));
+//        }
 
     }
 
