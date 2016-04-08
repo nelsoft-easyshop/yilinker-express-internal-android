@@ -407,7 +407,7 @@
     <string name="package_maximum_weight_error">Weight should be less than 1,000,000 kg</string>
 
     <string name="complete_jo_good_job">Good Job!</string>
-    <string name="complete_jo_congratulation">Congratulations, you have\n earned the amount below for\n completing thing this job</string>
+    <string name="complete_jo_congratulation">Congratulations, you have\n earned the amount below for\n completing this job</string>
     <string name="complete_jo_congratulation_2">Congratulations, your earning will be updated after syncing.</string>
     <string name="complete_jo_offline">You are offline</string>
     <string name="complete_jo_wow">Wow</string>

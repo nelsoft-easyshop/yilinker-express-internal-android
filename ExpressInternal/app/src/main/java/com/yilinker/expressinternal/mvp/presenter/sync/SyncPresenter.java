@@ -94,7 +94,7 @@ public class SyncPresenter extends RequestPresenter<List<SyncDBObject>, ISyncVie
 
 //        SyncDBObject syncDBObject = model.get(progress);
 //        syncDBObject.setSync(true);
-//        view().updateObject(syncDBObject);
+        view().updateObject(model.get(progress));
 
         success++;
         updateProgress();

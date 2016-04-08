@@ -3,6 +3,10 @@ package com.yilinker.expressinternal.mvp.view.mainScreen;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
 import com.yilinker.expressinternal.mvp.model.TabItem;
 import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
@@ -31,6 +36,8 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
     private static final String KEY_CONTENT = "content";
 
+    private ApplicationClass appClass;
+
     private FrameLayout flContainer;
 
     private MainScreenPresenter presenter;
@@ -38,10 +45,14 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
 
     private Fragment content;
 
+    private BroadcastReceiver syncBroadcastReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+
+        appClass = (ApplicationClass) getApplicationContext();
 
         if(savedInstanceState == null){
 
@@ -49,6 +60,7 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
             presenter.bindView(this);
 
             initializeViews(null);
+            initializeReceivers();
             setupTab();
         }
         else{
@@ -79,6 +91,8 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
     protected void onResume() {
 
         presenter.bindView(this);
+        presenter.setAvailableIndicators();
+        registerReceiver(syncBroadcastReceiver, new IntentFilter("sync"));
 
         super.onResume();
 
@@ -89,6 +103,19 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
         super.onPause();
 
         presenter.unbindView();
+        unregisterReceiver(syncBroadcastReceiver);
+
+    }
+
+    @Override
+    public void initializeReceivers() {
+
+        syncBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                presenter.setAvailableIndicators();
+            }
+        };
 
     }
 
@@ -157,6 +184,21 @@ public class ActivityMain extends BaseFragmentActivity implements IMainView, Tab
         }
 
         replaceFragment(content);
+
+    }
+
+    @Override
+    public boolean syncable() {
+
+        return appClass.hasItemsForSyncing() && !appClass.isSyncing(this);
+
+    }
+
+    @Override
+    public void setTabIndicator(TabItem tabItem, boolean show) {
+
+        tabItem.setIndicatorIcon(show ? R.drawable.ic_for_syncing : 0);
+        adapter.updateItem(tabItem);
 
     }
 

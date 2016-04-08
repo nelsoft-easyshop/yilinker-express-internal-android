@@ -11,5 +11,7 @@ public interface IMainTabView {
     public void setIcon(int resourceIcon);
     public void setSelected(boolean isSelected);
     public void showSelected(TabItem tab);
+    public void showIndicator(boolean show);
+    public void setIndicator(int resource);
 
 }

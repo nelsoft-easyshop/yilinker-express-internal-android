@@ -11,4 +11,6 @@ public interface IMainScreenPresenter {
 
     public void onInitializeTabs(String[] tabTitles, int[] tabIcons, int[] selectedTabIcons);
     public void onTabSelected(int position);
+    public void setAvailableIndicators();
+
 }

@@ -132,7 +132,7 @@ public class FragmentChecklistDelivery extends ChecklistBaseFragment<ChecklistDe
     public void onPause() {
 
         presenter.onPause();
-        presenter.unbindView();
+//        presenter.unbindView();
 
         super.onPause();
     }

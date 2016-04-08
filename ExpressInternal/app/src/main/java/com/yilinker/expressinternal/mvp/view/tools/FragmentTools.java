@@ -45,12 +45,7 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
     private RecyclerView rvTools;
 
-    private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            presenter.updateSyncItem();
-        }
-    };
+    private BroadcastReceiver syncReceiver;
 
     @Nullable
     @Override
@@ -79,6 +74,7 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
         }
 
         initializeTools();
+        initializeReceivers();
 
 
     }
@@ -205,7 +201,7 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
 
 //                presenter.openActivitySync(hasForSyncing);
 //                presenter.openActivitySync(appClass.hasItemsForSyncing());
-                presenter.doIfSyncable(syncable(),
+                presenter.doIfSyncable(syncable(), appClass.isSyncing(getActivity()),
                         DeviceHelper.isDeviceConnected(getActivity()));
 
                 break;
@@ -219,7 +215,19 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
     }
 
     @Override
-    public void setItemWarningResourceId(Tools tools) {
+    public void initializeReceivers() {
+
+        syncReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                presenter.updateSyncItem();
+            }
+        };
+
+    }
+
+    @Override
+    public void setItemIndicatorResourceId(Tools tools) {
 
         tools.setWarningResourceId(appClass.hasItemsForSyncing() && !appClass.isSyncing(getActivity()) ?
                 R.drawable.ic_for_syncing : 0);
@@ -257,6 +265,13 @@ public class FragmentTools extends BaseFragment implements IMainToolsView, TabIt
     public void showNoInternetConnection() {
 
         Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void showSyncingOnProgress() {
+
+        Toast.makeText(getActivity(), "Syncing.", Toast.LENGTH_SHORT).show();
 
     }
 
