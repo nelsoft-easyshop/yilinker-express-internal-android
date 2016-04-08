@@ -75,8 +75,8 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
             ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow_down);
 
             /***Added simple animation*/
-            Animation in = AnimationUtils.loadAnimation(itemView.getContext(), android.R.anim.fade_in);
-            llBankContainer.startAnimation(in);
+//            Animation in = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.slide_down_2);
+//            llBankContainer.startAnimation(in);
 
             llBankContainer.setVisibility(View.VISIBLE);
 
@@ -84,8 +84,8 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
             ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow);
 
             /***Added simple animation*/
-            Animation out = AnimationUtils.loadAnimation(itemView.getContext(), android.R.anim.fade_out);
-            llBankContainer.startAnimation(out);
+//            Animation out = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.slide_up);
+//            llBankContainer.startAnimation(out);
 
             llBankContainer.setVisibility(View.GONE);
         }

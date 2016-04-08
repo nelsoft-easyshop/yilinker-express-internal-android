@@ -102,30 +102,48 @@ public class OpenJobsViewHolder extends JobsViewHolder<OpenJobItemPresenter> imp
         listener.onItemClick(jobOrder.getId(), jobOrder);
     }
 
-    private void setStatusBackground(String status){
+
+    private void setStatusBackground(String type){
 
         int background = 0;
 
-        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
 
             background = R.drawable.bg_image_orangeyellow;
         }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
 
             background = R.drawable.bg_image_bluegreen;
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
-
-            background = R.drawable.bg_image_orangered;
-        }
-        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
-
-            background = R.drawable.bg_image_marigold;
         }
 
         tvStatus.setBackgroundResource(background);
 
     }
+//
+//    private void setStatusBackground(String status){
+//
+//        int background = 0;
+//
+//        if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
+//
+//            background = R.drawable.bg_image_orangeyellow;
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)){
+//
+//            background = R.drawable.bg_image_bluegreen;
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_PROBLEMATIC)){
+//
+//            background = R.drawable.bg_image_orangered;
+//        }
+//        else if(status.equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DROPOFF)){
+//
+//            background = R.drawable.bg_image_marigold;
+//        }
+//
+//        tvStatus.setBackgroundResource(background);
+//
+//    }
 
     @Override
     public void onTick() {

@@ -290,60 +290,6 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
 
         String syncDictionary = view().getSyncDictionary();
 
-        //TODO TEMP add mock data
-        String SERVER_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
-        for (int x = 1; x<6;x++){
-            JobOrder mockJO = new JobOrder();
-
-            mockJO.setJobOrderNo("OrderNumber"+String.valueOf(x));
-            mockJO.setId(1000+x);
-            mockJO.setRecipientName("Recipient Name "+String.valueOf(x));
-            mockJO.setRecipientContactNo("0912345678"+String.valueOf(x));
-            mockJO.setSize("Size"+String.valueOf(x));
-            mockJO.setEarning(13123+x);
-            mockJO.setRecipientContactNo("0912345678"+String.valueOf(x));
-            mockJO.setLatitude(123135+x);
-            mockJO.setLongitude(123123+x);
-            mockJO.setBranchName("Branch Name "+String.valueOf(x));
-            mockJO.setDeliveryAddress("Delivery Address"+String.valueOf(x));
-            mockJO.setPickupAddress("Pick Up Address"+String.valueOf(x));
-            mockJO.setDropoffAddress("Drop Off Address"+String.valueOf(x));
-            mockJO.setClaimingAddress("My Claiming Address"+String.valueOf(x));
-            mockJO.setStatus("For Claiming");
-            mockJO.setRating(x);
-            mockJO.setType("Delivery");
-            mockJO.setEstimatedTimeOfArrival(DateUtility.convertStringToDate("2015-10-01 12:00:00", SERVER_DATE_FORMAT));
-            mockJO.setPackageDescription("Description "+String.valueOf(x));
-            mockJO.setAmountToCollect(x);
-            mockJO.setDateAccepted(DateUtility.convertStringToDate("2016-02-23 17:24:51", SERVER_DATE_FORMAT));
-            mockJO.setDateCreated(DateUtility.convertStringToDate("2016-02-22 17:05:58", SERVER_DATE_FORMAT));
-            mockJO.setJobOrderTypeId(x);
-            mockJO.setShipperContactNo("0912345678"+String.valueOf(x));
-            mockJO.setShipperName("Shipper Name"+String.valueOf(x));
-            mockJO.setIsOpen(false);
-            mockJO.setAreaCode("AreaCode"+String.valueOf(x));
-            mockJO.setWaybillNo("Waybill444"+String.valueOf(x));
-
-            //temp
-            mockJO.setLatitude(14.123234 + (1.0 * x));
-            mockJO.setLongitude(121.123232 + (1.0 * x));
-
-            //For syncing
-            if (syncDictionary != null) {
-                //check jo if it's for syncing
-                String waybillNo = String.format("|%s|", mockJO.getWaybillNo());
-                String joNumber = String.format("|%s|", mockJO.getJobOrderNo());
-
-                if (syncDictionary.contains(waybillNo) || syncDictionary.contains(joNumber)) {
-                    mockJO.setForSyncing(true);
-                }
-            }
-
-            list.add(mockJO);
-
-        }
-        //TODO END OF CREATING MOCK DATA
-
         int i = 0;
         for (com.yilinker.core.model.express.internal.JobOrder item : listServer) {
 

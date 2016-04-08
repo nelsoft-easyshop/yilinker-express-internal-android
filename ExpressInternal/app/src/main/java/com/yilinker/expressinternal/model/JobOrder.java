@@ -97,6 +97,7 @@ public class JobOrder implements Parcelable{
         deliveryAddress = jobOrder.getDeliveryAddress();
         pickupAddress = jobOrder.getPickupAddr();
         dropoffAddress = jobOrder.getDropoffAddr();
+        claimingAddress = jobOrder.getDropoffAddr();
         status = jobOrder.getJobOrderStatus();
         timeDelivered = DateUtility.convertStringToDate(jobOrder.getTimeDelivered(), SERVER_DATE_FORMAT);
         rating = jobOrder.getRating();
