@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
@@ -33,13 +34,18 @@ public class ActivityBankInformation extends BaseActivity implements IBankInform
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_information);
 
+        overridePendingTransition(R.anim.pull_in_right,R.anim.push_out_left);
+
         if (savedInstanceState == null){
             presenter = new BankInformationPresenter();
             initializeViews(null);
-
+            presenter.bindView(this);
         }else{
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
+
+        presenter.requestBankInformation();
+        showLoader(true);
 
     }
 
@@ -73,13 +79,12 @@ public class ActivityBankInformation extends BaseActivity implements IBankInform
         super.onResume();
 
         presenter.bindView(this);
-        presenter.requestBankInformation();
-        showLoader(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        presenter.onPause();
         presenter.unbindView();
     }
 

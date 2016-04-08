@@ -31,10 +31,19 @@ public class OpenJobDetailsPresenter extends RequestPresenter<JobOrder, IOpenJob
         view().setShipperContactNo(model.getShipperContactNo());
         view().setDateCreatedText(DateUtility.convertDateToString(model.getDateCreated(), CURRENT_DATE_FORMAT));
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
-        view().setStatusText(model.getStatus());
+//        view().setStatusText(model.getStatus());
+        view().setStatusText(model.getType());
         view().setWaybillNoText(model.getWaybillNo());
 
-        if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+//        if(model.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+//            view().setDeliveryAddressText(model.getDeliveryAddress());
+//            view().setPickupAddressText(model.getDropoffAddress());
+//        }
+//        else{
+//            view().setDeliveryAddressText(model.getDeliveryAddress());
+//            view().setPickupAddressText(model.getPickupAddress());
+//        }
+        if(model.getType().equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)) {
             view().setDeliveryAddressText(model.getDeliveryAddress());
             view().setPickupAddressText(model.getDropoffAddress());
         }
@@ -42,6 +51,7 @@ public class OpenJobDetailsPresenter extends RequestPresenter<JobOrder, IOpenJob
             view().setDeliveryAddressText(model.getDeliveryAddress());
             view().setPickupAddressText(model.getPickupAddress());
         }
+
     }
 
     public void onPause() {

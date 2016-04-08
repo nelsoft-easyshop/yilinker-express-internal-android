@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    android:animateLayoutChanges="true">
 
     <View
         android:layout_width="match_parent"
@@ -20,9 +20,9 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/ivBankLogo"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@drawable/bg_ongoing_accreditation"/>
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:background="@drawable/test_logo_bdo"/>
 
         <TextView
             android:id="@+id/tvBankName"

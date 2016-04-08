@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.OpenJobDetailsPresenter;
@@ -173,6 +174,24 @@ public class FragmentOpenJob extends BaseFragment implements IOpenJobDetailsView
     public void setStatusText(String status) {
 
         tvStatus.setText(status);
+        setStatusBackground(status);
+    }
+
+    private void setStatusBackground(String type){
+
+        int background = 0;
+
+        if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_PICKUP)){
+
+            background = R.drawable.bg_image_orangeyellow;
+        }
+        else if(type.equalsIgnoreCase(JobOrderConstant.JO_TYPE_DELIVERY)){
+
+            background = R.drawable.bg_image_bluegreen;
+        }
+
+        tvStatus.setBackgroundResource(background);
+
     }
 
     @Override
