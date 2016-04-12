@@ -38,9 +38,9 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
         view().setDateCreatedText(DateUtility.convertDateToString(model.getDateCreated(), CURRENT_DATE_FORMAT));
         view().setDateAcceptedLabel(model.getDateAccepted() == null ?
                 "-" : DateUtility.convertDateToString(model.getDateAccepted(), CURRENT_DATE_FORMAT));
-        view().setClaimingAddressLabel(model.getPickupAddress());
+        view().setClaimingAddressLabel(model.getDropoffAddress());
         view().setContactNumberLabel(model.getShipperContactNo());
-        view().setItemLabel(getItems());
+        view().setItemLabel(model.getPackageDescription());
 
         view().initializeReceivers();
 
