@@ -55,6 +55,7 @@ public class FragmentDialogMapLegend extends DialogFragment implements IMapLegen
         super.onCreate(savedInstanceState);
 
         anchorY = getArguments().getInt(ARG_ANCHORY);
+        setStyle(STYLE_NO_TITLE, getTheme());
     }
 
     @Nullable
@@ -64,6 +65,11 @@ public class FragmentDialogMapLegend extends DialogFragment implements IMapLegen
         View view = inflater.inflate(R.layout.fragment_dialog_maplegend, null);
 
         return view;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return super.onCreateDialog(savedInstanceState);
     }
 
     @Override

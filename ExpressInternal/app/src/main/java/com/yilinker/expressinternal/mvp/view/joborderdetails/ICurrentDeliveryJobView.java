@@ -16,5 +16,7 @@ public interface ICurrentDeliveryJobView extends IJobDetailsView {
     void setAmountToCollectText(String amountToCollect);
     void openChecklistDelivery(JobOrder jobOrder);
     void openProblematicOptions(String jobOrderNo);
+    boolean ifUpdated(String jobOrderNo);
+    void showOutdated();
 
 }

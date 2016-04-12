@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_rounded_white"
-    android:padding="10dp"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="20dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
@@ -21,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnClose"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         />
 
 </RelativeLayout>

@@ -19,7 +19,11 @@ public interface ICurrentClaimingJobView extends IJobDetailsView, RequestBaseVie
     void goToCompleteScreen(JobOrder jobOrder, boolean offline);
     void startClaimService(Package pack);
     boolean ifUpdated(String jobOrderNo);
-    void showOutdated();
-    void sync();
+    void showSyncStatus(boolean updated);
+    void startSyncService();
+    void initializeReceivers();
+    void showNoInternetConnection();
+//    void changeSyncStatus();
+    void restartMain();
 
 }

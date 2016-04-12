@@ -35,6 +35,10 @@ public class CurrentDeliveryJobPresenter extends BasePresenter<JobOrder, ICurren
         view().setItemText(model.getPackageDescription());
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
 
+        if (!view().ifUpdated(model.getJobOrderNo())) {
+            view().showOutdated();
+        }
+
     }
 
 

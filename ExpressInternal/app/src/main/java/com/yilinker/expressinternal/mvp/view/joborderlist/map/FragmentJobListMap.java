@@ -4,11 +4,13 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.android.volley.Request;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -18,12 +20,20 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.GoogleMapConstant;
+import com.yilinker.expressinternal.model.Branch;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.model.Rider;
+import com.yilinker.expressinternal.model.Warehouse;
 import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
+import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobListMapPresenter;
 import com.yilinker.expressinternal.mvp.presenter.joborderlist.JobListPresenter;
+import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 import com.yilinker.expressinternal.mvp.view.joborderdetails.ActivityJobDetailsMain;
 
 import java.util.ArrayList;
@@ -32,17 +42,16 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/1/16.
  */
-public class FragmentJobListMap extends Fragment implements IJobListMapView, OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class FragmentJobListMap extends BaseFragment implements IJobListMapView, OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
     public static final String ARG_JOBS = "jobs";
+    public static final String ARG_FOR_DROPOFF = "dropOffCount";
 
-    private static final int TYPE_JOB_ORDERS = 100;
-    private static final int TYPE_WAREHOUSE = 101;
-    private static final int TYPE_LOCATION = 102;
+    private JobListMapPresenter presenter;
 
-    private JobListPresenter presenter;
-
-    private JobOrderMarkerAdapter mapAdapter;
+    private JobOrderMarkerAdapter jobOrderMarkerAdapter;
+    private BranchMapMarkerAdapter branchMarkerAdapter;
+    private WarehouseMarkerAdapter warehouseMarkerAdapter;
 
     private GoogleApiClient mGoogleApiClient;
     private MapView mapView;
@@ -67,7 +76,14 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
         // Gets to GoogleMap from the MapView and does initialization stuff
         map = mapView.getMap();
-        map.getUiSettings().setMyLocationButtonEnabled(true);
+
+        UiSettings uiSettings = map.getUiSettings();
+
+        uiSettings.setMyLocationButtonEnabled(true);
+        uiSettings.setRotateGesturesEnabled(false);
+        uiSettings.setMapToolbarEnabled(false);
+        uiSettings.setMyLocationButtonEnabled(false);
+
         map.setMyLocationEnabled(true);
         map.setOnMarkerClickListener(this);
 
@@ -84,20 +100,23 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
         if(savedInstanceState == null){
 
-            presenter = new JobListPresenter();
+            presenter = new JobListMapPresenter();
             presenter.setModel(new ArrayList<JobOrder>());
+
+            initializeViews(view);
+
+            presenter.setModel((ArrayList) getArguments().getParcelableArrayList(ARG_JOBS));
+            presenter.bindView(this);
+
+            presenter.onViewCreated(getRiderBranch());
+
         }
         else{
 
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+            presenter.bindView(this);
 
         }
-
-        initializeView(view);
-        initializeJobsAdapter();
-
-        presenter.setModel((ArrayList) getArguments().getParcelableArrayList(ARG_JOBS));
-        presenter.bindView(this);
 
     }
 
@@ -154,20 +173,42 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
     @Override
     public void loadJobOrderList(List<JobOrder> jobOrders) {
 
-        mapAdapter.clearMap();
-        addMarkers(jobOrders, TYPE_JOB_ORDERS);
+        jobOrderMarkerAdapter.clearMap();
+        addMarkers(jobOrders, GoogleMapConstant.MARKER_TYPE_JOB_ORDERS);
     }
 
 
     @Override
+    public void loadBranches(List list) {
+
+        addMarkers(list, GoogleMapConstant.MARKER_TYPE_BRANCH);
+    }
+
+    @Override
     public void loadWarehouses(List list) {
 
+        addMarkers(list, GoogleMapConstant.MARKER_TYPE_WAREHOUSE);
     }
 
 
     @Override
     public void showJobOrderDetails(JobOrder joborder) {
 
+    }
+
+    @Override
+    public void initializeViews(View parent) {
+
+        ImageView btnLegend = (ImageView) parent.findViewById(R.id.btnLegend);
+        ImageView btnRefresh = (ImageView) parent.findViewById(R.id.btnRefresh);
+
+        btnLegend.setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
+
+        //Initialize map adapters
+        initializeJobsAdapter();
+        initializeBranchAdapter();
+        initializeWarehouseAdapter();
     }
 
     @Override
@@ -191,13 +232,22 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
         switch (type){
 
-            case TYPE_JOB_ORDERS:
+            case GoogleMapConstant.MARKER_TYPE_JOB_ORDERS:
 
-                mapAdapter.addMarkers(objects);
+                jobOrderMarkerAdapter.addMarkers(objects);
+                break;
+
+            case GoogleMapConstant.MARKER_TYPE_BRANCH:
+
+                branchMarkerAdapter.addMarkers(objects);
+                break;
+
+            case GoogleMapConstant.MARKER_TYPE_WAREHOUSE:
+
+                warehouseMarkerAdapter.addMarkers(objects);
                 break;
 
         }
-
 
 
     }
@@ -232,20 +282,21 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
 
 
-    private void setUpMap(){
-
-    }
-
-    private void initializeJobsAdapter(){
-
-        mapAdapter = new JobOrderMarkerAdapter(new ArrayList<JobOrder>(), map);
-    }
-
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        JobOrder jobOrder = mapAdapter.getObject(marker);
-        showJobDetails(jobOrder);
+
+        int type = Integer.parseInt(marker.getTitle());
+
+        switch (type){
+
+            case GoogleMapConstant.MARKER_TYPE_JOB_ORDERS:
+
+                JobOrder jobOrder = jobOrderMarkerAdapter.getObject(marker);
+                showJobDetails(jobOrder);
+                break;
+
+        }
 
         return false;
     }
@@ -276,22 +327,42 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
         mGoogleApiClient.connect();
     }
 
-    private void setupMap(){
 
+    @Override
+    public void addRequest(Request request) {
+
+        addRequestToQueue(request);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int id = v.getId();
+
+        switch (id){
+
+            case R.id.btnLegend:
+
+                showMapLegend(v);
+                break;
+
+            case R.id.btnRefresh:
+
+                refresh();
+                break;
+        }
 
     }
 
-    private void initializeView(View parent){
 
-        ImageView btnLegend = (ImageView) parent.findViewById(R.id.btnLegend);
+    public void reloadBranchDetails(){
 
-        btnLegend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        presenter.onReloadBranches(getRiderBranch());
+    }
 
-                showMapLegend(v);
-            }
-        });
+    private void setupMap(){
+
+
     }
 
     private void showMapLegend(View anchor){
@@ -305,4 +376,36 @@ public class FragmentJobListMap extends Fragment implements IJobListMapView, OnM
 
         dialog.show(getChildFragmentManager(), "legend");
     }
+
+    private Branch getRiderBranch() {
+
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+        Branch branch = appClass.getRider().getBranch();
+
+        return branch;
+    }
+
+    private void refresh(){
+
+        map.clear();
+
+        SwipeRefreshLayout.OnRefreshListener listener = (SwipeRefreshLayout.OnRefreshListener)getParentFragment();
+        listener.onRefresh();
+    }
+
+    private void initializeJobsAdapter(){
+
+        jobOrderMarkerAdapter = new JobOrderMarkerAdapter(new ArrayList<JobOrder>(), map);
+    }
+
+    private void initializeBranchAdapter(){
+
+        branchMarkerAdapter = new BranchMapMarkerAdapter(getActivity(), new ArrayList<Branch>(), map);
+    }
+
+    private void initializeWarehouseAdapter(){
+
+        warehouseMarkerAdapter = new WarehouseMarkerAdapter(getActivity(), new ArrayList<Warehouse>(), map);
+    }
+
 }

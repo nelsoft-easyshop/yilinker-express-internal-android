@@ -429,5 +429,17 @@ public class ApplicationClass extends BaseApplication {
 
     }
 
+    public void setBranchJOCount(int claiming, int dropoff){
+
+        if(rider == null){
+
+            rider = getRider();
+        }
+
+        rider.getBranch().setForDropoffCount(dropoff);
+        rider.getBranch().setForClaimingCount(claiming);
+
+        setRider(rider);
+    }
 
 }

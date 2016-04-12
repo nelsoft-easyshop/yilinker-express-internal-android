@@ -13,14 +13,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
 import com.yilinker.core.api.RiderAPI;
 import com.yilinker.core.base.BaseApplication;
-import com.yilinker.core.imageloader.VolleyImageLoader;
 import com.yilinker.core.interfaces.ResponseHandler;
 import com.yilinker.core.model.Login;
 import com.yilinker.core.model.OAuthentication;

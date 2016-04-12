@@ -4,6 +4,7 @@ import com.android.volley.Request;
 import com.yilinker.core.api.JobOrderAPI;
 
 import com.yilinker.core.utility.DateUtility;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
@@ -34,6 +35,8 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
     private List<String> selectedFilter;
     private String searchString;
 
+    private String riderBranchName;
+
     private String currentTab = TYPE_OPEN;
 
     public JobListMainPresenter(){
@@ -50,11 +53,14 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         if(view() != null) {
             view().reloadList(model);
             view().setResultCountText(String.valueOf(model.size()));
+            setBranchJOCount();
         }
 
     }
 
-    public void onViewCreated(){
+    public void onViewCreated(String riderBranchName){
+
+        this.riderBranchName = riderBranchName;
 
         view().showListView(model);
     }
@@ -275,6 +281,7 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         result.addAll(filterAndSearch(completeList));
 
         setModel(result);
+//        setBranchJOCount();
     }
 
     private List<JobOrder> createList(List<com.yilinker.core.model.express.internal.JobOrder> listServer, int type) {
@@ -387,6 +394,35 @@ public class JobListMainPresenter extends RequestPresenter<List<JobOrder>, IJobL
         searchResult.addAll(search(filteredResult, searchString));
 
         return searchResult;
+    }
+
+    private void setBranchJOCount(){
+
+        if(completeList != null) {
+
+            int claimingJO = getBranchJobOrderCount(JobOrderConstant.JO_CURRENT_CLAIMING, riderBranchName);
+            int dropoffJO = getBranchJobOrderCount(JobOrderConstant.JO_CURRENT_DROPOFF, riderBranchName);
+
+            view().setBranchJOCount(claimingJO, dropoffJO);
+        }
+    }
+
+    private int getBranchJobOrderCount(String status, String branchName){
+
+        int counter = 0;
+
+        if(completeList != null){
+
+            for(JobOrder item : completeList){
+
+                if(item.getStatus().equalsIgnoreCase(status) && item.getBranchName().equalsIgnoreCase(branchName)){
+
+                    counter ++;
+                }
+            }
+        }
+
+        return counter;
     }
 
 //    private String getSearchDictionary() {

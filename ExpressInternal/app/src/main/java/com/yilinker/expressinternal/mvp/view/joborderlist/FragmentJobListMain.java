@@ -30,7 +30,9 @@ import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivitySingleScanner;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
+import com.yilinker.expressinternal.model.Branch;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
 import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
@@ -150,7 +152,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
             setUpTypeFilter();
 
-            presenter.onViewCreated();
+            presenter.onViewCreated(getRiderBranch());
 
         }
 
@@ -357,7 +359,6 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 //        refreshLayout.setRefreshing(isVisible);
 
         currentFragmentView.showLoader(isVisible);
-
 
     }
 
@@ -586,5 +587,26 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         }
 
     }
+
+    @Override
+    public void setBranchJOCount(int dropfoff, int claiming) {
+
+        ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
+        applicationClass.setBranchJOCount(claiming, dropfoff);
+
+        if(currentView == VIEW_MAP){
+
+            ((FragmentJobListMap)currentFragmentView).reloadBranchDetails();
+        }
+    }
+
+    private String getRiderBranch() {
+
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+        Branch branch = appClass.getRider().getBranch();
+
+        return branch.getName();
+    }
+
 
 }

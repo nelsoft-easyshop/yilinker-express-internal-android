@@ -38,6 +38,7 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
     private Handler handler;
     private boolean stopScan;
 
+
     private Runnable delayScan = new Runnable() {
         @Override
         public void run() {
@@ -93,6 +94,7 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
         super.onResume();
 
         presenter.bindView(this);
+
     }
 
     @Override
@@ -112,7 +114,6 @@ public class ActivityBulkCheckin extends BaseQRScannerActivity implements IBulkC
         ivFocusArea = (ImageView) findViewById(R.id.ivFocusArea);
 
         qrCodeReaderView.setOnQRCodeReadListener(this);
-
 
         setQrReader(qrCodeReaderView);
 
