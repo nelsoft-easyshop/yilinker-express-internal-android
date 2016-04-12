@@ -10,5 +10,6 @@ public interface IBankView {
     public void setAccountNumber(String accountNumber);
     public void setLogoURL(String logoURL);
     public void setDropDownOpen(boolean isToOpen);
+    public void resetDropDownState();
 
 }

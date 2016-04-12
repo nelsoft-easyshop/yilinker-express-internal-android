@@ -175,6 +175,8 @@ public class FragmentJobListMap extends BaseFragment implements IJobListMapView,
 
         jobOrderMarkerAdapter.clearMap();
         addMarkers(jobOrders, GoogleMapConstant.MARKER_TYPE_JOB_ORDERS);
+
+        presenter.onLoadJobOrders();
     }
 
 
@@ -391,6 +393,7 @@ public class FragmentJobListMap extends BaseFragment implements IJobListMapView,
 
         SwipeRefreshLayout.OnRefreshListener listener = (SwipeRefreshLayout.OnRefreshListener)getParentFragment();
         listener.onRefresh();
+
     }
 
     private void initializeJobsAdapter(){

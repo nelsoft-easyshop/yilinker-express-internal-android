@@ -32,13 +32,17 @@ public class JobListMapPresenter extends RequestPresenter<List<JobOrder>, IJobLi
 
     public void onViewCreated(Branch riderBranch){
 
-        requestGetWarehouse();
         loadBranches(riderBranch);
     }
 
     public void onReloadBranches(Branch branch){
 
         loadBranches(branch);
+    }
+
+    public void onLoadJobOrders(){
+
+        requestGetWarehouse();
     }
 
     @Override

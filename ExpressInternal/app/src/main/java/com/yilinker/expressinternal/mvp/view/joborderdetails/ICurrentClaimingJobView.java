@@ -23,7 +23,6 @@ public interface ICurrentClaimingJobView extends IJobDetailsView, RequestBaseVie
     void startSyncService();
     void initializeReceivers();
     void showNoInternetConnection();
-//    void changeSyncStatus();
     void restartMain();
 
 }

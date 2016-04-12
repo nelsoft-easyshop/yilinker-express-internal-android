@@ -191,14 +191,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/JobOrderDetailLabelStyle"
-                        android:text="@string/contact_number"/>
+                        android:text="@string/contact_number"
+                        android:visibility="gone"
+                        />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvContactNo"
                         style="@style/JobOrderDetailTextStyle"
-                        android:text="0917 812 7804" />
+                        android:text="0917 812 7804"
+                        android:visibility="gone"
+                        />
 
                     <TextView
                         android:layout_width="match_parent"
