@@ -17,14 +17,14 @@ public class CustomSlideDownAnimation extends Animation {
     private View mView;
     private int mEndHeight;
     private int mType;
-    private LinearLayout.LayoutParams mLayoutParams;
+    private ViewGroup.LayoutParams mLayoutParams;
 
     public CustomSlideDownAnimation(View view, int duration, int type) {
 
         setDuration(duration);
         mView = view;
         mEndHeight = mView.getHeight();
-        mLayoutParams = ((LinearLayout.LayoutParams) view.getLayoutParams());
+        mLayoutParams = ((ViewGroup.LayoutParams) view.getLayoutParams());
         mType = type;
         if (mType == EXPAND) {
             mLayoutParams.height = 0;
