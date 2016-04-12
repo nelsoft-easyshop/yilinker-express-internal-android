@@ -1,7 +1,13 @@
 package com.yilinker.expressinternal.mvp.view.bankinformation;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.os.Handler;
 import android.support.v7.view.menu.MenuView;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
@@ -13,6 +19,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.yilinker.core.imageloader.VolleyImageLoader;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.customviews.CustomSlideDownAnimation;
 import com.yilinker.expressinternal.mvp.adapter.BaseViewHolder;
 import com.yilinker.expressinternal.mvp.presenter.bankinformation.BankPresenter;
 
@@ -42,6 +49,7 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
 
         ibDropDown.setOnClickListener(this);
         itemView.setOnClickListener(this);
+
     }
 
     @Override
@@ -68,27 +76,39 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
         ivLogo.setImageUrl(logoURL, imageLoader);
     }
 
+
     @Override
     public void setDropDownOpen(boolean isToOpen) {
 
         if (isToOpen){
-            ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow_down);
-
-            /***Added simple animation*/
-//            Animation in = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.slide_down_2);
-//            llBankContainer.startAnimation(in);
-
-            llBankContainer.setVisibility(View.VISIBLE);
+            animateExpand();
 
         }else {
-            ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow);
+            animateCollapse();
 
-            /***Added simple animation*/
-//            Animation out = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.slide_up);
-//            llBankContainer.startAnimation(out);
-
-            llBankContainer.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void resetDropDownState() {
+        llBankContainer.setVisibility(View.GONE);
+    }
+
+    private void animateExpand(){
+        ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow_down);
+        CustomSlideDownAnimation animation = new CustomSlideDownAnimation(llBankContainer, 300, CustomSlideDownAnimation.EXPAND);
+        animation.setHeight(260);
+        llBankContainer.startAnimation(animation);
+
+    }
+
+    private void animateCollapse(){
+        ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow);
+        CustomSlideDownAnimation animation = new CustomSlideDownAnimation(llBankContainer, 300, CustomSlideDownAnimation.COLLAPSE);
+         int height = animation.getHeight();
+        animation.setHeight(height);
+        llBankContainer.startAnimation(animation);
+
     }
 
     @Override
@@ -97,4 +117,5 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
         presenter.setDropDownVisibility();
 
     }
+
 }
