@@ -20,11 +20,10 @@ public class BankInformation implements Parcelable {
 
     public BankInformation(Bank bankServer){
 
-        this.id = bankServer.getId();
-        this.bankName = bankServer.getBankName();
-        this.bankLogoURL = bankServer.getLogoURL();
-        this.accountName = bankServer.getAcountName();
-        this.accountNumber = bankServer.getAccountNumber();
+        this.bankName = bankServer.getBank_name();
+        this.bankLogoURL = bankServer.getLogo();
+        this.accountName = bankServer.getAccount_name();
+        this.accountNumber = bankServer.getAccount_number();
     }
 
     public int getId() {

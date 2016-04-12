@@ -14,6 +14,7 @@ import com.yilinker.expressinternal.mvp.presenter.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.bankinformation.BankInformationPresenter;
 import com.yilinker.expressinternal.mvp.view.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,8 +46,7 @@ public class ActivityBankInformation extends BaseActivity implements IBankInform
         }
 
         presenter.requestBankInformation();
-        showLoader(true);
-
+        showLoader();
     }
 
     @Override
@@ -69,6 +69,7 @@ public class ActivityBankInformation extends BaseActivity implements IBankInform
 
             @Override
             public void onRefresh() {
+
                 presenter.requestBankInformation();
             }
         });
@@ -78,14 +79,24 @@ public class ActivityBankInformation extends BaseActivity implements IBankInform
     protected void onResume() {
         super.onResume();
 
-        presenter.bindView(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         presenter.onPause();
-        presenter.unbindView();
+//        presenter.unbindView();
+    }
+
+
+    /***to show the loader at first load of the page*/
+    private void showLoader(){
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override

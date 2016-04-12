@@ -15,7 +15,8 @@ public class BankPresenter extends BasePresenter<BankInformation, BankViewHolder
         view().setBankName(model.getBankName());
         view().setAccountName(model.getAccountName());
         view().setAccountNumber(model.getAccountNumber());
-        //TODO add setter for logo here
+        view().setLogoURL(model.getBankLogoURL());
+        view().resetDropDownState();
     }
 
     public void setDropDownVisibility(){
