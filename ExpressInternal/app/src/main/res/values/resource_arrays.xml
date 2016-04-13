@@ -11,7 +11,7 @@
     <string-array name="main_tab_icons_unselected">
         <item>@drawable/ic_jobs</item>
         <item>@drawable/ic_tools</item>
-        <item>@drawable/ic_tools</item>
+        <item>0</item>
         <item>@drawable/ic_profile</item>
     </string-array>
 
@@ -111,8 +111,8 @@
         <item>@drawable/pin_joborder_problematic_2</item>
         <item>@drawable/pin_warehouse_2</item>
         <item>@drawable/pin_branch_2</item>
-        <item>@drawable/pin_joborder_pickup_2</item>
-        <item>@drawable/pin_joborder_pickup_2</item>
+        <item>@drawable/pin_dropoff</item>
+        <item>@drawable/pin_claiming</item>
     </string-array>
 
 </resources>

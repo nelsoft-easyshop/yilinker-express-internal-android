@@ -63,6 +63,7 @@
     <!--<dimen name="registration_sign_in_margin_top">20dp</dimen>-->
 
     <!--For New Design-->
+    <dimen name="joborderlist_filtercontainer_height">250dp</dimen>
     <dimen name="joborderlsit_filterbar_height">40dp</dimen>
     <dimen name="joborder_status_height">30dp</dimen>
     <dimen name="joborder_status_width">150dp</dimen>

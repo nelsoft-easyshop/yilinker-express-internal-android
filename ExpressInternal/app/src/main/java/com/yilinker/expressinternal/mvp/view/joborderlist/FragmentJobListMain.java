@@ -16,6 +16,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +30,12 @@ import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.controllers.qrscanner.ActivitySingleScanner;
+import com.yilinker.expressinternal.customviews.CustomSlideDownAnimation;
 import com.yilinker.expressinternal.interfaces.RecyclerViewClickListener;
 import com.yilinker.expressinternal.interfaces.TabItemClickListener;
+import com.yilinker.expressinternal.model.Branch;
 import com.yilinker.expressinternal.model.JobOrder;
+import com.yilinker.expressinternal.model.Rider;
 import com.yilinker.expressinternal.mvp.model.JobType;
 import com.yilinker.expressinternal.mvp.model.TabItem;
 import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
@@ -98,7 +103,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
             if(s.length() > 0){
 
-                showFilter();
+                showFilter(0, CustomSlideDownAnimation.COLLAPSE);
             }
 
             searchString = null;
@@ -150,7 +155,7 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
             setUpTypeFilter();
 
-            presenter.onViewCreated();
+            presenter.onViewCreated(getRiderBranch());
 
         }
 
@@ -358,7 +363,6 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
         currentFragmentView.showLoader(isVisible);
 
-
     }
 
     @Override
@@ -502,15 +506,16 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
         if(llFilterContainer.getVisibility() == View.VISIBLE){
 
-            llFilterContainer.setVisibility(View.GONE);
-            viewTransaparent.setVisibility(View.GONE);
+            showFilter(0, CustomSlideDownAnimation.COLLAPSE);
         }
         else{
 
 //            llFilterContainer.setVisibility(View.VISIBLE);
-            showFilter();
-            viewTransaparent.setVisibility(View.VISIBLE);
 
+            //Get default height of the filter container
+            int height = getResources().getDimensionPixelSize(R.dimen.joborderlist_filtercontainer_height);
+
+            showFilter(height, CustomSlideDownAnimation.EXPAND);
         }
 
     }
@@ -539,9 +544,37 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
     }
 
-    private void showFilter(){
+    private void showFilter(int height, int type){
 
-        llFilterContainer.setVisibility(View.VISIBLE);
+//        llFilterContainer.setVisibility(View.VISIBLE);
+
+//        CustomSlideDownAnimation animation = new CustomSlideDownAnimation(llFilterContainer, 300, type);
+//
+//        if(height == 0) {
+//            height = animation.getHeight();
+//        }
+//
+//        animation.setHeight(height);
+//        llFilterContainer.startAnimation(animation);
+
+        //Hide transparent view
+        int visiblity = 0;
+        switch (type){
+
+            case CustomSlideDownAnimation.EXPAND:
+
+                visiblity = View.VISIBLE;
+                break;
+
+            case CustomSlideDownAnimation.COLLAPSE:
+
+                visiblity = View.GONE;
+                break;
+        }
+
+
+        llFilterContainer.setVisibility(visiblity);
+        viewTransaparent.setVisibility(visiblity);
 
     }
 
@@ -586,5 +619,26 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
         }
 
     }
+
+    @Override
+    public void setBranchJOCount(int dropfoff, int claiming) {
+
+        ApplicationClass applicationClass = (ApplicationClass) ApplicationClass.getInstance();
+        applicationClass.setBranchJOCount(claiming, dropfoff);
+
+        if(currentView == VIEW_MAP){
+
+            ((FragmentJobListMap)currentFragmentView).reloadBranchDetails();
+        }
+    }
+
+    private String getRiderBranch() {
+
+        ApplicationClass appClass = (ApplicationClass)ApplicationClass.getInstance();
+        Branch branch = appClass.getRider().getBranch();
+
+        return branch.getName();
+    }
+
 
 }

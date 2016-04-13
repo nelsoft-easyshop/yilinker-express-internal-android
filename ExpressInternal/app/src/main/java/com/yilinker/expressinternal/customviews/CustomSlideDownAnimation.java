@@ -33,6 +33,7 @@ public class CustomSlideDownAnimation extends Animation {
             mLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
         }
+
         view.setVisibility(View.VISIBLE);
     }
 

@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.constants.GoogleMapConstant;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.adapter.BaseMapAdapter;
@@ -17,14 +18,11 @@ import java.util.List;
 /**
  * Created by J.Bautista on 3/7/16.
  */
-public class JobOrderMarkerAdapter extends BaseMapAdapter<MarkerOptions, JobOrder, GoogleMap> {
-
-    private HashMap<String, MarkerOptions> markerHashMap;
+public class JobOrderMarkerAdapter extends GoogleMapMarkerAdapter<JobOrder> {
 
     public JobOrderMarkerAdapter(List<JobOrder> objects, GoogleMap map) {
         super(objects, map);
 
-        markerHashMap = new HashMap<>();
     }
 
     @Override
@@ -34,6 +32,7 @@ public class JobOrderMarkerAdapter extends BaseMapAdapter<MarkerOptions, JobOrde
         LatLng markerLocation = new LatLng(object.getLatitude(), object.getLongitude());
 
         markerOptions.position(markerLocation);
+        markerOptions.title(String.valueOf(GoogleMapConstant.MARKER_TYPE_JOB_ORDERS));
 
         int resourceId = 0;
         if(object.getStatus().equalsIgnoreCase(JobOrderConstant.JO_CURRENT_PICKUP)){
@@ -58,7 +57,7 @@ public class JobOrderMarkerAdapter extends BaseMapAdapter<MarkerOptions, JobOrde
 //            resourceId = R.drawable.pin_joborder_pickup;
             resourceId = R.drawable.pin_joborder_delivery_2;
 
-    }
+        }
 
         markerOptions.icon(BitmapDescriptorFactory.fromResource(resourceId));
         markerOptions.snippet(object.getJobOrderNo());
@@ -66,36 +65,10 @@ public class JobOrderMarkerAdapter extends BaseMapAdapter<MarkerOptions, JobOrde
         return markerOptions;
     }
 
-    @Override
-    protected void addToMap(MarkerOptions marker) {
-
-       Marker mapMarker = getMap().addMarker(marker);
-
-       markerHashMap.put(marker.getSnippet(), marker);
-    }
 
     @Override
     protected void removeFromMap(MarkerOptions marker) {
 
-
-    }
-
-    @Override
-    public void clearMap() {
-        getMap().clear();
-    }
-
-    @Override
-    public JobOrder getObjectById(String id) {
-
-        MarkerOptions markerOptions = markerHashMap.get(id);
-
-        return getObject(markerOptions);
-    }
-
-    public JobOrder getObject(Marker marker){
-
-        return getObjectById(marker.getSnippet());
 
     }
 }

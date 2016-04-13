@@ -23,6 +23,7 @@ public class Rider implements Parcelable {
     private int currentDropoff;
     private String areaCode;
     private String accreditationStatus;
+    private Branch branch;
 
     public Rider(){
 
@@ -42,6 +43,7 @@ public class Rider implements Parcelable {
         currentDropoff = rider.getCurrentDropoffJO();
         areaCode = rider.getAreaCode();
         accreditationStatus = rider.getAccreditationStatus();
+        branch = new Branch(rider.getBranch());
     }
 
     public String getAaccreditationStatus() {
@@ -132,6 +134,22 @@ public class Rider implements Parcelable {
         this.areaCode = areaCode;
     }
 
+    public String getAccreditationStatus() {
+        return accreditationStatus;
+    }
+
+    public void setAccreditationStatus(String accreditationStatus) {
+        this.accreditationStatus = accreditationStatus;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -150,6 +168,7 @@ public class Rider implements Parcelable {
         dest.writeInt(this.currentDropoff);
         dest.writeString(this.areaCode);
         dest.writeString(this.accreditationStatus);
+        dest.writeParcelable(this.branch, 0);
     }
 
     protected Rider(Parcel in) {
@@ -164,6 +183,7 @@ public class Rider implements Parcelable {
         this.currentDropoff = in.readInt();
         this.areaCode = in.readString();
         this.accreditationStatus = in.readString();
+        this.branch = in.readParcelable(Branch.class.getClassLoader());
     }
 
     public static final Creator<Rider> CREATOR = new Creator<Rider>() {

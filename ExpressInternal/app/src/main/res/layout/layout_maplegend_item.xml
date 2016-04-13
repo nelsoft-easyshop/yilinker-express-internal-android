@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="100dp"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/pin_joborder_pickup_2"/>
 
     <TextView
         android:id="@+id/tvLabel"
@@ -19,8 +13,16 @@
         android:textSize="11sp"
         android:textColor="@color/warm_gray"
         android:text="For Pickup"
-        android:layout_below="@id/ivImage"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tvLabel"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/pin_claiming"/>
 
 </RelativeLayout>
