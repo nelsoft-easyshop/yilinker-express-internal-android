@@ -22,4 +22,11 @@ public interface ICurrentPickupJobView extends IJobDetailsView,RequestBaseView {
     public void addToRequestQueue(Request request);
     public void showErrorMessage(String errorMessage);
     public void handleOutOfStockResponse();
+    boolean ifUpdated(String jobOrderNo);
+    void showSyncStatus(boolean updated);
+    void startSyncService();
+    void initializeReceivers();
+    void showNoInternetConnection();
+    void restartMain();
+
 }

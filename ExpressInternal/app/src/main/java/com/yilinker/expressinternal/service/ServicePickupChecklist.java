@@ -32,6 +32,7 @@ import java.util.List;
 public class ServicePickupChecklist extends Service implements ResponseHandler {
 
     public static final String ARG_PACKAGE = "package";
+    public static final String ARG_JOB_ORDER_TYPE = "type";
 
     private static final int REQUEST_UPDATE_STATUS = 1004;
     private static final int REQUEST_CALCULATE_FEE = 1005;
@@ -113,7 +114,12 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
 
             case REQUEST_UPDATE_STATUS:
 
-                calculateShippingFee();
+                if (!selectedPackage.getNewStatus().equals(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+                    calculateShippingFee();
+                } else {
+                    stopSelf();
+                }
+
                 break;
 
             case REQUEST_CALCULATE_FEE:
@@ -135,7 +141,9 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
             case REQUEST_UPDATE_STATUS:
 
                 handleFailedUpdate();
-                handleFailedCalculation();
+                if (!selectedPackage.getNewStatus().equals(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+                    handleFailedCalculation();
+                }
 
                 stopSelf();
 

@@ -1,26 +1,37 @@
 package com.yilinker.expressinternal.mvp.view.joborderdetails;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.yilinker.expressinternal.R;
+import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.JobOrderConstant;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 import com.yilinker.expressinternal.model.JobOrder;
 import com.yilinker.expressinternal.mvp.presenter.base.PresenterManager;
 import com.yilinker.expressinternal.mvp.presenter.joborderdetails.CurrentPickupJobPresenter;
 import com.yilinker.expressinternal.mvp.view.base.BaseFragment;
 import com.yilinker.expressinternal.mvp.view.checklist.ActivityChecklist;
+import com.yilinker.expressinternal.mvp.view.mainScreen.ActivityMain;
+import com.yilinker.expressinternal.mvp.view.sync.ServiceSync;
+
+import java.util.List;
 
 /**
  * Created by J.Bautista on 3/8/16.
@@ -29,8 +40,13 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
 
     private static final String ARG_JOB = "job";
 
+    private ApplicationClass appClass;
+
+    private BroadcastReceiver syncReceiver;
+
     private CurrentPickupJobPresenter presenter;
 
+    private TextView tvSync;
     private TextView tvStatus;
     private TextView tvWaybillNo;
     private TextView tvDateCreated;
@@ -42,9 +58,14 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     private TextView tvItem;
     private TextView tvAmountToCollect;
     private TextView tvTimeElapsed;
+    private LinearLayout llButtons;
     private RelativeLayout rlProgress;
+    private Button btnNegative;
+    private Button btnPositive;
 
     private JobOrder jobOrder;
+
+    private boolean toRestartMain = false;
 
     public static FragmentCurrentPickupJob createInstance(JobOrder jobOrder){
 
@@ -71,6 +92,8 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        appClass = (ApplicationClass) getActivity().getApplicationContext();
+
         if(savedInstanceState == null){
 
             presenter = new CurrentPickupJobPresenter();
@@ -91,10 +114,21 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        presenter.onSync(toRestartMain);
+    }
+
+    @Override
     public void onPause() {
 
         presenter.onPause();
         presenter.unbindView();
+        if (syncReceiver != null) {
+            getActivity().unregisterReceiver(syncReceiver);
+            syncReceiver = null;
+        }
 
         super.onPause();
 
@@ -104,6 +138,7 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     @Override
     public void initializeViews(View parent) {
 
+        tvSync = (TextView) parent.findViewById(R.id.tvSync);
         tvStatus = (TextView) parent.findViewById(R.id.tvStatus);
         tvContactNo = (TextView) parent.findViewById(R.id.tvContactNo);
         tvDateAccepted = (TextView) parent.findViewById(R.id.tvDateAccepted);
@@ -116,14 +151,16 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
         tvAmountToCollect = (TextView) parent.findViewById(R.id.tvAmountToCollect);
         tvTimeElapsed = (TextView) parent.findViewById(R.id.tvTimeElapsed);
         rlProgress = (RelativeLayout) parent.findViewById(R.id.rlProgress);
+        llButtons = (LinearLayout) parent.findViewById(R.id.llButtons);
 
-        Button btnPositive = (Button) parent.findViewById(R.id.btnPositive);
-        Button btnNegative = (Button) parent.findViewById(R.id.btnNegative);
+        btnPositive = (Button) parent.findViewById(R.id.btnPositive);
+        btnNegative = (Button) parent.findViewById(R.id.btnNegative);
 
         rlProgress.setVisibility(View.GONE);
 
         btnNegative.setOnClickListener(this);
         btnPositive.setOnClickListener(this);
+
     }
 
     @Override
@@ -295,16 +332,107 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     }
 
     @Override
+    public boolean ifUpdated(String jobOrderNo) {
+        SyncDBTransaction<SyncDBObject> dbTransaction = new SyncDBTransaction<>(getActivity());
+        List<SyncDBObject> dbObjects =  dbTransaction.getAll(SyncDBObject.class);
+
+        for (SyncDBObject object : dbObjects) {
+
+            if (object.getId().equals(jobOrderNo) && !object.isSync()) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    @Override
+    public void showSyncStatus(boolean updated) {
+
+        if (updated) {
+
+            tvSync.setVisibility(View.GONE);
+            llButtons.setAlpha(1f);
+            btnPositive.setEnabled(true);
+            btnNegative.setEnabled(true);
+
+        } else {
+
+            tvSync.setVisibility(View.VISIBLE);
+            llButtons.setAlpha(0.5f);
+            btnPositive.setEnabled(false);
+            btnNegative.setEnabled(false);
+            tvSync.setText(getString(appClass.isSyncing(getActivity()) ?
+                    R.string.tools_syncing : R.string.joborderdetail_outdated));
+
+        }
+
+    }
+
+    @Override
+    public void startSyncService() {
+
+        getActivity().startService(new Intent(getActivity(), ServiceSync.class));
+
+    }
+
+    @Override
+    public void initializeReceivers() {
+
+        syncReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                presenter.onSync(toRestartMain = !appClass.isSyncing(getActivity()));
+
+            }
+        };
+
+        getActivity().registerReceiver(syncReceiver, new IntentFilter("sync"));
+
+    }
+
+    @Override
+    public void showNoInternetConnection() {
+
+        Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void restartMain() {
+
+        Intent intent = new Intent(getActivity(), ActivityMain.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+    }
+
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()){
 
             case R.id.btnNegative:
-                showOutOfStock();
+
+                if (llButtons.getAlpha() == 1.0f) {
+
+                    showOutOfStock();
+
+                }
+
                 break;
 
             case R.id.btnPositive:
-                goToChecklist();
+
+                if (llButtons.getAlpha() == 1.0f) {
+
+                    goToChecklist();
+
+                }
+
                 break;
 
             default:

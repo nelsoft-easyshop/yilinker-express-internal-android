@@ -10,5 +10,11 @@ public interface ICurrentDropoffJobView extends IJobDetailsView {
     public void setDropoffAddress(String dropoffAddress);
     public void setItemText(String items);
     void goBackToList();
+    boolean ifUpdated(String jobOrderNo);
+    void showSyncStatus(boolean updated);
+    void startSyncService();
+    void initializeReceivers();
+    void showNoInternetConnection();
+    void restartMain();
 
 }
