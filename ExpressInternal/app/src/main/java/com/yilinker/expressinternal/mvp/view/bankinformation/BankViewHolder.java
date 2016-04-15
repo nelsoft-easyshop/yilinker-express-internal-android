@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
+import com.yilinker.core.customview.CustomNetworkImageView;
+import com.yilinker.core.imageloader.BitmapLruImageCache;
 import com.yilinker.core.imageloader.VolleyImageLoader;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.customviews.CustomSlideDownAnimation;
@@ -72,8 +75,10 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
 
     @Override
     public void setLogoURL(String logoURL) {
-        ImageLoader imageLoader = VolleyImageLoader.getInstance(itemView.getContext()).getImageLoader();
-        ivLogo.setImageUrl(logoURL, imageLoader);
+//        ImageLoader imageLoader = VolleyImageLoader.getInstance(itemView.getContext()).getImageLoader();
+        ImageLoader imageLoader1 = new ImageLoader(Volley.newRequestQueue(itemView.getContext()), new BitmapLruImageCache(1000));
+        ivLogo.setImageUrl(logoURL, imageLoader1);
+
     }
 
 
