@@ -20,6 +20,7 @@ public class Package implements Parcelable{
     private String packageType;
     private boolean isUpdated;
     private String newStatus;
+    private String currentStatus;
 
     public Package(){
 
@@ -38,6 +39,7 @@ public class Package implements Parcelable{
         packageType = in.readString();
         isUpdated = in.readByte() != 0;
         newStatus = in.readString();
+        currentStatus = in.readString();
     }
 
     public static final Creator<Package> CREATOR = new Creator<Package>() {
@@ -148,6 +150,18 @@ public class Package implements Parcelable{
         this.newStatus = newStatus;
     }
 
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(String currentStatus) {
+        this.currentStatus = currentStatus;
+    }
+
+    public void setUpdated(boolean updated) {
+        isUpdated = updated;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -168,5 +182,6 @@ public class Package implements Parcelable{
         dest.writeString(packageType);
         dest.writeByte((byte) (isUpdated ? 1 : 0));
         dest.writeString(newStatus);
+        dest.writeString(currentStatus);
     }
 }

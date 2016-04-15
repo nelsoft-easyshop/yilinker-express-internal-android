@@ -111,7 +111,7 @@ public class FragmentCurrentDropoff extends BaseFragment implements ICurrentDrop
         super.onPause();
 
         presenter.onPause();
-        presenter.unbindView();
+//        presenter.unbindView();
 
         if (syncReceiver != null) {
             getActivity().unregisterReceiver(syncReceiver);

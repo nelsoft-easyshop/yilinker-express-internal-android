@@ -174,6 +174,7 @@ public class CurrentClaimingJobPresenter extends RequestPresenter<JobOrder, ICur
         Package pack = new Package();
         pack.setJobOrderNo(model.getJobOrderNo());
         pack.setNewStatus(JobOrderConstant.JO_CURRENT_DELIVERY);
+        pack.setCurrentStatus(JobOrderConstant.JO_CURRENT_CLAIMING);
         pack.setIsUpdated(false);
 
         return pack;

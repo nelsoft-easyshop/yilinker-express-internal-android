@@ -392,7 +392,7 @@ public class FragmentCurrentClaiming extends BaseFragment implements ICurrentCla
 
     private void showReportOutOfStockDialog() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),  R.style.Theme_AppCompat_Light_Dialog);
         builder.setMessage(getString(R.string.joborderdetail_report_out_of_stock));
         builder.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener() {
 

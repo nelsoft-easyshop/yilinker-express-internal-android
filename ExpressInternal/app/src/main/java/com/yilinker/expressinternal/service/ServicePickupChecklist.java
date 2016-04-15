@@ -114,7 +114,8 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
 
             case REQUEST_UPDATE_STATUS:
 
-                if (!selectedPackage.getNewStatus().equals(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+                if (selectedPackage.getCurrentStatus() == null
+                        || !selectedPackage.getCurrentStatus().equals(JobOrderConstant.JO_CURRENT_CLAIMING)) {
                     calculateShippingFee();
                 } else {
                     stopSelf();
@@ -141,7 +142,8 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
             case REQUEST_UPDATE_STATUS:
 
                 handleFailedUpdate();
-                if (!selectedPackage.getNewStatus().equals(JobOrderConstant.JO_CURRENT_DELIVERY)) {
+                if (selectedPackage.getCurrentStatus() == null
+                        || !selectedPackage.getCurrentStatus().equals(JobOrderConstant.JO_CURRENT_CLAIMING)) {
                     handleFailedCalculation();
                 }
 
@@ -167,7 +169,12 @@ public class ServicePickupChecklist extends Service implements ResponseHandler {
         request.setRequestType(ActivitySync2.TYPE_UPDATE_STATUS);
         request.setKey(String.format("%s%s", selectedPackage.getJobOrderNo(), String.valueOf(ActivitySync2.TYPE_UPDATE_STATUS)));
         request.setId(selectedPackage.getJobOrderNo());
-        request.setData(JobOrderConstant.JO_COMPLETE);
+        if (selectedPackage.getCurrentStatus() != null
+                && selectedPackage.getCurrentStatus().equals(JobOrderConstant.JO_CURRENT_CLAIMING)) {
+            request.setData(JobOrderConstant.JO_CURRENT_DELIVERY);
+        } else {
+            request.setData(JobOrderConstant.JO_COMPLETE);
+        }
         request.setSync(false);
 
         dbTransaction.add(request);

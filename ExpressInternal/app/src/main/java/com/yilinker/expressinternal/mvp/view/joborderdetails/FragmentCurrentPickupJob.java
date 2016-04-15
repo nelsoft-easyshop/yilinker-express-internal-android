@@ -124,7 +124,7 @@ public class FragmentCurrentPickupJob extends BaseFragment implements ICurrentPi
     public void onPause() {
 
         presenter.onPause();
-        presenter.unbindView();
+//        presenter.unbindView();
         if (syncReceiver != null) {
             getActivity().unregisterReceiver(syncReceiver);
             syncReceiver = null;
