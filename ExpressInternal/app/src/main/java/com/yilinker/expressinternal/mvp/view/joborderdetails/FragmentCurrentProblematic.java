@@ -110,7 +110,7 @@ public class FragmentCurrentProblematic extends BaseFragment implements ICurrent
     public void onPause() {
         super.onPause();
 
-        presenter.unbindView();
+//        presenter.unbindView();
 
         if (syncReceiver != null) {
             getActivity().unregisterReceiver(syncReceiver);
