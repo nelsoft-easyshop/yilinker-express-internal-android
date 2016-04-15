@@ -2,6 +2,8 @@ package com.yilinker.expressinternal.mvp.view.joborderlist.map;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,8 +23,10 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.business.ApplicationClass;
 import com.yilinker.expressinternal.constants.GoogleMapConstant;
@@ -56,6 +60,8 @@ public class FragmentJobListMap extends BaseFragment implements IJobListMapView,
     private GoogleApiClient mGoogleApiClient;
     private MapView mapView;
     private GoogleMap map;
+
+    private Marker currentLocationMarker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -175,6 +181,13 @@ public class FragmentJobListMap extends BaseFragment implements IJobListMapView,
 
         jobOrderMarkerAdapter.clearMap();
         addMarkers(jobOrders, GoogleMapConstant.MARKER_TYPE_JOB_ORDERS);
+
+        //Current location - temp
+        if(currentLocationMarker != null){
+
+            LatLng currentPosition = currentLocationMarker.getPosition();
+            createCurrentLocationMarker(currentPosition.latitude, currentPosition.longitude);
+        }
 
         presenter.onLoadJobOrders();
     }
@@ -316,6 +329,13 @@ public class FragmentJobListMap extends BaseFragment implements IJobListMapView,
     @Override
     public void onConnected(Bundle bundle) {
 
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if(mLastLocation != null && map != null){
+
+            createCurrentLocationMarker(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        }
+
     }
 
     @Override
@@ -411,4 +431,17 @@ public class FragmentJobListMap extends BaseFragment implements IJobListMapView,
         warehouseMarkerAdapter = new WarehouseMarkerAdapter(getActivity(), new ArrayList<Warehouse>(), map);
     }
 
+    private void createCurrentLocationMarker(double latitude, double longitude){
+
+        if(currentLocationMarker != null){
+
+            currentLocationMarker.remove();
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(latitude, longitude));
+        markerOptions.icon((BitmapDescriptorFactory.fromResource(R.drawable.pin_rider_2)));
+
+        currentLocationMarker = map.addMarker(markerOptions);
+    }
 }
