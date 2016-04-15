@@ -20,8 +20,8 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
 
     private ReportProblematicPresenter presenter;
     public static final String ARG_JOB_ORDER_NO = "jobOrder";
-
     private static final String KEY_CONTENT = "content";
+    private static final String TAG_FRAGMENT = "SELECT-TYPE";
 
     private Bundle savedInstance;
     private Fragment content;
@@ -100,10 +100,11 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
 
         FragmentManager manager = getFragmentManager();
 
-        if(manager.getBackStackEntryCount() > 1){
+        if(manager.getBackStackEntryCount() > 0){
 
             manager.popBackStack();
             Log.i("RESULT",""+manager.getBackStackEntryCount());
+            content = manager.findFragmentByTag(TAG_FRAGMENT);
         }
         else{
 
@@ -121,7 +122,14 @@ public class ActivityReportProblematic extends BaseActivity implements IReportPr
 
     private void setFragment(){
         content = FragmentReportProblematicSelectType.createInstance();
-        replaceFragment(content);
+
+        FragmentManager manager = getFragmentManager();
+
+        android.app.FragmentTransaction transaction =  manager.beginTransaction();
+        transaction.add(R.id.flContainer, content, TAG_FRAGMENT);
+        transaction.commit();
+
+//        replaceFragment(content);
     }
 
     @Override
