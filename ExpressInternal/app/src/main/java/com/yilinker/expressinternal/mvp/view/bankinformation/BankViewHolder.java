@@ -92,12 +92,13 @@ public class BankViewHolder extends BaseViewHolder<BankPresenter> implements IBa
     @Override
     public void resetDropDownState() {
         llBankContainer.setVisibility(View.GONE);
+        ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow);
     }
 
     private void animateExpand(){
         ibDropDown.setBackgroundResource(R.drawable.ic_dropdown_arrow_down);
         CustomSlideDownAnimation animation = new CustomSlideDownAnimation(llBankContainer, 300, CustomSlideDownAnimation.EXPAND);
-        animation.setHeight(260);
+        animation.setHeight((int) itemView.getContext().getResources().getDimension(R.dimen.bank_information_expand_height));
         llBankContainer.startAnimation(animation);
 
     }
