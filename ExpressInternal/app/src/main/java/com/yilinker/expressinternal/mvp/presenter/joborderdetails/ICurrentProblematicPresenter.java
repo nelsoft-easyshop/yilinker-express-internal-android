@@ -7,4 +7,7 @@ public interface ICurrentProblematicPresenter {
 
     public void onPause();
     public void startTimer();
+    void sync(boolean syncable, boolean isConnected);
+    void onSync(boolean restartMain);
+
 }

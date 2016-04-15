@@ -32,6 +32,8 @@ public class CurrentDropoffJobPresenter extends BasePresenter<JobOrder, ICurrent
         view().setItemText(model.getPackageDescription());
         view().setEarningText(PriceFormatHelper.formatPrice(model.getEarning()));
 
+        view().initializeReceivers();
+
     }
 
     private String getDateAccepted(){
@@ -63,6 +65,32 @@ public class CurrentDropoffJobPresenter extends BasePresenter<JobOrder, ICurrent
         isTimerAvailable = true;
         timerHandler = new Handler();
         timerHandler.postDelayed(mRunnable, 0);
+    }
+
+    @Override
+    public void sync(boolean syncable, boolean isConnected) {
+
+        if (syncable && isConnected) {
+
+            view().startSyncService();
+
+        } else if (syncable) {
+
+            view().showNoInternetConnection();
+
+        }
+
+    }
+
+    @Override
+    public void onSync(boolean restartMain) {
+
+        view().showSyncStatus(view().ifUpdated(model.getJobOrderNo()));
+
+        if (restartMain) {
+            view().restartMain();
+        }
+
     }
 
     private void stopTimer(){
