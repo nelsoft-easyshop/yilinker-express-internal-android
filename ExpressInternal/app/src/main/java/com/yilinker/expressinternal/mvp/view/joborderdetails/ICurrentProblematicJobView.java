@@ -13,5 +13,11 @@ public interface ICurrentProblematicJobView extends IJobDetailsView {
     public void setProblemType(String problemType);
     public void showReportedImages(List<String> imageUrls);
     public void showNoImageError();
+    boolean ifUpdated(String jobOrderNo);
+    void showSyncStatus(boolean updated);
+    void startSyncService();
+    void initializeReceivers();
+    void showNoInternetConnection();
+    void restartMain();
 
 }
