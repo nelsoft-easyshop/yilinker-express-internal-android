@@ -103,7 +103,8 @@ public class FragmentJobListMain extends BaseFragment implements IJobListMainVie
 
             if(s.length() > 0){
 
-                showFilter(0, CustomSlideDownAnimation.COLLAPSE);
+//                showFilter(0, CustomSlideDownAnimation.COLLAPSE);
+                llJobTypeContainer.setVisibility(View.GONE);
             }
 
             searchString = null;
