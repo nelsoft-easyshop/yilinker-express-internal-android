@@ -31,11 +31,11 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
     private RequestQueue requestQueue;
     private SyncDBTransaction dbTransaction;
 
-    private String wayBillNo, jobOrderNo, signature, imageIds;
+    private String wayBillNo, jobOrderNo, signature, imageIds, receivedBy, relationship;
     private int rating;
 //    private List<String> images;
     private String[] images;
-    private boolean isSubmitSignatureDone = false, isSubmitImagesDone = false;
+    private boolean isSubmitSignatureDone = false, isSubmitImagesDone = false, isSubmitReceivedByDone = false;
 
     @Nullable
     @Override
@@ -51,6 +51,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         Log.i("RESULT", "Start Service");
         getData(intent);
 
+        requestSubmitReceivedBy();
         requestSubmitSignature();
 //        requestSubmitRating();
         requestSubmitImages();
@@ -74,6 +75,17 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         signature = intent.getStringExtra(ActivityChecklist.ARG_SIGNATURE);
         rating = Integer.valueOf(intent.getStringExtra(ActivityChecklist.ARG_RATING));
         images = intent.getStringArrayExtra(ActivityChecklist.ARG_IMAGES);
+        receivedBy = intent.getStringExtra(ActivityChecklist.ARG_RECEIVED_BY);
+        relationship = intent.getStringExtra(ActivityChecklist.ARG_RELATIONSHIP);
+
+    }
+
+    private void requestSubmitReceivedBy(){
+        Request request = JobOrderAPI.submitReceivedBy(ActivityChecklist.REQUEST_RECEIVED_BY,
+                jobOrderNo, receivedBy, relationship , this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
     }
 
     private void requestSubmitImages() {
@@ -127,6 +139,13 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
                 isToStopService();
                 break;
 
+            case ActivityChecklist.REQUEST_RECEIVED_BY:
+
+                Log.i("RESULT", "Received By done.");
+                isSubmitReceivedByDone = true;
+                isToStopService();
+                break;
+
         }
 
 
@@ -162,13 +181,20 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
                 isToStopService();
                 break;
 
+            case ActivityChecklist.REQUEST_RECEIVED_BY:
+                handleFailedSubmitReceivedBy();
+                isSubmitReceivedByDone = true;
+                Log.i("RESULT", "Received By done.");
+                isToStopService();
+                break;
+
         }
 
 
     }
 
     private void isToStopService(){
-        if (isSubmitSignatureDone && isSubmitImagesDone){
+        if (isSubmitSignatureDone && isSubmitImagesDone && isSubmitReceivedByDone){
 
             Log.i("RESULT", "Stop Service");
             stopSelf();
@@ -188,8 +214,21 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
         dbTransaction.add(request);
 
+    }
+
+    private void handleFailedSubmitReceivedBy(){
+
+        SyncDBObject request = new SyncDBObject();
+        request.setRequestType(ActivityChecklist.REQUEST_RECEIVED_BY);
+        request.setKey(String.format("%s%s", jobOrderNo, String.valueOf(ActivityChecklist.REQUEST_RECEIVED_BY)));
+        request.setId(jobOrderNo);
+        request.setData(String.format("%s/%s",relationship,receivedBy));
+        request.setSync(false);
+
+        dbTransaction.add(request);
 
     }
+
 
     private void handleFailedSubmitRating(){
 

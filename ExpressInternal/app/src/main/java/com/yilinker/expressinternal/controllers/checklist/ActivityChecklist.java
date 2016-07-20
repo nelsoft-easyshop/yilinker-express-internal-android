@@ -61,6 +61,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     public static final int REQUEST_SUBMIT_RATING = 1002;
     public static final int REQUEST_UPDATE = 1003;
     public static final int REQUEST_UPLOAD_IMAGES = 1004;
+    public static final int REQUEST_RECEIVED_BY = 1005;
 
     private static final int REQUEST_LAUNCH_CAMERA_ID = 2000;
     private static final int REQUEST_LAUNCH_CAMERA_PICTURE = 2001;
@@ -83,7 +84,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     public static final String ARG_IMAGES = "images";
     public static final String ARG_SIGNATURE = "signature";
     public static final String ARG_RATING = "rating";
-
+    public static final String ARG_RECEIVED_BY = "received_by";
+    public static final String ARG_RELATIONSHIP = "relationship";
     private RelativeLayout rlProgress;
     private TextView tvJobOrderNo;
     private TextView tvItem;
@@ -99,6 +101,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     //For submission
     private String signatureImage;
     private int rating;
+    private String receivedBy;
+    private String relationship;
 
     private RequestQueue requestQueue;
     SyncDBTransaction syncTransaction;
@@ -585,7 +589,9 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         Intent intent = new Intent(ActivityChecklist.this, ActivitySignature.class);
         intent.putExtra(ActivitySignature.ARG_IMAGE_FILE, signatureImage);
-
+        intent.putExtra(ActivitySignature.ARG_RECEIVED_BY, receivedBy);
+        intent.putExtra(ActivitySignature.ARG_RECIPIENT, jobOrder.getRecipient());
+        intent.putExtra(ActivitySignature.ARG_RELATIONSHIP, relationship);
         startActivityForResult(intent, REQUEST_SIGNATURE);
     }
 
@@ -602,6 +608,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     private void getData() {
 
         jobOrder = getIntent().getParcelableExtra(ARG_JOB_ORDER);
+        receivedBy = jobOrder.getRecipient();
 
     }
 
@@ -751,6 +758,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         i.putExtra(ARG_RATING, String.valueOf(rating));
         i.putExtra(ARG_SIGNATURE, signatureImage);
         i.putExtra(ARG_IMAGES, images);
+        i.putExtra(ARG_RECEIVED_BY, receivedBy);
+        i.putExtra(ARG_RELATIONSHIP, relationship);
 
         this.startService(i);
 
@@ -849,6 +858,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
 
         signatureImage = data.getStringExtra(ActivitySignature.ARG_IMAGE_FILE);
         rating = data.getIntExtra(ActivitySignature.ARG_RATING, 0);
+        receivedBy = data.getStringExtra(ActivitySignature.ARG_RECEIVED_BY);
+        relationship = data.getStringExtra(ActivitySignature.ARG_RELATIONSHIP);
 
         int position = items.size() - 1;
         items.get(position).setIsChecked(true);

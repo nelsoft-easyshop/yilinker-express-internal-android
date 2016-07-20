@@ -106,7 +106,11 @@ public class ActivitySync extends BaseActivity{
 
             if (!request.isSync()) {
 
-                if (request.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_SIGNATURE) {
+                if (request.getRequestType() == ActivityChecklist.REQUEST_RECEIVED_BY){
+
+                    requestSubmitReceivedBy(i, request.getId(), request.getData());
+
+                }else if (request.getRequestType() == ActivityChecklist.REQUEST_SUBMIT_SIGNATURE) {
 
                     requestSubmitSignature(i, request.getId(), request.getData());
 
@@ -185,6 +189,19 @@ public class ActivitySync extends BaseActivity{
         requestQueue.add(request);
 
     }
+
+    private void requestSubmitReceivedBy(int position, String jobOrderNo, String data) {
+
+        String relationship = data.substring(0,data.indexOf("/"));
+        String receivedBy = data.substring(data.indexOf("/")+1,data.length());
+
+        Request request = JobOrderAPI.submitReceivedBy(position, jobOrderNo, receivedBy, relationship, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+
+    }
+
 
     private void requestSubmitSignature(int position, String jobOrderNo, String signature) {
 

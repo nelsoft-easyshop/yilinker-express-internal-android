@@ -1,0 +1,10 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvItem"
+    android:singleLine="true"
+    android:background="@drawable/bg_white_gray_stroke"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:gravity="center_vertical"
+    android:textColor="@color/gray_brown"
+    android:padding="5dp"
+    />
