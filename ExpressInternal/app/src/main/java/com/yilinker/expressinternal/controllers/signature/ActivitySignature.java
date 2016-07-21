@@ -263,6 +263,9 @@ public class ActivitySignature extends Activity implements  View.OnClickListener
 //            return;
 //        }
 
+        /***clear inputs*/
+        relationship = relationship.replace("/","");
+        String receivedBy = etReceivedBy.getText().toString().replace("/","");
 
         File outputDir = getExternalCacheDir();
         File outputFile = null;
@@ -276,7 +279,7 @@ public class ActivitySignature extends Activity implements  View.OnClickListener
             Intent intent = new Intent();
             intent.putExtra(ARG_IMAGE_FILE, outputFile.getAbsolutePath());
             intent.putExtra(ARG_RATING, rating);
-            intent.putExtra(ARG_RECEIVED_BY, etReceivedBy.getText().toString());
+            intent.putExtra(ARG_RECEIVED_BY, receivedBy);
             intent.putExtra(ARG_RELATIONSHIP, relationship);
             setResult(RESULT_OK, intent);
             finish();
