@@ -24,28 +24,16 @@
 
 
     <LinearLayout
-        style="@style/JobOrderItemHeaderStyle"
+        style="@style/CurrentJobOrderItemHeaderStyle"
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2">
+        android:layout_height="wrap_content">
 
         <TextView android:id="@+id/tvBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="YE Malate Branch"
-            android:layout_weight="1" />
+            android:text="YE Malate Branch" />
 
-        <TextView
-            android:id="@+id/tvSync"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="For Syncing"
-            android:textColor="@color/error"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:textSize="10sp" />
     </LinearLayout>
 
     <TextView android:id="@+id/tvTimer"
@@ -54,8 +42,18 @@
         android:layout_marginBottom="5dp" android:textColor="@color/warm_gray"
         android:text="14:53:03 remaining" android:paddingLeft="@dimen/joborderlist_item_padding" android:paddingRight="@dimen/joborderlist_item_padding"  android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/tvSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/job_order_list_for_syncing_problematic"
+        android:textColor="@color/error"
+        android:textAllCaps="true"
+        android:visibility="gone" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp" android:background="#dddddd" android:layout_marginTop="10dp"/>
+        android:layout_height="1dp" android:background="#dddddd" android:layout_marginTop="20dp"/>
 
 </LinearLayout>

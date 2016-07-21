@@ -171,22 +171,22 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
             case JobOrderConstant.PROBLEMATIC_DAMAGED:
 
-                problemType = getString(R.string.problematic_damaged_upon_delivery);
+                problemType = getString(R.string.problematic_option_other_problems);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_RECIPIENT_NOT_FOUND:
 
-                problemType = getString(R.string.problematic_recipient_not_found);
+                problemType = getString(R.string.problematic_option_recipient_not_found);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_REJECTED:
 
-                problemType = getString(R.string.problematic_delivery_rejected);
+                problemType = getString(R.string.problematic_option_recipient_refused_to_accept);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_UNABLE_TO_PAY:
 
-                problemType = getString(R.string.problematic_unable_to_pay);
+                problemType = getString(R.string.problematic_option_payment_not_yet_ready);
                 break;
 
         }

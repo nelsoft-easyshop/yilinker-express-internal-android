@@ -71,6 +71,8 @@
     </string-array>
     <string name="filter_area">Area</string>
     <string name="filter_branch">Branch</string>
+    <string name="job_order_list_for_syncing_complete">"FOR SYNCING - COMPLETE"</string>
+    <string name="job_order_list_for_syncing_problematic">"FOR SYNCING - PROBLEMATIC"</string>
 
     <!--Job Order Detail-->
     <string name="job_order_number">Job Order Number</string>
@@ -144,12 +146,16 @@
     </string-array>
     
     <!--Problematic-->
-    <string name="problematic_recipient_not_found">Recipient Not Found</string>
     <string name="problematic_delivery_rejected">Delivery rejected by recipient</string>
     <string name="problematic_damaged_upon_delivery">Damaged Upon Delivery</string>
     <string name="problematic_unable_to_pay">Recipient is unable to pay</string>
     <string name="problematic_out_of_stock">Out of Stock</string>
     <string name="confirm_problematic">Confirm Problematic Delivery</string>
+    <string name="problematic_option_delivered">Delivered</string>
+    <string name="problematic_option_recipient_not_found">Recipient is Not Found</string>
+    <string name="problematic_option_payment_not_yet_ready">Payment is Not Yet Ready</string>
+    <string name="problematic_option_recipient_refused_to_accept">Recipient Refused to Accept</string>
+    <string name="problematic_option_other_problems">Other Problems</string>
 
     <!--Complete-->
     <string name="ok">Ok</string>
