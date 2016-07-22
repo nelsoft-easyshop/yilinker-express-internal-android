@@ -46,6 +46,9 @@
             android:paddingLeft="5dp"
             android:visibility="gone"
             android:hint="@string/signature_relationship"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:imeOptions="actionDone"
             android:background="@drawable/bg_white_gray_stroke"/>
 
         <EditText
@@ -55,6 +58,9 @@
             android:layout_weight="1"
             android:paddingLeft="5dp"
             android:hint="@string/signature_name"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:imeOptions="actionDone"
             android:background="@drawable/bg_signature_edittext"/>
 
     </LinearLayout>
