@@ -73,6 +73,7 @@
     <string name="filter_branch">Branch</string>
     <string name="job_order_list_for_syncing_complete">"FOR SYNCING - COMPLETE"</string>
     <string name="job_order_list_for_syncing_problematic">"FOR SYNCING - PROBLEMATIC"</string>
+    <string name="job_order_list_for_syncing">FOR SYNCING</string>
 
     <!--Job Order Detail-->
     <string name="job_order_number">Job Order Number</string>
@@ -152,7 +153,7 @@
     <string name="problematic_out_of_stock">Out of Stock</string>
     <string name="confirm_problematic">Confirm Problematic Delivery</string>
     <string name="problematic_option_delivered">Delivered</string>
-    <string name="problematic_option_recipient_not_found">Recipient is Not Found</string>
+    <string name="problematic_option_recipient_not_found">Recipient is Not Around</string>
     <string name="problematic_option_payment_not_yet_ready">Payment is Not Yet Ready</string>
     <string name="problematic_option_recipient_refused_to_accept">Recipient Refused to Accept</string>
     <string name="problematic_option_other_problems">Other Problems</string>

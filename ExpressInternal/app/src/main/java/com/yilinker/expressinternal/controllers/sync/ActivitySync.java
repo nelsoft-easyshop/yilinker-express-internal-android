@@ -6,12 +6,15 @@ import android.view.View;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.yilinker.core.api.JobOrderAPI;
+import com.yilinker.core.model.express.internal.ProblematicJobOrder;
 import com.yilinker.core.utility.ImageUtility;
 import com.yilinker.expressinternal.R;
 import com.yilinker.expressinternal.base.BaseActivity;
 import com.yilinker.expressinternal.business.ApplicationClass;
+import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.checklist.ActivityChecklist;
 import com.yilinker.expressinternal.controllers.confirmpackage.ActivityConfirmPackage;
+import com.yilinker.expressinternal.controllers.joborderdetails.ActivityProblematic;
 import com.yilinker.expressinternal.dao.SyncDBObject;
 import com.yilinker.expressinternal.dao.SyncDBTransaction;
 
@@ -120,7 +123,7 @@ public class ActivitySync extends BaseActivity{
 
                 } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPLOAD_IMAGES) {
 
-                    requestSubmitImages(i, request.getId(), request.getData());
+                    requestSubmitImages(i, request.getId(), request.getData(), ApplicationClass.DELIVERY_IMAGE_TYPE);
 
                 } else if (request.getRequestType() == ActivityChecklist.REQUEST_UPDATE) {
 
@@ -130,9 +133,13 @@ public class ActivitySync extends BaseActivity{
 
                     requestCalculateShippingFee(i, request.getId(), request.getData());
 
-                }
-                else{
+                }else if(request.getRequestType() == ActivityProblematic.REQUEST_UPLOAD_PROBLEMATIC_IMAGES){
 
+                    requestSubmitImages(i, request.getId(), request.getData(), ApplicationClass.PROBLEMATIC_IMAGE_TYPE);
+
+                }else if (request.getRequestType() == ActivityProblematic.REQUEST_SUBMIT_REPORT){
+
+                    requestReportProblematic(i, request.getId(), request.getData());
                 }
 
             } else {
@@ -147,7 +154,7 @@ public class ActivitySync extends BaseActivity{
      * Functions for Sync Requests
      */
 
-    private void requestSubmitImages(int position, String wayBillNo, String images) {
+    private void requestSubmitImages(int position, String wayBillNo, String images, int type) {
 
         images = images.replace("[", "");
         images = images.replace("]", "");
@@ -164,17 +171,43 @@ public class ActivitySync extends BaseActivity{
         }
 
 
-        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, listImages, this);
+        Request request = JobOrderAPI.uploadJobOrderImages(position, wayBillNo, listImages, type, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
 
     }
 
-    private void requestUpdate(int position, String jobOrderNo, String newStatus) {
+    private void requestReportProblematic(int position, String jobOrderNo, String data){
 
+        String notes = data.substring(0,data.indexOf("|"));
+        String problemTypeId = data.substring(data.indexOf("|")+1,data.length());
 
-        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, this);
+        ProblematicJobOrder report = new ProblematicJobOrder();
+        report.setNotes(notes);
+        report.setJobOrderNo(jobOrderNo);
+        report.setProblemTypeId(Integer.parseInt(problemTypeId));
+
+        Request request = JobOrderAPI.reportProblematicJO(position, report, this);
+        request.setTag(ApplicationClass.REQUEST_TAG);
+
+        requestQueue.add(request);
+    }
+
+    private void requestUpdate(int position, String jobOrderNo, String data) {
+
+        String relationship="";
+        String recipient="";
+
+        String newStatus = data.substring(0,data.indexOf("|"));
+        if (newStatus.equals(JobOrderConstant.JO_COMPLETE)){
+
+            relationship = data.substring(data.indexOf("|")+1,data.indexOf(":"));
+            recipient = data.substring(data.indexOf(":")+1, data.length());
+
+        }
+
+        Request request = JobOrderAPI.updateStatus(position, jobOrderNo, newStatus, relationship, recipient, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -192,8 +225,8 @@ public class ActivitySync extends BaseActivity{
 
     private void requestSubmitReceivedBy(int position, String jobOrderNo, String data) {
 
-        String relationship = data.substring(0,data.indexOf("/"));
-        String receivedBy = data.substring(data.indexOf("/")+1,data.length());
+        String relationship = data.substring(0,data.indexOf("|"));
+        String receivedBy = data.substring(data.indexOf("|")+1,data.length());
 
         Request request = JobOrderAPI.submitReceivedBy(position, jobOrderNo, receivedBy, relationship, this);
         request.setTag(ApplicationClass.REQUEST_TAG);

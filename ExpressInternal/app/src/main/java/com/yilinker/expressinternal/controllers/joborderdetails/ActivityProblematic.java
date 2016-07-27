@@ -18,11 +18,17 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
  * Created by J.Bautista
  */
 public class ActivityProblematic extends BaseActivity {
+    public static final int REQUEST_SUBMIT_REPORT = 2000;
+    public static final int REQUEST_UPLOAD_PROBLEMATIC_IMAGES = 2002;
+
+    public static final String ARG_PROBLEMATIC_IMAGES = "problematic-images";
+    public static final String ARG_WAYBILL_NUMBER = "waybill-number";
 
     public static final String ARG_JOB_ORDER = "jobOrder";
     private static final String FRAGMENT_STATE = "fragment";
 
     private String jobOrderNo;
+    private String waybillNumber;
     private Fragment fragment;
 
     @Override
@@ -117,6 +123,7 @@ public class ActivityProblematic extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putInt(FragmentReportForm.ARG_TYPE, type);
         bundle.putString(FragmentReportForm.ARG_JONUMBER, jobOrderNo);
+        bundle.putString(FragmentReportForm.ARG_WAYBILL_NUMBER, waybillNumber);
 
 //        FragmentReportForm fragment = FragmentReportForm.createInstance(bundle);
 
@@ -132,9 +139,9 @@ public class ActivityProblematic extends BaseActivity {
         int id = v.getId();
         switch (id){
 
-            case R.id.btnDamage:
+            case R.id.btnOthers:
 
-                showReportForm(JobOrderConstant.PROBLEMATIC_DAMAGED);
+                showReportForm(JobOrderConstant.PROBLEMATIC_OTHERS);
                 break;
 
             case R.id.btnNoPayment:
@@ -144,12 +151,12 @@ public class ActivityProblematic extends BaseActivity {
 
             case R.id.btnNotFound:
 
-                showReportForm(JobOrderConstant.PROBLEMATIC_RECIPIENT_NOT_FOUND);
+                showReportForm(JobOrderConstant.PROBLEMATIC_RECIPIENT_IS_NOT_AROUND);
                 break;
 
             case R.id.btnRejected:
 
-                showReportForm(JobOrderConstant.PROBLEMATIC_REJECTED);
+                showReportForm(JobOrderConstant.PROBLEMATIC_REFUSED_TO_ACCEPT);
                 break;
 
         }
@@ -164,7 +171,9 @@ public class ActivityProblematic extends BaseActivity {
 
         Intent intent = getIntent();
         jobOrderNo = intent.getStringExtra(ARG_JOB_ORDER);
+        waybillNumber = intent.getStringExtra(ARG_WAYBILL_NUMBER);
     }
+
 
 
 }

@@ -313,7 +313,6 @@ public class AdapterJobOrderList<T extends JobOrder> extends RecyclerView.Adapte
                 tvStatus.setBackgroundResource(getBackgoundByType(object.getType()));
             }
 
-
             if (object.isForSyncing()) {
                 tvForSyncing.setVisibility(View.VISIBLE);
             }

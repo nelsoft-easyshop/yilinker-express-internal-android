@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="@string/job_order_list_for_syncing_problematic"
+        android:text="@string/job_order_list_for_syncing"
         android:textColor="@color/error"
         android:textAllCaps="true"
         android:visibility="gone" />

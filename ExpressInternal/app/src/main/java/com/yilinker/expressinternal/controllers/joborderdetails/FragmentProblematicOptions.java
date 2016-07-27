@@ -51,7 +51,7 @@ public class FragmentProblematicOptions extends BaseFragment implements View.OnC
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
 
-        btnDamage = (Button) view.findViewById(R.id.btnDamage);
+        btnDamage = (Button) view.findViewById(R.id.btnOthers);
         btnNoPayment = (Button) view.findViewById(R.id.btnNoPayment);
         btnNotFound = (Button) view.findViewById(R.id.btnNotFound);
         btnRejected = (Button) view.findViewById(R.id.btnRejected);

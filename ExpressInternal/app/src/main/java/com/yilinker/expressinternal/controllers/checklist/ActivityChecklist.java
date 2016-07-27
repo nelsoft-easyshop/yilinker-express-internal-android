@@ -86,6 +86,8 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
     public static final String ARG_RATING = "rating";
     public static final String ARG_RECEIVED_BY = "received_by";
     public static final String ARG_RELATIONSHIP = "relationship";
+    private final static String EMPTY_STRING = "";
+
     private RelativeLayout rlProgress;
     private TextView tvJobOrderNo;
     private TextView tvItem;
@@ -701,8 +703,12 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         rlProgress.setVisibility(View.VISIBLE);
 
         this.newStatus = newStatus;
+        if (!newStatus.equals(JobOrderConstant.JO_COMPLETE)){
+            receivedBy =  EMPTY_STRING;
+            relationship = EMPTY_STRING;
+        }
 
-        Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE, jobOrder.getJobOrderNo(), newStatus, this);
+        Request request = JobOrderAPI.updateStatus(REQUEST_UPDATE, jobOrder.getJobOrderNo(), newStatus,relationship,receivedBy, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -715,7 +721,7 @@ public class ActivityChecklist extends BaseActivity implements RecyclerViewClick
         request.setRequestType(REQUEST_UPDATE);
         request.setKey(String.format("%s%s", jobOrder.getJobOrderNo(), String.valueOf(REQUEST_UPDATE)));
         request.setId(jobOrder.getJobOrderNo());
-        request.setData(newStatus);
+        request.setData(String.format("%s|%s:%s",newStatus,relationship,receivedBy));
         request.setSync(false);
 
         syncTransaction.add(request);

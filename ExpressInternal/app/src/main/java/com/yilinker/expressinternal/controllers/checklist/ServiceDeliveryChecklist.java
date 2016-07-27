@@ -90,7 +90,8 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
 
     private void requestSubmitImages() {
 
-        Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, Arrays.asList(images), this);
+//        Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, Arrays.asList(images), this);
+        Request request = JobOrderAPI.uploadJobOrderImages(ActivityChecklist.REQUEST_UPLOAD_IMAGES, wayBillNo, Arrays.asList(images),ApplicationClass.DELIVERY_IMAGE_TYPE ,this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -222,7 +223,7 @@ public class ServiceDeliveryChecklist extends Service implements ResponseHandler
         request.setRequestType(ActivityChecklist.REQUEST_RECEIVED_BY);
         request.setKey(String.format("%s%s", jobOrderNo, String.valueOf(ActivityChecklist.REQUEST_RECEIVED_BY)));
         request.setId(jobOrderNo);
-        request.setData(String.format("%s/%s",relationship,receivedBy));
+        request.setData(String.format("%s|%s",relationship,receivedBy));
         request.setSync(false);
 
         dbTransaction.add(request);
