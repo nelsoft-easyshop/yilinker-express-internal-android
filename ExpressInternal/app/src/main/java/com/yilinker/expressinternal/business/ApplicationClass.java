@@ -46,6 +46,8 @@ public class ApplicationClass extends BaseApplication {
     public static final String CURRENT_LIST = "currentList.txt";
     public static final String SYNC_ITEMS = "hasSyncItems";
     private static final String CURRENT_RIDER = "rider";
+    public static final int DELIVERY_IMAGE_TYPE = 2;
+    public static final int PROBLEMATIC_IMAGE_TYPE = 3;
 
     private Intent intentServiceLocation;
 

@@ -1,18 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical">
+    android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical"
+    android:background="@color/white">
 
     <TextView android:id="@+id/tvLabel"
         android:layout_height="?android:actionBarSize"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:text="@string/signature_good_condition" android:layout_alignParentTop="true" android:layout_marginTop="10dp"/>
+        android:visibility="gone"
+        android:text="@string/signature_good_condition"
+        android:layout_alignParentTop="true" android:layout_marginTop="10dp"/>
 
+    <!--back button-->
     <ImageButton android:layout_margin="10dp" android:id="@+id/btnBack"
         android:layout_width="?android:actionBarSize"
-        android:layout_height="?android:actionBarSize" android:src="@drawable/ic_back_arrow" android:background="@android:color/transparent" />
+        android:layout_height="?android:actionBarSize"
+        android:src="@drawable/ic_back_arrow"
+        android:background="@android:color/transparent" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btnBack"
+        android:layout_toLeftOf="@+id/tvClear"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tvReceivedBy"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@color/marigold"
+            android:text="@string/signature_consignee"
+            android:textColor="@color/white"
+            android:gravity="center"
+            />
+
+        <EditText
+            android:id="@+id/etRelationShip"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".7"
+            android:paddingLeft="5dp"
+            android:visibility="gone"
+            android:hint="@string/signature_relationship"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:imeOptions="actionDone"
+            android:background="@drawable/bg_white_gray_stroke"/>
+
+        <EditText
+            android:id="@+id/etReceivedBy"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:hint="@string/signature_name"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:imeOptions="actionDone"
+            android:background="@drawable/bg_signature_edittext"/>
+
+    </LinearLayout>
 
     <LinearLayout android:id="@+id/llButtons"
         android:layout_width="match_parent"
@@ -24,24 +75,26 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_marginBottom="20dp"
+            android:visibility="gone"
             android:text="@string/signature_rating" android:textColor="@color/white" android:background="@drawable/bg_btn_marigold"/>
 
         <Button android:id="@+id/btnSubmit"
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="1"
-
             android:layout_marginBottom="20dp"
-            android:text="@string/signature_submit" android:textColor="@color/white" android:background="@drawable/bg_btn_orangeyellow"/>
+            android:text="@string/signature_good_condition"
+            android:textColor="@color/white" android:background="@drawable/bg_btn_orangeyellow"/>
 
     </LinearLayout>
 
     <com.yilinker.expressinternal.customviews.SignatureView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:id="@+id/viewSignature" android:layout_below="@+id/tvLabel" android:layout_above="@+id/llButtons"/>
+        android:layout_height="match_parent" android:id="@+id/viewSignature" android:layout_below="@+id/btnBack" android:layout_above="@+id/llButtons"/>
 
     <TextView android:id="@+id/tvClear" android:clickable="true" android:layout_alignParentRight="true" android:padding="10dp" android:layout_margin="20dp"
         android:layout_width="70dp"
         android:layout_height="70dp" android:text="@string/signature_clear_signature" android:lines="2" android:gravity="center" android:textSize="10dp"  android:textColor="@color/white" android:background="@drawable/bg_btn_circle_orangered"/>
+
 
 </RelativeLayout>

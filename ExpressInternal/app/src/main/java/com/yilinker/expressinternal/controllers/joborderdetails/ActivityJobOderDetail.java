@@ -710,7 +710,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         this.newStatus = newStatus;
         int requestCode = REQUEST_UPDATE;
 
-        Request request = JobOrderAPI.updateStatus(requestCode, jobOrder.getJobOrderNo(), newStatus, this);
+        Request request = JobOrderAPI.updateStatus(requestCode, jobOrder.getJobOrderNo(), newStatus,"","", this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -755,6 +755,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
         Intent intent = new Intent(ActivityJobOderDetail.this, ActivityProblematic.class);
         intent.putExtra(ActivityProblematic.ARG_JOB_ORDER, jobOrder.getJobOrderNo());
+        intent.putExtra(ActivityProblematic.ARG_WAYBILL_NUMBER, jobOrder.getWaybillNo());
         startActivity(intent);
 
     }
@@ -767,9 +768,12 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
         report.setProblemType(getString(R.string.problematic_out_of_stock));
         report.setJobOrderNo(jobOrder.getJobOrderNo());
         report.setNotes("Item(s) out of stock");
+        report.setProblemTypeId(JobOrderConstant.PROBLEMATIC_OUT_OF_STOCK);
 //        report.setImage(null);
 
-        Request request = JobOrderAPI.reportProblematic(REQUEST_OUT_OF_STOCK, report, this);
+
+//        Request request = JobOrderAPI.reportProblematic(REQUEST_OUT_OF_STOCK, report, this);
+        Request request = JobOrderAPI.reportProblematicJO(REQUEST_OUT_OF_STOCK, report, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -784,7 +788,7 @@ public class ActivityJobOderDetail extends BaseActivity implements ResponseHandl
 
             case REQUEST_UPDATE:
 
-                requestUpdateStatus(newStatus);
+//                requestUpdateStatus(newStatus);
                 break;
 
             case REQUEST_OUT_OF_STOCK:

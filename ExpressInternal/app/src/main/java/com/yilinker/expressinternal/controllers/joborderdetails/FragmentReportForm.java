@@ -32,10 +32,13 @@ import com.yilinker.expressinternal.constants.JobOrderConstant;
 import com.yilinker.expressinternal.controllers.images.ActivityImageGallery;
 import com.yilinker.expressinternal.controllers.images.ImagePagerAdapter;
 import com.yilinker.expressinternal.controllers.joborderlist.ActivityJobOrderList;
+import com.yilinker.expressinternal.dao.SyncDBObject;
+import com.yilinker.expressinternal.dao.SyncDBTransaction;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,12 +48,12 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
     public static final String ARG_TYPE = "type";
     public static final String ARG_JONUMBER = "jobOrderNo";
+    public static final String ARG_WAYBILL_NUMBER = "waybill-number";
     private final static String KEY_PHOTO_URI = "photoUri";
     private final static String KEY_IMAGES_LIST = "images";
 
     private static final int REQUEST_LAUNCH_CAMERA = 1000;
     private static final int REQUEST_SHOW_GALLERY  = 1001;
-    private static final int REQUEST_SUBMIT_REPORT = 2000;
 
     private RelativeLayout rlProgress;
     private TextView tvTitle;
@@ -60,14 +63,18 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     private TextView tvViewImages;
 
     private ArrayList<String> images;
+    private String[] imageFiles;
 
     private int type;
     private String jobOrderNo;
+    private String waybillNumber;
 
     private String problemType;
     private Uri photoUri;
 
     private RequestQueue requestQueue;
+    private SyncDBTransaction syncDBTransaction;
+    private ProblematicJobOrder report;
 
 
     public static FragmentReportForm createInstance(Bundle bundle){
@@ -86,6 +93,7 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
         requestQueue = ApplicationClass.getInstance().getRequestQueue();
         images = new ArrayList<>();
+        syncDBTransaction = new SyncDBTransaction(getActivity());
 
         getData();
     }
@@ -171,22 +179,22 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
             case JobOrderConstant.PROBLEMATIC_DAMAGED:
 
-                problemType = getString(R.string.problematic_damaged_upon_delivery);
+                problemType = getString(R.string.problematic_option_other_problems);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_RECIPIENT_NOT_FOUND:
 
-                problemType = getString(R.string.problematic_recipient_not_found);
+                problemType = getString(R.string.problematic_option_recipient_not_found);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_REJECTED:
 
-                problemType = getString(R.string.problematic_delivery_rejected);
+                problemType = getString(R.string.problematic_option_recipient_refused_to_accept);
                 break;
 
             case JobOrderConstant.PROBLEMATIC_UNABLE_TO_PAY:
 
-                problemType = getString(R.string.problematic_unable_to_pay);
+                problemType = getString(R.string.problematic_option_payment_not_yet_ready);
                 break;
 
         }
@@ -269,22 +277,36 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
     @Override
     public void onSuccess(int requestCode, Object object) {
 
-        Toast.makeText(getActivity(), (String)object, Toast.LENGTH_LONG).show();
+//        Toast.makeText(getActivity(), (String)object, Toast.LENGTH_LONG).show();
         rlProgress.setVisibility(View.GONE);
-
-        ImageUtility.clearCache();
-
+//
+//        ImageUtility.clearCache();
+        startProblematicService();
         goToHome();
     }
 
     @Override
     public void onFailed(int requestCode, String message) {
 
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-
-        ImageUtility.clearCache();
-
+//        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+//
+//        ImageUtility.clearCache();
+        handleFailedReportProblematic();
         rlProgress.setVisibility(View.GONE);
+    }
+
+    private void handleFailedReportProblematic(){
+
+        SyncDBObject request = new SyncDBObject();
+        request.setRequestType(ActivityProblematic.REQUEST_SUBMIT_REPORT);
+        request.setKey(String.format("%s%s", jobOrderNo, String.valueOf(ActivityProblematic.REQUEST_SUBMIT_REPORT)));
+        request.setId(jobOrderNo);
+        request.setData(String.format("%s|%s",report.getNotes(), String.valueOf(report.getProblemTypeId())));
+        request.setSync(false);
+
+        syncDBTransaction.add(request);
+        startProblematicService();
+        goToHome();
     }
 
     private void getData(){
@@ -292,6 +314,7 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
         Bundle bundle = getArguments();
         type = bundle.getInt(ARG_TYPE);
         jobOrderNo = bundle.getString(ARG_JONUMBER);
+        waybillNumber = bundle.getString(ARG_WAYBILL_NUMBER);
 
     }
 
@@ -388,20 +411,23 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
 
         List<String> files = new ArrayList<>();
         Uri uri = null;
+        imageFiles = new String[images.size()];
+        int count = 0;
         for(String item : images){
 
             uri = Uri.parse(item);
             files.add(getRealPathFromURI(uri));
-
+            imageFiles[count]=getRealPathFromURI(uri);
         }
 
-        ProblematicJobOrder report = new ProblematicJobOrder();
+        report = new ProblematicJobOrder();
         report.setProblemType(problemType);
         report.setNotes(remarks);
         report.setImages(files);
         report.setJobOrderNo(jobOrderNo);
+        report.setProblemTypeId(type);
 
-        Request request = JobOrderAPI.reportProblematic(REQUEST_SUBMIT_REPORT, report, this);
+        Request request = JobOrderAPI.reportProblematicJO(ActivityProblematic.REQUEST_SUBMIT_REPORT, report, this);
         request.setTag(ApplicationClass.REQUEST_TAG);
 
         requestQueue.add(request);
@@ -449,7 +475,14 @@ public class FragmentReportForm extends BaseFragment implements View.OnClickList
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
+    }
 
+    private void startProblematicService(){
+        Intent i = new Intent(getActivity(), ServiceReportProblematic.class);
+        i.putExtra(ActivityProblematic.ARG_PROBLEMATIC_IMAGES, imageFiles);
+        i.putExtra(ActivityProblematic.ARG_WAYBILL_NUMBER, waybillNumber);
+
+        getActivity().startService(i);
     }
 
 }

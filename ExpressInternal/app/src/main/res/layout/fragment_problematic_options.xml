@@ -7,13 +7,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button android:id="@+id/btnNotFound" android:text="@string/problematic_recipient_not_found" style="@style/ProblematicButtonStyle" />
+        <Button android:id="@+id/btnNotFound" android:text="@string/problematic_option_recipient_not_found" style="@style/ProblematicButtonStyle" />
 
-        <Button android:id="@+id/btnRejected" android:text="@string/problematic_delivery_rejected" style="@style/ProblematicButtonStyle" />
-
-        <Button android:id="@+id/btnDamage" android:text="@string/problematic_damaged_upon_delivery" style="@style/ProblematicButtonStyle" />
+        <Button android:id="@+id/btnRejected" android:text="@string/problematic_option_recipient_refused_to_accept" style="@style/ProblematicButtonStyle" />
 
         <Button android:id="@+id/btnNoPayment" android:text="@string/problematic_unable_to_pay" style="@style/ProblematicButtonStyle" />
+
+        <Button android:id="@+id/btnOthers" android:text="@string/problematic_option_other_problems" style="@style/ProblematicButtonStyle" />
 
     </LinearLayout>
 
